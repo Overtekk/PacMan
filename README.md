@@ -1,17 +1,16 @@
 *This project has been created as part of the 42 curriculum by roandrie*
 
 <p align="center">
-  <img src="link" width="260" />
+  <img src="assets/logo.png" width="260" />
 </p>
 <h3 align="center">
-  <em>Introduction to function calling in LLMs</em>
+  <em>Recreate the famous arcade game Pac-man!</em>
 </h3>
 
 ---
 
 <div align="center">
   <img src="https://img.shields.io/badge/SCORE-None-%235CB338?style=for-the-badge&logo=42&logoColor=white"/>
-  <img src="https://img.shields.io/badge/BONUS-None-%235CB338?style=for-the-badge&logo=starship&logoColor=white"/>
   <img src="https://img.shields.io/badge/COMPLETED-No-%23007ACC?style=for-the-badge&logo=calendar&logoColor=white"/>
 </div>
 
