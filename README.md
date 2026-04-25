@@ -61,6 +61,26 @@ todo
 
 ## ⚙️ How it works?
 
+### Configuration
+
+todo
+
+### Maze Generation package
+
+todo
+
+### Implementation
+
+todo
+
+### General Software Architecture
+
+todo
+
+###
+
+Project Management
+
 ---
 
 ## 📚 Resources
