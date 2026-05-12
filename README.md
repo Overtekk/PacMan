@@ -89,6 +89,11 @@ Project Management
 | Resource | Description |
 | :------: | :---------: |
 
+### Other
+| Resource | Description |
+| :------: | :---------: |
+| [Github of sousampere](https://github.com/sousampere) | Help with project management |
+
 ### IA was use to:
 - todo
 
