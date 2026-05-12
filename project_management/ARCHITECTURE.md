@@ -32,12 +32,12 @@
 ## launch script
 ↳ *pac-man.py*\
 ↳ *config.json*\
-↳ *Makefile*\
+↳ *Makefile*
 
 
 # src
 ## src/config
-↳ *config_loader.py*\
+↳ *config_loader.py*
 
 ## src/entity
 ↳ *entity.py*\
@@ -56,13 +56,13 @@
 ↳ *pause_menu.py*\
 ↳ *main_menu.py*\
 ↳ *game_over_menu.py*\
-↳ *cheat_menu.py*\
+↳ *cheat_menu.py*
 
 ## src/leaderboard
-↳ *score.py*\
+↳ *score.py*
 
 ## src/renderer
-↳ *maze_renderer.py*\
+↳ *maze_renderer.py*
 
 ## src/utils
-↳ *debug_mode.py*\
+↳ *debug_mode.py*
