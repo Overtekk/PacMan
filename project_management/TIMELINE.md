@@ -30,6 +30,7 @@ S10 [░░░░░░░░░░░░] Corrections
 | Project management | anacharp, roandrie |
 | Git setup | roandrie |
 | Makefile | roandrie |
+| Config parsing | anacharp |
 | Creation of sprites | anarcharp |
 | Creation of the project architecture | roandrie |
 | Creation of Entity class, Player, Enemies | roandrie |
@@ -80,14 +81,6 @@ S10 [░░░░░░░░░░░░] Corrections
 | Code verifications and subject requierements | anacharp |
 | 42 git repo | roandrie |
 | Corrections | anacharp, roandrie |
-
----
-
-## Planning
-
-| Date | Task |
-| :--: | :--: |
-| 12/05/2026 | Reading and subject comprehension |
 
 ---
 
