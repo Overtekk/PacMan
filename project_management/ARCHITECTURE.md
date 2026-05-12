@@ -26,7 +26,24 @@
 ‎ ‎ ‎ ‎ ↳ **collectibles**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pacgum.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *super_pacgum.png*\
-‎ ‎ ‎ ‎ ↳ **maze**
+‎ ‎ ‎ ‎ ↳ **maze**\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *corner_wall.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *four_wall.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *triple_wall.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *wall.png*\
+‎ ‎ ‎ ‎ ↳ **main menu**\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *logo.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *start.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *instructions.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *highscores.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *exit.png*\
+‎ ‎ ‎ ‎ ↳ **pause**\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pause.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *resume.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *return.png*\
+‎ ‎ ‎ ‎ ↳ **end**\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *victory.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *game_over.png*\
 
 
 ## launch script
