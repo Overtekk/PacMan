@@ -1,5 +1,7 @@
 # GANT — Project Pacman
-#### *anacharp + roandrie*
+### *anacharp + roandrie*
+
+### **Project started 12/05/2026**
 
 ---
 
@@ -24,63 +26,63 @@ S10 [░░░░░░░░░░░░] Corrections
 
 ### Conception & Setup
 
-| Task | Team member |
-| :--: | :---------: |
-| Reading and subject comprehension | anacharp, roandrie |
-| Project management | anacharp, roandrie |
-| Git setup | roandrie |
-| Makefile | roandrie |
-| Config parsing | anacharp |
-| Creation of sprites | anarcharp |
-| Creation of the project architecture | roandrie |
-| Creation of Entity class, Player, Enemies | roandrie |
-| Creation of GameEngine | roandrie |
-| Creation of Maze | anacharp |
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Reading and subject comprehension | anacharp, roandrie | 12/05/2026 | ✅ 12/05/2026 |
+| Project management | anacharp, roandrie | 12/05/2026 | ⚠️ |
+| Git setup | roandrie | 12/05/2026 | ✅ 12/05/2026 |
+| Makefile | roandrie | 12/05/2026 | ❌ |
+| Config parsing | anacharp | 16/05/2026 | ❌ |
+| Creation of sprites | anarcharp | 18/05/2026 | ⚠️
+| Creation of the project architecture | roandrie | 12/05/2026 | ⚠️ |
+| Creation of Entity class, Player, Enemies | roandrie | 18/05/2026 | ❌ |
+| Creation of GameEngine | roandrie | 21/05/2026 | ❌ |
+| Creation of Maze | anacharp | 21/05/2026 | ❌ |
 
 ### Gameplay
 
-| Task | Team member |
-| :--: | :---------: |
-| Maze rendering | anacharp |
-| Player, Enemies logic | roandrie |
-| Enemies algorithms | anacharp, roandrie |
-| Collectibles | roandrie, anacharp |
-| Gameloop | anacharp, roandrie |
-| Levels | anacharp
-| Game finalization | roandrie |
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Maze rendering | anacharp | 28/06/2026 | ❌ |
+| Player, Enemies logic | roandrie | 28/06/2026 | ❌ |
+| Enemies algorithms | anacharp, roandrie | 31/06/2026 | ❌ |
+| Collectibles | roandrie, anacharp | 25/06/2026 | ❌ |
+| Gameloop | anacharp, roandrie | 05/06/2026 | ❌ |
+| Levels | anacharp | 10/06/2026 | ❌ |
+| Game finalization | roandrie | 11/06/2026 | ❌ |
 
 
 ### Functionnalities
 
-| Task | Team member |
-| :--: | :---------: |
-| Main menu | roandrie |
-| Game HUD | anacharp |
-| Pause menu | anacharp |
-| Game over (defeat, victory) | roandrie |
-| Leaderboard | anacharp, roandrie |
-| Cheat mode | anacharp, roandrie |
-| Bonus | roandrie |
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Main menu | roandrie | 29/05/2026 | ❌ |
+| Game HUD | anacharp |30/05/2026 | ❌ |
+| Pause menu | anacharp | 29/05/2026 | ❌ |
+| Game over (defeat, victory) | roandrie | 31/05/2026 | ❌ |
+| Leaderboard | anacharp, roandrie | 10/06/2026 | ❌ |
+| Cheat mode | anacharp, roandrie | 15/06/2026 | ❌ |
+| Bonus | roandrie | ??? | ❌ |
 
 ### Tests & debug
 
-| Task | Team member |
-| :--: | :---------: |
-| Docstrings | anacharp |
-| Flake8 + mypy | roandrie |
-| Various tests | anacharp, roandrie |
-| Game test | anacharp, roandrie |
-| Debug | anacharp, roandrie |
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Docstrings | anacharp | 22/06/2026 | ❌ |
+| Flake8 + mypy | roandrie | 22/06/2026 | ❌ |
+| Various tests | anacharp, roandrie | 23/06/2026 | ❌ |
+| Game test | anacharp, roandrie | 23/06/2026 | ❌ |
+| Debug | anacharp, roandrie | 24/06/2026 | ❌ |
 
 ### Corrections
 
-| Task | Team member |
-| :--: | :---------: |
-| Final test | anacharp, roandrie |
-| Itch.io deployement | roandrie |
-| Code verifications and subject requierements | anacharp |
-| 42 git repo | roandrie |
-| Corrections | anacharp, roandrie |
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Final test | anacharp, roandrie | 24/06/2026 | ❌ |
+| Itch.io deployement | roandrie | 24/06/2026 | ❌ |
+| Code verifications and subject requierements | anacharp | 24/06/2026 | ❌ |
+| 42 git repo | roandrie | 24/06/2026 | ❌ |
+| Corrections | anacharp, roandrie | 25/06/2026 | ❌ |
 
 ---
 
