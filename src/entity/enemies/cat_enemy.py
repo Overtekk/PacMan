@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:04:45 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:31:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,12 +16,17 @@ from ..entity import Entity, Movable, Enemy
 
 class CatEnemy(Entity, Movable, Enemy):
     def __init__(
-        self, spawn_point: tuple[int, int], sprite_path: Path,
-        scale: float = 1.0, speed: float = 0.0, is_edible: bool = False
+        self, spawn_point: tuple[int, int],
+        sprite_path: Path,
+        scale: float = 1.0,
+        speed: float = 0.0,
+        is_edible: bool = False
     ) -> None:
 
         Entity.__init__(
-            self, spawn_point=spawn_point, sprite_path=sprite_path,
+            self,
+            spawn_point=spawn_point,
+            sprite_path=sprite_path,
             scale=scale
         )
 

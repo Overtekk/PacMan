@@ -272,15 +272,10 @@ wheels = [
 
 [[package]]
 name = "mazegenerator"
-version = "1.2.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pillow" },
-    { name = "progress" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/11/9c/ac6374383ec706b1bac7ed1862900c1db9bdf8f92aea529cbb71a4a01f7c/mazegenerator-1.2.1.tar.gz", hash = "sha256:798230024b4d93c27e43339469eaaf5521da52d5bad6a9f75e0c21442aa9ff44", size = 9785, upload-time = "2020-07-23T09:24:26.595Z" }
+version = "2.0.2"
+source = { path = "mazegenerator/mazegenerator-00001-py3-none-any.whl" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/06/86/06655bac183e25de03785c40ee6e2b687bcddf29981aff717257af981077/mazegenerator-1.2.1-py3-none-any.whl", hash = "sha256:f5ba319563904d1c5a7dcde6db5c73b23300af953bbf6626e558b4491b71750f", size = 23324, upload-time = "2020-07-23T09:24:25.693Z" },
+    { filename = "mazegenerator-1-py3-none-any.whl", hash = "sha256:88b5b212ae1a90faa8aa6f8518abe6968a30be071cddbdd02f8c52c6936c209e" },
 ]
 
 [[package]]
@@ -389,7 +384,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "arcade", specifier = ">=3.3.3" },
-    { name = "mazegenerator", specifier = ">=1.2.1" },
+    { name = "mazegenerator", path = "mazegenerator/mazegenerator-00001-py3-none-any.whl" },
     { name = "pydantic", specifier = ">=2.13.4" },
     { name = "rich", specifier = ">=15.0.0" },
 ]
@@ -509,15 +504,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/31/5e/03966aedfbfcbb4d5f8aa042452d3361f325b963ebbadddac05b122e47dd/pillow-11.3.0-pp311-pypy311_pp73-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:5418b53c0d59b3824d05e029669efa023bbef0f3e92e75ec8428f3799487f361", size = 4957170, upload-time = "2025-07-01T09:16:23.762Z" },
     { url = "https://files.pythonhosted.org/packages/cc/2d/e082982aacc927fc2cab48e1e731bdb1643a1406acace8bed0900a61464e/pillow-11.3.0-pp311-pypy311_pp73-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:504b6f59505f08ae014f724b6207ff6222662aab5cc9542577fb084ed0676ac7", size = 5581505, upload-time = "2025-07-01T09:16:25.593Z" },
     { url = "https://files.pythonhosted.org/packages/34/e7/ae39f538fd6844e982063c3a5e4598b8ced43b9633baa3a85ef33af8c05c/pillow-11.3.0-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:c84d689db21a1c397d001aa08241044aa2069e7587b398c8cc63020390b1c1b8", size = 6984598, upload-time = "2025-07-01T09:16:27.732Z" },
-]
-
-[[package]]
-name = "progress"
-version = "1.6.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ac/26/3b086f0c5d6c1c18c2430d6fac3a99d79553884ca6cdf759cf256dd43b7d/progress-1.6.1.tar.gz", hash = "sha256:c1ba719f862ce885232a759eab47971fe74dfc7bb76ab8a51ef5940bad35086c", size = 7164, upload-time = "2025-07-01T05:50:43.33Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/42/59/123aee44a039b212cfb8d90be1adf06496a99b313ee1683aadf90b3d9799/progress-1.6.1-py3-none-any.whl", hash = "sha256:5239f22f305c12fdc8ce6e0e47f70f21622a935e16eafc4535617112e7c7ea0b", size = 9761, upload-time = "2025-07-01T05:50:40.963Z" },
 ]
 
 [[package]]

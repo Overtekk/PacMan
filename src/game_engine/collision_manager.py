@@ -1,26 +1,20 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  __init__.py                                       :+:      :+:    :+:    #
+#  collision_manager.py                              :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/14 19:19:49 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:35:23 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 20:07:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from .collision_manager import CollisionManager
-from .game_engine import GameEngine
-from .gamestate_manager import GameStateManager
-from .level_manager import LevelManager
-from .game_settings import GameState
 
+class CollisionManager():
+    pass
 
-__all__ = [
-    "CollisionManager",
-    "GameEngine",
-    "GameStateManager",
-    "LevelManager",
-    "GameState"
-]
+    # use check_for_collisions_with_list to handle all collisions
+    # avoid player and ennemis to travel throught walls
+    # detect player and collectibles
+    # detect player and enemy

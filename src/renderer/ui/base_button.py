@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:33:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:27:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,7 +18,11 @@ from pathlib import Path
 
 class BaseButton(arcade.Sprite, ABC):
     def __init__(
-        self, center_x: float, center_y: float, sprite_path: Path,
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
         scale: float = 1.0
     ) -> None:
 

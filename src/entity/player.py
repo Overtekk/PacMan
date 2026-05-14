@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:01:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:30:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,17 +16,23 @@ from .entity import Entity, Movable
 
 class Player(Entity, Movable):
     def __init__(
-        self, spawn_point: tuple[int, int], sprite_path: Path,
-        scale: float = 1.0, speed: float = 0.0, lives: int = 3
+        self, spawn_point: tuple[int, int],
+        sprite_path: Path,
+        scale: float = 1.0,
+        speed: float = 0.0,
+        lives: int = 3
     ) -> None:
 
         Entity.__init__(
-            self, spawn_point=spawn_point, sprite_path=sprite_path,
+            self,
+            spawn_point=spawn_point,
+            sprite_path=sprite_path,
             scale=scale
         )
 
         Movable.__init__(
-            self, speed=speed
+            self,
+            speed=speed
         )
 
         self._lives: int = lives

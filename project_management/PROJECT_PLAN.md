@@ -12,7 +12,9 @@
 	- maze loader and maze generation
 	- entity abstract class and player, enemies, collectible class
 	- game main render with all menu
-	- the game engine
+	- structure of the game engine
+	- game window
+	- mazegenerator imported to the project
 
 ### 12/05/2026
 
