@@ -1,36 +1,25 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  game_over_screen.py                               :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 19:42:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
+import arcade
 
-from src.utils import print_error
+from pathlib import Path
 
-from src.config import load_config
-
-
-def main() -> int:
-    try:
-
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
+from .base_menu import BaseMenu
+from .base_button import BaseButton
 
 
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
+class GameOverScreen(BaseMenu):
+    def __init__(self) -> None:
+        super().__init__()
 
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+        arcade.set_background_color(arcade.color.BLACK)

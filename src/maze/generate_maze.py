@@ -1,36 +1,18 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  generate_maze.py                                  :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 18:06:09 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 18:07:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
+from mazegenerator import MazeGenerator
 
-from src.utils import print_error
+class Maze(MazeGenerator):
+    pass
 
-from src.config import load_config
-
-
-def main() -> int:
-    try:
-
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
-
-
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+    # Generate a new maze and verify is information

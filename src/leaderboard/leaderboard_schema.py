@@ -1,36 +1,28 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  leaderboard_schema.py                             :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 17:55:42 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 17:58:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
-
-from src.utils import print_error
-
-from src.config import load_config
+from pydantic import BaseModel, Field
 
 
-def main() -> int:
-    try:
+class PlayerScore(BaseModel):
+    player_name: str = Field(
+        description="Name of the player",
+    )
+    player_score: float = Field(
+        description="Score of the player"
+    )
 
-        pass
-        # load_config()
 
-    except Exception as e:
-        print_error(e)
-
-
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+class Leaderboard(BaseModel):
+    scores: list[PlayerScore] = Field(
+        description="List of player scores"
+    )
