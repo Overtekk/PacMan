@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:37:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:40:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,7 +38,9 @@ class PlayButton(BaseButton):
     def on_click(self) -> None:
         game_session = GameEngine()
         game_session.setup()
-        self.parent_view.window.show_view(game_session)
+
+        if self.parent_view.window:
+            self.parent_view.window.show_view(game_session)
 
 
 class MainMenu(BaseMenu):
