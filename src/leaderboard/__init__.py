@@ -1,36 +1,29 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  __init__.py                                       :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 17:53:52 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 19:27:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
-
-from src.utils import print_error
-
-from src.config import load_config
-
-
-def main() -> int:
-    try:
-
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
+from .leaderboard_loader import (
+    leaderboard_loader, create_leaderboard_file
+)
+from .leaderboard_schema import (
+    Leaderboard
+)
+from .update_leaderboard import (
+    save_score_to_leaderboard
+)
 
 
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+__all__ = [
+    "leaderboard_loader",
+    "create_leaderboard_file",
+    "Leaderboard",
+    "save_score_to_leaderboard"
+]

@@ -1,36 +1,23 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  argument_parser.py                                :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 17:42:52 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 17:49:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
-
-from src.utils import print_error
-
-from src.config import load_config
+import argparse
 
 
-def main() -> int:
-    try:
+def load_arguments() -> None:
+    pass
 
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
-
-
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+    # only 1 argument accepted "config.json"
+    # check if correct, and load it with config_loader
+    # debug mode for dev only
+    # check if leaderboard file exist
+    # if everything ok, return all object

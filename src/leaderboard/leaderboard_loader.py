@@ -1,36 +1,25 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  leaderboard_loader.py                             :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 17:49:50 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 17:52:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
-
-from src.utils import print_error
-
-from src.config import load_config
+from pathlib import Path
 
 
-def main() -> int:
-    try:
+def leaderboard_loader(filepath: Path) -> None:
+    pass
 
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
+    # if file exist, verify that is json valid, all data are correct
 
 
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
+def create_leaderboard_file() -> None:
+    pass
 
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+    # if file do not exist, create it with all valid informations

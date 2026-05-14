@@ -1,36 +1,18 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  __init__.py                                       :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 17:48:21 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 19:28:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import sys
-
-from src.utils import print_error
-
-from src.config import load_config
+from .argument_parser import load_arguments
 
 
-def main() -> int:
-    try:
-
-        pass
-        # load_config()
-
-    except Exception as e:
-        print_error(e)
-
-
-if __name__ == "__main__":
-    try:
-        sys.exit(main())
-
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+__all__ = [
+    "load_arguments"
+]
