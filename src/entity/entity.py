@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:02:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:30:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,7 +18,8 @@ from pathlib import Path
 
 class Entity(ABC):
     def __init__(
-        self, spawn_point: tuple[int, int], sprite_path: Path,
+        self, spawn_point: tuple[int, int],
+        sprite_path: Path,
         scale: float = 1.0
     ) -> None:
 

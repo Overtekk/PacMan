@@ -6,6 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:21:29 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:21:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:31:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+def algo_1() -> None:
+    pass
+
+def runaway() -> None:
+    pass

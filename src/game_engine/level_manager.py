@@ -1,26 +1,19 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  __init__.py                                       :+:      :+:    :+:    #
+#  level_manager.py                                  :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/14 19:19:49 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:35:23 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 20:05:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from .collision_manager import CollisionManager
-from .game_engine import GameEngine
-from .gamestate_manager import GameStateManager
-from .level_manager import LevelManager
-from .game_settings import GameState
 
+class LevelManager():
+    pass
 
-__all__ = [
-    "CollisionManager",
-    "GameEngine",
-    "GameStateManager",
-    "LevelManager",
-    "GameState"
-]
+    # create the level
+    # create the player, ennemis and collectibles
+    # handle respawn, level restart, level start

@@ -1,26 +1,23 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  __init__.py                                       :+:      :+:    :+:    #
+#  game_settings.py                                  :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/14 19:19:49 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:35:23 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 21:34:15 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 21:35:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from .collision_manager import CollisionManager
-from .game_engine import GameEngine
-from .gamestate_manager import GameStateManager
-from .level_manager import LevelManager
-from .game_settings import GameState
+from enum import Enum
 
 
-__all__ = [
-    "CollisionManager",
-    "GameEngine",
-    "GameStateManager",
-    "LevelManager",
-    "GameState"
-]
+class GameState(Enum):
+    MENU = "menu"
+    PLAYING = "playing"
+    PAUSE = "pause"
+    FINISH = "finish"
+
+    def __str__(self) -> str:
+        return self.value

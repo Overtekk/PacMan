@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:42:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:25:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,7 +21,15 @@ def main() -> int:
     try:
 
         pass
+        # load arguments
         # load_config()
+        # load leaderboard
+        # vérifier présente des sprites
+        # vérifier présence du mazegenerator
+        # call game engine qui créer maze, entity, collectibles basé sur la config
+        # lance arcade.run()
+        # appel gamewindow pour lancer le main menu
+        # jeu
 
     except Exception as e:
         print_error(e)

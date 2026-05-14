@@ -1,26 +1,19 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  __init__.py                                       :+:      :+:    :+:    #
+#  game_state.py                                     :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/14 19:19:49 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:35:23 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/14 21:33:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from .collision_manager import CollisionManager
-from .game_engine import GameEngine
-from .gamestate_manager import GameStateManager
-from .level_manager import LevelManager
-from .game_settings import GameState
+import arcade
 
 
-__all__ = [
-    "CollisionManager",
-    "GameEngine",
-    "GameStateManager",
-    "LevelManager",
-    "GameState"
-]
+class GameStateManager():
+    pass
+
+    # stock data : score, lives, current_level, timer

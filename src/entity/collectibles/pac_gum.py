@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:06:12 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:09:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/14 21:31:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,12 +16,15 @@ from ..entity import Entity, Collectible
 
 class Pacgum(Entity, Collectible):
     def __init__(
-        self, spawn_point: tuple[int, int], sprite_path: Path,
-        scale: float = 1.0, score: int = 0
+        self, spawn_point: tuple[int, int],
+        sprite_path: Path,
+        scale: float = 1.0,
+        score: int = 0
     ) -> None:
 
         Entity.__init__(
-            self, spawn_point=spawn_point, sprite_path=sprite_path,
+            self, spawn_point=spawn_point,
+            sprite_path=sprite_path,
             scale=scale
         )
 
