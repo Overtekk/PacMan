@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 17:47:05 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 18:09:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,6 @@ class MazeFactory:
 
         maze = self._maze_class((width, height))
         grid = maze._maze
-        print(grid)
         wall_data: list[tuple[str, float, float, float]] = []
 
         for row_index, row in enumerate(grid):
