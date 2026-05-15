@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:37:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 12:04:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,14 +15,17 @@ from pydantic import BaseModel, Field
 
 class LevelConfig(BaseModel):
     name: str = Field(
+        min_length=1,
         default="level_name",
         description="Name of a level"
     )
     width: int = Field(
-        default="20",
+        ge=1, le=9999,
+        default=20,
         description="Width of a level"
     )
     height: int = Field(
+        ge=1, le=9999,
         default=20,
         description="Height of a level"
     )
@@ -30,33 +33,92 @@ class LevelConfig(BaseModel):
 
 class GameConfig(BaseModel):
     highscore_filename: str = Field(
+        min_length=1,
+        pattern=r'^data/.+\.json$',
         default="data/leaderboard.json",
         description="File including all scores"
     )
     lives: int = Field(
+        ge=1, le=9999,
         default=3,
         description="Number of lives of the player"
     )
     pacgum_points: int = Field(
+        ge=1, le=9999,
         default=10,
         description="Points earned with pacgum"
     )
     super_pacgum_points: int = Field(
+        ge=1, le=9999,
         default=50,
         description="Points earned with super_pacgum"
     )
     ghost_points: int = Field(
+        ge=1, le=9999,
         default=200,
         description="Points earned when eat ghost"
     )
     seed: str = Field(
+        min_length=1,
         default="koala",
         description="Seed used for the first level"
     )
     level_max_time: float = Field(
+        ge=1.0, le=9999.0,
         default=180.0,
         description="Time for completing a level"
     )
     level: list[LevelConfig] = Field(
+        min_length=1,
+        default=[{
+			"name": "level_1",
+			"width": 20,
+			"height": 10
+		},
+		{
+			"name": "level_2",
+			"width": 18,
+			"height": 12
+		},
+		{
+			"name": "level_3",
+			"width": 10,
+			"height": 10
+		},
+		{
+			"name": "level_4",
+			"width": 10,
+			"height": 20
+		},
+		{
+			"name": "level_5",
+			"width": 15,
+			"height": 21
+		},
+		{
+			"name": "level_6",
+			"width": 14,
+			"height": 10
+		},
+		{
+			"name": "level_7",
+			"width": 15,
+			"height": 10
+		},
+		{
+			"name": "level_8",
+			"width": 12,
+			"height": 16
+		},
+		{
+			"name": "level_9",
+			"width": 14,
+			"height": 10
+		},
+		{
+			"name": "level_10",
+			"width": 20,
+			"height": 20
+		}],
         description="List of all levels"
     )
