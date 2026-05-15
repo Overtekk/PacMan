@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 09:30:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 10:33:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ import sys
 import argparse
 
 from src.utils import print_error
+from src.config import load_config
 
 
 class RichArgumentParser(argparse.ArgumentParser):
@@ -38,11 +39,27 @@ class RichArgumentParser(argparse.ArgumentParser):
         sys.exit(2)
 
 
-def load_arguments() -> None:
-    pass
+def load_arguments() -> argparse.Namespace:
 
-    # only 1 argument accepted "config.json"
-    # check if correct, and load it with config_loader
-    # debug mode for dev only
-    # check if leaderboard file exist
-    # if everything ok, return all object
+    # Create the parser object
+    parser: RichArgumentParser = RichArgumentParser(
+        prog="Pac-Man",
+        description=("Recreation of the famous arcade game: Pac-Man"),
+        usage=("python3 pac-man.py data/config.json"),
+        epilog=" ",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+
+    # Add the config argument
+    parser.add_argument(
+        "config_file",
+        help=("path where config in json of the game is stored.\n"
+              "default: data/config.json"),
+        metavar="config.json",
+        type=load_config
+    )
+
+    args: argparse.Namespace = parser.parse_args()
+
+    return args
+
