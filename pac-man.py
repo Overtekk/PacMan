@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 10:34:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 11:30:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,7 +20,10 @@ from src.parser import load_arguments
 def main() -> int:
     try:
 
-        load_arguments()
+        test = load_arguments()
+        # print(test)
+        print(test.config_file)
+        print(test.config_file.seed)
         # load arguments
         # load_config()
         # load leaderboard
@@ -36,9 +39,9 @@ def main() -> int:
         print_error(e)
         return 1
 
-    except Exception as e:
-        print_error(f"Critical error: {e}")
-        return 1
+    # except Exception as e:
+    #     print_error(f"Critical error: {e}")
+    #     return 1
 
 
 if __name__ == "__main__":
