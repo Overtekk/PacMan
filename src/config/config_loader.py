@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 11:57:13 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 13:52:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,9 +17,12 @@ from src.utils import can_execute_file, can_read_file, can_write_to_file
 from src.utils import is_folder_exist, is_file_exist, is_file_json
 from src.utils.display import print_error
 
+mandatory_keys: list[str] = ["highscore_filename", "lives", "pacgum_points",
+                  "super_pacgum_points", "ghost_points", "seed",
+                  "level_max_time", "level"]
 
 def load_config(filepath: Path) -> GameConfig:
-    filepath = Path(filepath)
+    filepath: Path = Path(filepath)
 
     if not is_folder_exist(filepath.parent):
         print_error(f"'{filepath.parent}' does not exist.\nLet's play with"
@@ -54,6 +57,16 @@ def load_config(filepath: Path) -> GameConfig:
         default_config = create_config()
         return default_config
 
+    missing_keys: list[str] = []
+    for k in mandatory_keys:
+        if k not in filepath.read_text():
+            missing_keys.append(k)
+    if missing_keys:
+        print_error(f"Missing key/s : {missing_keys}.\n"
+                    "Let's play with default config")
+        default_config = create_config()
+        return default_config
+
     try:
         config = GameConfig.model_validate_json(filepath.read_text())
     except Exception as e:
@@ -65,53 +78,4 @@ def load_config(filepath: Path) -> GameConfig:
 
 
 def create_config() -> GameConfig:
-    return GameConfig(level=[{
-			"name": "level_1",
-			"width": 20,
-			"height": 10
-		},
-		{
-			"name": "level_2",
-			"width": 18,
-			"height": 12
-		},
-		{
-			"name": "level_3",
-			"width": 10,
-			"height": 10
-		},
-		{
-			"name": "level_4",
-			"width": 10,
-			"height": 20
-		},
-		{
-			"name": "level_5",
-			"width": 15,
-			"height": 21
-		},
-		{
-			"name": "level_6",
-			"width": 14,
-			"height": 10
-		},
-		{
-			"name": "level_7",
-			"width": 15,
-			"height": 10
-		},
-		{
-			"name": "level_8",
-			"width": 12,
-			"height": 16
-		},
-		{
-			"name": "level_9",
-			"width": 14,
-			"height": 10
-		},
-		{
-			"name": "level_10",
-			"width": 20,
-			"height": 20
-		}])
+    return GameConfig()
