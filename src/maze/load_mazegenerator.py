@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:02:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 14:49:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+from typing import Any
 
 from src.utils import (check_folder, check_path)
 
@@ -26,18 +28,18 @@ def _check_mazegenerator_file() -> None:
         )
 
 
-def load_mazegenerator() -> None:
+def load_mazegenerator() -> Any | None:
     # Check resources files on the computer
     _check_mazegenerator_file()
 
     # Check if installed in python files
     try:
-        import mazegenerator
-        return mazegenerator
+        from mazegenerator import MazeGenerator
+        return MazeGenerator
     except ImportError:
         raise ValueError(
             "Module 'mazegenerator' not installed. Please, install it first by"
-            "using:\n"
+            " using:\n"
             "'make' or 'uv sync'.\n"
             "🤫"
         )
