@@ -6,33 +6,50 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 11:30:02 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 13:25:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
+from argparse import Namespace
+
 import sys
+import arcade
 
 from src.utils import print_error
 
 from src.parser import load_arguments
+from src.config import GameConfig
+from src.maze import load_mazegenerator
+from src.renderer import SpritesLoader, GameWindow
+from src.leaderboard import leaderboard_loader
 
 
 def main() -> int:
     try:
 
-        test = load_arguments()
-        # print(test)
-        print(test.config_file)
-        print(test.config_file.seed)
-        # load arguments
-        # load_config()
-        # load leaderboard
-        # vérifier présente des sprites
-        # vérifier présence du mazegenerator
-        # call game engine qui créer maze, entity, collectibles basé sur la config
-        # lance arcade.run()
-        # appel gamewindow pour lancer le main menu
-        # jeu
+        # Check the argument, load and check the config
+        args: Namespace = load_arguments()
+        game_config: GameConfig = args.config_file
+
+        # Check if sprites are available and store them
+        sprite_loader: SpritesLoader = SpritesLoader()
+
+        # Load the leaderboard
+        leaderboard_loader(str(game_config.highscore_filename))
+
+        # Check if the maze generator is installed
+        load_mazegenerator()
+
+        # Create the game window
+        game_window: GameWindow = GameWindow(
+            config=game_config,
+            sprites_list=sprite_loader
+        )
+
+        # Launch the main loop for the game
+        arcade.run()
+
+
         return 0
 
     except ValueError as e:

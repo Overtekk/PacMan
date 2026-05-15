@@ -6,16 +6,18 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:35:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 19:40:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:48:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
+from abc import ABC, abstractmethod
+
 from .base_button import BaseButton
 
 
-class BaseMenu(arcade.View):
+class BaseMenu(arcade.View, ABC):
     def __init__(self) -> None:
         super().__init__()
 
@@ -43,3 +45,11 @@ class BaseMenu(arcade.View):
                         ui_button.collides_with_point((x, y))):
 
                     ui_button.on_click()
+
+    def on_show_view(self) -> None:
+        self.button_list.clear()
+        self.build_ui()
+
+    @abstractmethod
+    def build_ui(self) -> None:
+        pass

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:40:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:57:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,8 +27,7 @@ class PlayButton(BaseButton):
         parent_view: arcade.View
     ) -> None:
 
-        BaseButton.__init__(
-            self,
+        super().__init__(
             center_x=center_x,
             center_y=center_y,
             sprite_path=sprite_path,
@@ -49,10 +48,12 @@ class MainMenu(BaseMenu):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+    def build_ui(self) -> None:
+
         play_button = PlayButton(
             center_x=400,
             center_y=300,
-            sprite_path="",
+            sprite_path=self.window.asset_manager.sprites_list["start_button"],
             parent_view=self
         )
 

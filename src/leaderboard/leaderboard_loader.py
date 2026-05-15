@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:49:50 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 17:52:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:24:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from pathlib import Path
 
 
-def leaderboard_loader(filepath: Path) -> None:
+def leaderboard_loader(filepath_str: str) -> None:
     pass
 
     # if file exist, verify that is json valid, all data are correct

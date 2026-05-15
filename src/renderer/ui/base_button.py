@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:27:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:30:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,12 +26,15 @@ class BaseButton(arcade.Sprite, ABC):
         scale: float = 1.0
     ) -> None:
 
-        # Visual representation (Composition)
-        self.sprite = arcade.Sprite(filename=sprite_path, scale=scale)
+        super().__init__(
+            path_or_texture=sprite_path,
+            scale=scale
+        )
 
-        # Sync visual position with logical position
-        self.sprite.center_x = center_x
-        self.sprite.center_y = center_y
+        self.center_x = center_x
+        self.center_y = center_y
+
+        self.parent_view = parent_view
 
     def check_hover(self, x: float, y: float) -> None:
         if self.collides_with_point((x, y)):

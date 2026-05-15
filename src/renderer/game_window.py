@@ -6,18 +6,25 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:18:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:53:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
+from src.config import GameConfig
+from .sprites_loader import SpritesLoader
 from .screen_settings import ScreenSettings, ScreenState
 from src.renderer import MainMenu
 
 
 class GameWindow(arcade.Window):
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        config: GameConfig,
+        sprites_list: SpritesLoader
+    ) -> None:
+
         super().__init__(
             width=ScreenSettings.WIDTH,
             height=ScreenSettings.HEIGHT,
@@ -25,6 +32,9 @@ class GameWindow(arcade.Window):
             vsync=True,
             center_window=True
         )
+
+        self.game_config = config
+        self.asset_manager = sprites_list
 
         self._screen_state = ScreenState.MENU
         self.show_view(MainMenu())
