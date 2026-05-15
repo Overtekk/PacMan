@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:57:54 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 14:05:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -36,7 +36,6 @@ class PlayButton(BaseButton):
 
     def on_click(self) -> None:
         game_session = GameEngine()
-        game_session.setup()
 
         if self.parent_view.window:
             self.parent_view.window.show_view(game_session)
@@ -53,7 +52,7 @@ class MainMenu(BaseMenu):
         play_button = PlayButton(
             center_x=400,
             center_y=300,
-            sprite_path=self.window.asset_manager.sprites_list["start_button"],
+            sprite_path=self.window.asset_manager.textures["start_button"],
             parent_view=self
         )
 
