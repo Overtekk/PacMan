@@ -18,5 +18,4 @@ Parsing:
 - if a key is missing : defaut values
 - if all keys are missing : defaut values
 - json valid
-
 - json empty : {}
