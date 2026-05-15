@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 12:04:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 15:19:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,6 +30,18 @@ class LevelConfig(BaseModel):
         description="Height of a level"
     )
 
+DEFAULT_LEVELS: list[LevelConfig] = [
+LevelConfig(name="level_1", width=20, height=10),
+LevelConfig(name="level_2", width=18, height=12),
+LevelConfig(name="level_3", width=10, height=10),
+LevelConfig(name="level_4", width=10, height=20),
+LevelConfig(name="level_5", width=15, height=21),
+LevelConfig(name="level_6", width=14, height=10),
+LevelConfig(name="level_7", width=15, height=10),
+LevelConfig(name="level_8", width=12, height=16),
+LevelConfig(name="level_9", width=14, height=10),
+LevelConfig(name="level_10", width=20, height=20),
+]
 
 class GameConfig(BaseModel):
     highscore_filename: str = Field(
@@ -69,56 +81,7 @@ class GameConfig(BaseModel):
         description="Time for completing a level"
     )
     level: list[LevelConfig] = Field(
+        default_factory=lambda: DEFAULT_LEVELS.copy(),
         min_length=1,
-        default=[{
-			"name": "level_1",
-			"width": 20,
-			"height": 10
-		},
-		{
-			"name": "level_2",
-			"width": 18,
-			"height": 12
-		},
-		{
-			"name": "level_3",
-			"width": 10,
-			"height": 10
-		},
-		{
-			"name": "level_4",
-			"width": 10,
-			"height": 20
-		},
-		{
-			"name": "level_5",
-			"width": 15,
-			"height": 21
-		},
-		{
-			"name": "level_6",
-			"width": 14,
-			"height": 10
-		},
-		{
-			"name": "level_7",
-			"width": 15,
-			"height": 10
-		},
-		{
-			"name": "level_8",
-			"width": 12,
-			"height": 16
-		},
-		{
-			"name": "level_9",
-			"width": 14,
-			"height": 10
-		},
-		{
-			"name": "level_10",
-			"width": 20,
-			"height": 20
-		}],
         description="List of all levels"
     )
