@@ -5,11 +5,18 @@
 
 ### 15/05/2026
 - anacharp
-	- work on the config file and project risks
-	- work on maze renderer
-	- work on leaderboard
+	- Work on config validation and error handling with graceful fallback to default config
+	- Work on maze rendering and wall sprite scaling
+	- Work on leaderboard loading, creation and corruption recovery
+	- Makefile modification
+	- Created a new sprite asset
 - roandrie
-	- work on leaderboard
+	- work on leaderboard logic : save player score, name can only be 10 characters, remove negative score, sort by highest score, keep only the 10 best scores
+	- link between config and game engine
+	- implement the maze factory and prevent crash if mazegenerator module is not imported
+	- introduce button logic and setup for game engine
+	- implement a sprite loader checking if a sprite exist and returning a dict containing the path of each sprites
+
 
 ### 14/05/2026
 
