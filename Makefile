@@ -6,21 +6,22 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/12 16:51:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 09:33:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 # ===================
 # =		VARIABLES	=
 # ===================
-PYTHON		=	python3
-PDB 		=	python3 -m pdb
-FLAKE8		=	uv run flake8
-MYPY 		=	uv run mypy
-MYPY_FLAGS	=	--warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
-INSTALL_UV	=	curl -LsSf https://astral.sh/uv/install.sh | sh
-CHECK_UV	=	command -v uv
-UV_WARN		=	--link-mode copy
+PYTHON			=	python3
+PDB 			=	python3 -m pdb
+FLAKE8			=	uv run flake8
+MYPY 			=	uv run mypy
+MYPY_FLAGS		=	--warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+INSTALL_UV		=	curl -LsSf https://astral.sh/uv/install.sh | sh
+CHECK_UV		=	command -v uv
+UV_WARN			=	--link-mode copy
+UV_SKIP_WHEEL	=	UV_SKIP_WHEEL_FILENAME_CHECK=1
 
 # ===================
 # =		RULES		=
@@ -37,7 +38,7 @@ install:
 					$(INSTALL_UV); \
 			fi
 			@echo "$(BGREEN)Installing project dependencies using uv...$(RESET)"
-			uv sync $(UV_WARN)
+			$(UV_SKIP_WHEEL) uv sync $(UV_WARN)
 
 run:		install
 			$(PYTHON) pac-man.py
