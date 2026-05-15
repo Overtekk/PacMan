@@ -6,17 +6,20 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 14:14:00 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 17:53:53 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
+from src.maze import MazeFactory
+from src.renderer import GameRenderer
 
 
 class GameEngine(arcade.View):
     def __init__(self) -> None:
         super().__init__()
-
+        self.config = self.window.game_config
+        self.game_renderer = GameRenderer()
     # main loop of the game, orchestor
     # move all entity
     # verify gamestate, levelmanager
@@ -25,10 +28,22 @@ class GameEngine(arcade.View):
         pass
 
     def on_show_view(self) -> None:
+        self.clear()
         self.setup()
 
     def setup(self) -> None:
-        print(self.window.game_config.level)
+        print(self.config.level)
+        # level = self.window.game_config.level[0]
+
+        factory = MazeFactory()
+        wall_data = factory.generate_maze(15, 10,
+                                          self.window.asset_manager.textures)
+
+        self.game_renderer.wall_generator(wall_data)
+        self.game_renderer.draw()
+
+
+
         # === ÉTAPE 1 : INITIALISATION DE L'ÉTAT DU JEU (GameStateManager) ===
         # - Instancier (ou réinitialiser) le GameStateManager.
         # - Configurer le score à 0.
