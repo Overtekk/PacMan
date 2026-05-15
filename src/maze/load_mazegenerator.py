@@ -6,12 +6,38 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 18:05:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 13:02:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
+from src.utils import (check_folder, check_path)
+
+
+def _check_mazegenerator_file() -> None:
+    try:
+        check_folder("mazegenerator")
+        check_path("mazegenerator/mazegenerator-2.0.2-py3-none-any.whl")
+
+    except ValueError as e:
+        raise ValueError(
+            "Maze Generator not found. Have you installed it?\n"
+            f"{e}",
+            "\n🫤"
+        )
+
 
 def load_mazegenerator() -> None:
-    pass
+    # Check resources files on the computer
+    _check_mazegenerator_file()
 
-    # verify that the dependency is installed and the folder mazegenerator exist.
+    # Check if installed in python files
+    try:
+        import mazegenerator
+        return mazegenerator
+    except ImportError:
+        raise ValueError(
+            "Module 'mazegenerator' not installed. Please, install it first by"
+            "using:\n"
+            "'make' or 'uv sync'.\n"
+            "🤫"
+        )
