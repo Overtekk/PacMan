@@ -6,16 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 18:09:02 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 18:11:09 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from src.maze.load_mazegenerator import load_mazegenerator
-# from src.renderer.screen_settings import ScreenSettings
 
 
 WALL_SPRITES: dict[int, tuple[str, float]] = {
-    # 0:  ("maze_wall", 0),
     1:  ("maze_wall", 0),
     2:  ("maze_wall", 90),
     3:  ("maze_wall_corner", 0),
