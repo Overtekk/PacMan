@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 09:23:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 09:28:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 11:46:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,6 +59,19 @@ def is_file_json(file: pathlib.Path) -> bool:
         bool: True if the file suffix is '.json', False otherwise.
     """
     return file.suffix == ".json"
+
+
+def is_file_png(file: pathlib.Path) -> bool:
+    """
+    Check if a file has a .png extension.
+
+    Args:
+        file (pathlib.Path): The file path to check.
+
+    Returns:
+        bool: True if the file suffix is '.png', False otherwise.
+    """
+    return file.suffix == ".png"
 
 
 def can_read_file(file: pathlib.Path) -> bool:

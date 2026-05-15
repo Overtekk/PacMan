@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:19:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:17:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 11:48:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,6 +21,7 @@ from .ui.pause_menu import PauseMenu
 from .ui.ui_screen import UIScreen
 from .game_window import GameWindow
 from .screen_settings import ScreenSettings, ScreenState
+from .sprites_loader import Sprites
 
 
 __all__ = [
@@ -35,5 +36,6 @@ __all__ = [
     "UIScreen",
     "GameWindow",
     "ScreenSettings",
-    "ScreenStates"
+    "ScreenState",
+    "Sprites"
 ]
