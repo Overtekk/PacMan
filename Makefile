@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 10:34:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 18:06:26 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,7 @@ CONFIG			=	data/config.json
 # =		RULES		=
 # ===================
 
-.PHONY:		all install run debug clean lint lint-strict delete-uv
+.PHONY:		all install run debug clean fclean lint lint-strict delete-uv
 .SILENT:
 
 all:		install run
@@ -57,6 +57,9 @@ clean:
 			find . -type f -name "*.pyo" -delete
 			rm -rf .mypy_cache
 			rm -rf .pytest_cache
+
+fclean:		clean
+			rm -rf .venv
 
 lint:
 			@clear

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 17:53:53 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 18:08:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,7 +32,6 @@ class GameEngine(arcade.View):
         self.setup()
 
     def setup(self) -> None:
-        print(self.config.level)
         # level = self.window.game_config.level[0]
 
         factory = MazeFactory()

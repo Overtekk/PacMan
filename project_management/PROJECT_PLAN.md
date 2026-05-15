@@ -3,6 +3,14 @@
 
 ---
 
+### 15/05/2026
+- anacharp
+	- work on the config file and project risks
+	- work on maze renderer
+	- work on leaderboard
+- roandrie
+	- work on leaderboard
+
 ### 14/05/2026
 
 - roandrie created the all architecture of the project (no coding) including:
@@ -16,6 +24,11 @@
 	- add the game window and the start of the logic, and also the screen settings
 	- mazegenerator imported to the project
 	- add commentary to know what to do next
+
+### 13/05/2026
+
+- anacharp still working on the game sprites
+- roandrie still working on the main architecture of the project
 
 ### 12/05/2026
 
