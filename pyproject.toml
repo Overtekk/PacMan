@@ -26,7 +26,7 @@ dev = [
 packages = ["src"]
 
 [tool.uv.sources]
-mazegenerator = { path = "mazegenerator/mazegenerator-00001-py3-none-any.whl" }
+mazegenerator = { path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" }
 
 [build-system]
 requires = ["hatchling >= 1.26"]

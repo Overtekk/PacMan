@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 09:33:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 10:34:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@
 # ===================
 PYTHON			=	python3
 PDB 			=	python3 -m pdb
+UV_PYTHON		=	uv run python
 FLAKE8			=	uv run flake8
 MYPY 			=	uv run mypy
 MYPY_FLAGS		=	--warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
@@ -22,6 +23,8 @@ INSTALL_UV		=	curl -LsSf https://astral.sh/uv/install.sh | sh
 CHECK_UV		=	command -v uv
 UV_WARN			=	--link-mode copy
 UV_SKIP_WHEEL	=	UV_SKIP_WHEEL_FILENAME_CHECK=1
+
+CONFIG			=	data/config.json
 
 # ===================
 # =		RULES		=
@@ -41,7 +44,7 @@ install:
 			$(UV_SKIP_WHEEL) uv sync $(UV_WARN)
 
 run:		install
-			$(PYTHON) pac-man.py
+			$(UV_PYTHON) pac-man.py $(CONFIG)
 
 debug:		install
 			@echo "$(BGREEN)Running the main script in debug mode...$(RESET)"
