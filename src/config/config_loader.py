@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:52:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/15 14:23:44 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from pathlib import Path
 
 from .config_schema import GameConfig
-from src.utils import can_execute_file, can_read_file, can_write_to_file
+from src.utils import can_read_file, can_write_to_file
 from src.utils import is_folder_exist, is_file_exist, is_file_json
 from src.utils.display import print_error
 
@@ -30,13 +30,9 @@ def load_config(filepath: Path) -> GameConfig:
         default_config = create_config()
         return default_config
 
-    if not can_execute_file(filepath.parent)\
-        or not can_read_file(filepath.parent)\
-             or not can_write_to_file(filepath.parent):
-        print_error(f"Not all permissions are granted for: '{filepath.parent}'"
-                    ".\nLet's play with default config")
-        default_config = create_config()
-        return default_config
+    if (not can_read_file(filepath.parent) or not
+            can_write_to_file(filepath.parent)):
+        raise ValueError(f"Missing permissions for: '{filepath.parent}'")
 
     if not is_file_exist(filepath):
         print_error(f"'{filepath}' does not exist.\nLet's play with default "
@@ -50,8 +46,7 @@ def load_config(filepath: Path) -> GameConfig:
         default_config = create_config()
         return default_config
 
-    if not can_execute_file(filepath) or not can_read_file(filepath)\
-       or not can_write_to_file(filepath):
+    if not can_read_file(filepath) or not can_write_to_file(filepath):
         print_error(f"Not all permissions are granted for: '{filepath}'.\n"
                     "Let's play with default config")
         default_config = create_config()
