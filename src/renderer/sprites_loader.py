@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:45:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 14:04:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -78,7 +78,7 @@ class SpritesLoader():
         # Check 'assets' folder
         check_assets_folder()
 
-        self.sprites_list: dict[str, Path] = {}
+        self.textures: dict[str, Path] = {}
         self.load_sprites()
 
     def load_sprites(self) -> None:
@@ -95,4 +95,4 @@ class SpritesLoader():
                 )
 
 
-            self.sprites_list[sprite_name] = verified_path
+            self.textures[sprite_name] = verified_path

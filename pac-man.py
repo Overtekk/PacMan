@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:25:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/15 14:22:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -40,8 +40,9 @@ def main() -> int:
         # Check if the maze generator is installed
         load_mazegenerator()
 
-        # Create the game window
-        game_window: GameWindow = GameWindow(
+        # Create the game window (we keep the variable to avoid problem with
+        # the garbage collector)
+        game_window: GameWindow = GameWindow(  # noqa
             config=game_config,
             sprites_list=sprite_loader
         )
