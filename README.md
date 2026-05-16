@@ -93,6 +93,7 @@ Project Management
 | Resource | Description |
 | :------: | :---------: |
 | [Github of sousampere](https://github.com/sousampere) | Help with project management |
+| [Arcadeblogger - Pacman documentary](https://arcadeblogger.com/2016/03/12/the-development-of-pacman/) | Documentary of the conception of Pacman |
 
 ### IA was use to:
 - todo
