@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 18:11:09 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/17 14:57:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,13 +35,21 @@ class MazeFactory:
     def __init__(self) -> None:
         self._maze_class = load_mazegenerator()
 
-    def generate_maze(self, width: int, height: int,
-                      textures: dict) -> list[list[int]]:
-        tile_size = min(1280 // width,
-                        720 // height)
+    def generate_maze(
+        self, width: int, height: int, textures: dict,
+        screen_width: int, screen_height: int
+    ) -> list[list[int]]:
+        # Calculate the size based of the screen settings
+        tile_size = min(
+            screen_width // width,
+            screen_height // height
+        )
 
+        # Generate the maze
         maze = self._maze_class((width, height))
         grid = maze._maze
+
+        # Generate the data for the rendering
         wall_data: list[tuple[str, float, float, float]] = []
 
         for row_index, row in enumerate(grid):
@@ -50,9 +58,13 @@ class MazeFactory:
                 sprite_name, angle = WALL_SPRITES.get(
                     cell_value, ("maze_wall", 0)
                 )
+
                 sprite_path = str(textures[sprite_name])
+
                 x = col_index * tile_size + tile_size / 2
                 y = (height - 1 - row_index) * tile_size + tile_size / 2
+
                 wall_data.append((sprite_path, angle, x, y, tile_size))
+
         return wall_data
 
