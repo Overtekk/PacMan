@@ -6,18 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:31:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/17 16:01:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
-
 from ..entity import Entity, Collectible
+
 
 class SuperPacgum(Entity, Collectible):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_path: str,
         scale: float = 1.0,
         score: int = 0
     ) -> None:

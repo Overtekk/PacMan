@@ -6,20 +6,19 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:30:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/17 16:31:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
 from abc import ABC, abstractmethod
-from pathlib import Path
 
 
 class Entity(ABC):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_path: str,
         scale: float = 1.0
     ) -> None:
 
@@ -28,8 +27,11 @@ class Entity(ABC):
         self._x: float = float(spawn_point[0])
         self._y: float = float(spawn_point[1])
 
-        # Visual representation (Composition)
-        self.sprite = arcade.Sprite(filename=sprite_path, scale=scale)
+        # On utilise 'texture=' au lieu de 'filename='
+        self.sprite = arcade.Sprite(
+            path_or_texture=sprite_path,
+            scale=float(scale)
+        )
 
         # Sync visual position with logical position
         self.sprite.center_x = self._x

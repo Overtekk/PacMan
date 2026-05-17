@@ -6,18 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:31:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/17 16:01:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
-
 from ..entity import Entity, Movable, Enemy
+
 
 class DogEnemy(Entity, Movable, Enemy):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_path: str,
         scale: float = 1.0,
         speed: float = 0.0,
         is_edible: bool = False

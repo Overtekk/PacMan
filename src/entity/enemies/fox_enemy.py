@@ -6,18 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:30:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/17 16:01:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
-
 from ..entity import Entity, Movable, Enemy
+
 
 class FoxEnemy(Entity, Movable, Enemy):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_path: str,
         scale: float = 1.0,
         speed: float = 0.0,
         is_edible: bool = False

@@ -6,18 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:30:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/17 15:58:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
-
 from .entity import Entity, Movable
+
 
 class Player(Entity, Movable):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_path: str,
         scale: float = 1.0,
         speed: float = 0.0,
         lives: int = 3
@@ -42,5 +41,8 @@ class Player(Entity, Movable):
         pass
 
     def move(self, direction: tuple[float, float]) -> None:
+        pass
+
+    def die(self) -> None:
         pass
 
