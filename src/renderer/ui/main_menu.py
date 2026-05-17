@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 18:33:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/17 14:32:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,10 +21,11 @@ from src.game_engine import GameEngine
 
 class LogoButton(BaseButton):
     def __init__(
-            self, center_x: float,
+            self,
+            center_x: float,
             center_y: float,
             sprite_path: Path,
-        parent_view: arcade.View
+            parent_view: arcade.View
     ) -> None:
 
         super().__init__(
@@ -37,12 +38,16 @@ class LogoButton(BaseButton):
     def on_click(self) -> None:
         pass
 
+    def check_hover(self, x: float, y: float) -> None:
+        pass
+
 class ExitButton(BaseButton):
     def __init__(
-            self, center_x: float,
+            self,
+            center_x: float,
             center_y: float,
             sprite_path: Path,
-        parent_view: arcade.View
+            parent_view: arcade.View
     ) -> None:
 
         super().__init__(
@@ -57,10 +62,11 @@ class ExitButton(BaseButton):
 
 class InstructionsButton(BaseButton):
     def __init__(
-            self, center_x: float,
+            self,
+            center_x: float,
             center_y: float,
             sprite_path: Path,
-        parent_view: arcade.View
+            parent_view: arcade.View
     ) -> None:
 
         super().__init__(
@@ -75,10 +81,11 @@ class InstructionsButton(BaseButton):
 
 class HighscoresButton(BaseButton):
     def __init__(
-            self, center_x: float,
+            self,
+            center_x: float,
             center_y: float,
             sprite_path: Path,
-        parent_view: arcade.View
+            parent_view: arcade.View
     ) -> None:
 
         super().__init__(
@@ -93,7 +100,8 @@ class HighscoresButton(BaseButton):
 
 class PlayButton(BaseButton):
     def __init__(
-        self, center_x: float,
+        self,
+        center_x: float,
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View
@@ -138,14 +146,18 @@ class MainMenu(BaseMenu):
         highscores_button = HighscoresButton(
             center_x=640,
             center_y=300,
-            sprite_path=self.window.asset_manager.textures["highscores_button"],
+            sprite_path=(
+                self.window.asset_manager.textures["highscores_button"]
+            ),
             parent_view=self
         )
 
         instructions_button = InstructionsButton(
             center_x=640,
             center_y=200,
-            sprite_path=self.window.asset_manager.textures["instructions_button"],
+            sprite_path=(
+                self.window.asset_manager.textures["instructions_button"]
+            ),
             parent_view=self
         )
 

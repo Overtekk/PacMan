@@ -6,13 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 18:08:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/17 15:00:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 from src.maze import MazeFactory
-from src.renderer import GameRenderer
+from src.renderer.maze_renderer import GameRenderer
+from src.renderer.screen_settings import ScreenSettings
 
 
 class GameEngine(arcade.View):
@@ -35,8 +36,11 @@ class GameEngine(arcade.View):
         # level = self.window.game_config.level[0]
 
         factory = MazeFactory()
-        wall_data = factory.generate_maze(15, 10,
-                                          self.window.asset_manager.textures)
+        wall_data = factory.generate_maze(
+            15, 10,
+            self.window.asset_manager.textures,
+            ScreenSettings.WIDTH,ScreenSettings.HEIGHT
+        )
 
         self.game_renderer.wall_generator(wall_data)
         self.game_renderer.draw()

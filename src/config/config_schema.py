@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 15:19:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/17 14:41:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,17 +31,18 @@ class LevelConfig(BaseModel):
     )
 
 DEFAULT_LEVELS: list[LevelConfig] = [
-LevelConfig(name="level_1", width=20, height=10),
-LevelConfig(name="level_2", width=18, height=12),
-LevelConfig(name="level_3", width=10, height=10),
-LevelConfig(name="level_4", width=10, height=20),
-LevelConfig(name="level_5", width=15, height=21),
-LevelConfig(name="level_6", width=14, height=10),
-LevelConfig(name="level_7", width=15, height=10),
-LevelConfig(name="level_8", width=12, height=16),
-LevelConfig(name="level_9", width=14, height=10),
-LevelConfig(name="level_10", width=20, height=20),
+    LevelConfig(name="level_1", width=20, height=10),
+    LevelConfig(name="level_2", width=18, height=12),
+    LevelConfig(name="level_3", width=10, height=10),
+    LevelConfig(name="level_4", width=10, height=20),
+    LevelConfig(name="level_5", width=15, height=21),
+    LevelConfig(name="level_6", width=14, height=10),
+    LevelConfig(name="level_7", width=15, height=10),
+    LevelConfig(name="level_8", width=12, height=16),
+    LevelConfig(name="level_9", width=14, height=10),
+    LevelConfig(name="level_10", width=20, height=20),
 ]
+
 
 class GameConfig(BaseModel):
     highscore_filename: str = Field(
