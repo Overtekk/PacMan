@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:19:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:07:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:09:54 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,9 +19,12 @@ from .ui.game_over_screen import GameOverScreen
 from .ui.main_menu import MainMenu
 from .ui.pause_menu import PauseMenu
 from .ui.ui_screen import UIScreen
+from .ui.highscores_screen import HighscoresScreen
+from .ui.instructions_screen import InstructionsScreen
 from .game_window import GameWindow
 from .screen_settings import ScreenSettings, ScreenState
 from .sprites_loader import SpritesLoader
+
 
 
 __all__ = [
@@ -37,5 +40,7 @@ __all__ = [
     "GameWindow",
     "ScreenSettings",
     "ScreenState",
-    "SpritesLoader"
+    "SpritesLoader",
+    "HighscoresScreen",
+    "InstructionsScreen"
 ]

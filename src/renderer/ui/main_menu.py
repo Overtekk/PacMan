@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 14:32:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:57:38 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,8 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.game_engine import GameEngine
-
+from src.renderer.ui.highscores_screen import HighscoresScreen
+from src.renderer.ui.instructions_screen import InstructionsScreen
 
 class LogoButton(BaseButton):
     def __init__(
@@ -77,7 +78,10 @@ class InstructionsButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        pass
+        instructions = InstructionsScreen()
+
+        if self.parent_view.window:
+            self.parent_view.window.show_view(instructions)
 
 class HighscoresButton(BaseButton):
     def __init__(
@@ -85,18 +89,21 @@ class HighscoresButton(BaseButton):
             center_x: float,
             center_y: float,
             sprite_path: Path,
-            parent_view: arcade.View
+            parent_view: arcade.View,
     ) -> None:
 
         super().__init__(
             center_x=center_x,
             center_y=center_y,
             sprite_path=sprite_path,
-            parent_view=parent_view
+            parent_view=parent_view,
         )
 
     def on_click(self) -> None:
-        pass
+        highscores = HighscoresScreen()
+
+        if self.parent_view.window:
+            self.parent_view.window.show_view(highscores)
 
 class PlayButton(BaseButton):
     def __init__(

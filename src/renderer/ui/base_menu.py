@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:35:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:48:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:48:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,12 +20,15 @@ from .base_button import BaseButton
 class BaseMenu(arcade.View, ABC):
     def __init__(self) -> None:
         super().__init__()
-
+        self.highscore_filename = str
         self.button_list: arcade.SpriteList = arcade.SpriteList()
+        self.text_lst: list[arcade.Text] = []
 
     def on_draw(self) -> None:
         self.clear()
         self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()
 
     def on_mouse_motion(
         self, x: float, y: float, _dx: float, _dy: float
@@ -47,6 +50,7 @@ class BaseMenu(arcade.View, ABC):
                     ui_button.on_click()
 
     def on_show_view(self) -> None:
+        self.text_lst.clear()
         self.button_list.clear()
         self.build_ui()
 
