@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:54:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:59:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -118,8 +118,10 @@ class Movable(Entity):
                 self._animation_timer = 0
 
     def _update_sprite_facing(self) -> None:
-        base_scale = abs(self.sprite.scale_x)
+        # Get the base scale of the sprite
+        base_scale: float = abs(self.sprite.scale_x)
 
+        # Move the facing in each direction based on the angle
         match self._current_direction:
             case (1.0, 0.0):
                 self.sprite.angle = 0
