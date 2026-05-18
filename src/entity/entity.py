@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:21:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:23:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -99,15 +99,16 @@ class Movable(Entity):
 
     def _update_animation(self, delta: float) -> None:
         if (self._can_move and
-                (self._current_direction[0] > 0 or
-                 self._current_direction[1] > 0)):
+                (self._current_direction[0] != 0 or
+                 self._current_direction[1] != 0)):
 
             self._animation_timer += delta
 
             if self._animation_timer > 0.05:
-                self.current_texture_index += (1 % len(self.textures))
+                self.current_texture_index = ((self.current_texture_index + 1)
+                                                % len(self.textures))
 
-                # self.sprite.texture = self.textures[self.current_texture_index]
+                self.sprite.texture = self.textures[self.current_texture_index]
 
                 self._animation_timer = 0
 
