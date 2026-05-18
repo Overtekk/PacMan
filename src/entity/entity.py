@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:23:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:54:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -84,24 +84,29 @@ class Movable(Entity):
         self._animation_timer = 0.0
 
     def move(self, direction: tuple[float, float]) -> None:
+        # Change the current direction of the entity
         if self._can_move:
             self._current_direction = direction
         else:
             self._current_direction = (0.0, 0.0)
 
     def update(self, delta: float) -> None:
+        # Calulate the movement vector
         dx = self._current_direction[0] * self.speed * delta
         dy = self._current_direction[1] * self.speed * delta
         self.x += dx
         self.y += dy
 
         self._update_animation(delta)
+        self._update_sprite_facing()
 
     def _update_animation(self, delta: float) -> None:
+        # Verify that the sprite is moving
         if (self._can_move and
                 (self._current_direction[0] != 0 or
                  self._current_direction[1] != 0)):
 
+            # Set the timer and update current texture
             self._animation_timer += delta
 
             if self._animation_timer > 0.05:
@@ -111,6 +116,27 @@ class Movable(Entity):
                 self.sprite.texture = self.textures[self.current_texture_index]
 
                 self._animation_timer = 0
+
+    def _update_sprite_facing(self) -> None:
+        base_scale = abs(self.sprite.scale_x)
+
+        match self._current_direction:
+            case (1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = base_scale
+
+            case (-1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = -base_scale
+
+            case (0.0, 1.0):
+                self.sprite.angle = -90
+                self.sprite.scale_x = base_scale
+
+            case (0.0, -1.0):
+                self.sprite.angle = 90
+                self.sprite.scale_x = base_scale
+
 
     @abstractmethod
     def die(self) -> None:
