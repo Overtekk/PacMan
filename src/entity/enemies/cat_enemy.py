@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 15:38:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 15:42:00 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,3 +65,17 @@ class CatEnemy(Enemy):
 
     def die(self) -> None:
         pass
+
+    def _update_sprite_facing(self) -> None:
+        # Get the base scale of the sprite
+        base_scale: float = abs(self.sprite.scale_x)
+
+        # Move the facing in each direction based on the angle
+        match self._current_direction:
+            case (1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = base_scale
+
+            case (-1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = -base_scale
