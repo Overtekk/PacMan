@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/18 14:01:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/18 16:02:25 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -45,8 +45,6 @@ class Highscores(BaseButton):
 class HighscoresScreen(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-
-        file_content = extract_leaderboard(self.window.game_config.highscore_filename)
         arcade.set_background_color(arcade.color.BLACK)
 
     def build_ui(self) -> None:
@@ -59,7 +57,11 @@ class HighscoresScreen(BaseMenu):
             parent_view=self
         )
         self.button_list.append(highscores)
-
-        text = arcade.Text(text="play with W", x= 600, y = 500,
-                           color=arcade.color.WHITE, font_size=15)
-        self.text_lst.append(text)
+        file_content = extract_leaderboard(self.window.game_config.highscore_filename)
+        split_content = file_content.split("\n")
+        y = 520
+        for string in split_content:
+            text = arcade.Text(text=string, x= 540, y = y,
+                            color=arcade.color.WHITE, font_size=15)
+            self.text_lst.append(text)
+            y -= 50

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 13:57:38 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/18 16:12:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -138,21 +138,21 @@ class MainMenu(BaseMenu):
 
         logo_button = LogoButton(
             center_x=640,
-            center_y=500,
+            center_y=550,
             sprite_path=self.window.asset_manager.textures["logo"],
             parent_view=self
         )
 
         play_button = PlayButton(
             center_x=640,
-            center_y=400,
+            center_y=450,
             sprite_path=self.window.asset_manager.textures["start_button"],
             parent_view=self
         )
 
         highscores_button = HighscoresButton(
             center_x=640,
-            center_y=300,
+            center_y=350,
             sprite_path=(
                 self.window.asset_manager.textures["highscores_button"]
             ),
@@ -161,7 +161,7 @@ class MainMenu(BaseMenu):
 
         instructions_button = InstructionsButton(
             center_x=640,
-            center_y=200,
+            center_y=250,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]
             ),
@@ -170,7 +170,7 @@ class MainMenu(BaseMenu):
 
         exit_button = ExitButton(
             center_x=640,
-            center_y=100,
+            center_y=150,
             sprite_path=self.window.asset_manager.textures["exit_button"],
             parent_view=self
         )
