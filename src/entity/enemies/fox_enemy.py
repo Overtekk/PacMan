@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:15:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:12:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,8 +32,5 @@ class FoxEnemy(Enemy):
             is_edible=is_edible
         )
 
-    def update(delta: float) -> None:
-        pass
-
-    def move(self, direction: tuple[float, float]) -> None:
+    def die(self) -> None:
         pass

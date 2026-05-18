@@ -1,17 +1,19 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  enemy.movement_logic.py                           :+:      :+:    :+:    #
+#  StateMachine.py                                   :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/14 19:21:29 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:31:36 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/18 14:58:28 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/18 14:59:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-def algo_1() -> None:
-    pass
+from enum import Enum
 
-def runaway() -> None:
-    pass
+
+class EnemyState(Enum):
+    WANDER = 0
+    CHASE = 1
+    ESCAPE = 2

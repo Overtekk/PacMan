@@ -6,13 +6,15 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:59:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 15:34:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
 from abc import ABC, abstractmethod
+
+from .enemies.logics.StateMachine import EnemyState
 
 
 class Entity(ABC):
@@ -152,12 +154,16 @@ class Enemy(Movable):
         sprite_sheet: list[arcade.Texture],
         scale: float = 1.0,
         speed: float = 80.0,
-        is_edible: bool = False
+        is_edible: bool = False,
+        mode: EnemyState = EnemyState.WANDER
     ) -> None:
 
         super().__init__(spawn_point, sprite_sheet, scale, speed)
 
         self._is_edible: bool = is_edible
+        self._mode = mode
+
+        self._move_timer: float = 0.0
 
     @property
     def is_edible(self) -> bool:
@@ -166,6 +172,14 @@ class Enemy(Movable):
     @is_edible.setter
     def is_edible(self, value: bool) -> None:
         self._is_edible = value
+
+    @property
+    def mode(self) -> EnemyState:
+        return self._mode
+
+    @mode.setter
+    def mode(self, new_state: EnemyState) -> None:
+        self._mode = new_state
 
 
 class Collectible(Entity):

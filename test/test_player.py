@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/17 15:16:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:55:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:40:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+from typing import Any
 
 import arcade
 
@@ -50,12 +52,20 @@ class TestPlayer(arcade.Window):
         self.player_list.append(self.player.sprite)
         self.player._can_move = True
 
+        self.enemy_list: arcade.SpriteList = arcade.SpriteList()
+
+        self.enemies_data: list[Any] = []
+
     def on_draw(self) -> None:
         self.clear()
         self.player_list.draw()
+        self.enemy_list.draw()
 
     def on_update(self, delta_time) -> None:
         self.player.update(delta_time)
+
+        for enemy in self.enemies_data:
+            enemy.update(delta_time)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.UP or symbol == arcade.key.W:
