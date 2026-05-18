@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 15:00:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:59:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -37,9 +37,10 @@ class GameEngine(arcade.View):
 
         factory = MazeFactory()
         wall_data = factory.generate_maze(
-            15, 10,
+            15, 15,
             self.window.asset_manager.textures,
-            ScreenSettings.WIDTH,ScreenSettings.HEIGHT
+            ScreenSettings.WIDTH,ScreenSettings.HEIGHT,
+            self.game_renderer
         )
 
         self.game_renderer.wall_generator(wall_data)

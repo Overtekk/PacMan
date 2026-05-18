@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 17:42:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/18 09:49:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,7 +49,7 @@ REQUIERED_SPRITES: dict[str, str] = {
     "maze_wall_corner": "maze/corner_wall.png",
     "maze_four_wall": "maze/four_wall.png",
     "maze_triple_wall": "maze/triple_wall.png",
-    "maze_double_wall": "maze/double_wall.png",
+    "maze_inside_wall": "maze/inside_wall.png",
     "maze_wall": "maze/wall.png",
 
     "pause_button": "pause/pause.png",
