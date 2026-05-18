@@ -4,17 +4,21 @@
 ---
 
 ### 18/05/2026
-- roandrie
-	- logic for the player and tests for it
-	- logic for the enemy and tests for it (only the beginning, cat have a random algo)
+
+- anacharp
+	- maze and enemy sprite modifications
+	- maze improvements
+	- high score menu and instructions
 
 ### 17/05/2026
+
 - roandrie
 	- refactor the code
 	- start the base of the player logic
 
 
 ### 15/05/2026
+
 - anacharp
 	- work on config validation and error handling with graceful fallback to default config
 	- work on maze rendering and wall sprite scaling
