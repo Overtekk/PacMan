@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:19:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 13:09:54 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/18 16:17:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,7 @@ from .ui.highscores_screen import HighscoresScreen
 from .ui.instructions_screen import InstructionsScreen
 from .game_window import GameWindow
 from .screen_settings import ScreenSettings, ScreenState
-from .sprites_loader import SpritesLoader
+from .sprites_loader import SpritesLoader, load_sprite_sheet
 
 
 
@@ -43,4 +43,5 @@ __all__ = [
     "SpritesLoader",
     "HighscoresScreen",
     "InstructionsScreen"
+    "load_sprite_sheet"
 ]

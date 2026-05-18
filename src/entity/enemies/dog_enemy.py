@@ -6,40 +6,31 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:31:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 13:12:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
+import arcade
 
-from ..entity import Entity, Movable, Enemy
+from ..entity import Enemy
 
-class DogEnemy(Entity, Movable, Enemy):
+
+class DogEnemy(Enemy):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_sheet: list[arcade.Texture],
         scale: float = 1.0,
-        speed: float = 0.0,
+        speed: float = 100.0,
         is_edible: bool = False
     ) -> None:
 
-        Entity.__init__(
-            self,
+        super().__init__(
             spawn_point=spawn_point,
-            sprite_path=sprite_path,
-            scale=scale
+            sprite_sheet=sprite_sheet,
+            scale=scale,
+            speed=speed,
+            is_edible=is_edible
         )
 
-        Movable.__init__(
-            self, speed=speed
-        )
-
-        Enemy.__init__(
-            self, is_edible=is_edible
-        )
-
-    def update(delta: float) -> None:
-        pass
-
-    def move(self, direction: tuple[float, float]) -> None:
+    def die(self) -> None:
         pass
