@@ -12,17 +12,9 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *player.png*\
 ‎ ‎ ‎ ‎ ↳ **ennemies**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat_eatable.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat_dead.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_eatable.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_dead.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_eatable.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_dead.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_eatable.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_dead.png*\
 ‎ ‎ ‎ ‎ ↳ **collectibles**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pacgum.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *super_pacgum.png*\

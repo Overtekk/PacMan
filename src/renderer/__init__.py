@@ -19,9 +19,12 @@ from .ui.game_over_screen import GameOverScreen
 from .ui.main_menu import MainMenu
 from .ui.pause_menu import PauseMenu
 from .ui.ui_screen import UIScreen
+from .ui.highscores_screen import HighscoresScreen
+from .ui.instructions_screen import InstructionsScreen
 from .game_window import GameWindow
 from .screen_settings import ScreenSettings, ScreenState
 from .sprites_loader import SpritesLoader, load_sprite_sheet
+
 
 
 __all__ = [
@@ -38,5 +41,7 @@ __all__ = [
     "ScreenSettings",
     "ScreenState",
     "SpritesLoader",
+    "HighscoresScreen",
+    "InstructionsScreen"
     "load_sprite_sheet"
 ]

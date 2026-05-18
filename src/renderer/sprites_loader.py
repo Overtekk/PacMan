@@ -26,20 +26,12 @@ REQUIERED_SPRITES: dict[str, str] = {
     "victory_screen": "end/victory.png",
 
     "cat_enemy": "enemies/enemy_cat.png",
-    "cat_enemy_dead": "enemies/enemy_cat_dead.png",
-    "cat_enemy_eatable": "enemies/enemy_cat_eatable.png",
 
     "rat_enemy": "enemies/enemy_rat.png",
-    "rat_enemy_dead": "enemies/enemy_rat_dead.png",
-    "rat_enemy_eatable": "enemies/enemy_rat_eatable.png",
 
     "dog_enemy": "enemies/enemy_dog.png",
-    "dog_enemy_dead": "enemies/enemy_dog_dead.png",
-    "dog_enemy_eatable": "enemies/enemy_dog_eatable.png",
 
     "fox_enemy": "enemies/enemy_fox.png",
-    "fox_enemy_dead": "enemies/enemy_fox_dead.png",
-    "fox_enemy_eatable": "enemies/enemy_fox_eatable.png",
 
     "exit_button": "main_menu/exit.png",
     "highscores_button": "main_menu/highscores.png",
