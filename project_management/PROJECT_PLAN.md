@@ -3,6 +3,11 @@
 
 ---
 
+### 18/05/2026
+- roandrie
+	- logic for the player and tests for it
+	- logic for the enemy and tests for it (only the beginning, cat have a random algo)
+
 ### 17/05/2026
 - roandrie
 	- refactor the code
