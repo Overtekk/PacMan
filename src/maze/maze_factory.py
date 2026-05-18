@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 14:57:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 12:46:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,22 +14,33 @@ from src.maze.load_mazegenerator import load_mazegenerator
 
 
 WALL_SPRITES: dict[int, tuple[str, float]] = {
-    1:  ("maze_wall", 0),
-    2:  ("maze_wall", 90),
-    3:  ("maze_wall_corner", 0),
-    4:  ("maze_wall", 180),
-    5:  ("maze_double_wall", 0),
-    6:  ("maze_wall_corner", 90),
-    7:  ("maze_triple_wall", 90),
-    8:  ("maze_wall", -90),
-    9:  ("maze_wall_corner", -90),
-    10: ("maze_double_wall", 90),
-    11: ("maze_triple_wall", 0),
-    12: ("maze_wall_corner", 180),
-    13: ("maze_triple_wall", -90),
-    14: ("maze_triple_wall", 180),
-    15: ("maze_four_wall", 0),
+    "wall":  ("maze_wall", 0),
+    "wall_90":  ("maze_wall", 90),
+    "wall_180":  ("maze_wall", 180),
+    "wall_270":  ("maze_wall", -90),
+
+    "corner":  ("maze_wall_corner", 0),
+    "corner_90":  ("maze_wall_corner", 90),
+    "corner_180": ("maze_wall_corner", 180),
+    "corner_270":  ("maze_wall_corner", -90),
+
+    "triple_wall": ("maze_triple_wall", 0),
+    "triple_wall_90":  ("maze_triple_wall", 90),
+    "triple_wall_180": ("maze_triple_wall", 180),
+    "triple_wall_270": ("maze_triple_wall", -90),
+
+    "inside_wall": ("maze_inside_wall", 0),
+    "inside_wall_90":  ("maze_inside_wall", 90),
+    "inside_wall_180": ("maze_inside_wall", 180),
+    "inside_wall_270": ("maze_inside_wall", -90),
+
+    "four_wall": ("maze_four_wall", 0),
 }
+
+N = [1, 3, 5, 7, 9, 11, 13, 15]
+S = [4, 5, 6, 7, 12, 13, 14, 15]
+E = [2, 3, 6, 7, 10, 11, 14, 15]
+W = [8, 9, 10, 11, 12, 13, 14, 15]
 
 class MazeFactory:
     def __init__(self) -> None:
@@ -37,34 +48,68 @@ class MazeFactory:
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
-        screen_width: int, screen_height: int
+        screen_width: int, screen_height: int, renderer
     ) -> list[list[int]]:
-        # Calculate the size based of the screen settings
         tile_size = min(
             screen_width // width,
             screen_height // height
         )
 
-        # Generate the maze
         maze = self._maze_class((width, height))
         grid = maze._maze
 
-        # Generate the data for the rendering
         wall_data: list[tuple[str, float, float, float]] = []
 
         for row_index, row in enumerate(grid):
             for col_index, cell_value in enumerate(row):
-
-                sprite_name, angle = WALL_SPRITES.get(
-                    cell_value, ("maze_wall", 0)
-                )
-
-                sprite_path = str(textures[sprite_name])
-
                 x = col_index * tile_size + tile_size / 2
                 y = (height - 1 - row_index) * tile_size + tile_size / 2
 
-                wall_data.append((sprite_path, angle, x, y, tile_size))
+                n = cell_value in N
+                s = cell_value in S
+                e = cell_value in E
+                w = cell_value in W
+
+                keys = []
+
+                if not n and not e:
+                    keys.append("inside_wall_180")
+                if not w and not n:
+                    keys.append("inside_wall_90")
+                if not s and not w:
+                    keys.append("inside_wall")
+                if not e and not s:
+                    keys.append("inside_wall_270")
+                if n and e:
+                    keys.append("corner")
+                if s and e:
+                    keys.append("corner_90")
+                if n and w:
+                    keys.append("corner_270")
+                if s and w:
+                    keys.append("corner_180")
+                if n and not e and not w:
+                    keys.append("wall")
+                if n and e and w:
+                    keys.append("triple_wall")
+                if w and n and s:
+                    keys.append("triple_wall_270")
+                if s and e and w:
+                    keys.append("triple_wall_180")
+                if e and n and s:
+                    keys.append("triple_wall_90")
+                if s and not e and not w:
+                    keys.append("wall_180")
+                if w and not n and not s:
+                    keys.append("wall_270")
+                if e and not n and not s:
+                    keys.append("wall_90")
+                if n and s and e and w:
+                    keys.append("four_wall")
+
+                for key in keys:
+                    sprite_name, angle = WALL_SPRITES[key]
+                    sprite_path = str(textures[sprite_name])
+                    wall_data.append((sprite_path, angle, x, y, tile_size))
 
         return wall_data
-

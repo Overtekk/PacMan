@@ -30,7 +30,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *corner_wall.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *four_wall.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *triple_wall.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *double_wall.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *inside_wall.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *wall.png*\
 ‎ ‎ ‎ ‎ ↳ **main menu**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *logo.png*\
