@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 16:01:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 09:45:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,7 @@ class SuperPacgum(Entity, Collectible):
 
         Entity.__init__(
             self, spawn_point=spawn_point,
-            sprite_path=sprite_path,
+            sprite_path_or_texture=sprite_path,
             scale=scale
         )
 

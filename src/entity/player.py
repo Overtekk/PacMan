@@ -6,26 +6,29 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 15:58:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 10:36:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from .entity import Entity, Movable
+import arcade
 
 
 class Player(Entity, Movable):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: str,
+        sprite_path: list[arcade.Texture],
         scale: float = 1.0,
-        speed: float = 0.0,
-        lives: int = 3
+        speed: float = 100.0,
     ) -> None:
+
+        self.textures: list[arcade.Texture] = sprite_path
+        self.current_texture_index: int = 0
 
         Entity.__init__(
             self,
             spawn_point=spawn_point,
-            sprite_path=sprite_path,
+            sprite_path_or_texture=self.textures[0],
             scale=scale
         )
 
@@ -34,15 +37,13 @@ class Player(Entity, Movable):
             speed=speed
         )
 
-        self._lives: int = lives
-        self._score: int = 0
-
     def update(self, delta: float) -> None:
-        pass
-
-    def move(self, direction: tuple[float, float]) -> None:
-        pass
+        dx = self._current_direction[0] * self.speed * delta
+        dy = self._current_direction[1] * self.speed * delta
+        self.x += dx
+        self.y += dy
 
     def die(self) -> None:
-        pass
+        self._can_move = False
+        self.respawn()
 

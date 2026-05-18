@@ -89,6 +89,11 @@ Project Management
 | Resource | Description |
 | :------: | :---------: |
 
+### Documentation for Arcade library
+| Resource | Description |
+| :------: | :---------: |
+| [Arcade API](https://api.arcade.academy/en/3.3.3/index.html) | Official API of Arcade library |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |

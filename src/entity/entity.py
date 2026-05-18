@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 16:31:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 10:39:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,7 +18,7 @@ from abc import ABC, abstractmethod
 class Entity(ABC):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: str,
+        sprite_path_or_texture: str | arcade.Texture,
         scale: float = 1.0
     ) -> None:
 
@@ -29,7 +29,7 @@ class Entity(ABC):
 
         # On utilise 'texture=' au lieu de 'filename='
         self.sprite = arcade.Sprite(
-            path_or_texture=sprite_path,
+            path_or_texture=sprite_path_or_texture,
             scale=float(scale)
         )
 
@@ -64,14 +64,18 @@ class Entity(ABC):
 
 class Movable(ABC):
     def __init__(
-        self, speed: float = 0.0
+        self, speed: float = 100.0
     ) -> None:
 
         self.speed: float = speed
+        self._can_move: bool = False
+        self._current_direction: tuple[float, float] = (0, 0)
 
-    @abstractmethod
     def move(self, direction: tuple[float, float]) -> None:
-        pass
+        if self._can_move:
+            self._current_direction = direction
+        else:
+            self._current_direction = (0, 0)
 
     @abstractmethod
     def die(self) -> None:

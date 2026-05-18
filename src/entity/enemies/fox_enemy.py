@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 16:01:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 10:35:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,14 +18,14 @@ class FoxEnemy(Entity, Movable, Enemy):
         self, spawn_point: tuple[int, int],
         sprite_path: str,
         scale: float = 1.0,
-        speed: float = 0.0,
+        speed: float = 100.0,
         is_edible: bool = False
     ) -> None:
 
         Entity.__init__(
             self,
             spawn_point=spawn_point,
-            sprite_path=sprite_path,
+            sprite_path_or_texture=sprite_path,
             scale=scale
         )
 
