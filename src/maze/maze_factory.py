@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 12:46:01 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/18 17:25:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,17 +53,19 @@ class MazeFactory:
         tile_size = min(
             screen_width // width,
             screen_height // height
-        )
+        ) - 5
 
         maze = self._maze_class((width, height))
         grid = maze._maze
+        print(grid)
 
         wall_data: list[tuple[str, float, float, float]] = []
-
+        offset_x = (screen_width - width * tile_size) // 2
+        offset_y = (screen_height - height * tile_size) // 2
         for row_index, row in enumerate(grid):
             for col_index, cell_value in enumerate(row):
-                x = col_index * tile_size + tile_size / 2
-                y = (height - 1 - row_index) * tile_size + tile_size / 2
+                x = col_index * tile_size + tile_size / 2 + offset_x
+                y = (height - 1 - row_index) * tile_size + tile_size / 2 + offset_y
 
                 n = cell_value in N
                 s = cell_value in S
@@ -111,5 +113,6 @@ class MazeFactory:
                     sprite_name, angle = WALL_SPRITES[key]
                     sprite_path = str(textures[sprite_name])
                     wall_data.append((sprite_path, angle, x, y, tile_size))
+                    # print(x, y)
 
         return wall_data
