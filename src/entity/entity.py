@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 10:39:13 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:21:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -62,30 +62,71 @@ class Entity(ABC):
         self.x, self.y = self.spawn_point
 
 
-class Movable(ABC):
+class Movable(Entity):
     def __init__(
-        self, speed: float = 100.0
+        self,
+        spawn_point: tuple[int, int],
+        sprite_sheet: list[arcade.Texture],
+        scale: float = 1.0,
+        speed: float = 100.0
     ) -> None:
 
+        self.textures: list[arcade.Texture] = sprite_sheet
+        self.current_texture_index: int = 0
+
+        super().__init__(spawn_point, self.textures[0], scale)
+
         self.speed: float = speed
+
         self._can_move: bool = False
-        self._current_direction: tuple[float, float] = (0, 0)
+        self._current_direction: tuple[float, float] = (0.0, 0.0)
+
+        self._animation_timer = 0.0
 
     def move(self, direction: tuple[float, float]) -> None:
         if self._can_move:
             self._current_direction = direction
         else:
-            self._current_direction = (0, 0)
+            self._current_direction = (0.0, 0.0)
+
+    def update(self, delta: float) -> None:
+        dx = self._current_direction[0] * self.speed * delta
+        dy = self._current_direction[1] * self.speed * delta
+        self.x += dx
+        self.y += dy
+
+        self._update_animation(delta)
+
+    def _update_animation(self, delta: float) -> None:
+        if (self._can_move and
+                (self._current_direction[0] > 0 or
+                 self._current_direction[1] > 0)):
+
+            self._animation_timer += delta
+
+            if self._animation_timer > 0.05:
+                self.current_texture_index += (1 % len(self.textures))
+
+                # self.sprite.texture = self.textures[self.current_texture_index]
+
+                self._animation_timer = 0
 
     @abstractmethod
     def die(self) -> None:
         pass
 
 
-class Enemy(ABC):
+class Enemy(Movable):
     def __init__(
-        self, is_edible: bool = False
+        self,
+        spawn_point: tuple[int, int],
+        sprite_sheet: list[arcade.Texture],
+        scale: float = 1.0,
+        speed: float = 80.0,
+        is_edible: bool = False
     ) -> None:
+
+        super().__init__(spawn_point, sprite_sheet, scale, speed)
 
         self._is_edible: bool = is_edible
 
@@ -98,10 +139,16 @@ class Enemy(ABC):
         self._is_edible = value
 
 
-class Collectible(ABC):
+class Collectible(Entity):
     def __init__(
-        self, score: int = 0
+        self,
+        spawn_point: tuple[int, int],
+        sprite_data: str | arcade.Texture,
+        scale: float = 1.0,
+        score: int = 0
     ) -> None:
+
+        super().__init__(spawn_point, sprite_data, scale)
 
         self._score: int = score
         self._collected: bool = False
