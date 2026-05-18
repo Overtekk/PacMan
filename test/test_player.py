@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/17 15:16:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 13:40:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 16:23:52 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ import arcade
 
 from src.renderer import ScreenSettings, SpritesLoader
 from src.entity import Player
+from src.renderer import load_sprite_sheet
 
 
 class TestPlayer(arcade.Window):
@@ -31,15 +32,8 @@ class TestPlayer(arcade.Window):
 
         self.sprites_list: SpritesLoader = SpritesLoader()
 
-        sheet = arcade.SpriteSheet(self.sprites_list.textures["player"])
-
-        frame_width = 308 / 6
-        frame_height = 36
-
-        textures_list: list[arcade.Texture] = sheet.get_texture_grid(
-            size=(frame_width, frame_height),
-            columns=6,
-            count=6
+        textures_list = load_sprite_sheet(
+            self.sprites_list.textures["player"], 308 / 6, 63, 6, 6
         )
 
         self.player: Player = Player(
