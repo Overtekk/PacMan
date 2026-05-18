@@ -9,6 +9,9 @@
 	- maze and enemy sprite modifications
 	- maze improvements
 	- high score menu and instructions
+- roandrie
+	- logic for the player and tests for it
+	- logic for the enemy and tests for it (only the beginning, cat have a random algo)
 
 ### 17/05/2026
 
