@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 11:15:44 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/19 15:50:42 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,7 @@ from .base_button import BaseButton
 from src.game_engine import GameEngine
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
+from src.renderer.ui.cheat_menu import CheatMenu
 
 class LogoButton(BaseButton):
     def __init__(
@@ -41,6 +42,29 @@ class LogoButton(BaseButton):
 
     def check_hover(self, x: float, y: float) -> None:
         pass
+
+
+class CheatButton(BaseButton):
+    def __init__(
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View
+    ) -> None:
+
+        super().__init__(
+            center_x=center_x,
+            center_y=center_y,
+            sprite_path=sprite_path,
+            parent_view=parent_view
+        )
+
+    def on_click(self) -> None:
+        cheat_menu = CheatMenu()
+
+        if self.parent_view.window:
+            self.parent_view.window.show_view(cheat_menu)
 
 class ExitButton(BaseButton):
     def __init__(
@@ -168,9 +192,16 @@ class MainMenu(BaseMenu):
             parent_view=self
         )
 
-        exit_button = ExitButton(
+        cheat_button = CheatButton(
             center_x=640,
             center_y=150,
+            sprite_path=self.window.asset_manager.textures["cheat_button"],
+            parent_view=self
+        )
+
+        exit_button = ExitButton(
+            center_x=640,
+            center_y=50,
             sprite_path=self.window.asset_manager.textures["exit_button"],
             parent_view=self
         )
@@ -179,5 +210,6 @@ class MainMenu(BaseMenu):
         self.button_list.append(play_button)
         self.button_list.append(highscores_button)
         self.button_list.append(instructions_button)
+        self.button_list.append(cheat_button)
         self.button_list.append(exit_button)
 
