@@ -6,12 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:17:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 10:26:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from src.entity import Player
-from src.renderer.sprites_loader import
+from src.renderer.sprites_loader import load_sprite_sheet
 
 
 class LevelManager():
@@ -27,7 +27,8 @@ class LevelManager():
         # Create the player
         self.player = Player(
             spawn_point=(0, 0),
-            sprite_sheet="",
+            sprite_sheet=load_sprite_sheet(
+                ),
             scale=1
         )
 
