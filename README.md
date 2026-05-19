@@ -89,11 +89,17 @@ Project Management
 | Resource | Description |
 | :------: | :---------: |
 
+### Documentation for Arcade library
+| Resource | Description |
+| :------: | :---------: |
+| [Arcade API](https://api.arcade.academy/en/3.3.3/index.html) | Official API of Arcade library |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |
 | [Github of sousampere](https://github.com/sousampere) | Help with project management |
 | [Arcadeblogger - Pacman documentary](https://arcadeblogger.com/2016/03/12/the-development-of-pacman/) | Documentary of the conception of Pacman |
+| [Pacman Fandom](https://pacman.fandom.com/wiki/Maze_Ghost_AI_Behaviors) | Documentary for all ghost AI behaviors |
 
 ### IA was use to:
 - todo

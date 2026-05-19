@@ -10,6 +10,7 @@
 #                                                                           #
 # ************************************************************************* #
 
+import arcade
 import pathlib
 from pathlib import Path
 
@@ -95,3 +96,20 @@ class SpritesLoader():
 
 
             self.textures[sprite_name] = verified_path
+
+
+def load_sprite_sheet(
+    textures: dict[str, Path],
+    sprite_width: int, sprite_height: int,
+    sprites_columns: int, sprites_count: int
+) -> list[arcade.Texture]:
+
+    sheet =  arcade.SpriteSheet(textures)
+
+    textures_list: list[arcade.Texture] = sheet.get_texture_grid(
+        size=(sprite_width, sprite_height),
+        columns=sprites_columns,
+        count=sprites_count
+    )
+
+    return textures_list

@@ -6,41 +6,30 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:30:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/18 11:15:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
+from .entity import Movable
+import arcade
 
-from .entity import Entity, Movable
 
-class Player(Entity, Movable):
+class Player(Movable):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_path: Path,
+        sprite_sheet: list[arcade.Texture],
         scale: float = 1.0,
-        speed: float = 0.0,
-        lives: int = 3
+        speed: float = 100.0,
     ) -> None:
 
-        Entity.__init__(
-            self,
+        super().__init__(
             spawn_point=spawn_point,
-            sprite_path=sprite_path,
-            scale=scale
-        )
-
-        Movable.__init__(
-            self,
+            sprite_sheet=sprite_sheet,
+            scale=scale,
             speed=speed
         )
 
-        self._lives: int = lives
-        self._score: int = 0
-
-    def update(self, delta: float) -> None:
-        pass
-
-    def move(self, direction: tuple[float, float]) -> None:
-        pass
+    def die(self) -> None:
+        self._can_move = False
+        self.respawn()
 
