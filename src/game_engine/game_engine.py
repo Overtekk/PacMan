@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 13:28:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 16:03:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,20 +33,25 @@ class GameEngine(arcade.View):
         pass
 
     def on_show_view(self) -> None:
+        # Clear the screen
         self.clear()
+
+        # Call the setup method
         self.setup()
 
     def setup(self) -> None:
-        # level = self.window.game_config.level[0]
-
         level_index: int = 0
 
+        # Create the level
         level: list[list[int]] = self.level_manager.create_level(
             level_name=self.config.level[level_index].name,
             maze_width=self.config.level[level_index].width,
             maze_height=self.config.level[level_index].height
         )
 
+        self.player = self.level_manager.player
+
+        # Render the level
         self.game_renderer.wall_generator(level)
         self.game_renderer.draw()
 

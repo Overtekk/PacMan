@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 13:53:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 16:01:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,14 +20,14 @@ from src.config import GameConfig
 from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
 from src.renderer.screen_settings import ScreenSettings
 from src.renderer.sprites_loader import load_sprite_sheet
-from src.maze import MazeFactory
+from src.maze import MazeFactory, generate_bytes_maze
 
 
 class LevelManager():
     def __init__(self, game_window: arcade.Window) -> None:
 
         self.config: GameConfig = game_window.game_config
-        self.asset_manager: dict[str, Path] = game_window.sprites_list
+        self.asset_manager: dict[str, Path] = game_window.asset_manager
 
         self.enemies_list: list[str, Any] = {}
 
@@ -35,37 +35,49 @@ class LevelManager():
         self, level_name: str, maze_width: int, maze_height: int
     ) -> list[list[int]]:
 
-        # Empty the previous variables
-        self.wall_data = None
-        self.player = None
-        if self.enemies_list:
-            for enemy in self.enemies_list:
-                self.enemies_list[enemy] = None
+        # Store the maze width & height in the class
+        self.maze_width = maze_width
+        self.maze_height = maze_height
 
-        level: list[list[int]] = self._create_maze_level(
-            width=maze_width, height=maze_height
-        )
+        # Create the level
+        generated_level: list[list[int]] = self._create_maze_level()
+
+        # Create all entities
         self._create_entity()
 
-        return level
+        return generated_level
 
-    def _create_maze_level(self, width: int, height: int) -> list[list[int]]:
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
+
+    def _create_maze_level(self) -> list[list[int]]:
         # Instanciate the MazeFactory object
-        factory = MazeFactory()
+        self.factory = MazeFactory()
 
         # Create the Maze
-        wall_data: list[list[int]] = factory.generate_maze(
-            width, height,
+        wall_data: list[list[int]] = self.factory.generate_maze(
+            self.maze_width, self.maze_height,
             self.asset_manager.textures,
             ScreenSettings.WIDTH,ScreenSettings.HEIGHT
+        )
+        # Store the maze in bytes for later calculations
+        self.byte_maze: dict = generate_bytes_maze(
+            self.factory.grid_data,
+            self.maze_width, self.maze_height,
         )
 
         return wall_data
 
     def _create_entity(self) -> None:
+        # Get the spawn positions of all entities
+        spawn_positions: dict[str, tuple[int, int]] = (
+            self._get_spawn_positions()
+        )
+
         # Create the player
         self.player: Player = Player(
-            spawn_point=(0, 0),
+            spawn_point=spawn_positions["player"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["player"],
                 sprite_width=308/6, sprite_height=63,
@@ -122,6 +134,18 @@ class LevelManager():
             speed=101
         )
         self.enemies_list["rat_enemy"] = self.rat_enemy
+
+    def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
+        spawn_dict: dict[str, tuple[int, int]] = {}
+
+        # Get the maze center
+        col_center: int = self.maze_width // 2
+        row_center: int = self.maze_height // 2
+
+        if spawn_dict[(col_center, row_center)] == 0:
+            spawn_dict["player"] = (col_center, row_center)
+
+        return spawn_dict
 
     # create the level
     # create the player, ennemis and collectibles
