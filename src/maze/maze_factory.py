@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:19:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/19 10:22:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,15 +60,13 @@ class MazeFactory:
         grid = maze._maze
 
         wall_data: list[tuple[str, float, float, float]] = []
-        offset_x = (screen_width - width * tile_size) // 2
-        offset_y = (screen_height - height * tile_size) // 2
         self.wall_sprites_list: list[str] = []
 
         for row_index, row in enumerate(grid):
             for col_index, cell_value in enumerate(row):
 
                 x, y = self.get_pixel_coordinates(
-                    col_index, row_index, tile_size, height, offset_x, offset_y
+                    col_index, row_index, tile_size, height
                 )
 
                 n = cell_value in N
@@ -125,57 +123,10 @@ class MazeFactory:
 
 
     def get_pixel_coordinates(
-        self, col: int, row: int, tile_size: tuple[float, float], height: int,
-        offset_x: int, offset_y: int
+        self, col: int, row: int, tile_size: tuple[float, float], height: int
     ) -> tuple[int, int]:
 
-        x = col * tile_size + tile_size / 2 + offset_x
-        y = (height - 1 - row) * tile_size + tile_size / 2 + offset_y
+        x = col * tile_size + tile_size / 2
+        y = (height - 1 - row) * tile_size + tile_size / 2
 
         return (x, y)
-
-
-def generate_ascii_maze(grid: Any, width, height) -> dict:
-    rows = 2 * height + 1
-    cols = 2 * width + 1
-    ascii_grid = [[1] * cols for _ in range(rows)]
-    close_or_open = {}
-
-    for row_index, row in enumerate(grid):
-        for col_index, cell_value in enumerate(row):
-            n = cell_value in N
-            s = cell_value in S
-            e = cell_value in E
-            w = cell_value in W
-
-            ay = row_index * 2 + 1
-            ax = col_index * 2 + 1
-
-            ascii_grid[ay][ax] = 0
-
-            if not n and row_index > 0:
-                new_ay = ay - 1
-                new_ax = ax
-                ascii_grid[new_ay][new_ax] = 0
-            if not s and row_index < height - 1:
-                new_ay = ay + 1
-                new_ax = ax
-                ascii_grid[new_ay][new_ax] = 0
-            if not e and col_index < width - 1:
-                new_ay = ay
-                new_ax = ax +1
-                ascii_grid[new_ay][new_ax] = 0
-            if not w and col_index > 0:
-                new_ay = ay
-                new_ax = ax - 1
-                ascii_grid[new_ay][new_ax] = 0
-    ascii_maze = []
-    for row in ascii_grid:
-        print("".join("1" if c == 1 else "0" for c in row))
-        ascii_maze.append("".join("1" if c == 1 else "0" for c in row))
-
-    for row_index, row in enumerate(ascii_maze):
-        for col_index, cell_value in enumerate(row):
-            close_or_open[(row_index, col_index)] = cell_value
-
-    return close_or_open
