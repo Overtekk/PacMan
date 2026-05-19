@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 16:29:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 17:03:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -83,7 +83,7 @@ class LevelManager():
                 sprite_width=308/6, sprite_height=63,
                 sprites_columns=6, sprites_count=6
             ),
-            scale=1
+            scale=0.6
         )
 
         # Create enemies
