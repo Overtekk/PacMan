@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 16:03:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 16:14:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -51,8 +51,12 @@ class GameEngine(arcade.View):
 
         self.player = self.level_manager.player
 
-        # Render the level
+        # Generate the walls rendering
         self.game_renderer.wall_generator(level)
+        # Generate entities rendering
+        self.game_renderer.setup_entities(self.player.sprite)
+
+        # Draw all sprites
         self.game_renderer.draw()
 
 

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 16:01:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 16:29:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -142,8 +142,21 @@ class LevelManager():
         col_center: int = self.maze_width // 2
         row_center: int = self.maze_height // 2
 
-        if spawn_dict[(col_center, row_center)] == 0:
-            spawn_dict["player"] = (col_center, row_center)
+        if self.byte_maze[row_center * 2 + 1, col_center * 2 + 1] == 0:
+            player_x, player_y = self.factory.get_pixel_coordinates(
+                col_center, row_center
+            )
+
+        for y in range(row_center):
+            for x in range(col_center):
+                coords = (y, x)
+
+                if self.byte_maze[coords] == 0:
+                    print(0)
+                else:
+                    print(1)
+
+        spawn_dict["player"] = (player_x, player_y)
 
         return spawn_dict
 

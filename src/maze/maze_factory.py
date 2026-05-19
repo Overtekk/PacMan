@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 15:54:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 16:20:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -174,6 +174,6 @@ def generate_bytes_maze(
     for r_idx, r_content in enumerate(byte_grid):
         for c_idx, val in enumerate(r_content):
             # '0' open / '1' = close
-            close_or_open[(r_idx, c_idx)] = str(val)
+            close_or_open[(r_idx, c_idx)] = val
 
     return close_or_open
