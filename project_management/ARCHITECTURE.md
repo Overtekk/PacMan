@@ -29,6 +29,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *start.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *instructions.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *highscores.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_mode.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *exit.png*\
 ‎ ‎ ‎ ‎ ↳ **pause**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pause.png*\
