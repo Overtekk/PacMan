@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 12:22:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/19 15:12:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,8 +35,8 @@ class CheatMenu(BaseMenu):
     #     self.button_list.append(x)
 
 
-# Invincibility -> png
-# Ghost freeze -> png
+# Invincibility
+# Ghost freeze
 # Extra lives
 # Increase speed
-# Level skip
+# next level
