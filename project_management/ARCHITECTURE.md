@@ -37,6 +37,12 @@
 ‎ ‎ ‎ ‎ ↳ **end**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *victory.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *game_over.png*\
+‎ ‎ ‎ ‎ ↳ **cheat_menu**\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_lives.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_freeze.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_invincibility.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_next_level.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_speed_up.png*\
 
 
 ## launch script
