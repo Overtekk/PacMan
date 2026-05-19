@@ -10,6 +10,10 @@
 	- create a dictionary with informations about wall for each coordinates of the maze that will be use for ghosts algorithms
 	- create pause menu, victory menu, game_over menu and cheat menu
 	- create cheat menu sprites
+- roandrie
+	- creating the level manager
+	- rendering for the player and ennemis in the maze
+	- refactor some part of the code
 
 
 ### 18/05/2026

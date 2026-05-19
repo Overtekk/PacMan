@@ -11,45 +11,45 @@
 | :--: | :----: | :----: |
 | Subject reading | anacharp, roandrie | ✖️ |
 | Git setup | roandrie | ✖️ |
-| Project Management | roandrie | |
-| Makefile | roandrie | |
+| Project Management | roandrie | ✖️ |
+| Makefile | roandrie | ✖️ |
 | Create the project environment | roandrie | |
 | Implement the 'A-Maze-ing' package | roandrie | ✖️ |
-| Creating the main script | roandrie | |
+| Creating the main script | roandrie | ✖️ |
 
 ## Config
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Create the configuration file | anacharp | |
-| Parsing | anacharp | |
-| Create the config object | anacharp | |
-| Unitary test for the config | anacharp | |
+| Create the configuration file | anacharp | ✖️ |
+| Parsing | anacharp | ✖️ |
+| Create the config object | anacharp | ✖️ |
+| Unitary test for the config | anacharp | ✖️ |
 
 ## Sprites
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Creating the sprite of the player | anacharp | |
-| Creating the sprite of the enemies | anacharp | |
-| Creating the sprite of the collectibles | anacharp | |
-| Creating the sprite of the maze | anacharp | |
-| Creating the sprite of the menu | anacharp | |
-| Creating the sprite of the HUD | anacharp | |
+| Creating the sprite of the player | anacharp | ✖️ |
+| Creating the sprite of the enemies | anacharp | ✖️ |
+| Creating the sprite of the collectibles | anacharp | ✖️ |
+| Creating the sprite of the maze | anacharp | ✖️ |
+| Creating the sprite of the menu | anacharp | ✖️ |
+| Creating the sprite of the HUD | anacharp | ✖️ |
 
 ## Maze Generator Integration
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Create the Maze Loader with main script | anacharp, roandrie | |
-| Create the Maze Loader with package installer | anacharp, roandrie | |
-| Creation of the maze | anacharp | |
+| Create the Maze Loader with main script | anacharp, roandrie | ✖️ |
+| Create the Maze Loader with package installer | anacharp, roandrie | ✖️ |
+| Creation of the maze | anacharp | ✖️ |
 | Unitary test if generation fails | anacharp, roandrie | |
 
 ## Core elements
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Creation of the Entity abstract class | roandrie | |
+| Creation of the Entity abstract class | roandrie | ✖️ |
 | Creation of the player class | roandrie | |
 | Creation of the enemies class | roandrie | |
 | Creation of the collectible abstract class | roandrie | |
@@ -67,7 +67,7 @@
 | Task | Member | Statut |
 | :--: | :----: | :----: |
 | Respect walls | roandrie | |
-| Use arrow keys or WASD to move | roandrie | |
+| Use arrow keys or WASD to move | roandrie | ✖️ |
 | Have 3 lives | roandrie | |
 | Lose a life if touched by a ghost | roandrie | |
 | Respawn in the middle of the maze | roandrie | |
