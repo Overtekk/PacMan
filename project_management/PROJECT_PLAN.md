@@ -8,7 +8,8 @@
 - anacharp
 	- create an ascii maze
 	- create a dictionary with informations about wall for each coordinates of the maze that will be use for ghosts algorithms
-	- create pause menu, victory menu and game_over menu
+	- create pause menu, victory menu, game_over menu and cheat menu
+	- create cheat menu sprites
 
 
 ### 18/05/2026
