@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:20:20 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 13:28:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
-from src.maze import MazeFactory
+
 from src.renderer.maze_renderer import GameRenderer
-from src.renderer.screen_settings import ScreenSettings
+from .level_manager import LevelManager
 
 
 class GameEngine(arcade.View):
@@ -21,6 +21,10 @@ class GameEngine(arcade.View):
         super().__init__()
         self.config = self.window.game_config
         self.game_renderer = GameRenderer()
+
+        self.level_manager = LevelManager(
+            game_window=self.window
+        )
     # main loop of the game, orchestor
     # move all entity
     # verify gamestate, levelmanager
@@ -35,15 +39,15 @@ class GameEngine(arcade.View):
     def setup(self) -> None:
         # level = self.window.game_config.level[0]
 
-        factory = MazeFactory()
-        wall_data = factory.generate_maze(
-            15, 15,
-            self.window.asset_manager.textures,
-            ScreenSettings.WIDTH,ScreenSettings.HEIGHT,
-            self.game_renderer
+        level_index: int = 0
+
+        level: list[list[int]] = self.level_manager.create_level(
+            level_name=self.config.level[level_index].name,
+            maze_width=self.config.level[level_index].width,
+            maze_height=self.config.level[level_index].height
         )
 
-        self.game_renderer.wall_generator(wall_data)
+        self.game_renderer.wall_generator(level)
         self.game_renderer.draw()
 
 

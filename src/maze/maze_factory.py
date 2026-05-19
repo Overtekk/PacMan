@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:19:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/19 11:37:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,7 +49,7 @@ class MazeFactory:
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
-        screen_width: int, screen_height: int, renderer
+        screen_width: int, screen_height: int
     ) -> list[list[int]]:
         tile_size = min(
             screen_width // width,
