@@ -3,6 +3,13 @@
 
 ---
 
+### 19/05/2026
+
+- anacharp
+	- create an ascii maze
+	- create a dictionary with informations about wall for each coordinates of the maze that will be use for ghosts algorithms
+
+
 ### 18/05/2026
 
 - anacharp
@@ -12,6 +19,7 @@
 - roandrie
 	- logic for the player and tests for it
 	- logic for the enemy and tests for it (only the beginning, cat have a random algo)
+
 
 ### 17/05/2026
 
