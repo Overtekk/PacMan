@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 08:54:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:21:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from src.game_engine import GameEngine
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.ui.cheat_menu import CheatMenu
+
 
 class LogoButton(BaseButton):
     def __init__(
@@ -66,6 +67,7 @@ class CheatButton(BaseButton):
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat_menu)
 
+
 class ExitButton(BaseButton):
     def __init__(
             self,
@@ -84,6 +86,7 @@ class ExitButton(BaseButton):
 
     def on_click(self) -> None:
         exit()
+
 
 class InstructionsButton(BaseButton):
     def __init__(
@@ -106,6 +109,7 @@ class InstructionsButton(BaseButton):
         if self.parent_view.window:
             self.parent_view.window.show_view(instructions)
 
+
 class HighscoresButton(BaseButton):
     def __init__(
             self,
@@ -127,6 +131,7 @@ class HighscoresButton(BaseButton):
 
         if self.parent_view.window:
             self.parent_view.window.show_view(highscores)
+
 
 class PlayButton(BaseButton):
     def __init__(
@@ -211,4 +216,3 @@ class MainMenu(BaseMenu):
         self.button_list.append(instructions_button)
         self.button_list.append(cheat_button)
         self.button_list.append(exit_button)
-

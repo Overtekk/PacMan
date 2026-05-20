@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 15:54:13 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:18:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -202,4 +202,3 @@ class CheatMenu(BaseMenu):
         self.button_list.append(next_level)
         self.button_list.append(speed_up)
         self.button_list.append(menu)
-
