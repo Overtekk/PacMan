@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 12:16:44 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 13:13:09 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -249,7 +249,7 @@ class InstructionsScreen(BaseMenu):
                             y=150,
                             color=arcade.color.WHITE, font_size=15)
         rule4 = arcade.Text(
-            text="- After eating a SuperPacgum you can attack ghosts", x=15,
+            text="- After eating a SuperPacgum you can eat ghosts", x=15,
             y=100, color=arcade.color.WHITE, font_size=15)
         rule5 = arcade.Text(text="- Ghosts give you more points", x=15, y=50,
                             color=arcade.color.WHITE, font_size=15)
