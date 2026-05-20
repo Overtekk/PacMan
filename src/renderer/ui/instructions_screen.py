@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 09:20:47 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 11:05:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,3 +65,7 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(commands)
         self.text_lst.append(pause)
         self.text_lst.append(exit)
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if self.window:
+            self.window.show_view(self.previous_view)

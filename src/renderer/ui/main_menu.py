@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 09:51:39 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 10:50:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -84,6 +84,7 @@ class ExitButton(BaseButton):
 
     def on_click(self) -> None:
         arcade.exit()
+        exit()
 
 
 class InstructionsButton(BaseButton):
@@ -214,3 +215,8 @@ class MainMenu(BaseMenu):
         self.button_list.append(instructions_button)
         self.button_list.append(cheat_button)
         self.button_list.append(exit_button)
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if symbol == arcade.key.ESCAPE:
+                arcade.exit()
+                exit()

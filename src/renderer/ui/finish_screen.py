@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:53:32 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 10:51:25 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,6 +35,7 @@ class Exit(BaseButton):
         )
 
     def on_click(self) -> None:
+        arcade.exit()
         exit()
 
 
