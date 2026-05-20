@@ -10,6 +10,7 @@
 	- sprites modification
 	- implementation of ESC use on menus
 	- block 42 coordinates for pacman spawn
+	- add rules and assets presentation on instructions menu
 
 ### 19/05/2026
 
