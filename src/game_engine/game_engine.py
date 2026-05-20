@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:48:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 14:51:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from src.renderer.maze_renderer import GameRenderer
 from .level_manager import LevelManager
+from .collision_manager import CollisionManager
 
 
 class GameEngine(arcade.View):
@@ -25,12 +26,35 @@ class GameEngine(arcade.View):
         self.level_manager = LevelManager(
             game_window=self.window
         )
-    # main loop of the game, orchestor
-    # move all entity
-    # verify gamestate, levelmanager
 
-    def update(delta: float) -> None:
-        pass
+        self._game_paused: bool = False
+
+    def on_update(self, delta_time: float) -> None:
+        if self._game_paused:
+            return
+
+        # Update all entities
+        self.player.update(delta_time)
+
+    def on_draw(self) -> None:
+        self.clear()
+
+        # Render the game
+        self.game_renderer.draw()
+
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        if symbol == arcade.key.UP or symbol == arcade.key.W:
+            self.player.move((0, 1))
+
+        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
+            self.player.move((0, -1))
+
+        elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
+            self.player.move((-1, 0))
+
+        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
+            self.player.move((1, 0))
+
 
     def on_show_view(self) -> None:
         # Clear the screen
@@ -64,8 +88,19 @@ class GameEngine(arcade.View):
         self.game_renderer.setup_entities(self.rat_enemy.sprite)
         self.game_renderer.setup_entities(self.dog_enemy.sprite)
 
-        # Draw all sprites
-        self.game_renderer.draw()
+        # Temp: authorize the player to move
+        self.player._can_move = True
+
+        # Instanciate the CollisionManager
+        coll_manager: CollisionManager = CollisionManager()
+
+    @property
+    def game_paused(self) -> bool:
+        return self._game_paused
+
+    @game_paused.setter
+    def game_paused(self, new_value: bool) -> None:
+        self._game_paused = new_value
 
 
 
