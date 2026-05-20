@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/18 16:02:25 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 11:21:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -57,11 +57,18 @@ class HighscoresScreen(BaseMenu):
             parent_view=self
         )
         self.button_list.append(highscores)
-        file_content = extract_leaderboard(self.window.game_config.highscore_filename)
+        file_content = extract_leaderboard(
+            self.window.game_config.highscore_filename)
         split_content = file_content.split("\n")
         y = 520
         for string in split_content:
-            text = arcade.Text(text=string, x= 540, y = y,
-                            color=arcade.color.WHITE, font_size=15)
+            text = arcade.Text(text=string, x=540, y=y,
+                               color=arcade.color.WHITE, font_size=15)
             self.text_lst.append(text)
             y -= 50
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if symbol == arcade.key.ESCAPE:
+            from src.renderer.ui.main_menu import MainMenu
+            if self.window:
+                self.window.show_view(MainMenu())

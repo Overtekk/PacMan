@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:30:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 10:47:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,7 @@ class BaseButton(arcade.Sprite, ABC):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 1.0
+        scale: float = 1.5
     ) -> None:
 
         super().__init__(

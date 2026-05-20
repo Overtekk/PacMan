@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 16:19:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/19 15:50:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,6 +38,13 @@ REQUIERED_SPRITES: dict[str, str] = {
     "instructions_button": "main_menu/instructions.png",
     "logo": "main_menu/logo.png",
     "start_button": "main_menu/start.png",
+    "cheat_button": "main_menu/cheat_mode.png",
+
+    "extra_lives": "cheat_menu/cheat_extra_lives.png",
+    "freeze_ghost": "cheat_menu/cheat_freeze.png",
+    "invincibility": "cheat_menu/cheat_invincibility.png",
+    "next_level": "cheat_menu/cheat_next_level.png",
+    "speed_up": "cheat_menu/cheat_speed_up.png",
 
     "maze_wall_corner": "maze/corner_wall.png",
     "maze_four_wall": "maze/four_wall.png",
