@@ -3,6 +3,11 @@
 
 ---
 
+### 20/05/2026
+
+- anacharp
+	- pause menu modification
+
 ### 19/05/2026
 
 - anacharp
