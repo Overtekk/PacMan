@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 11:28:13 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:48:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,7 +22,9 @@ class GameStateManager():
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
-            arcade.exit()
+            from src.renderer.ui.main_menu import MainMenu
+            if self.window:
+                self.window.show_view(MainMenu())
         if symbol == arcade.key.SPACE:
             if self.window:
                 self.window.show_view(PauseMenu())
