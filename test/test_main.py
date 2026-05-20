@@ -1,4 +1,4 @@
-from test_ana.test_gamestate import Test
+from test.test_gamestate import Test
 import arcade
 from argparse import Namespace
 from src.parser import load_arguments
