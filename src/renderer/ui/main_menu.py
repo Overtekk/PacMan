@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 09:32:13 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:51:39 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,6 @@ from src.renderer.ui.cheat_menu import CheatMenu
 
 
 class LogoButton(arcade.Sprite):
-# class BaseButton(arcade.Sprite):
     def __init__(
         self,
         center_x: float,
@@ -84,7 +83,7 @@ class ExitButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        exit()
+        arcade.exit()
 
 
 class InstructionsButton(BaseButton):
