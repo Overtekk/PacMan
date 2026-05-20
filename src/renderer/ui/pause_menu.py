@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 08:53:53 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:34:44 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -133,7 +133,7 @@ class PauseMenu(BaseMenu):
     def build_ui(self) -> None:
         pause = Pause(
             center_x=640,
-            center_y=600,
+            center_y=575,
             sprite_path=(
                 self.window.asset_manager.textures["pause_button"]
             ),
@@ -141,7 +141,7 @@ class PauseMenu(BaseMenu):
         )
         resume = Resume(
             center_x=640,
-            center_y=500,
+            center_y=475,
             sprite_path=(
                 self.window.asset_manager.textures["resume_button"]
             ),
@@ -149,7 +149,7 @@ class PauseMenu(BaseMenu):
         )
         instructions_button = InstructionsButton(
             center_x=640,
-            center_y=400,
+            center_y=375,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]
             ),
@@ -157,7 +157,7 @@ class PauseMenu(BaseMenu):
         )
         go_back = GoBack(
             center_x=640,
-            center_y=300,
+            center_y=275,
             sprite_path=(
                 self.window.asset_manager.textures["return_button"]
             ),
@@ -165,7 +165,7 @@ class PauseMenu(BaseMenu):
         )
         exit = Exit(
             center_x=640,
-            center_y=200,
+            center_y=175,
             sprite_path=(
                 self.window.asset_manager.textures["exit_button"]
             ),
