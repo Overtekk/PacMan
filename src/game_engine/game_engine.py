@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 17:10:44 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 11:48:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
-from src.maze import MazeFactory
+
 from src.renderer.maze_renderer import GameRenderer
-from src.renderer.screen_settings import ScreenSettings
+from .level_manager import LevelManager
 
 
 class GameEngine(arcade.View):
@@ -21,6 +21,10 @@ class GameEngine(arcade.View):
         super().__init__()
         self.config = self.window.game_config
         self.game_renderer = GameRenderer()
+
+        self.level_manager = LevelManager(
+            game_window=self.window
+        )
     # main loop of the game, orchestor
     # move all entity
     # verify gamestate, levelmanager
@@ -29,21 +33,38 @@ class GameEngine(arcade.View):
         pass
 
     def on_show_view(self) -> None:
+        # Clear the screen
         self.clear()
+
+        # Call the setup method
         self.setup()
 
     def setup(self) -> None:
-        # level = self.window.game_config.level[0]
+        level_index: int = 0
 
-        factory = MazeFactory()
-        wall_data = factory.generate_maze(
-            15, 15,
-            self.window.asset_manager.textures,
-            ScreenSettings.WIDTH,ScreenSettings.HEIGHT,
-            self.game_renderer
+        # Create the level
+        level: list[list[int]] = self.level_manager.create_level(
+            level_name=self.config.level[level_index].name,
+            maze_width=self.config.level[level_index].width,
+            maze_height=self.config.level[level_index].height
         )
 
-        self.game_renderer.wall_generator(wall_data)
+        self.player = self.level_manager.player
+        self.cat_enemy = self.level_manager.enemies_list["cat_enemy"]
+        self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
+        self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
+        self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
+
+        # Generate the walls rendering
+        self.game_renderer.wall_generator(level)
+        # Generate entities rendering
+        self.game_renderer.setup_entities(self.player.sprite)
+        self.game_renderer.setup_entities(self.cat_enemy.sprite)
+        self.game_renderer.setup_entities(self.fox_enemy.sprite)
+        self.game_renderer.setup_entities(self.rat_enemy.sprite)
+        self.game_renderer.setup_entities(self.dog_enemy.sprite)
+
+        # Draw all sprites
         self.game_renderer.draw()
 
 

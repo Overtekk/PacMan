@@ -6,12 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:53:55 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 11:46:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 10:21:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from src.utils.display import (
-    print_error, print_log, print_rule, print_success
+    print_error, print_log, print_rule, print_success, print_warn
 )
 from src.utils.files import (
     is_file_exist, is_folder_exist, is_file_json, can_write_to_file,
@@ -30,6 +30,7 @@ __all__ = [
     "print_log",
     "print_rule",
     "print_success",
+    "print_warn",
     "is_file_exist",
     "is_folder_exist",
     "is_file_json",

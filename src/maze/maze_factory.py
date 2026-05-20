@@ -6,12 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 10:19:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 13:40:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from src.maze.load_mazegenerator import load_mazegenerator
-from typing import Any
 
 
 WALL_SPRITES: dict[int, tuple[str, float]] = {
@@ -43,33 +42,34 @@ S = [4, 5, 6, 7, 12, 13, 14, 15]
 E = [2, 3, 6, 7, 10, 11, 14, 15]
 W = [8, 9, 10, 11, 12, 13, 14, 15]
 
+
 class MazeFactory:
     def __init__(self) -> None:
         self._maze_class = load_mazegenerator()
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
-        screen_width: int, screen_height: int, renderer
+        screen_width: int, screen_height: int
     ) -> list[list[int]]:
-        tile_size = min(
+        self.height = height
+
+        self.tile_size = min(
             screen_width // width,
-            screen_height // height
+            screen_height // self.height
         ) - 5
 
-        maze = self._maze_class((width, height))
-        grid = maze._maze
+        maze_generator = self._maze_class((width, self.height))
+        self.grid_data = maze_generator._maze
 
         wall_data: list[tuple[str, float, float, float]] = []
-        offset_x = (screen_width - width * tile_size) // 2
-        offset_y = (screen_height - height * tile_size) // 2
+        self.offset_x = (screen_width - width * self.tile_size) // 2
+        self.offset_y = (screen_height - self.height * self.tile_size) // 2
         self.wall_sprites_list: list[str] = []
 
-        for row_index, row in enumerate(grid):
+        for row_index, row in enumerate(self.grid_data):
             for col_index, cell_value in enumerate(row):
 
-                x, y = self.get_pixel_coordinates(
-                    col_index, row_index, tile_size, height, offset_x, offset_y
-                )
+                x, y = self.get_pixel_coordinates(col_index, row_index)
 
                 n = cell_value in N
                 s = cell_value in S
@@ -119,63 +119,80 @@ class MazeFactory:
                     sprite_path = str(textures[sprite_name])
                     self.wall_sprites_list.append(str(textures[sprite_name]))
 
-                    wall_data.append((sprite_path, angle, x, y, tile_size))
+                    wall_data.append((sprite_path, angle, x, y, self.tile_size))
 
         return wall_data
 
 
-    def get_pixel_coordinates(
-        self, col: int, row: int, tile_size: tuple[float, float], height: int,
-        offset_x: int, offset_y: int
-    ) -> tuple[int, int]:
+    def get_pixel_coordinates(self, col: int, row: int) -> tuple[int, int]:
 
-        x = col * tile_size + tile_size / 2 + offset_x
-        y = (height - 1 - row) * tile_size + tile_size / 2 + offset_y
+        x = col * self.tile_size + self.tile_size / 2 + self.offset_x
+        y = (self.height - 1 - row) * self.tile_size + self.tile_size / 2 + self.offset_y
 
         return (x, y)
 
 
-def generate_ascii_maze(grid: Any, width, height) -> dict:
-    rows = 2 * height + 1
-    cols = 2 * width + 1
-    ascii_grid = [[1] * cols for _ in range(rows)]
-    close_or_open = {}
+def generate_bytes_maze(
+    grid: list[list[int]], width: int, height: int
+) -> dict[tuple[int, int], str]:
+    # Calculation of grid dimensions
+    rows: int = 2 * height + 1
+    cols: int = 2 * width + 1
+
+    # Initialization: fill all walls with byte '1'
+    byte_grid: list[list[int]] = [[1] * cols for _ in range(rows)]
+
+    # Init dictionnary containing walls bytes
+    close_or_open: dict[tuple[int, int], str] = {}
 
     for row_index, row in enumerate(grid):
         for col_index, cell_value in enumerate(row):
-            n = cell_value in N
-            s = cell_value in S
-            e = cell_value in E
-            w = cell_value in W
+            # Bytes verifications: global define
+            n: bool = cell_value in N
+            s: bool = cell_value in S
+            e: bool = cell_value in E
+            w: bool = cell_value in W
 
-            ay = row_index * 2 + 1
-            ax = col_index * 2 + 1
+            # Coordinates of the center of the cell in the new grid
+            ay: int = row_index * 2 + 1
+            ax: int = col_index * 2 + 1
 
-            ascii_grid[ay][ax] = 0
+            # Center will be byte '0' (open)
+            byte_grid[ay][ax] = 0
 
+            # Create the corridors if walls do not exist
             if not n and row_index > 0:
-                new_ay = ay - 1
-                new_ax = ax
-                ascii_grid[new_ay][new_ax] = 0
+                byte_grid[ay - 1][ax] = 0
             if not s and row_index < height - 1:
-                new_ay = ay + 1
-                new_ax = ax
-                ascii_grid[new_ay][new_ax] = 0
+                byte_grid[ay + 1][ax] = 0
             if not e and col_index < width - 1:
-                new_ay = ay
-                new_ax = ax +1
-                ascii_grid[new_ay][new_ax] = 0
+                byte_grid[ay][ax + 1] = 0
             if not w and col_index > 0:
-                new_ay = ay
-                new_ax = ax - 1
-                ascii_grid[new_ay][new_ax] = 0
-    ascii_maze = []
-    for row in ascii_grid:
-        print("".join("1" if c == 1 else "0" for c in row))
-        ascii_maze.append("".join("1" if c == 1 else "0" for c in row))
+                byte_grid[ay][ax - 1] = 0
 
-    for row_index, row in enumerate(ascii_maze):
-        for col_index, cell_value in enumerate(row):
-            close_or_open[(row_index, col_index)] = cell_value
+    # Convert in dictionnary of strings
+    for r_idx, r_content in enumerate(byte_grid):
+        for c_idx, val in enumerate(r_content):
+            # '0' open / '1' = close
+            close_or_open[(c_idx, r_idx)] = val
 
-    return close_or_open
+    # Block open cells inside the 42
+    bytes_maze: dict[tuple[int, int], str] = close_or_open.copy()
+
+    for coords, byte in close_or_open.items():
+        x, y = coords
+        new_byte: int = 1
+
+        # Check if the cell is open
+        if byte == 0:
+            # Check if inside the 42
+            if (close_or_open[(x - 1, y)] == 1 and
+                    close_or_open[(x + 1, y)] == 1 and
+                    close_or_open[(x, y - 1)] == 1 and
+                    close_or_open[(x, y + 1)] == 1
+                ):
+
+                # Replace the byte
+                bytes_maze[(x, y)] = new_byte
+
+    return bytes_maze

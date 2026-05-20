@@ -102,6 +102,8 @@ Project Management
 | [Pacman Fandom](https://pacman.fandom.com/wiki/Maze_Ghost_AI_Behaviors) | Documentary for all ghost AI behaviors |
 
 ### IA was use to:
-- todo
+- **Refactoring** ― help to write better understand code, type hints some part of the code.
+- **Help with the Arcade library** ― since the documentation is not well done, IA have helped to better understand what we can do and how.
+- **Debugging** ― when bug occurs and we didn't know what cause did, IA help us understanding what goes wrong.
 
 ---
