@@ -7,6 +7,9 @@
 
 - anacharp
 	- pause menu modification
+	- sprites modification
+	- implementation of ESC use on menus
+	- block 42 coordinates for pacman spawn
 
 ### 19/05/2026
 
