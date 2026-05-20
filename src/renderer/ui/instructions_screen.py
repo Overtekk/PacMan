@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 08:53:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 09:20:47 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,12 +56,12 @@ class InstructionsScreen(BaseMenu):
         )
         self.button_list.append(instructions)
 
-        commands = arcade.Text(text="Play with WASD", x= 540, y = 520,
-                                color=arcade.color.WHITE, font_size=15)
-        pause = arcade.Text(text="Press SPACE to pause", x= 540, y = 470,
-                                color=arcade.color.WHITE, font_size=15)
-        exit = arcade.Text(text="Press ESC to exit", x= 540, y = 420,
-                                color=arcade.color.WHITE, font_size=15)
+        commands = arcade.Text(text="Play with WASD", x=540, y=520,
+                               color=arcade.color.WHITE, font_size=15)
+        pause = arcade.Text(text="Press SPACE to pause", x=540, y=470,
+                            color=arcade.color.WHITE, font_size=15)
+        exit = arcade.Text(text="Press ESC to exit", x=540, y=420,
+                           color=arcade.color.WHITE, font_size=15)
         self.text_lst.append(commands)
         self.text_lst.append(pause)
         self.text_lst.append(exit)
