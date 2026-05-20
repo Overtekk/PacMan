@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 10:50:55 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 12:17:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -218,5 +218,5 @@ class MainMenu(BaseMenu):
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
-                arcade.exit()
-                exit()
+            arcade.exit()
+            exit()
