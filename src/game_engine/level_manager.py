@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 17:03:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 11:10:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ import arcade
 
 from pathlib import Path
 
+from src.utils import print_warn
 from src.config import GameConfig
 from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
 from src.renderer.screen_settings import ScreenSettings
@@ -83,7 +84,7 @@ class LevelManager():
                 sprite_width=308/6, sprite_height=63,
                 sprites_columns=6, sprites_count=6
             ),
-            scale=0.6
+            scale=1
         )
 
         # Create enemies
@@ -142,23 +143,90 @@ class LevelManager():
         col_center: int = self.maze_width // 2
         row_center: int = self.maze_height // 2
 
+        # Try to place the player in the center
         if self.byte_maze[row_center * 2 + 1, col_center * 2 + 1] == 0:
-            player_x, player_y = self.factory.get_pixel_coordinates(
-                col_center, row_center
+            raw_player_x, raw_player_y = col_center, row_center
+
+        # If not possible, find another position
+        else:
+            print_warn(
+                "Can't place the player at the center. "
+                "Finding another position.\n"
+            )
+            raw_player_x, raw_player_y = self._find_valid_position(
+                "player", (col_center, row_center)
             )
 
-        for y in range(row_center):
-            for x in range(col_center):
-                coords = (y, x)
-
-                if self.byte_maze[coords] == 0:
-                    print(0)
-                else:
-                    print(1)
+        print(raw_player_x)
+        print(raw_player_y)
+        # Get the coordinates in pixel
+        player_x, player_y = self.factory.get_pixel_coordinates(
+            raw_player_x, raw_player_y
+        )
 
         spawn_dict["player"] = (player_x, player_y)
 
         return spawn_dict
+
+    def _find_valid_position(
+        self, entity_name: str, start_coords: tuple[int, int]
+    ) -> tuple[int, int]:
+        row: int = start_coords[0]
+        col: int = start_coords[1]
+        case: int = 1
+
+        # Find valid start position
+        while True:
+
+            if case >= 6:
+                raise ValueError(
+                    f"Can't place {entity_name}.\n"
+                    "Maybe the maze is invalid? 👁️👁️"
+                )
+
+            # Check case: north
+            if self.byte_maze.get((row, col + case), 1) == 0:
+                valid_coords = (row, col + case)
+                break
+
+            # Check case: south
+            elif self.byte_maze.get((row, col - case), 1) == 0:
+                valid_coords = (row, col - case)
+                break
+
+            # Check case: east
+            if self.byte_maze.get((row + case, col), 1) == 0:
+                valid_coords = (row + case, col)
+                break
+
+            # Check case: north-east
+            elif self.byte_maze.get((row + case, col - case), 1) == 0:
+                valid_coords = (row + case, col - case)
+                break
+
+            # Check case: south-east
+            elif self.byte_maze.get((row + case, col + case), 1) == 0:
+                valid_coords = (row + case, col + case)
+                break
+
+            # Check case: west
+            elif self.byte_maze.get((row - case, col), 1) == 0:
+                valid_coords = (row - case, col)
+                break
+
+            # Check case: west-north
+            elif self.byte_maze.get((row - case, col + case), 1) == 0:
+                valid_coords = (row - case, col + case)
+                break
+
+            # Check case: west-south
+            elif self.byte_maze.get((row - case, col - case), 1) == 0:
+                valid_coords = (row - case, col - case)
+                break
+
+            case += 1
+
+        return valid_coords
 
     # create the level
     # create the player, ennemis and collectibles

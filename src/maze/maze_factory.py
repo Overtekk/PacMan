@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 16:20:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 10:58:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -176,4 +176,23 @@ def generate_bytes_maze(
             # '0' open / '1' = close
             close_or_open[(r_idx, c_idx)] = val
 
-    return close_or_open
+    # Block open cells inside the 42
+    bytes_maze: dict[tuple[int, int], str] = close_or_open.copy()
+
+    for coords, byte in close_or_open.items():
+        row, col = coords
+        new_byte: int = 1
+
+        # Check if the cell is open
+        if byte == 0:
+            # Check if inside the 42
+            if (close_or_open[(row - 1, col)] == 1 and
+                    close_or_open[(row + 1, col)] == 1 and
+                    close_or_open[(row, col - 1)] == 1 and
+                    close_or_open[(row, col + 1)] == 1
+                ):
+
+                # Replace the byte
+                bytes_maze[(row, col)] = new_byte
+
+    return bytes_maze

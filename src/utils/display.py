@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/03/27 09:46:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/12 16:54:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 10:26:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 """
@@ -40,7 +40,7 @@ def print_error(message: str) -> None:
     Args:
         message (str): The specific error description to be displayed.
     """
-    prefix: str = "Error: "
+    prefix: str = "[ERROR]: "
     content: str = f"{message}"
     error_console.print(f"[bold red]{prefix + content}[/bold red]")
 
@@ -53,6 +53,18 @@ def print_success(message: str) -> None:
         message (str): The specific message to be displayed.
     """
     standard_console.print(f"[green]{message}[/green]")
+
+
+def print_warn(message: str) -> None:
+    """
+    Display a formatted warn message on the standard error stream.
+
+    Args:
+        message (str): The specific warning message to be displayed.
+    """
+    prefix: str = "[WARNING]: "
+    content: str = f"{message}"
+    error_console.print(f"[bold yellow]{prefix + content}[/bold yellow]")
 
 
 def print_log(message: str) -> None:
