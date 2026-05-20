@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 09:34:44 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 11:10:44 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -36,6 +36,7 @@ class Exit(BaseButton):
         )
 
     def on_click(self) -> None:
+        arcade.exit()
         exit()
 
 
@@ -102,7 +103,8 @@ class Resume(BaseButton):
         )
 
     def on_click(self) -> None:
-        pass
+        if self.parent_view.window:
+            self.parent_view.window.show_view(self.parent_view.previous_view)
 
 
 class Pause(BaseButton):
@@ -126,8 +128,9 @@ class Pause(BaseButton):
 
 
 class PauseMenu(BaseMenu):
-    def __init__(self) -> None:
+    def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
+        self.previous_view = previous_view
         arcade.set_background_color(arcade.color.BLACK)
 
     def build_ui(self) -> None:
@@ -176,3 +179,12 @@ class PauseMenu(BaseMenu):
         self.button_list.append(instructions_button)
         self.button_list.append(go_back)
         self.button_list.append(exit)
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if symbol == arcade.key.ESCAPE:
+            from src.renderer.ui.main_menu import MainMenu
+            if self.window:
+                self.window.show_view(MainMenu())
+        if symbol == arcade.key.SPACE:
+            if self.window:
+                self.window.show_view(self.previous_view)

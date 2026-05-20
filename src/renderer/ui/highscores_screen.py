@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 09:19:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 10:50:13 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -66,3 +66,9 @@ class HighscoresScreen(BaseMenu):
                                color=arcade.color.WHITE, font_size=15)
             self.text_lst.append(text)
             y -= 50
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if symbol == arcade.key.ESCAPE:
+            from src.renderer.ui.main_menu import MainMenu
+            if self.window:
+                self.window.show_view(MainMenu())

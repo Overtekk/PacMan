@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:35:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 09:51:23 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 10:46:28 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -55,8 +55,7 @@ class BaseMenu(arcade.View, ABC):
         self.build_ui()
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
-        if symbol == arcade.key.ESCAPE:
-            arcade.exit()
+        pass
 
     @abstractmethod
     def build_ui(self) -> None:

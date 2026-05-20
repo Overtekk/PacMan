@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 10:59:50 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 11:08:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+from typing import Any
 
 import arcade
 
@@ -32,10 +34,16 @@ class Wall(arcade.Sprite):
         self.angle = angle
         self.scale = tile_size / self.texture.width
 
+
 class GameRenderer():
     def __init__(self) -> None:
 
         self.walls: arcade.SpriteList = arcade.SpriteList()
+        self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
+
+    def draw(self) -> None:
+        self.walls.draw()
+        self.entities.draw()
 
     def wall_generator(
         self,
@@ -47,8 +55,8 @@ class GameRenderer():
 
             self.walls.append(wall)
 
-    def draw(self) -> None:
-        self.walls.draw()
+    def setup_entities(self, entity_sprite: arcade.Sprite) -> None:
+        self.entities.append(entity_sprite)
 
 
 #=self.window.asset_manager.textures["start_button"],

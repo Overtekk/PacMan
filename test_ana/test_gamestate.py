@@ -10,7 +10,7 @@ class Test(arcade.View):
         super().__init__()
         self.config = self.window.game_config
         self.game_renderer = GameRenderer()
-        self.state_manager = None
+        self.state_manager = GameStateManager(self.window, parent_view=self)
 
     def update(delta: float) -> None:
         pass
@@ -36,4 +36,4 @@ class Test(arcade.View):
         self.game_renderer.wall_generator(wall_data)
         self.game_renderer.draw()
 
-        self.state_manager = GameStateManager(self.window)
+        self.state_manager = GameStateManager(self.window, parent_view=self)
