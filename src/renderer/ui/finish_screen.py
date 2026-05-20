@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 10:51:25 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 13:30:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,82 +15,34 @@ import arcade
 from pathlib import Path
 
 from .base_menu import BaseMenu
-from .base_button import BaseButton
 
 
-class Exit(BaseButton):
+class Victory(arcade.Sprite):
     def __init__(
-            self,
-            center_x: float,
-            center_y: float,
-            sprite_path: Path,
-            parent_view: arcade.View
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
+        scale: float = 3.8
     ) -> None:
 
         super().__init__(
-            center_x=center_x,
-            center_y=center_y,
-            sprite_path=sprite_path,
-            parent_view=parent_view
+            path_or_texture=sprite_path,
+            scale=scale
         )
 
-    def on_click(self) -> None:
-        arcade.exit()
-        exit()
+        self.center_x = center_x
+        self.center_y = center_y
 
-
-class GoBack(BaseButton):
-    def __init__(
-            self,
-            center_x: float,
-            center_y: float,
-            sprite_path: Path,
-            parent_view: arcade.View
-    ) -> None:
-
-        super().__init__(
-            center_x=center_x,
-            center_y=center_y,
-            sprite_path=sprite_path,
-            parent_view=parent_view
-        )
-
-    def on_click(self) -> None:
-        from src.renderer.ui.main_menu import MainMenu
-        menu = MainMenu()
-
-        if self.parent_view.window:
-            self.parent_view.window.show_view(menu)
-
-
-class Victory(BaseButton):
-    def __init__(
-            self,
-            center_x: float,
-            center_y: float,
-            sprite_path: Path,
-            parent_view: arcade.View
-    ) -> None:
-
-        super().__init__(
-            center_x=center_x,
-            center_y=center_y,
-            sprite_path=sprite_path,
-            parent_view=parent_view
-        )
-
-    def on_click(self) -> None:
-        from src.renderer.ui.main_menu import MainMenu
-        menu = MainMenu()
-
-        if self.parent_view.window:
-            self.parent_view.window.show_view(menu)
+        self.parent_view = parent_view
 
 
 class FinishScreen(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
+        self.player_name = ""
 
     def build_ui(self) -> None:
         victory = Victory(
@@ -101,22 +53,37 @@ class FinishScreen(BaseMenu):
             ),
             parent_view=self
         )
-        go_back = GoBack(
-            center_x=640,
-            center_y=500,
-            sprite_path=(
-                self.window.asset_manager.textures["return_button"]
-            ),
-            parent_view=self
-        )
-        exit = Exit(
-            center_x=640,
-            center_y=400,
-            sprite_path=(
-                self.window.asset_manager.textures["exit_button"]
-            ),
-            parent_view=self
-        )
-        self.button_list.append(go_back)
-        self.button_list.append(exit)
+        score = arcade.Text(text="SCORE: 100", x=410, y=360,
+                            color=arcade.color.WHITE, font_size=40)
+        self.text_lst.append(score)
+        enter_name = arcade.Text(text="SAVE YOUR NAME:", x=410, y=300,
+                                 color=arcade.color.WHITE, font_size=40)
+        self.text_lst.append(enter_name)
         self.button_list.append(victory)
+
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
+        if len(self.player_name) < 10:
+            if arcade.key.A <= symbol <= arcade.key.Z:
+                maj = modifiers & arcade.key.MOD_CAPSLOCK
+                self.player_name += chr(symbol).upper() if maj else chr(symbol)
+                text = arcade.Text(text=self.player_name, x=480, y=200,
+                                   color=arcade.color.YELLOW, font_size=40)
+                self.text_lst.append(text)
+        if len(self.player_name) > 0:
+            if symbol == arcade.key.BACKSPACE:
+                self.player_name = self.player_name[:-1]
+                if self.text_lst:
+                    self.text_lst.pop()
+        if symbol == arcade.key.ENTER:
+            from src.renderer.ui.main_menu import MainMenu
+            if self.window:
+                self.window.show_view(MainMenu())
+            # + mettre la string et le score dans le json
+
+    def on_draw(self) -> None:
+        self.clear()
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()
+
+# afficher le score
