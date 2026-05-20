@@ -11,6 +11,7 @@
 	- implementation of ESC use on menus
 	- block 42 coordinates for pacman spawn
 	- add rules and assets presentation on instructions menu
+	- enter a name on game over screen and finish screen
 
 ### 19/05/2026
 
