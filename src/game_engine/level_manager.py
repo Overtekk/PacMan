@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:59:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 13:31:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -45,6 +45,42 @@ class LevelManager():
 
         # Create all entities
         self._create_entity()
+
+        # Inverser la logique pour trouver les index de la grille
+        # Joueur (Centre)
+        p_row = (self.maze_height // 2) * 2 + 1
+        p_col = (self.maze_width // 2) * 2 + 1
+
+        # Ennemis (Les 4 coins, basés sur tes _get_raw_coords)
+        f_row = (self.maze_height - 1) * 2 + 1
+        f_col = (self.maze_width - 1) * 2 + 1
+
+        c_row = (0) * 2 + 1
+        c_col = (0) * 2 + 1
+
+        r_row = (0) * 2 + 1
+        r_col = (self.maze_width - 1) * 2 + 1
+
+        d_row = (self.maze_height - 1) * 2 + 1
+        d_col = (0) * 2 + 1
+
+        # Affichage du labyrinthe
+        for y in range((maze_height * 2) + 1):
+            for x in range((maze_width * 2) + 1):
+                # Attention : y = row, x = col
+                if y == p_row and x == p_col:
+                    print("P", end="")
+                elif y == f_row and x == f_col:
+                    print("F", end="")
+                elif y == c_row and x == c_col:
+                    print("C", end="")
+                elif y == r_row and x == r_col:
+                    print("R", end="")
+                elif y == d_row and x == d_col:
+                    print("D", end="")
+                else:
+                    print(self.byte_maze[(y, x)], end="")
+            print()
 
         return generated_level
 
