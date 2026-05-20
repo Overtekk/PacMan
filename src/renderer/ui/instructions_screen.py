@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/18 16:10:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 08:53:19 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,17 +35,14 @@ class Instructions(BaseButton):
         )
 
     def on_click(self) -> None:
-        from src.renderer.ui.main_menu import MainMenu
-        menu = MainMenu()
-
         if self.parent_view.window:
-            self.parent_view.window.show_view(menu)
+            self.parent_view.window.show_view(self.parent_view.previous_view)
 
 
 class InstructionsScreen(BaseMenu):
-    def __init__(self) -> None:
+    def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
-
+        self.previous_view = previous_view
         arcade.set_background_color(arcade.color.BLACK)
 
     def build_ui(self) -> None:

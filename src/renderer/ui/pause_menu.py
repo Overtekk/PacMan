@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 11:33:40 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 08:53:53 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ from pathlib import Path
 
 from .base_menu import BaseMenu
 from .base_button import BaseButton
+from src.renderer.ui.instructions_screen import InstructionsScreen
 
 
 class Exit(BaseButton):
@@ -60,6 +61,28 @@ class GoBack(BaseButton):
 
         if self.parent_view.window:
             self.parent_view.window.show_view(menu)
+
+
+class InstructionsButton(BaseButton):
+    def __init__(
+            self,
+            center_x: float,
+            center_y: float,
+            sprite_path: Path,
+            parent_view: arcade.View
+    ) -> None:
+
+        super().__init__(
+            center_x=center_x,
+            center_y=center_y,
+            sprite_path=sprite_path,
+            parent_view=parent_view
+        )
+
+    def on_click(self) -> None:
+        instructions = InstructionsScreen(previous_view=self.parent_view)
+        if self.parent_view.window:
+            self.parent_view.window.show_view(instructions)
 
 
 class Resume(BaseButton):
@@ -124,9 +147,17 @@ class PauseMenu(BaseMenu):
             ),
             parent_view=self
         )
-        go_back = GoBack(
+        instructions_button = InstructionsButton(
             center_x=640,
             center_y=400,
+            sprite_path=(
+                self.window.asset_manager.textures["instructions_button"]
+            ),
+            parent_view=self
+        )
+        go_back = GoBack(
+            center_x=640,
+            center_y=300,
             sprite_path=(
                 self.window.asset_manager.textures["return_button"]
             ),
@@ -134,7 +165,7 @@ class PauseMenu(BaseMenu):
         )
         exit = Exit(
             center_x=640,
-            center_y=300,
+            center_y=200,
             sprite_path=(
                 self.window.asset_manager.textures["exit_button"]
             ),
@@ -142,5 +173,6 @@ class PauseMenu(BaseMenu):
         )
         self.button_list.append(pause)
         self.button_list.append(resume)
+        self.button_list.append(instructions_button)
         self.button_list.append(go_back)
         self.button_list.append(exit)
