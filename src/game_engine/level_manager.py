@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:54:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 11:59:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -163,30 +163,30 @@ class LevelManager():
 
         #   CAT
         raw_x, raw_y = self._get_raw_coords(
-            "cat_enemy", (1, 1)
+            "cat_enemy", (0, 0)
         )
         x, y = self.factory.get_pixel_coordinates(
             raw_x, raw_y
         )
-        spawn_dict["cat_enemy"] = (1, 1)
+        spawn_dict["cat_enemy"] = (x, y)
 
         #   RAT
         raw_x, raw_y = self._get_raw_coords(
-            "rat_enemy", (0, 0)
+            "rat_enemy", (self.maze_width - 1, 0)
         )
         x, y = self.factory.get_pixel_coordinates(
             raw_x, raw_y
         )
-        spawn_dict["rat_enemy"] = (self.maze_width - 1, 1)
+        spawn_dict["rat_enemy"] = (x, y)
 
         #   DOG
         raw_x, raw_y = self._get_raw_coords(
-            "dog_enemy", (0, 0)
+            "dog_enemy", (0, self.maze_height - 1)
         )
         x, y = self.factory.get_pixel_coordinates(
             raw_x, raw_y
         )
-        spawn_dict["dog_enemy"] = (1, self.maze_width - 1)
+        spawn_dict["dog_enemy"] = (x, y)
 
         return spawn_dict
 
