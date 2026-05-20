@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 16:14:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 11:48:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -50,11 +50,19 @@ class GameEngine(arcade.View):
         )
 
         self.player = self.level_manager.player
+        self.cat_enemy = self.level_manager.enemies_list["cat_enemy"]
+        self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
+        self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
+        self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
 
         # Generate the walls rendering
         self.game_renderer.wall_generator(level)
         # Generate entities rendering
         self.game_renderer.setup_entities(self.player.sprite)
+        self.game_renderer.setup_entities(self.cat_enemy.sprite)
+        self.game_renderer.setup_entities(self.fox_enemy.sprite)
+        self.game_renderer.setup_entities(self.rat_enemy.sprite)
+        self.game_renderer.setup_entities(self.dog_enemy.sprite)
 
         # Draw all sprites
         self.game_renderer.draw()

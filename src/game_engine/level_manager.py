@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:10:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/20 11:54:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -89,7 +89,7 @@ class LevelManager():
 
         # Create enemies
         self.cat_enemy: CatEnemy = CatEnemy(
-            spawn_point=(0, 0),
+            spawn_point=spawn_positions["cat_enemy"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["cat_enemy"],
                 sprite_width=96/3, sprite_height=32,
@@ -101,7 +101,7 @@ class LevelManager():
         self.enemies_list["cat_enemy"] = self.cat_enemy
 
         self.dog_enemy: DogEnemy = DogEnemy(
-            spawn_point=(0, 0),
+            spawn_point=spawn_positions["dog_enemy"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["dog_enemy"],
                 sprite_width=96/3, sprite_height=30,
@@ -113,7 +113,7 @@ class LevelManager():
         self.enemies_list["dog_enemy"] = self.dog_enemy
 
         self.fox_enemy: FoxEnemy = FoxEnemy(
-            spawn_point=(0, 0),
+            spawn_point=spawn_positions["fox_enemy"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["fox_enemy"],
                 sprite_width=96/3, sprite_height=32,
@@ -125,7 +125,7 @@ class LevelManager():
         self.enemies_list["fox_enemy"] = self.fox_enemy
 
         self.rat_enemy: RatEnemy = RatEnemy(
-            spawn_point=(0, 0),
+            spawn_point=spawn_positions["rat_enemy"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["rat_enemy"],
                 sprite_width=96/3, sprite_height=32,
@@ -139,34 +139,77 @@ class LevelManager():
     def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
         spawn_dict: dict[str, tuple[int, int]] = {}
 
-        # Get the maze center
-        col_center: int = self.maze_width // 2
-        row_center: int = self.maze_height // 2
-
-        # Try to place the player in the center
-        if self.byte_maze[row_center * 2 + 1, col_center * 2 + 1] == 0:
-            raw_player_x, raw_player_y = col_center, row_center
-
-        # If not possible, find another position
-        else:
-            print_warn(
-                "Can't place the player at the center. "
-                "Finding another position.\n"
-            )
-            raw_player_x, raw_player_y = self._find_valid_position(
-                "player", (col_center, row_center)
-            )
-
-        print(raw_player_x)
-        print(raw_player_y)
-        # Get the coordinates in pixel
-        player_x, player_y = self.factory.get_pixel_coordinates(
-            raw_player_x, raw_player_y
+        # Placing the player
+        raw_x, raw_y = self._get_raw_coords(
+            "player", (self.maze_width // 2, self.maze_height // 2)
         )
 
-        spawn_dict["player"] = (player_x, player_y)
+        # Get the coordinates in pixel
+        x, y = self.factory.get_pixel_coordinates(
+            raw_x, raw_y
+        )
+
+        spawn_dict["player"] = (x, y)
+
+        # Placing enemies
+        #   FOX
+        raw_x, raw_y = self._get_raw_coords(
+            "fox_enemy", (self.maze_width - 1, self.maze_height - 1)
+        )
+        x, y = self.factory.get_pixel_coordinates(
+            raw_x, raw_y
+        )
+        spawn_dict["fox_enemy"] = (x, y)
+
+        #   CAT
+        raw_x, raw_y = self._get_raw_coords(
+            "cat_enemy", (1, 1)
+        )
+        x, y = self.factory.get_pixel_coordinates(
+            raw_x, raw_y
+        )
+        spawn_dict["cat_enemy"] = (1, 1)
+
+        #   RAT
+        raw_x, raw_y = self._get_raw_coords(
+            "rat_enemy", (0, 0)
+        )
+        x, y = self.factory.get_pixel_coordinates(
+            raw_x, raw_y
+        )
+        spawn_dict["rat_enemy"] = (self.maze_width - 1, 1)
+
+        #   DOG
+        raw_x, raw_y = self._get_raw_coords(
+            "dog_enemy", (0, 0)
+        )
+        x, y = self.factory.get_pixel_coordinates(
+            raw_x, raw_y
+        )
+        spawn_dict["dog_enemy"] = (1, self.maze_width - 1)
 
         return spawn_dict
+
+    def _get_raw_coords(
+        self, entity_name: str, coords: tuple[int, int]
+    ) -> tuple[int, int]:
+
+        # Is this position have cell open?
+        if self.byte_maze[coords[0], coords[1]] == 0:
+            return coords
+
+        # Else, finding another valable position
+        new_coords: tuple[int, int] = self._find_valid_position(
+            entity_name, coords
+        )
+
+        print_warn(
+            f"Can't place the {entity_name} at {coords}. "
+            f"📌 Placing at {new_coords}.\n"
+        )
+
+        return new_coords
+
 
     def _find_valid_position(
         self, entity_name: str, start_coords: tuple[int, int]
@@ -194,21 +237,6 @@ class LevelManager():
                 valid_coords = (row, col - case)
                 break
 
-            # Check case: east
-            if self.byte_maze.get((row + case, col), 1) == 0:
-                valid_coords = (row + case, col)
-                break
-
-            # Check case: north-east
-            elif self.byte_maze.get((row + case, col - case), 1) == 0:
-                valid_coords = (row + case, col - case)
-                break
-
-            # Check case: south-east
-            elif self.byte_maze.get((row + case, col + case), 1) == 0:
-                valid_coords = (row + case, col + case)
-                break
-
             # Check case: west
             elif self.byte_maze.get((row - case, col), 1) == 0:
                 valid_coords = (row - case, col)
@@ -222,6 +250,21 @@ class LevelManager():
             # Check case: west-south
             elif self.byte_maze.get((row - case, col - case), 1) == 0:
                 valid_coords = (row - case, col - case)
+                break
+
+            # Check case: east
+            if self.byte_maze.get((row + case, col), 1) == 0:
+                valid_coords = (row + case, col)
+                break
+
+            # Check case: north-east
+            elif self.byte_maze.get((row + case, col - case), 1) == 0:
+                valid_coords = (row + case, col - case)
+                break
+
+            # Check case: south-east
+            elif self.byte_maze.get((row + case, col + case), 1) == 0:
+                valid_coords = (row + case, col + case)
                 break
 
             case += 1
