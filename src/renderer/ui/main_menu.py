@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/19 15:50:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/20 08:54:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -102,8 +102,7 @@ class InstructionsButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        instructions = InstructionsScreen()
-
+        instructions = InstructionsScreen(previous_view=self.parent_view)
         if self.parent_view.window:
             self.parent_view.window.show_view(instructions)
 
