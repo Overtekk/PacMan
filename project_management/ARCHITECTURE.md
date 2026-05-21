@@ -38,6 +38,8 @@
 ‎ ‎ ‎ ‎ ↳ **end**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *victory.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *game_over.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *glasses_victory.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pacman_victory.png*\
 ‎ ‎ ‎ ‎ ↳ **cheat_menu**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_lives.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_freeze.png*\
