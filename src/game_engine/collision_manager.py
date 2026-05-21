@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:17:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 17:24:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -34,6 +34,30 @@ class CollisionManager():
         self.maze_height = maze_height
 
     def update(self) -> None:
+        self._player_collisions_logic()
+
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
+
+    def _player_collisions_logic(self) -> None:
+        # Get the exact center of the current tile
+        center_x, center_y = self._get_tile_center(self.player_reference)
+
+        # Verify if player near the center
+        at_center: bool = (abs(self.player_reference.x - center_x) < 3 and
+                                abs(self.player_reference.y - center_y) < 3)
+
+        # BUFFER logic
+        if at_center and self.player_reference._next_direction != (0.0, 0.0):
+            if self._check_for_collisions(
+                self.player_reference, self.player_reference._next_direction
+            ):
+                self.player_reference._current_direction = (
+                    self.player_reference._next_direction
+                )
+                self.player_reference._next_direction = (0.0, 0.0)
+
         direction: tuple[float, float] = (
             self.player_reference._current_direction
         )
@@ -42,33 +66,28 @@ class CollisionManager():
         if direction == (0.0, 0.0):
             return
 
-        # Get the exact center of the current tile
-        center_x, center_y = self._get_tile_center(self.player_reference)
-
         # Check if there is a wall in front
         path_is_clear = self._check_for_collisions(self.player_reference,
                                                    direction)
 
         if not path_is_clear:
             dx, dy = direction
-            stop_x: bool = False
-            stop_y: bool = False
 
             # Check if the player has reached or passed the center on their
             # movement axis
             if dx > 0 and self.player_reference.x >= center_x:
-                stop_x = True
-            elif dx < 0 and self.player_reference.x <= center_x:
-                stop_x = True
-
-            if dy > 0 and self.player_reference.y >= center_y:
-                stop_y = True
-            elif dy < 0 and self.player_reference.y <= center_y:
-                stop_y = True
-
-            # If the center is reached, snap to it and stop
-            if stop_x or stop_y:
                 self.player_reference.x = center_x
+                self.player_reference._current_direction = (0.0, 0.0)
+
+            elif dx < 0 and self.player_reference.x <= center_x:
+                self.player_reference.x = center_x
+                self.player_reference._current_direction = (0.0, 0.0)
+
+            elif dy > 0 and self.player_reference.y >= center_y:
+                self.player_reference.y = center_y
+                self.player_reference._current_direction = (0.0, 0.0)
+
+            elif dy < 0 and self.player_reference.y <= center_y:
                 self.player_reference.y = center_y
                 self.player_reference._current_direction = (0.0, 0.0)
 
@@ -84,10 +103,6 @@ class CollisionManager():
             # Horizontal movement: lock Y to the center
             elif dx != 0 and dy == 0:
                 self.player_reference.y = center_y
-
-    # :---------------:
-    #  PRIVATE METHODS
-    # :---------------:
 
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:24:00 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 17:18:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,9 +29,21 @@ class Player(Movable):
             speed=speed
         )
 
+        self._next_direction: tuple[float, float] = (0.0, 0.0)
+
     def die(self) -> None:
         self._can_move = False
         self.respawn()
+
+    def update(self, delta: float) -> None:
+        # Calulate the movement vector
+        dx = self._current_direction[0] * self.speed * delta
+        dy = self._current_direction[1] * self.speed * delta
+        self.x += dx
+        self.y += dy
+
+        self._update_animation(delta)
+        self._update_sprite_facing()
 
     def _update_animation(self, delta: float) -> None:
         # Verify that the sprite is moving
@@ -42,7 +54,7 @@ class Player(Movable):
             # Set the timer and update current texture
             self._animation_timer += delta
 
-            if self._animation_timer > 0.05:
+            if self._animation_timer > 0.02:
                 self.current_texture_index = ((self.current_texture_index + 1)
                                                 % len(self.textures))
 

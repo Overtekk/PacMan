@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:08:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 17:25:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,16 +47,16 @@ class GameEngine(arcade.View):
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.UP or symbol == arcade.key.W:
-            self.player.move((0, 1))
+            self.player._next_direction = (0, 1)
 
         elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
-            self.player.move((0, -1))
+            self.player._next_direction = (0, -1)
 
         elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
-            self.player.move((-1, 0))
+            self.player._next_direction = (-1, 0)
 
         elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
-            self.player.move((1, 0))
+            self.player._next_direction = (1, 0)
 
 
     def on_show_view(self) -> None:
