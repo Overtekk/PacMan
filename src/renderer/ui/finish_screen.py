@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 12:02:38 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 14:10:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,29 @@ from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
 arcade.load_font("assets/fonts/PressStart2P.ttf")
+
+
+class PacmanVictory(arcade.Sprite):
+    def __init__(
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
+        scale: float = 2.2,
+        anchor_x="center"
+    ) -> None:
+
+        super().__init__(
+            path_or_texture=sprite_path,
+            scale=scale,
+            anchor_x=anchor_x
+        )
+
+        self.center_x = center_x
+        self.center_y = center_y
+
+        self.parent_view = parent_view
 
 
 class Victory(arcade.Sprite):
@@ -53,10 +76,18 @@ class FinishScreen(BaseMenu):
 
     def build_ui(self) -> None:
         victory = Victory(
-            center_x=650,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=580,
             sprite_path=(
                 self.window.asset_manager.textures["victory_screen"]
+            ),
+            parent_view=self
+        )
+        pacman = PacmanVictory(
+            center_x=300,
+            center_y=400,
+            sprite_path=(
+                self.window.asset_manager.textures["pacman_victory"]
             ),
             parent_view=self
         )
@@ -77,6 +108,7 @@ class FinishScreen(BaseMenu):
                                  anchor_x="center")
         self.text_lst.append(enter_name)
         self.button_list.append(victory)
+        self.button_list.append(pacman)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if len(self.player_name) < 10:

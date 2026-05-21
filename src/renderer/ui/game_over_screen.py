@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 12:04:22 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 14:49:58 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,52 @@ from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
 arcade.load_font("assets/fonts/PressStart2P.ttf")
+
+
+class GhostsWin(arcade.Sprite):
+    def __init__(
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
+        scale: float = 1.8,
+        anchor_x="center"
+    ) -> None:
+
+        super().__init__(
+            path_or_texture=sprite_path,
+            scale=scale,
+            anchor_x=anchor_x
+        )
+
+        self.center_x = center_x
+        self.center_y = center_y
+
+        self.parent_view = parent_view
+
+
+class DeadPacman(arcade.Sprite):
+    def __init__(
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
+        scale: float = 2.0,
+        anchor_x="center"
+    ) -> None:
+
+        super().__init__(
+            path_or_texture=sprite_path,
+            scale=scale,
+            anchor_x=anchor_x
+        )
+
+        self.center_x = center_x
+        self.center_y = center_y
+
+        self.parent_view = parent_view
 
 
 class GameOver(arcade.Sprite):
@@ -60,6 +106,22 @@ class GameOverScreen(BaseMenu):
             ),
             parent_view=self
         )
+        dead_pacman = DeadPacman(
+            center_x=ScreenSettings.WIDTH // 2 - 290,
+            center_y=330,
+            sprite_path=(
+                self.window.asset_manager.textures["dead_pacman"]
+            ),
+            parent_view=self
+        )
+        ghosts_win = GhostsWin(
+            center_x=ScreenSettings.WIDTH // 2 + 285,
+            center_y=345,
+            sprite_path=(
+                self.window.asset_manager.textures["ghosts_win"]
+            ),
+            parent_view=self
+        )
         score = arcade.Text(text="SCORE", x=ScreenSettings.WIDTH // 2, y=360,
                                    color=arcade.color.WHITE, font_size=40,
                                    font_name="Press Start 2P",
@@ -77,6 +139,8 @@ class GameOverScreen(BaseMenu):
                                  anchor_x="center")
         self.text_lst.append(enter_name)
         self.button_list.append(game_over)
+        self.button_list.append(dead_pacman)
+        self.button_list.append(ghosts_win)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if len(self.player_name) < 10:

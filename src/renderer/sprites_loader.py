@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:03:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 14:47:42 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,6 +26,8 @@ REQUIERED_SPRITES: dict[str, str] = {
     "victory_screen": "end/victory.png",
     "pacman_victory": "end/pacman_victory.png",
     "glasses": "end/glasses_victory.png",
+    "dead_pacman": "end/dead_pacman.png",
+    "ghosts_win": "end/ghosts_win.png",
 
     "cat_enemy": "enemies/enemy_cat.png",
 
