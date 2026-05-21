@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 14:51:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 11:39:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,6 +32,9 @@ class GameEngine(arcade.View):
     def on_update(self, delta_time: float) -> None:
         if self._game_paused:
             return
+
+        # Check for collisions
+        self.coll_manager.update()
 
         # Update all entities
         self.player.update(delta_time)
@@ -92,7 +95,10 @@ class GameEngine(arcade.View):
         self.player._can_move = True
 
         # Instanciate the CollisionManager
-        coll_manager: CollisionManager = CollisionManager()
+        self.coll_manager: CollisionManager = CollisionManager(
+            self.player, self.level_manager.enemies_list,
+            self.level_manager.byte_maze
+        )
 
     @property
     def game_paused(self) -> bool:
