@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 13:29:38 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 10:35:25 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,7 +24,7 @@ class GameOver(arcade.Sprite):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 3.8
+        scale: float = 1.5
     ) -> None:
 
         super().__init__(
@@ -47,7 +47,7 @@ class GameOverScreen(BaseMenu):
     def build_ui(self) -> None:
         game_over = GameOver(
             center_x=640,
-            center_y=600,
+            center_y=560,
             sprite_path=(
                 self.window.asset_manager.textures["game_over_screen"]
             ),
