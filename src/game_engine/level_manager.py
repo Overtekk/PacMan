@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:04:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 15:09:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,10 @@ from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
 from src.renderer.sprites_loader import load_sprite_sheet
 from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
+
+
+PLAYER_SCALE: float = 0.8
+ENEMIES_SCALE: float = 0.9
 
 
 class LevelManager():
@@ -84,7 +88,7 @@ class LevelManager():
                 sprite_width=308/6, sprite_height=63,
                 sprites_columns=6, sprites_count=6
             ),
-            scale=1
+            scale=PLAYER_SCALE
         )
 
         # Create enemies
@@ -95,7 +99,7 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
-            scale=1.2,
+            scale=ENEMIES_SCALE,
             speed=101
         )
         self.enemies_list["cat_enemy"] = self.cat_enemy
@@ -107,7 +111,7 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=30,
                 sprites_columns=3, sprites_count=3
             ),
-            scale=1.2,
+            scale=ENEMIES_SCALE,
             speed=101
         )
         self.enemies_list["dog_enemy"] = self.dog_enemy
@@ -119,7 +123,7 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
-            scale=1.2,
+            scale=ENEMIES_SCALE,
             speed=101
         )
         self.enemies_list["fox_enemy"] = self.fox_enemy
@@ -131,7 +135,7 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
-            scale=1.2,
+            scale=ENEMIES_SCALE,
             speed=101
         )
         self.enemies_list["rat_enemy"] = self.rat_enemy

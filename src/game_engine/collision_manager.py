@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:02:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 15:13:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -34,17 +34,58 @@ class CollisionManager():
         self.maze_height = maze_height
 
     def update(self) -> None:
-        # Check the collisions for the player
         direction = self.player_reference._current_direction
 
-        # Check the collisions for the player
-        if direction != (0.0, 0.0):
-            if not self.check_for_collisions(self.player_reference, direction):
-                self.player_reference._current_direction = (0.0, 0.0)
-            else:
-                self.snap_to_grid(self.player_reference, direction)
+        # If the player is not moving, do nothing
+        if direction == (0.0, 0.0):
+            return
 
-    def check_for_collisions(
+        # Get the exact center of the current tile
+        center_x, center_y = self._get_tile_center(self.player_reference)
+
+        # Check if there is a wall in front
+        path_is_clear = self._check_for_collisions(self.player_reference,
+                                                   direction)
+
+        if not path_is_clear:
+            # --- STOP AT CENTER LOGIC ---
+            dx, dy = direction
+            stop_x, stop_y = False, False
+
+            # Check if the player has reached or passed the center on their
+            # movement axis
+            if dx > 0 and self.player_reference.x >= center_x:
+                stop_x = True
+            elif dx < 0 and self.player_reference.x <= center_x:
+                stop_x = True
+
+            if dy > 0 and self.player_reference.y >= center_y:
+                stop_y = True
+            elif dy < 0 and self.player_reference.y <= center_y:
+                stop_y = True
+
+            # If the center is reached, snap to it and stop
+            if stop_x or stop_y:
+                self.player_reference.x = center_x
+                self.player_reference.y = center_y
+                self.player_reference._current_direction = (0.0, 0.0)
+
+        else:
+            # Snap the player
+            # Path is clear, lock the perpendicular axis
+            dx, dy = direction
+            if dy != 0 and dx == 0:
+                # Vertical movement: lock X to the center
+                self.player_reference.x = center_x
+            elif dx != 0 and dy == 0:
+                # Horizontal movement: lock Y to the center
+                self.player_reference.y = center_y
+
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
+
+    def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]
     ) -> bool:
         # Get the entity position (x, y) and convert them from pixel coords to
@@ -66,7 +107,7 @@ class CollisionManager():
             return True
         return False
 
-    def snap_to_grid(self, entity: Entity,
+    def _snap_to_grid(self, entity: Entity,
                      direction: tuple[float, float]) -> None:
         # Calculate the exact center of the current tile
         center_x: int = (((entity.x - self.offset_x) // self.tile_size) *
@@ -81,6 +122,19 @@ class CollisionManager():
         elif direction == 0.0 and direction != 0.0:
             # Horizontal movement: lock Y to the center of the row
             entity.y = center_y
+
+    def _get_tile_center(self, entity: Entity) -> tuple[float, float]:
+        # Calculate X center
+        logic_x = (entity.x - self.offset_x) // self.tile_size
+        center_x = ((logic_x * self.tile_size) + (self.tile_size / 2) +
+                        self.offset_x)
+
+        # Calculate Y center
+        logic_y = (entity.y - self.offset_y) // self.tile_size
+        center_y = ((logic_y * self.tile_size) + (self.tile_size / 2) +
+                        self.offset_y)
+
+        return center_x, center_y
 
 
     # detect player and collectibles
