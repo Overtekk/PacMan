@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 12:17:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 11:03:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,7 +29,7 @@ class LogoButton(arcade.Sprite):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 2.5
+        scale: float = 1.3
     ) -> None:
 
         super().__init__(
