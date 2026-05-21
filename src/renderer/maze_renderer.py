@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:08:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 14:36:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,12 +38,12 @@ class Wall(arcade.Sprite):
 class GameRenderer():
     def __init__(self) -> None:
 
-        self.walls: arcade.SpriteList = arcade.SpriteList()
-        self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
+        self.walls_sprites: arcade.SpriteList = arcade.SpriteList()
+        self.entities_sprites: arcade.SpriteList[Any] = arcade.SpriteList()
 
     def draw(self) -> None:
-        self.walls.draw()
-        self.entities.draw()
+        self.walls_sprites.draw()
+        self.entities_sprites.draw()
 
     def wall_generator(
         self,
@@ -51,12 +51,12 @@ class GameRenderer():
     ) -> None:
 
         for sprite_path, angle, x, y, tile_size in wall_data:
-            wall = Wall(sprite_path, angle, x, y, tile_size)
+            wall: arcade.Sprite = Wall(sprite_path, angle, x, y, tile_size)
 
-            self.walls.append(wall)
+            self.walls_sprites.append(wall)
 
     def setup_entities(self, entity_sprite: arcade.Sprite) -> None:
-        self.entities.append(entity_sprite)
+        self.entities_sprites.append(entity_sprite)
 
 
 #=self.window.asset_manager.textures["start_button"],
