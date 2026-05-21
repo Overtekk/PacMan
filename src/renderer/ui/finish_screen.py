@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 13:30:01 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 10:57:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,7 +24,7 @@ class Victory(arcade.Sprite):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 3.8
+        scale: float = 1.7
     ) -> None:
 
         super().__init__(
@@ -47,7 +47,7 @@ class FinishScreen(BaseMenu):
     def build_ui(self) -> None:
         victory = Victory(
             center_x=640,
-            center_y=600,
+            center_y=580,
             sprite_path=(
                 self.window.asset_manager.textures["victory_screen"]
             ),
