@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:04:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 15:21:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -132,14 +132,6 @@ class Movable(Entity):
             case (-1.0, 0.0):
                 self.sprite.angle = 0
                 self.sprite.scale_x = -base_scale
-
-            case (0.0, 1.0):
-                self.sprite.angle = -90
-                self.sprite.scale_x = base_scale
-
-            case (0.0, -1.0):
-                self.sprite.angle = 90
-                self.sprite.scale_x = base_scale
 
 
     @abstractmethod
