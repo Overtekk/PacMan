@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:53:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 16:43:37 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 12:00:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,7 @@ def save_score_to_leaderboard(
     # Store the data
     player_data: dict[str, Any] = {
         "player_name": player_name,
-        "player_score": score
+        "player_score": int(score)
     }
 
     # Get all the leaderboard
@@ -38,11 +38,6 @@ def save_score_to_leaderboard(
 
     # Verify if there is not negative number JUST IN CASE
     data = _verify_score(data)
-
-    # Remove the lower score if there are more than 10 entries
-    if len(data["scores"]) >= 10:
-        while len(data["scores"]) != 10:
-            data["scores"].remove(_find_lowest_score(data["scores"]))
 
     # Verify that the player doesn´t exist. If so, change only his score
     exist: bool = False
@@ -54,6 +49,11 @@ def save_score_to_leaderboard(
 
     if not exist:
         data["scores"].append(player_data)
+
+    # Remove the lower score if there are more than 10 entries
+    if len(data["scores"]) >= 10:
+        while len(data["scores"]) != 10:
+            data["scores"].remove(_find_lowest_score(data["scores"]))
 
     # Sort the leaderboard from the highest score to the lowest
     data = _sort_leaderboard(data)
