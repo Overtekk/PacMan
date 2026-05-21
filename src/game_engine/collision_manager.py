@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:13:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 15:17:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -34,7 +34,9 @@ class CollisionManager():
         self.maze_height = maze_height
 
     def update(self) -> None:
-        direction = self.player_reference._current_direction
+        direction: tuple[float, float] = (
+            self.player_reference._current_direction
+        )
 
         # If the player is not moving, do nothing
         if direction == (0.0, 0.0):
@@ -48,9 +50,9 @@ class CollisionManager():
                                                    direction)
 
         if not path_is_clear:
-            # --- STOP AT CENTER LOGIC ---
             dx, dy = direction
-            stop_x, stop_y = False, False
+            stop_x: bool = False
+            stop_y: bool = False
 
             # Check if the player has reached or passed the center on their
             # movement axis
@@ -74,11 +76,13 @@ class CollisionManager():
             # Snap the player
             # Path is clear, lock the perpendicular axis
             dx, dy = direction
+
+            # Vertical movement: lock X to the center
             if dy != 0 and dx == 0:
-                # Vertical movement: lock X to the center
                 self.player_reference.x = center_x
+
+            # Horizontal movement: lock Y to the center
             elif dx != 0 and dy == 0:
-                # Horizontal movement: lock Y to the center
                 self.player_reference.y = center_y
 
     # :---------------:
