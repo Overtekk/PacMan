@@ -3,6 +3,11 @@
 
 ---
 
+### 21/05/2026
+- roandrie
+	- collision manager
+	- refactor the maze factory to calculate the screen offsets and tilesets
+
 ### 20/05/2026
 
 - anacharp
@@ -14,6 +19,7 @@
 	- enter a name on game over screen and finish screen
 - roandrie
 	- LevelManager completed for player and enemies
+	- start the player logic and collisions manager
 
 ### 19/05/2026
 
