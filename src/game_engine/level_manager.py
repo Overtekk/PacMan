@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:39:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 14:04:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from src.utils import print_warn
 from src.config import GameConfig
 from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
 from src.renderer.sprites_loader import load_sprite_sheet
+from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
 
 
@@ -59,6 +60,7 @@ class LevelManager():
         wall_data: list[list[int]] = self.factory.generate_maze(
             self.maze_width, self.maze_height,
             self.asset_manager.textures,
+            ScreenSettings.WIDTH, ScreenSettings.HEIGHT
         )
         # Store the maze in bytes for later calculations
         self.byte_maze: dict[tuple[int, int], str] = generate_bytes_maze(

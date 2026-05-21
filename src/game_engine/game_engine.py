@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:39:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 14:08:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -97,7 +97,11 @@ class GameEngine(arcade.View):
         # Instanciate the CollisionManager
         self.coll_manager: CollisionManager = CollisionManager(
             self.player, self.level_manager.enemies_list,
-            self.level_manager.byte_maze
+            self.level_manager.byte_maze,
+            self.level_manager.factory.offset_x,
+            self.level_manager.factory.offset_y,
+            self.level_manager.factory.tile_size,
+            self.level_manager.maze_height
         )
 
     @property

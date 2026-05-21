@@ -6,14 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:38:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 13:57:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 from src.maze.load_mazegenerator import load_mazegenerator
-from src.renderer.screen_settings import ScreenSettings
 
 
 WALL_SPRITES: dict[int, tuple[str, float]] = {
@@ -52,6 +51,8 @@ class MazeFactory:
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
+        screen_width: int, screen_height: int
+
     ) -> list[list[int]]:
         self.width = width
         self.height = height
@@ -59,19 +60,15 @@ class MazeFactory:
         gap: int = 5
 
         # Calculate the Tile Size
-        ScreenSettings.TILE_SIZE = min(
-            (ScreenSettings.WIDTH // width), ((ScreenSettings.HEIGHT // height)
-                                                - gap)
+        self.tile_size: float = min(
+            (screen_width // width), ((screen_height // height) - gap)
         )
-        self.tile_size = ScreenSettings.TILE_SIZE
 
         # Calculate the screen offsets
-        ScreenSettings.OFFSET_X = ((ScreenSettings.WIDTH - width *
-                                        ScreenSettings.TILE_SIZE) // 2)
-        ScreenSettings.OFFSET_Y = ((ScreenSettings.HEIGHT - self.height *
-                                        ScreenSettings.TILE_SIZE) // 2)
-        self.offset_x: float = ScreenSettings.OFFSET_X
-        self.offset_y: float = ScreenSettings.OFFSET_Y
+        self.offset_x: float = ((screen_width - width *
+                                        self.tile_size) // 2)
+        self.offset_y: float = ((screen_height - self.height *
+                                       self.tile_size) // 2)
 
         # Instanciate the generator and generate the maze
         maze_generator: Any = self._maze_class((self.width, self.height))
