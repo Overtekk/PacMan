@@ -6,15 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 10:57:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 11:46:10 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
+from src.renderer.screen_settings import ScreenSettings
 from pathlib import Path
 
 from .base_menu import BaseMenu
+arcade.load_font("assets/fonts/PressStart2P.ttf")
 
 
 class Victory(arcade.Sprite):
@@ -24,12 +26,14 @@ class Victory(arcade.Sprite):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 1.7
+        scale: float = 1.5,
+        anchor_x="center"
     ) -> None:
 
         super().__init__(
             path_or_texture=sprite_path,
-            scale=scale
+            scale=scale,
+            anchor_x=anchor_x
         )
 
         self.center_x = center_x
@@ -39,25 +43,36 @@ class Victory(arcade.Sprite):
 
 
 class FinishScreen(BaseMenu):
-    def __init__(self) -> None:
+    def __init__(self, score: str) -> None:
         super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
         self.player_name = ""
+        self.score = score
 
     def build_ui(self) -> None:
         victory = Victory(
-            center_x=640,
+            center_x=650,
             center_y=580,
             sprite_path=(
                 self.window.asset_manager.textures["victory_screen"]
             ),
             parent_view=self
         )
-        score = arcade.Text(text="SCORE: 100", x=410, y=360,
-                            color=arcade.color.WHITE, font_size=40)
+        score = arcade.Text(text="SCORE", x=ScreenSettings.WIDTH // 2, y=410,
+                                   color=arcade.color.WHITE, font_size=40,
+                                   font_name="Press Start 2P",
+                                   anchor_x="center")
         self.text_lst.append(score)
-        enter_name = arcade.Text(text="SAVE YOUR NAME:", x=410, y=300,
-                                 color=arcade.color.WHITE, font_size=40)
+        nb = arcade.Text(text=self.score, x=ScreenSettings.WIDTH // 2, y=335,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P",
+                                   anchor_x="center")
+        self.text_lst.append(nb)
+        enter_name = arcade.Text(text="SAVE YOUR NAME",
+                                 x=ScreenSettings.WIDTH // 2, y=230,
+                                 color=arcade.color.WHITE, font_size=40,
+                                 font_name="Press Start 2P",
+                                 anchor_x="center")
         self.text_lst.append(enter_name)
         self.button_list.append(victory)
 
@@ -66,8 +81,10 @@ class FinishScreen(BaseMenu):
             if arcade.key.A <= symbol <= arcade.key.Z:
                 maj = modifiers & arcade.key.MOD_CAPSLOCK
                 self.player_name += chr(symbol).upper() if maj else chr(symbol)
-                text = arcade.Text(text=self.player_name, x=480, y=200,
-                                   color=arcade.color.YELLOW, font_size=40)
+                text = arcade.Text(text=self.player_name,
+                                   x=ScreenSettings.WIDTH // 3, y=160,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
         if len(self.player_name) > 0:
             if symbol == arcade.key.BACKSPACE:
