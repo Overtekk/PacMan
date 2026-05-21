@@ -23,7 +23,7 @@ class Test(arcade.View):
     #         self.state_manager.on_key_press(symbol, modifiers)
 
     def on_show_view(self) -> None:
-        game_over = FinishScreen()
+        game_over = GameOverScreen()
         self.window.show_view(game_over)
         # self.clear()
         # self.setup()
