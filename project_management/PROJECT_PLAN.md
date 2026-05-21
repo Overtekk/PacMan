@@ -7,6 +7,11 @@
 - roandrie
 	- collision manager
 	- refactor the maze factory to calculate the screen offsets and tilesets
+- anacharp
+	- connection between ends screens and leaderboard
+	- upgrade ends screens
+	- create sprites and modification of other sprites
+	- font implementation for finish screen and game over screen -> have to load it out of finish_screen et game_over_screen...
 
 ### 20/05/2026
 
