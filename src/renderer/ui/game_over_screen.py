@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:43:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 12:04:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from pathlib import Path
 from src.renderer.screen_settings import ScreenSettings
+from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
 arcade.load_font("assets/fonts/PressStart2P.ttf")
@@ -43,11 +44,12 @@ class GameOver(arcade.Sprite):
 
 
 class GameOverScreen(BaseMenu):
-    def __init__(self, score: str) -> None:
+    def __init__(self, score: str, filename: str) -> None:
         super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
         self.player_name = ""
         self.score = score
+        self.filename = filename
 
     def build_ui(self) -> None:
         game_over = GameOver(
@@ -95,7 +97,8 @@ class GameOverScreen(BaseMenu):
             from src.renderer.ui.main_menu import MainMenu
             if self.window:
                 self.window.show_view(MainMenu())
-            # + mettre la string et le score dans le json
+            save_score_to_leaderboard(self.filename, self.player_name,
+                                      float(self.score))
 
     def on_draw(self) -> None:
         self.clear()

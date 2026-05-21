@@ -9,8 +9,28 @@
             "player_score": 46545215
         },
         {
+            "player_name": "Baptista",
+            "player_score": 789985
+        },
+        {
+            "player_name": "ecureuil",
+            "player_score": 789985
+        },
+        {
+            "player_name": "test",
+            "player_score": 522465.0
+        },
+        {
+            "player_name": "retest",
+            "player_score": 522465.0
+        },
+        {
             "player_name": "franck",
             "player_score": 152463
+        },
+        {
+            "player_name": "MEGALOOSER",
+            "player_score": 100000
         },
         {
             "player_name": "romolususu",
@@ -19,26 +39,6 @@
         {
             "player_name": "remy",
             "player_score": 876
-        },
-        {
-            "player_name": "microonde",
-            "player_score": 789
-        },
-        {
-            "player_name": "benjamin",
-            "player_score": 666
-        },
-        {
-            "player_name": "arbalete",
-            "player_score": 45
-        },
-        {
-            "player_name": "enzo",
-            "player_score": 42
-        },
-        {
-            "player_name": "noemie",
-            "player_score": 8
         }
     ]
 }

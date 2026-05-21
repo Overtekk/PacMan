@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:46:10 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/21 12:02:38 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from src.renderer.screen_settings import ScreenSettings
 from pathlib import Path
+from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
 arcade.load_font("assets/fonts/PressStart2P.ttf")
@@ -43,11 +44,12 @@ class Victory(arcade.Sprite):
 
 
 class FinishScreen(BaseMenu):
-    def __init__(self, score: str) -> None:
+    def __init__(self, score: str, filename: str) -> None:
         super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
         self.player_name = ""
         self.score = score
+        self.filename = filename
 
     def build_ui(self) -> None:
         victory = Victory(
@@ -95,12 +97,11 @@ class FinishScreen(BaseMenu):
             from src.renderer.ui.main_menu import MainMenu
             if self.window:
                 self.window.show_view(MainMenu())
-            # + mettre la string et le score dans le json
+            save_score_to_leaderboard(self.filename, self.player_name,
+                                      float(self.score))
 
     def on_draw(self) -> None:
         self.clear()
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
-
-# afficher le score
