@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:19:05 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 15:02:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,12 +35,14 @@ class CollisionManager():
 
     def update(self) -> None:
         # Check the collisions for the player
-        if self.player_reference._current_direction != (0, 0):
-            if not self.check_for_collisions(
-                self.player_reference,
-                self.player_reference._current_direction
-            ):
-                self.player_reference._current_direction = (0, 0)
+        direction = self.player_reference._current_direction
+
+        # Check the collisions for the player
+        if direction != (0.0, 0.0):
+            if not self.check_for_collisions(self.player_reference, direction):
+                self.player_reference._current_direction = (0.0, 0.0)
+            else:
+                self.snap_to_grid(self.player_reference, direction)
 
     def check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]
@@ -64,7 +66,22 @@ class CollisionManager():
             return True
         return False
 
-    # use check_for_collisions_with_list to handle all collisions
-    # avoid player and ennemis to travel throught walls
+    def snap_to_grid(self, entity: Entity,
+                     direction: tuple[float, float]) -> None:
+        # Calculate the exact center of the current tile
+        center_x: int = (((entity.x - self.offset_x) // self.tile_size) *
+                    self.tile_size + (self.tile_size / 2) + self.offset_x)
+        center_y: int = (((entity.y - self.offset_y) // self.tile_size) *
+                    self.tile_size + (self.tile_size / 2) + self.offset_y)
+
+        # Lock the perpendicular axis
+        if direction == 0.0 and direction != 0.0:
+            # Vertical movement: lock X to the center of the column
+            entity.x = center_x
+        elif direction == 0.0 and direction != 0.0:
+            # Horizontal movement: lock Y to the center of the row
+            entity.y = center_y
+
+
     # detect player and collectibles
     # detect player and enemy
