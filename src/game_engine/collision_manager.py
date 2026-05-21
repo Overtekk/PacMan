@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:12:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 14:19:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -51,13 +51,16 @@ class CollisionManager():
         pos_y: int = int((self.maze_height - 1) -
                             ((entity.y - self.offset_y) // self.tile_size))
 
-        # Add the direction to the actual position, and convert back to pixel
-        # coords
-        dest_x: int = ((pos_x + direction[0]) * 2) + 1
-        dest_y: int = ((pos_y - direction[1]) * 2) + 1
+        # Calculation of the extended grid
+        ext_x: int = (pos_x * 2) + 1
+        ext_y: int = (pos_y * 2) + 1
+
+        # Inverted Y (because Arcade Y=0 is bottom right)
+        wall_x: int = ext_x + direction[0]
+        wall_y: int = ext_y - direction[1]
 
         # Check if the destination is open
-        if self.maze_bitemap[dest_x, dest_y] == 0:
+        if self.maze_bitemap.get((wall_x, wall_y), 1) == 0:
             return True
         return False
 
