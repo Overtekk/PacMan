@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 13:40:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 13:57:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+from typing import Any
 
 from src.maze.load_mazegenerator import load_mazegenerator
 
@@ -45,38 +47,49 @@ W = [8, 9, 10, 11, 12, 13, 14, 15]
 
 class MazeFactory:
     def __init__(self) -> None:
-        self._maze_class = load_mazegenerator()
+        self._maze_class: Any = load_mazegenerator()
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
         screen_width: int, screen_height: int
+
     ) -> list[list[int]]:
+        self.width = width
         self.height = height
 
-        self.tile_size = min(
-            screen_width // width,
-            screen_height // self.height
-        ) - 5
+        gap: int = 5
 
-        maze_generator = self._maze_class((width, self.height))
-        self.grid_data = maze_generator._maze
+        # Calculate the Tile Size
+        self.tile_size: float = min(
+            (screen_width // width), ((screen_height // height) - gap)
+        )
 
+        # Calculate the screen offsets
+        self.offset_x: float = ((screen_width - width *
+                                        self.tile_size) // 2)
+        self.offset_y: float = ((screen_height - self.height *
+                                       self.tile_size) // 2)
+
+        # Instanciate the generator and generate the maze
+        maze_generator: Any = self._maze_class((self.width, self.height))
+        self.grid_data: list[list[int]] = maze_generator._maze
+
+        # Create the list to store all informations
         wall_data: list[tuple[str, float, float, float]] = []
-        self.offset_x = (screen_width - width * self.tile_size) // 2
-        self.offset_y = (screen_height - self.height * self.tile_size) // 2
         self.wall_sprites_list: list[str] = []
 
+        # Create the maze data
         for row_index, row in enumerate(self.grid_data):
             for col_index, cell_value in enumerate(row):
 
                 x, y = self.get_pixel_coordinates(col_index, row_index)
 
-                n = cell_value in N
-                s = cell_value in S
-                e = cell_value in E
-                w = cell_value in W
+                n: bool = cell_value in N
+                s: bool = cell_value in S
+                e: bool = cell_value in E
+                w: bool = cell_value in W
 
-                keys = []
+                keys: list[str] = []
 
                 if not n and not e:
                     keys.append("inside_wall_180")
@@ -116,7 +129,7 @@ class MazeFactory:
                 for key in keys:
                     sprite_name, angle = WALL_SPRITES[key]
 
-                    sprite_path = str(textures[sprite_name])
+                    sprite_path: str = str(textures[sprite_name])
                     self.wall_sprites_list.append(str(textures[sprite_name]))
 
                     wall_data.append((sprite_path, angle, x, y, self.tile_size))
