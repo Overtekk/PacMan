@@ -1,6 +1,6 @@
 import arcade
 from src.maze import MazeFactory
-from src.renderer.maze_renderer import GameRenderer
+from renderer.game_renderer import GameRenderer
 from src.renderer.screen_settings import ScreenSettings
 from src.game_engine.gamestate_manager import GameStateManager
 from src.renderer.ui.game_over_screen import GameOverScreen

@@ -6,31 +6,42 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 13:43:34 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 16:10:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
+from typing import Any
+
 import arcade
 
-from src.renderer.maze_renderer import GameRenderer
+from src.renderer import GameRenderer
+from src.game_engine.gamestate_manager import GameStateManager
+from src.config import GameConfig
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
-from src.game_engine.gamestate_manager import GameStateManager
 
 
 class GameEngine(arcade.View):
     def __init__(self) -> None:
         super().__init__()
-        self.initialized = False
-        self.config = self.window.game_config
+
+        self.config: GameConfig = self.window.game_config
+
+        # Instanciate class instance
         self.game_renderer = GameRenderer()
         self.state_manager = GameStateManager(self.window, parent_view=self)
+        self.level_manager = LevelManager(game_window=self.window)
 
-        self.level_manager = LevelManager(
-            game_window=self.window
-        )
-
+        self._initialized: bool = False
         self._game_paused: bool = False
+
+    @property
+    def game_paused(self) -> bool:
+        return self._game_paused
+
+    @game_paused.setter
+    def game_paused(self, new_value: bool) -> None:
+        self._game_paused = new_value
 
     def on_update(self, delta_time: float) -> None:
         if self._game_paused:
@@ -41,6 +52,9 @@ class GameEngine(arcade.View):
 
         # Update all entities
         self.player.update(delta_time)
+
+        for enemy_obj in self.level_manager.enemies_list.values():
+            enemy_obj.update(delta_time)
 
     def on_draw(self) -> None:
         self.clear()
@@ -64,15 +78,15 @@ class GameEngine(arcade.View):
         elif self.state_manager:
             self.state_manager.on_key_press(symbol, _modifiers)
 
-
     def on_show_view(self) -> None:
         # Clear the screen
         self.clear()
 
         # Call the setup method
-        if not self.initialized:
-            self.initialized = True
+        if not self._initialized:
+            self._initialized = True
             self.setup()
+
         else:
             self.game_renderer.draw()
 
@@ -86,27 +100,18 @@ class GameEngine(arcade.View):
             maze_height=self.config.level[level_index].height
         )
 
-        self.player = self.level_manager.player
-        self.cat_enemy = self.level_manager.enemies_list["cat_enemy"]
-        self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
-        self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
-        self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
-
-        # Generate the walls rendering
+        # Render the maze
         self.game_renderer.wall_generator(level)
-        # Generate entities rendering
-        self.game_renderer.setup_entities(self.player.sprite)
-        self.game_renderer.setup_entities(self.cat_enemy.sprite)
-        self.game_renderer.setup_entities(self.fox_enemy.sprite)
-        self.game_renderer.setup_entities(self.rat_enemy.sprite)
-        self.game_renderer.setup_entities(self.dog_enemy.sprite)
 
-        # Temp: authorize the player to move
-        self.player._can_move = True
+        self._setup_entities()
 
-        # Instanciate the CollisionManager
+        # Instanciate the GameState Manager
+        self.state_manager = GameStateManager(self.window, parent_view=self)
+
+        # Instanciate the Collision Manager
         self.coll_manager: CollisionManager = CollisionManager(
             self.player, self.level_manager.enemies_list,
+            self.enemies_sprite_list,
             self.level_manager.byte_maze,
             self.level_manager.factory.offset_x,
             self.level_manager.factory.offset_y,
@@ -114,16 +119,35 @@ class GameEngine(arcade.View):
             self.level_manager.maze_height
         )
 
-        self.state_manager = GameStateManager(self.window, parent_view=self)
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
 
-    @property
-    def game_paused(self) -> bool:
-        return self._game_paused
+    def _setup_entities(self) -> None:
 
-    @game_paused.setter
-    def game_paused(self, new_value: bool) -> None:
-        self._game_paused = new_value
+        # Create a reference of all movable entities
+        self.player = self.level_manager.player
+        self.cat_enemy = self.level_manager.enemies_list["cat_enemy"]
+        self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
+        self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
+        self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
 
+        # List containing all enemies sprites
+        self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
+
+        # Enemy rendering
+        for enemy_obj in self.level_manager.enemies_list.values():
+            # Store the sprite
+            self.enemies_sprite_list.append(enemy_obj.sprite)
+            # Render the sprites on screen
+            self.game_renderer.setup_entities(enemy_obj.sprite)
+
+        # Render the player
+        self.game_renderer.setup_entities(self.player.sprite)
+
+        # ------------------------------------- Temp: authorize the player to move
+        self.player._can_move = True
+        self.rat_enemy._can_move = True
 
 
         # === ÉTAPE 1 : INITIALISATION DE L'ÉTAT DU JEU (GameStateManager) ===
