@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:57:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 16:21:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 10:28:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,7 +14,7 @@ import arcade
 
 from test_player import TestPlayer
 from src.entity import CatEnemy
-from src.renderer import load_sprite_sheet
+from src.utils import load_sprite_sheet
 
 
 if __name__ == "__main__":
