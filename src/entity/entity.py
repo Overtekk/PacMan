@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:21:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 16:21:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -82,15 +82,9 @@ class Movable(Entity):
 
         self._can_move: bool = False
         self._current_direction: tuple[float, float] = (0.0, 0.0)
+        self._next_direction: tuple[float, float] = (0.0, 0.0)
 
         self._animation_timer = 0.0
-
-    def move(self, direction: tuple[float, float]) -> None:
-        # Change the current direction of the entity
-        if self._can_move:
-            self._current_direction = direction
-        else:
-            self._current_direction = (0.0, 0.0)
 
     def update(self, delta: float) -> None:
         # Calulate the movement vector

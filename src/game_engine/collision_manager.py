@@ -6,11 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 17:24:54 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 16:17:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
+
+import arcade
 
 from src.entity import Entity, Player
 
@@ -20,12 +22,14 @@ class CollisionManager():
         self,
         player_reference: Player,
         enemies_reference: list[str, Any],
+        enemies_sprite_list: arcade.SpriteList,
         maze_bitemap: dict[tuple[int, int], str],
         offset_x: int, offset_y: int, tile_size: int, maze_height: int
     ) -> None:
 
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
+        self.enemies_sprite_list = enemies_sprite_list
         self.maze_bitemap = maze_bitemap
 
         self.offset_x = offset_x
@@ -34,62 +38,64 @@ class CollisionManager():
         self.maze_height = maze_height
 
     def update(self) -> None:
-        self._player_collisions_logic()
+        # Check collisions for the player
+        self._entity_collisions_logic(self.player_reference)
+
+        # Check collisions for enemies
+        for enemy in self.enemies_reference.values():
+            self._entity_collisions_logic(enemy)
+
+        # Check for collision between player/enemy
+        if self._check_collisions_with_enemy():
+            self.player_reference.die()
 
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
 
-    def _player_collisions_logic(self) -> None:
+    def _entity_collisions_logic(self, entity: Entity) -> None:
         # Get the exact center of the current tile
-        center_x, center_y = self._get_tile_center(self.player_reference)
+        center_x, center_y = self._get_tile_center(entity)
 
         # Verify if player near the center
-        at_center: bool = (abs(self.player_reference.x - center_x) < 3 and
-                                abs(self.player_reference.y - center_y) < 3)
+        at_center: bool = (abs(entity.x - center_x) < 3 and
+                            abs(entity.y - center_y) < 3)
 
         # BUFFER logic
-        if at_center and self.player_reference._next_direction != (0.0, 0.0):
-            if self._check_for_collisions(
-                self.player_reference, self.player_reference._next_direction
-            ):
-                self.player_reference._current_direction = (
-                    self.player_reference._next_direction
-                )
-                self.player_reference._next_direction = (0.0, 0.0)
+        if at_center and entity._next_direction != (0.0, 0.0):
+            if self._check_for_collisions(entity, entity._next_direction):
+                entity._current_direction = entity._next_direction
+                entity._next_direction = (0.0, 0.0)
 
-        direction: tuple[float, float] = (
-            self.player_reference._current_direction
-        )
+        direction: tuple[float, float] = entity._current_direction
 
         # If the player is not moving, do nothing
         if direction == (0.0, 0.0):
             return
 
         # Check if there is a wall in front
-        path_is_clear = self._check_for_collisions(self.player_reference,
-                                                   direction)
+        path_is_clear = self._check_for_collisions(entity, direction)
 
         if not path_is_clear:
             dx, dy = direction
 
             # Check if the player has reached or passed the center on their
             # movement axis
-            if dx > 0 and self.player_reference.x >= center_x:
-                self.player_reference.x = center_x
-                self.player_reference._current_direction = (0.0, 0.0)
+            if dx > 0 and entity.x >= center_x:
+                entity.x = center_x
+                entity._current_direction = (0.0, 0.0)
 
-            elif dx < 0 and self.player_reference.x <= center_x:
-                self.player_reference.x = center_x
-                self.player_reference._current_direction = (0.0, 0.0)
+            elif dx < 0 and entity.x <= center_x:
+                entity.x = center_x
+                entity._current_direction = (0.0, 0.0)
 
-            elif dy > 0 and self.player_reference.y >= center_y:
-                self.player_reference.y = center_y
-                self.player_reference._current_direction = (0.0, 0.0)
+            elif dy > 0 and entity.y >= center_y:
+                entity.y = center_y
+                entity._current_direction = (0.0, 0.0)
 
-            elif dy < 0 and self.player_reference.y <= center_y:
-                self.player_reference.y = center_y
-                self.player_reference._current_direction = (0.0, 0.0)
+            elif dy < 0 and entity.y <= center_y:
+                entity.y = center_y
+                entity._current_direction = (0.0, 0.0)
 
         else:
             # Snap the player
@@ -98,11 +104,20 @@ class CollisionManager():
 
             # Vertical movement: lock X to the center
             if dy != 0 and dx == 0:
-                self.player_reference.x = center_x
+                entity.x = center_x
 
             # Horizontal movement: lock Y to the center
             elif dx != 0 and dy == 0:
-                self.player_reference.y = center_y
+                entity.y = center_y
+
+    def _check_collisions_with_enemy(self) -> bool:
+        colliding_sprite: list[arcade.SpriteType] = (
+            arcade.check_for_collision_with_list(
+                self.player_reference.sprite,
+                sprite_list=self.enemies_sprite_list
+            ))
+
+        return len(colliding_sprite)
 
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]

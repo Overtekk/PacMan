@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 17:18:37 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 16:18:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -28,8 +28,6 @@ class Player(Movable):
             scale=scale,
             speed=speed
         )
-
-        self._next_direction: tuple[float, float] = (0.0, 0.0)
 
     def die(self) -> None:
         self._can_move = False
