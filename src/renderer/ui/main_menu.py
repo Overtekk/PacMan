@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 11:43:36 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 13:58:21 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -149,8 +149,7 @@ class PlayButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        if not hasattr(self.parent_view.window, 'game_session'):
-            self.parent_view.window.game_session = GameEngine()
+        self.parent_view.window.game_session = GameEngine()
         self.parent_view.window.show_view(self.parent_view.window.game_session)
 
 
