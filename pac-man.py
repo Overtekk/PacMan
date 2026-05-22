@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 11:49:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 10:53:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,12 +15,11 @@ from argparse import Namespace
 import sys
 import arcade
 
-from src.utils import print_error
-
+from src.utils import print_error, SpritesLoader, FontLoader
 from src.parser import load_arguments
 from src.config import GameConfig
 from src.maze import load_mazegenerator
-from src.renderer import SpritesLoader, GameWindow
+from src.renderer import GameWindow
 from src.leaderboard import leaderboard_loader
 
 
@@ -33,6 +32,9 @@ def main() -> int:
 
         # Check if sprites are available and store them
         sprite_loader: SpritesLoader = SpritesLoader()
+
+        # Load fonts
+        FontLoader()
 
         # Load the leaderboard
         leaderboard_loader(str(game_config.highscore_filename))

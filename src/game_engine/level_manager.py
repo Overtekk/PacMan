@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 15:09:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 10:28:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,10 +16,9 @@ import arcade
 
 from pathlib import Path
 
-from src.utils import print_warn
+from src.utils import print_warn, load_sprite_sheet
 from src.config import GameConfig
 from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
-from src.renderer.sprites_loader import load_sprite_sheet
 from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
 

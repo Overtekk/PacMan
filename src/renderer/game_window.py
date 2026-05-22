@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 13:57:10 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 10:53:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
 from src.config import GameConfig
-from .sprites_loader import SpritesLoader
+from src.utils import SpritesLoader
 from .screen_settings import ScreenSettings, ScreenState
 from src.renderer import MainMenu
 
