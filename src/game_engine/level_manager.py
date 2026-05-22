@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:28:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 21:13:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -36,7 +36,7 @@ class LevelManager():
         self.enemies_list: list[str, Any] = {}
 
     def create_level(
-        self, level_name: str, maze_width: int, maze_height: int
+        self, maze_width: int, maze_height: int
     ) -> list[list[int]]:
 
         # Store the maze width & height in the class

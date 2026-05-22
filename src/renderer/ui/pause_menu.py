@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 13:57:04 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 21:08:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -181,11 +181,10 @@ class PauseMenu(BaseMenu):
         self.button_list.append(go_back)
         self.button_list.append(exit)
 
-    def on_key_press(self, symbol: int, modifiers: int) -> None:
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
-            from src.renderer.ui.main_menu import MainMenu
-            if self.window:
-                self.window.show_view(MainMenu())
+            # REMOVE PAUSE MENU
+            pass
         if symbol == arcade.key.SPACE:
             if self.window:
                 self.window.show_view(self.previous_view)
