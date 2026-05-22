@@ -3,6 +3,12 @@
 
 ---
 
+### 22/05/2026
+- roandrie
+	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
+	- Change the file "renderer/sprites_loader" to "utils/resources_loader.py", since it's purpose is to load the resources for the game.
+	- Refactor code to add the new change
+
 ### 21/05/2026
 - roandrie
 	- collision manager

@@ -50,12 +50,12 @@
 | Task | Member | Statut |
 | :--: | :----: | :----: |
 | Creation of the Entity abstract class | roandrie | ✖️ |
-| Creation of the player class | roandrie | |
-| Creation of the enemies class | roandrie | |
-| Creation of the collectible abstract class | roandrie | |
-| Creation of the pacgum class | roandrie | |
-| Creation of the super-pacgum class | roandrie | |
-| Finish player movements | roandrie | |
+| Creation of the player class | roandrie | ✖️ |
+| Creation of the enemies class | roandrie | ✖️ |
+| Creation of the collectible abstract class | roandrie | ✖️ |
+| Creation of the pacgum class | roandrie | ✖️ |
+| Creation of the super-pacgum class | roandrie | ✖️ |
+| Finish player movements | roandrie | ✖️ |
 | Finish player logic  | roandrie | |
 | Implementation of algorithm of the fox enemy | roandrie | |
 | Implementation of algorithm of the dog enemy | roandrie | |
@@ -100,15 +100,15 @@
 | Other levels are generated random | anacharp | |
 | Pacgum present in corridors | anacharp | |
 | Super-pacgums in the 4 corners of the maze | anacharp | |
-| 4 ghosts in each corner of the maze | anacharp | |
-| Player start a the middle | anacharp | |
+| 4 ghosts in each corner of the maze | anacharp | ✖️ |
+| Player start a the middle | anacharp | ✖️ |
 | Unitary tests | roandrie | |
 
 ## Gameplay
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Creation of the game engine | roandrie | |
+| Creation of the game engine | roandrie | ✖️ |
 | Creation of the main gameloop | roandrie | |
 | Implementation of a timer, player lose a life | roandrie | |
 | Integration of the player in the maze | anacharp, roandrie | |
@@ -119,27 +119,27 @@
 | Implementation of the highscore | anacharp | |
 
 ## User Interface
-| Main Menu (start game, view highscores, instructions, exit) | anacharp | |
+| Main Menu (start game, view highscores, instructions, exit) | anacharp | ✖️ |
 | In-game HUD (current score, remaining lives, current level, remaining time for level) | anacharp | |
-| Pause Menu (resume, return to main menu) | anacharp | |
-| Game Over Screen (final score, prompts player to enter their name) | anacharp | |
-| Victory Screen (final score, prompt player to enteir their name) | anacharp | |
+| Pause Menu (resume, return to main menu) | anacharp | ✖️ |
+| Game Over Screen (final score, prompts player to enter their name) | anacharp | ✖️ |
+| Victory Screen (final score, prompt player to enteir their name) | anacharp | ✖️ |
 
 ## Rendering
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Rendering of the maze | anacharp | |
+| Rendering of the maze | anacharp | ✖️ |
 | Interaction between menu | anacharp | |
-| Rendering of main menu | anacharp | |
+| Rendering of main menu | anacharp | ✖️ |
 | Rendering of game HUD | anacharp | |
-| Rendering of pause menu | anacharp | |
-| Rendering of game over (defeat) | anacharp | |
-| Rendering of game over (victory) | anacharp | |
-| Rendering of leaderboard | anacharp | |
-| Rendering of cheat mode | anacharp | |
-| Rendering of the player (right, left) | roandrie | |
-| Rendering of the enemies (right, left) | roandrie | |
+| Rendering of pause menu | anacharp | ✖️ |
+| Rendering of game over (defeat) | anacharp | ✖️ |
+| Rendering of game over (victory) | anacharp | ✖️ |
+| Rendering of leaderboard | anacharp | ✖️ |
+| Rendering of cheat mode | anacharp | ✖️ |
+| Rendering of the player (right, left) | roandrie | ✖️ |
+| Rendering of the enemies (right, left) | roandrie | ✖️ |
 
 ## Cheat mode
 
@@ -155,11 +155,11 @@
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Choose where to be stored | anacharp, roandrie | |
-| Put name and store it | anacharp | |
-| Handles scores and store it | anacharp | |
-| Show the 10 top highscores with player names and scores in the game | anacharp | |
-| Unitary test for files errors | anacharp, roandrie | |
+| Choose where to be stored | anacharp, roandrie | ✖️ |
+| Put name and store it | anacharp | ✖️ |
+| Handles scores and store it | anacharp | ✖️ |
+| Show the 10 top highscores with player names and scores in the game | anacharp | ✖️ |
+| Unitary test for files errors | anacharp, roandrie | ✖️ |
 
 ## Utilitary
 
@@ -182,4 +182,4 @@
 
 ---
 
-**Last update**: *12/05/2026*
+**Last update**: *22/05/2026*
