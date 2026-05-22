@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:10:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 21:58:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -95,7 +95,6 @@ class GameEngine(arcade.View):
 
         # Create the level
         level: list[list[int]] = self.level_manager.create_level(
-            level_name=self.config.level[level_index].name,
             maze_width=self.config.level[level_index].width,
             maze_height=self.config.level[level_index].height
         )
