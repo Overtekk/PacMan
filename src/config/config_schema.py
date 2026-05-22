@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 14:41:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 22:06:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,43 +31,43 @@ class LevelConfig(BaseModel):
     )
 
 DEFAULT_LEVELS: list[LevelConfig] = [
-    LevelConfig(name="level_1", width=20, height=10),
-    LevelConfig(name="level_2", width=18, height=12),
-    LevelConfig(name="level_3", width=10, height=10),
-    LevelConfig(name="level_4", width=10, height=20),
-    LevelConfig(name="level_5", width=15, height=21),
-    LevelConfig(name="level_6", width=14, height=10),
-    LevelConfig(name="level_7", width=15, height=10),
-    LevelConfig(name="level_8", width=12, height=16),
-    LevelConfig(name="level_9", width=14, height=10),
-    LevelConfig(name="level_10", width=20, height=20),
+    LevelConfig(name="Level 1", width=20, height=10),
+    LevelConfig(name="Level 2", width=18, height=12),
+    LevelConfig(name="Level 3", width=10, height=10),
+    LevelConfig(name="Level 4", width=10, height=20),
+    LevelConfig(name="Level 5", width=15, height=21),
+    LevelConfig(name="Level 6", width=14, height=10),
+    LevelConfig(name="Level 7", width=15, height=10),
+    LevelConfig(name="Level 8", width=12, height=16),
+    LevelConfig(name="Level 9", width=14, height=10),
+    LevelConfig(name="Level 10", width=20, height=20),
 ]
 
 
 class GameConfig(BaseModel):
     highscore_filename: str = Field(
-        min_length=1,
+        min_length=6,
         pattern=r'^data/.+\.json$',
         default="data/leaderboard.json",
         description="File including all scores"
     )
-    lives: int = Field(
-        ge=1, le=9999,
+    live: int = Field(
+        ge=1.0, le=9999.0,
         default=3,
         description="Number of lives of the player"
     )
-    pacgum_points: int = Field(
-        ge=1, le=9999,
+    pacgum_points: float = Field(
+        ge=1.0, le=9999.0,
         default=10,
         description="Points earned with pacgum"
     )
-    super_pacgum_points: int = Field(
-        ge=1, le=9999,
+    super_pacgum_points: float = Field(
+        ge=1.0, le=9999.0,
         default=50,
         description="Points earned with super_pacgum"
     )
-    ghost_points: int = Field(
-        ge=1, le=9999,
+    ghost_points: float = Field(
+        ge=1.0, le=9999.0,
         default=200,
         description="Points earned when eat ghost"
     )
