@@ -8,6 +8,12 @@
 	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
 	- Change the file "renderer/sprites_loader" to "utils/resources_loader.py", since it's purpose is to load the resources for the game.
 	- Refactor code to add the new change
+	- Add collision detection between player/enemy
+	- Rename "maze_renderer" to "game_renderer"
+	- Refactor the game_engine.py
+	- Transform the function in "collision_manager.py": "_player_collisions_logic" to "_entity_collisions_logic". The code is now modular for all entities
+	- Delete the "move()" function in the Movable abstract class since all entities will use the buffer
+	- Add walls collisions detection for all entities
 - anacharp
 	- implementation of the return to game option in the pause menu
 	- connection between the game engine and the pause menu
