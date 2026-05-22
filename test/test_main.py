@@ -4,8 +4,9 @@ from argparse import Namespace
 from src.parser import load_arguments
 from src.config import GameConfig
 from src.maze import load_mazegenerator
-from src.renderer import SpritesLoader, GameWindow
+from src.renderer import GameWindow
 from src.leaderboard import leaderboard_loader
+from src.utils import SpritesLoader
 
 
 if __name__ == "__main__":

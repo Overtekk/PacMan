@@ -1,12 +1,12 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  sprites_loader.py                                 :+:      :+:    :+:    #
+#  resources_loader.py                               :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:47:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 10:52:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,9 +14,12 @@ import arcade
 import pathlib
 from pathlib import Path
 
-from src.utils import check_path, check_folder, print_error, is_file_png
+from ..utils import (
+    check_path, check_folder, print_error, is_file_png, is_file_ttf
+)
 
-DEFAULT_SPRITES_PATH = "assets/sprites/"
+DEFAULT_SPRITES_PATH: str = "assets/sprites/"
+DEFAULT_FONT_PATH: str = "assets/fonts/"
 
 REQUIERED_SPRITES: dict[str, str] = {
     "pacgum": "collectibles/pacgum.png",
@@ -63,6 +66,10 @@ REQUIERED_SPRITES: dict[str, str] = {
     "player": "player/player.png",
 }
 
+REQUIERED_FONTS: dict[str, str] = {
+    "pressStart2P": "PressStart2P.ttf"
+}
+
 
 def check_assets_folder() -> None:
     try:
@@ -89,9 +96,9 @@ class SpritesLoader():
     def load_sprites(self) -> None:
         for sprite_name, relative_path in REQUIERED_SPRITES.items():
 
-            full_path = self.default_path / relative_path
+            full_path: Path = self.default_path / relative_path
 
-            verified_path = check_path(str(full_path))
+            verified_path: Path = check_path(str(full_path))
 
             if not is_file_png(full_path):
                 raise ValueError(
@@ -101,6 +108,37 @@ class SpritesLoader():
 
 
             self.textures[sprite_name] = verified_path
+
+
+class FontLoader():
+    def __init__(
+        self,
+        default_path: str = DEFAULT_FONT_PATH
+    ) -> None:
+
+        self.default_path: Path = pathlib.Path(default_path)
+
+        # check 'assets' folder
+        check_assets_folder()
+
+        self.fonts: dict[str, Path] = {}
+        self.load_fonts()
+
+    def load_fonts(self) -> None:
+        for font_name, relative_path in REQUIERED_FONTS.items():
+
+            full_path: Path = self.default_path / relative_path
+
+            verified_path: Path = check_path(str(full_path))
+
+            if not is_file_ttf(full_path):
+                raise ValueError(
+                    f"Wrong file extension for '{full_path}'.\n"
+                    "😑"
+                )
+
+            self.fonts[font_name] = verified_path
+            arcade.load_font(verified_path)
 
 
 def load_sprite_sheet(
