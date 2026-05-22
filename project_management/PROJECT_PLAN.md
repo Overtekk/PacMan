@@ -14,6 +14,7 @@
 	- Transform the function in "collision_manager.py": "_player_collisions_logic" to "_entity_collisions_logic". The code is now modular for all entities
 	- Delete the "move()" function in the Movable abstract class since all entities will use the buffer
 	- Add walls collisions detection for all entities
+	- Start the GameState Manager logic: add the game_data dictionnary containing all informations about the current game
 - anacharp
 	- implementation of the return to game option in the pause menu
 	- connection between the game engine and the pause menu
