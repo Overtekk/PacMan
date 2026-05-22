@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:08:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 11:27:47 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,7 +49,8 @@ class GameRenderer():
         self,
         wall_data: list[tuple[str, float, float, float]]
     ) -> None:
-
+        self.walls.clear()
+        self.entities.clear()
         for sprite_path, angle, x, y, tile_size in wall_data:
             wall = Wall(sprite_path, angle, x, y, tile_size)
 

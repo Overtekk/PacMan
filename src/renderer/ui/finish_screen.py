@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:10:30 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 11:36:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,12 +67,16 @@ class Victory(arcade.Sprite):
 
 
 class FinishScreen(BaseMenu):
-    def __init__(self, score: str, filename: str) -> None:
+    def __init__(self, score: str, filename: str,
+                 previous_view: arcade.View) -> None:
         super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
         self.player_name = ""
         self.score = score
         self.filename = filename
+        self.previous_view = previous_view
+        image = arcade.get_image()
+        self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
         victory = Victory(
@@ -134,6 +138,25 @@ class FinishScreen(BaseMenu):
 
     def on_draw(self) -> None:
         self.clear()
+        if self.background:
+            arcade.draw_texture_rect(
+                self.background,
+                arcade.XYWH(
+                    self.window.width / 2,
+                    self.window.height / 2,
+                    self.window.width,
+                    self.window.height
+                )
+            )
+        arcade.draw_rect_filled(
+            arcade.XYWH(
+                self.window.width / 2,
+                self.window.height / 2,
+                self.window.width,
+                self.window.height
+            ),
+            (0, 0, 0, 120)
+        )
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()

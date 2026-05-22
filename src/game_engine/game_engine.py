@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 11:48:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 11:43:39 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,7 @@ from .level_manager import LevelManager
 class GameEngine(arcade.View):
     def __init__(self) -> None:
         super().__init__()
+        self.initialized = False
         self.config = self.window.game_config
         self.game_renderer = GameRenderer()
 
@@ -37,7 +38,9 @@ class GameEngine(arcade.View):
         self.clear()
 
         # Call the setup method
-        self.setup()
+        if not self.initialized:
+            self.initialized = True
+            self.setup()
 
     def setup(self) -> None:
         level_index: int = 0
