@@ -24,6 +24,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *triple_wall.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *inside_wall.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *wall.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *heart.png*\
 ‎ ‎ ‎ ‎ ↳ **main menu**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *logo.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *start.png*\
