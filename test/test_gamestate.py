@@ -24,27 +24,27 @@ class Test(arcade.View):
             self.state_manager.on_key_press(symbol, modifiers)
 
     def on_show_view(self) -> None:
-        # game_over = FinishScreen("100000", self.config.highscore_filename,
-        #                          previous_view=self)
-        # self.window.show_view(game_over)
-        self.clear()
-        if not self.initialized:
-            self.initialized = True
-            self.setup()
-        else:
-            self.game_renderer.draw()
+        game_over = GameOverScreen("465121534", self.config.highscore_filename,
+                                 previous_view=self)
+        self.window.show_view(game_over)
+    #     self.clear()
+    #     if not self.initialized:
+    #         self.initialized = True
+    #         self.setup()
+    #     else:
+    #         self.game_renderer.draw()
 
-    def setup(self) -> None:
+    # def setup(self) -> None:
 
-        factory = MazeFactory()
-        wall_data = factory.generate_maze(
-            15, 15,
-            self.window.asset_manager.textures,
-            ScreenSettings.WIDTH,ScreenSettings.HEIGHT
-        )
+    #     factory = MazeFactory()
+    #     wall_data = factory.generate_maze(
+    #         15, 15,
+    #         self.window.asset_manager.textures,
+    #         ScreenSettings.WIDTH,ScreenSettings.HEIGHT
+    #     )
 
-        self.game_renderer.wall_generator(wall_data)
-        self.game_renderer.draw()
+    #     self.game_renderer.wall_generator(wall_data)
+    #     self.game_renderer.draw()
 
-        self.state_manager = GameStateManager(self.window, parent_view=self)
+    #     self.state_manager = GameStateManager(self.window, parent_view=self)
 
