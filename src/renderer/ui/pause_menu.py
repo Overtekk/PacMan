@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 12:47:44 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 11:41:20 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -131,7 +131,8 @@ class PauseMenu(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
         self.previous_view = previous_view
-        arcade.set_background_color(arcade.color.BLACK)
+        image = arcade.get_image()
+        self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
         pause = Pause(
@@ -188,3 +189,28 @@ class PauseMenu(BaseMenu):
         if symbol == arcade.key.SPACE:
             if self.window:
                 self.window.show_view(self.previous_view)
+
+    def on_draw(self):
+        self.clear()
+        if self.background:
+            arcade.draw_texture_rect(
+                self.background,
+                arcade.XYWH(
+                    self.window.width / 2,
+                    self.window.height / 2,
+                    self.window.width,
+                    self.window.height
+                )
+            )
+        arcade.draw_rect_filled(
+            arcade.XYWH(
+                self.window.width / 2,
+                self.window.height / 2,
+                self.window.width,
+                self.window.height
+            ),
+            (0, 0, 0, 120)
+        )
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()
