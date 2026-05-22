@@ -5,6 +5,7 @@ from src.renderer.screen_settings import ScreenSettings
 from src.game_engine.gamestate_manager import GameStateManager
 from src.renderer.ui.game_over_screen import GameOverScreen
 from src.renderer.ui.finish_screen import FinishScreen
+from src.renderer.ui.ui_screen import UIScreen
 
 
 
@@ -24,9 +25,10 @@ class Test(arcade.View):
             self.state_manager.on_key_press(symbol, modifiers)
 
     def on_show_view(self) -> None:
-        game_over = GameOverScreen("465121534", self.config.highscore_filename,
-                                 previous_view=self)
-        self.window.show_view(game_over)
+        # game_over = GameOverScreen("465121534", self.config.highscore_filename,
+        #                          previous_view=self)
+        # self.window.show_view(game_over)
+
     #     self.clear()
     #     if not self.initialized:
     #         self.initialized = True
@@ -47,4 +49,7 @@ class Test(arcade.View):
     #     self.game_renderer.draw()
 
     #     self.state_manager = GameStateManager(self.window, parent_view=self)
+
+        ui_screen = UIScreen("465121534", "03.00", 3)
+        self.window.show_view(ui_screen)
 

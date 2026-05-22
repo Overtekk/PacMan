@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 15:02:23 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 15:52:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,14 +26,16 @@ class DisplayLives(arcade.Sprite):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        scale: float = 2.0,
-        anchor_x="center"
+        scale: float = 1.5,
+        anchor_x="left",
+        anchor_y="top"
     ) -> None:
 
         super().__init__(
             path_or_texture=sprite_path,
             scale=scale,
-            anchor_x=anchor_x
+            anchor_x=anchor_x,
+            anchor_y=anchor_y
         )
 
         self.center_x = center_x
@@ -43,43 +45,46 @@ class DisplayLives(arcade.Sprite):
 
 
 class UIScreen(BaseMenu):
-    def __init__(self, score: int, time: float, lives: int) -> None:
+    def __init__(self, score: str, time: str, nb_lives: int) -> None:
         super().__init__()
         self.score = score
         self.time = time
-        image = arcade.get_image()
-        self.background = arcade.Texture(image)
+        self.nb_lives = nb_lives
 
     def build_ui(self) -> None:
-        lives = DisplayLives(
-            center_x=1,
-            center_y=1,
-            sprite_path=(
-                self.window.asset_manager.textures["life"]
-            ),
-            parent_view=self
-        )
-        display_score = arcade.Text(text=self.score,
-                                    x=ScreenSettings.WIDTH -50,
-                                    y=ScreenSettings.HEIGHT - 50,
-                                    color=arcade.color.WHITE, font_size=40,
-                                    font_name="Press Start 2P")
-        self.text_lst.append(display_score)
-        display_time = arcade.Text(text=self.time, x=ScreenSettings.WIDTH -100,
-                                   y=1,
-                                   color=arcade.color.YELLOW,
-                                   font_size=40, font_name="Press Start 2P")
-        self.text_lst.append(display_time)
-        self.button_list.append(lives)
+        x = 30
+        y = ScreenSettings.HEIGHT - 30
+        count = 0
+        for i in range (self.nb_lives):
+            count += 1
+            lives = DisplayLives(
+                center_x=x,
+                center_y=y,
+                sprite_path=(
+                    self.window.asset_manager.textures["life"]
+                ),
+                parent_view=self
+            )
+            self.button_list.append(lives)
+            x += 45
+            if count >= 3:
+                count = 0
+                y -= 50
+                x = 30
 
-    def on_key_press(self, symbol: int, modifiers: int) -> None:
-        if symbol == arcade.key.ESCAPE:
-            from src.renderer.ui.main_menu import MainMenu
-            if self.window:
-                self.window.show_view(MainMenu())
-        if symbol == arcade.key.SPACE:
-            if self.window:
-                self.window.show_view(self.previous_view)
+        display_score = arcade.Text(text=f"Score: {self.score}",
+                                    x=ScreenSettings.WIDTH - 10,
+                                    y=ScreenSettings.HEIGHT - 10,
+                                    color=arcade.color.WHITE, font_size=20,
+                                    font_name="pressStart2P", anchor_x="right",
+                                    anchor_y="top")
+        self.text_lst.append(display_score)
+        display_time = arcade.Text(text=self.time, x=ScreenSettings.WIDTH -10,
+                                   y=10,
+                                   color=arcade.color.WHITE,
+                                   font_size=20, font_name="pressStart2P",
+                                   anchor_x="right", anchor_y="bottom")
+        self.text_lst.append(display_time)
 
     def on_draw(self):
         self.clear()
