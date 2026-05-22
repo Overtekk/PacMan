@@ -8,6 +8,13 @@
 	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
 	- Change the file "renderer/sprites_loader" to "utils/resources_loader.py", since it's purpose is to load the resources for the game.
 	- Refactor code to add the new change
+- anacharp
+	- implementation of the return to game option in the pause menu
+	- connection between the game engine and the pause menu
+	- fixed the issue of returning to the game when pressing "Start" in the main menu after quitting a game using the pause menu
+	- make the overlays of the pause menu, game_over screen, and finish screen transparent so we can see our game in the background
+	- instructions improvement
+	- prevent players from validating an empty name
 
 ### 21/05/2026
 - roandrie
