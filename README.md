@@ -93,6 +93,7 @@ Project Management
 | Resource | Description |
 | :------: | :---------: |
 | [Arcade API](https://api.arcade.academy/en/3.3.3/index.html) | Official API of Arcade library |
+|[Arcade Colors](https://api.arcade.academy/en/2.6.17/arcade.color.html)| Official colors of Arcade library |
 
 ### Other
 | Resource | Description |
