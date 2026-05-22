@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 17:25:54 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 13:43:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@ import arcade
 from src.renderer.maze_renderer import GameRenderer
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
+from src.game_engine.gamestate_manager import GameStateManager
 
 
 class GameEngine(arcade.View):
@@ -23,6 +24,7 @@ class GameEngine(arcade.View):
         self.initialized = False
         self.config = self.window.game_config
         self.game_renderer = GameRenderer()
+        self.state_manager = GameStateManager(self.window, parent_view=self)
 
         self.level_manager = LevelManager(
             game_window=self.window
@@ -59,6 +61,9 @@ class GameEngine(arcade.View):
         elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
             self.player._next_direction = (1, 0)
 
+        elif self.state_manager:
+            self.state_manager.on_key_press(symbol, _modifiers)
+
 
     def on_show_view(self) -> None:
         # Clear the screen
@@ -68,6 +73,8 @@ class GameEngine(arcade.View):
         if not self.initialized:
             self.initialized = True
             self.setup()
+        else:
+            self.game_renderer.draw()
 
     def setup(self) -> None:
         level_index: int = 0
@@ -106,6 +113,8 @@ class GameEngine(arcade.View):
             self.level_manager.factory.tile_size,
             self.level_manager.maze_height
         )
+
+        self.state_manager = GameStateManager(self.window, parent_view=self)
 
     @property
     def game_paused(self) -> bool:
