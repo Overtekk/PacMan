@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 11:36:12 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 10:51:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,6 @@ from pathlib import Path
 from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
-arcade.load_font("assets/fonts/PressStart2P.ttf")
 
 
 class PacmanVictory(arcade.Sprite):

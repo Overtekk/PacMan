@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/17 15:16:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 16:23:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 10:29:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,9 +14,9 @@ from typing import Any
 
 import arcade
 
-from src.renderer import ScreenSettings, SpritesLoader
+from src.renderer import ScreenSettings
 from src.entity import Player
-from src.renderer import load_sprite_sheet
+from src.utils import SpritesLoader, load_sprite_sheet
 
 
 class TestPlayer(arcade.Window):

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 11:30:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 10:41:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,6 @@ from src.renderer.screen_settings import ScreenSettings
 from src.leaderboard.update_leaderboard import save_score_to_leaderboard
 
 from .base_menu import BaseMenu
-arcade.load_font("assets/fonts/PressStart2P.ttf")
 
 
 class GhostsWin(arcade.Sprite):

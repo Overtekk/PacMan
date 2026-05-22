@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 11:15:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/21 17:18:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,7 +29,58 @@ class Player(Movable):
             speed=speed
         )
 
+        self._next_direction: tuple[float, float] = (0.0, 0.0)
+
     def die(self) -> None:
         self._can_move = False
         self.respawn()
+
+    def update(self, delta: float) -> None:
+        # Calulate the movement vector
+        dx = self._current_direction[0] * self.speed * delta
+        dy = self._current_direction[1] * self.speed * delta
+        self.x += dx
+        self.y += dy
+
+        self._update_animation(delta)
+        self._update_sprite_facing()
+
+    def _update_animation(self, delta: float) -> None:
+        # Verify that the sprite is moving
+        if (self._can_move and
+                (self._current_direction[0] != 0 or
+                 self._current_direction[1] != 0)):
+
+            # Set the timer and update current texture
+            self._animation_timer += delta
+
+            if self._animation_timer > 0.02:
+                self.current_texture_index = ((self.current_texture_index + 1)
+                                                % len(self.textures))
+
+                self.sprite.texture = self.textures[self.current_texture_index]
+
+                self._animation_timer = 0
+
+    def _update_sprite_facing(self) -> None:
+        # Get the base scale of the sprite
+        base_scale: float = abs(self.sprite.scale_x)
+
+        # Move the facing in each direction based on the angle
+        match self._current_direction:
+            case (1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = base_scale
+
+            case (-1.0, 0.0):
+                self.sprite.angle = 0
+                self.sprite.scale_x = -base_scale
+
+            case (0.0, 1.0):
+                self.sprite.angle = -90
+                self.sprite.scale_x = base_scale
+
+            case (0.0, -1.0):
+                self.sprite.angle = 90
+                self.sprite.scale_x = base_scale
 
