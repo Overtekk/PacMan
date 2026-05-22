@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 13:13:09 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/22 14:32:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -131,8 +131,9 @@ class InstructionsScreen(BaseMenu):
                 self.window.show_view(self.previous_view)
 
     def write_ghosts(self) -> None:
-        cat_ghost_txt = arcade.Text(text="CAT GHOST =", x=920, y=280,
-                                    color=arcade.color.WHITE, font_size=20)
+        cat_ghost_txt = arcade.Text(text="ST GLORIUS RICTUS IV =", x=659, y=280,
+                                    color=arcade.color.GRAY, font_size=15,
+                                    font_name="Press Start 2P")
         cat_ghost = Ghosts(
             center_x=1200,
             center_y=295,
@@ -144,8 +145,9 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(cat_ghost_txt)
         self.button_list.append(cat_ghost)
 
-        fox_ghost_txt = arcade.Text(text="FOX GHOST =", x=920, y=210,
-                                    color=arcade.color.WHITE, font_size=20)
+        fox_ghost_txt = arcade.Text(text="CHIPEUR =", x=920, y=210,
+                                    color=arcade.color.SAFETY_ORANGE, font_size=15,
+                                    font_name="Press Start 2P")
         fox_ghost = Ghosts(
             center_x=1200,
             center_y=225,
@@ -157,8 +159,9 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(fox_ghost_txt)
         self.button_list.append(fox_ghost)
 
-        rat_ghost_txt = arcade.Text(text="RAT GHOST =", x=920, y=140,
-                                    color=arcade.color.WHITE, font_size=20)
+        rat_ghost_txt = arcade.Text(text="RATATOUILLE =", x=840, y=140,
+                                    color=arcade.color.PASTEL_GRAY,
+                                    font_size=15, font_name="Press Start 2P")
         rat_ghost = Ghosts(
             center_x=1200,
             center_y=155,
@@ -170,8 +173,9 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(rat_ghost_txt)
         self.button_list.append(rat_ghost)
 
-        dog_ghost_txt = arcade.Text(text="DOG GHOST =", x=920, y=70,
-                                    color=arcade.color.WHITE, font_size=20)
+        dog_ghost_txt = arcade.Text(text="FLEUR =", x=960, y=70,
+                                    color=arcade.color.APRICOT, font_size=15,
+                                    font_name="Press Start 2P")
         dog_ghost = Ghosts(
             center_x=1200,
             center_y=85,
@@ -184,8 +188,9 @@ class InstructionsScreen(BaseMenu):
         self.button_list.append(dog_ghost)
 
     def write_pacgums(self) -> None:
-        fish_txt = arcade.Text(text="PACGUMS =", x=1032, y=430,
-                               color=arcade.color.WHITE, font_size=20)
+        fish_txt = arcade.Text(text="PACGUMS =", x=1000, y=425,
+                               color=arcade.color.PASTEL_GREEN, font_size=15,
+                               font_name="Press Start 2P")
         fish = Assets(
             center_x=1240,
             center_y=440,
@@ -197,8 +202,9 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(fish_txt)
         self.button_list.append(fish)
 
-        burger_txt = arcade.Text(text="SUPER_PACGUMS =", x=930, y=360,
-                                 color=arcade.color.WHITE, font_size=20)
+        burger_txt = arcade.Text(text="SUPER_PACGUMS =", x=880, y=355,
+                                 color=arcade.color.GREEN, font_size=15,
+                                 font_name="Press Start 2P")
         burger = Assets(
             center_x=1240,
             center_y=370,
@@ -211,8 +217,9 @@ class InstructionsScreen(BaseMenu):
         self.button_list.append(burger)
 
     def write_player(self) -> None:
-        pacman_txt = arcade.Text(text="PACMAN =", x=1050, y=510,
-                                 color=arcade.color.WHITE, font_size=20)
+        pacman_txt = arcade.Text(text="PACMAN =", x=1020, y=505,
+                                 color=arcade.color.YELLOW_ROSE, font_size=15,
+                                 font_name="Press Start 2P")
         pacman = Pacman(
             center_x=1435,
             center_y=520,
@@ -226,13 +233,17 @@ class InstructionsScreen(BaseMenu):
 
     def write_commands(self) -> None:
         commands = arcade.Text(text="COMMANDS:", x=15, y=520,
-                               color=arcade.color.WHITE, font_size=20)
+                               color=arcade.color.BABY_BLUE, font_size=20,
+                               font_name="Press Start 2P")
         play = arcade.Text(text="- Play with WASD", x=15, y=470,
-                           color=arcade.color.WHITE, font_size=15)
+                           color=arcade.color.WHITE, font_size=15,
+                           font_name="Press Start 2P")
         pause = arcade.Text(text="- Press SPACE to pause", x=15, y=420,
-                            color=arcade.color.WHITE, font_size=15)
+                            color=arcade.color.WHITE, font_size=15,
+                            font_name="Press Start 2P")
         exit = arcade.Text(text="- Press ESC to exit", x=15, y=370,
-                           color=arcade.color.WHITE, font_size=15)
+                           color=arcade.color.WHITE, font_size=15,
+                           font_name="Press Start 2P")
         self.text_lst.append(commands)
         self.text_lst.append(play)
         self.text_lst.append(pause)
@@ -240,19 +251,25 @@ class InstructionsScreen(BaseMenu):
 
     def write_rules(self) -> None:
         rules = arcade.Text(text="RULES:", x=15, y=300,
-                            color=arcade.color.WHITE, font_size=20)
+                            color=arcade.color.RED, font_size=20,
+                            font_name="Press Start 2P")
         rule1 = arcade.Text(text="- Pacman avoids ghosts", x=15, y=250,
-                            color=arcade.color.WHITE, font_size=15)
+                            color=arcade.color.WHITE, font_size=15,
+                            font_name="Press Start 2P")
         rule2 = arcade.Text(text="- Pacgums give you points", x=15, y=200,
-                            color=arcade.color.WHITE, font_size=15)
+                            color=arcade.color.WHITE, font_size=15,
+                            font_name="Press Start 2P")
         rule3 = arcade.Text(text="- SuperPacgums give you more points", x=15,
                             y=150,
-                            color=arcade.color.WHITE, font_size=15)
+                            color=arcade.color.WHITE, font_size=15,
+                            font_name="Press Start 2P")
         rule4 = arcade.Text(
-            text="- After eating a SuperPacgum you can eat ghosts", x=15,
-            y=100, color=arcade.color.WHITE, font_size=15)
+                text="  and eating ghosts power", x=15,
+                y=100, color=arcade.color.WHITE, font_size=15,
+                font_name="Press Start 2P")
         rule5 = arcade.Text(text="- Ghosts give you more points", x=15, y=50,
-                            color=arcade.color.WHITE, font_size=15)
+                            color=arcade.color.WHITE, font_size=15,
+                            font_name="Press Start 2P")
         self.text_lst.append(rules)
         self.text_lst.append(rule1)
         self.text_lst.append(rule2)
