@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:51:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/22 13:33:25 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -128,12 +128,12 @@ class FinishScreen(BaseMenu):
                 self.player_name = self.player_name[:-1]
                 if self.text_lst:
                     self.text_lst.pop()
-        if symbol == arcade.key.ENTER:
-            from src.renderer.ui.main_menu import MainMenu
-            if self.window:
-                self.window.show_view(MainMenu())
-            save_score_to_leaderboard(self.filename, self.player_name,
-                                      float(self.score))
+            if symbol == arcade.key.ENTER:
+                from src.renderer.ui.main_menu import MainMenu
+                if self.window:
+                    self.window.show_view(MainMenu())
+                save_score_to_leaderboard(self.filename, self.player_name,
+                                        float(self.score))
 
     def on_draw(self) -> None:
         self.clear()
