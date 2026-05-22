@@ -15,6 +15,7 @@
 	- make the overlays of the pause menu, game_over screen, and finish screen transparent so we can see our game in the background
 	- instructions improvement
 	- prevent players from validating an empty name
+	- beginning of the UI screen : lives, score and timer displays
 
 ### 21/05/2026
 - roandrie
