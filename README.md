@@ -95,6 +95,11 @@ Project Management
 | [Arcade API](https://api.arcade.academy/en/3.3.3/index.html) | Official API of Arcade library |
 |[Arcade Colors](https://api.arcade.academy/en/2.6.17/arcade.color.html)| Official colors of Arcade library |
 
+### StateMachine
+| Resource | Description |
+| :------: | :---------: |
+| [Medium](https://medium.com/@eveciana21/enemy-ai-states-using-fsm-7fe3b3d05c4a) | Tiny documentation (more example) of how to do a state machine in python |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |
