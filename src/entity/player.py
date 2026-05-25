@@ -6,18 +6,21 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 13:07:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:31:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from .entity import Movable
 import arcade
+
+from .entity import Movable
+from src.utils import SuperCalculator
 
 
 class Player(Movable):
     def __init__(
         self, spawn_point: tuple[int, int],
         sprite_sheet: list[arcade.Texture],
+        calculator: SuperCalculator,
         scale: float = 1.0,
         speed: float = 100.0,
     ) -> None:
@@ -25,6 +28,7 @@ class Player(Movable):
         super().__init__(
             spawn_point=spawn_point,
             sprite_sheet=sprite_sheet,
+            calculator=calculator,
             scale=scale,
             speed=speed
         )

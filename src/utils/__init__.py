@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:53:55 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:38:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:21:20 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,6 +26,7 @@ from src.utils.check_path import (
 from src.utils.resources_loader import (
     SpritesLoader, FontLoader, load_sprite_sheet
 )
+from src.utils.calculator import SuperCalculator
 
 
 __all__ = [
@@ -48,5 +49,6 @@ __all__ = [
     "SpritesLoader",
     "FontLoader",
     "load_sprite_sheet",
-    "is_file_ttf"
+    "is_file_ttf",
+    "SuperCalculator"
 ]

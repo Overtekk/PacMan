@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:59:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:40:38 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,7 +16,7 @@ import arcade
 
 from src.entity import Entity, Player
 from .gamestate_manager import GameStateManager
-from src.utils import print_log
+from src.utils import print_log, SuperCalculator
 
 
 class CollisionManager():
@@ -25,21 +25,21 @@ class CollisionManager():
         player_reference: Player,
         enemies_reference: list[str, Any],
         enemies_sprite_list: arcade.SpriteList,
-        maze_bitemap: dict[tuple[int, int], str],
-        offset_x: int, offset_y: int, tile_size: int, maze_height: int,
+        maze_bitmap: dict[tuple[int, int], str],
+        calculator: SuperCalculator,
         state_manager: GameStateManager, debug_mode: bool
     ) -> None:
 
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
         self.enemies_sprite_list = enemies_sprite_list
-        self.maze_bitemap = maze_bitemap
+        self.maze_bitmap = maze_bitmap
         self.state_manager = state_manager
+        self.calculator = calculator
 
-        self.offset_x = offset_x
-        self.offset_y = offset_y
-        self.tile_size = tile_size
-        self.maze_height = maze_height
+        self.offset_x: float = self.calculator.maze_offset_x
+        self.offset_y: float = self.calculator.maze_offset_y
+        self.tile_size: float = self.calculator.maze_tile_size
 
         # DEBUG
         self.debug_mode = debug_mode
@@ -143,22 +143,14 @@ class CollisionManager():
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]
     ) -> bool:
-        # Get the entity position (x, y) and convert them from pixel coords to
-        # grid coords
-        pos_x: int = int((entity.x - self.offset_x) // self.tile_size)
-        pos_y: int = int((self.maze_height - 1) -
-                            ((entity.y - self.offset_y) // self.tile_size))
-
-        # Calculation of the extended grid
-        ext_x: int = (pos_x * 2) + 1
-        ext_y: int = (pos_y * 2) + 1
+        conv_x, conv_y = self.calculator.get_pixel_to_grid(entity)
 
         # Inverted Y (because Arcade Y=0 is bottom right)
-        wall_x: int = ext_x + direction[0]
-        wall_y: int = ext_y - direction[1]
+        wall_x: int = conv_x + direction[0]
+        wall_y: int = conv_y - direction[1]
 
         # Check if the destination is open
-        if self.maze_bitemap.get((wall_x, wall_y), 1) == 0:
+        if self.maze_bitmap.get((wall_x, wall_y), 1) == 0:
             return True
         return False
 

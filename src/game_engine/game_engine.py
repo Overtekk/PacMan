@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 14:08:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:36:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -120,18 +120,18 @@ class GameEngine(arcade.View):
         # Render the maze
         self.game_renderer.wall_generator(level)
 
+        # -------------TEMP
+
         self._setup_entities()
 
         # Instanciate the Collision Manager
         self.coll_manager: CollisionManager = CollisionManager(
             self.player, self.level_manager.enemies_list,
             self.enemies_sprite_list,
-            self.level_manager.byte_maze,
-            self.level_manager.factory.offset_x,
-            self.level_manager.factory.offset_y,
-            self.level_manager.factory.tile_size,
-            self.level_manager.maze_height,
-            self.state_manager, self.debug_mode
+            self.level_manager.maze_bitmap,
+            self.level_manager.calculator,
+            self.state_manager,
+            self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
@@ -189,6 +189,16 @@ class GameEngine(arcade.View):
         self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
         self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
         self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
+
+        # -------------------------- TEMP
+        t, p = self.level_manager.factory.get_pixel_coordinates(12, 5)
+
+        from src.entity.logics.StateMachine import EnemyState
+
+        self.dog_enemy.x = t
+        self.dog_enemy.y = p
+
+        self.dog_enemy._mode = EnemyState.RESPAWN
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()

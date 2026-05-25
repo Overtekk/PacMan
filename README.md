@@ -105,6 +105,11 @@ Project Management
 | :------: | :---------: |
 | [Official Python Doc](https://docs.python.org/3/library/enum.html) | Documentation about the enum |
 
+### Math
+| Resource | Description |
+| :------: | :---------: |
+| [Eitca (french)](https://fr.eitca.org/intelligence-artificielle/eitc-ai-mlp-machine-learning-avec-python/programmation-de-l%27apprentissage-automatique/programmation-de-l%27algorithme-des-k-plus-proches-voisins/examen-examen-programmation-propre-algorithme-des-k-voisins-les-plus-proches/comment-calculer-la-distance-euclidienne-entre-deux-points-de-donn%C3%A9es-%C3%A0-l%27aide-d%27op%C3%A9rations-Python-de-base/) | Help for calculating the distance between two points using the euclidean distance |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |

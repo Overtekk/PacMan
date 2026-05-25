@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:00:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:34:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,7 +16,7 @@ import arcade
 
 from pathlib import Path
 
-from src.utils import print_warn, load_sprite_sheet
+from src.utils import print_warn, load_sprite_sheet, SuperCalculator
 from src.config import GameConfig
 from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
 from src.renderer.screen_settings import ScreenSettings
@@ -48,6 +48,14 @@ class LevelManager():
             first_instance
         )
 
+        # Create the calculator
+        self.calculator = SuperCalculator(
+            maze_offset_x=self.factory.offset_x,
+            maze_offset_y=self.factory.offset_y,
+            maze_tile_size=self.factory.tile_size,
+            maze_height=self.factory.height
+        )
+
         # Create all entities
         self._create_entity()
 
@@ -77,7 +85,7 @@ class LevelManager():
                 ScreenSettings.WIDTH, ScreenSettings.HEIGHT
             )
         # Store the maze in bytes for later calculations
-        self.byte_maze: dict[tuple[int, int], str] = generate_bytes_maze(
+        self.maze_bitmap: dict[tuple[int, int], str] = generate_bytes_maze(
             self.factory.grid_data,
             self.maze_width, self.maze_height,
         )
@@ -98,6 +106,7 @@ class LevelManager():
                 sprite_width=308/6, sprite_height=63,
                 sprites_columns=6, sprites_count=6
             ),
+            calculator=self.calculator,
             scale=PLAYER_SCALE
         )
 
@@ -109,6 +118,8 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
+            maze_bitmap=self.maze_bitmap,
+            calculator=self.calculator,
             scale=ENEMIES_SCALE,
             speed=101
         )
@@ -121,6 +132,8 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=30,
                 sprites_columns=3, sprites_count=3
             ),
+            maze_bitmap=self.maze_bitmap,
+            calculator=self.calculator,
             scale=ENEMIES_SCALE,
             speed=101
         )
@@ -133,6 +146,8 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
+            maze_bitmap=self.maze_bitmap,
+            calculator=self.calculator,
             scale=ENEMIES_SCALE,
             speed=101
         )
@@ -145,6 +160,8 @@ class LevelManager():
                 sprite_width=96/3, sprite_height=32,
                 sprites_columns=3, sprites_count=3
             ),
+            maze_bitmap=self.maze_bitmap,
+            calculator=self.calculator,
             scale=ENEMIES_SCALE,
             speed=101
         )
@@ -219,7 +236,7 @@ class LevelManager():
         extend_y = y * 2 + 1
 
         # Is this position have cell open?
-        if self.byte_maze[extend_x, extend_y] == 0:
+        if self.maze_bitmap[extend_x, extend_y] == 0:
             return ((extend_x - 1) // 2, (extend_y - 1) // 2)
 
         # Else, finding another valable position
@@ -254,42 +271,42 @@ class LevelManager():
                 )
 
             # Check case: north
-            if self.byte_maze.get((row, col + case), 1) == 0:
+            if self.maze_bitmap.get((row, col + case), 1) == 0:
                 valid_coords = (row, col + case)
                 break
 
             # Check case: south
-            elif self.byte_maze.get((row, col - case), 1) == 0:
+            elif self.maze_bitmap.get((row, col - case), 1) == 0:
                 valid_coords = (row, col - case)
                 break
 
             # Check case: west
-            elif self.byte_maze.get((row - case, col), 1) == 0:
+            elif self.maze_bitmap.get((row - case, col), 1) == 0:
                 valid_coords = (row - case, col)
                 break
 
             # Check case: west-north
-            elif self.byte_maze.get((row - case, col + case), 1) == 0:
+            elif self.maze_bitmap.get((row - case, col + case), 1) == 0:
                 valid_coords = (row - case, col + case)
                 break
 
             # Check case: west-south
-            elif self.byte_maze.get((row - case, col - case), 1) == 0:
+            elif self.maze_bitmap.get((row - case, col - case), 1) == 0:
                 valid_coords = (row - case, col - case)
                 break
 
             # Check case: east
-            if self.byte_maze.get((row + case, col), 1) == 0:
+            if self.maze_bitmap.get((row + case, col), 1) == 0:
                 valid_coords = (row + case, col)
                 break
 
             # Check case: north-east
-            elif self.byte_maze.get((row + case, col - case), 1) == 0:
+            elif self.maze_bitmap.get((row + case, col - case), 1) == 0:
                 valid_coords = (row + case, col - case)
                 break
 
             # Check case: south-east
-            elif self.byte_maze.get((row + case, col + case), 1) == 0:
+            elif self.maze_bitmap.get((row + case, col + case), 1) == 0:
                 valid_coords = (row + case, col + case)
                 break
 

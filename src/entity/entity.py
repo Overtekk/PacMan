@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 14:05:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:41:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,22 +14,27 @@ import arcade
 
 from abc import ABC, abstractmethod
 
-from .enemies.logics.StateMachine import EnemyState
+from .logics.StateMachine import EnemyState
+from .logics.math_logics import euclidean_distance, check_open_wall
+from src.utils import SuperCalculator
 
 
 class Entity(ABC):
     def __init__(
         self, spawn_point: tuple[int, int],
         sprite_path_or_texture: str | arcade.Texture,
+        calculator: SuperCalculator,
         scale: float = 1.0
     ) -> None:
+
+        self.calculator = calculator
 
         # Logical coordinates
         self.spawn_point: tuple[int, int] = spawn_point
         self._x: float = float(spawn_point[0])
         self._y: float = float(spawn_point[1])
 
-        # On utilise 'texture=' au lieu de 'filename='
+        # Create the sprite
         self.sprite = arcade.Sprite(
             path_or_texture=sprite_path_or_texture,
             scale=float(scale)
@@ -66,6 +71,7 @@ class Movable(Entity):
         self,
         spawn_point: tuple[int, int],
         sprite_sheet: list[arcade.Texture],
+        calculator: SuperCalculator,
         scale: float = 1.0,
         speed: float = 100.0
     ) -> None:
@@ -73,7 +79,7 @@ class Movable(Entity):
         self.textures: list[arcade.Texture] = sprite_sheet
         self.current_texture_index: int = 0
 
-        super().__init__(spawn_point, self.textures[0], scale)
+        super().__init__(spawn_point, self.textures[0], calculator, scale)
 
         self._base_facing: float = self.sprite.scale_x
         self._base_angle: float = self.sprite.angle
@@ -147,16 +153,20 @@ class Enemy(Movable):
         self,
         spawn_point: tuple[int, int],
         sprite_sheet: list[arcade.Texture],
+        maze_bitmap: dict[tuple[int, int], str],
+        calculator: SuperCalculator,
         scale: float = 1.0,
         speed: float = 80.0,
         is_edible: bool = False,
-        mode: EnemyState = EnemyState.WANDER
+        enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
 
-        super().__init__(spawn_point, sprite_sheet, scale, speed)
+        super().__init__(spawn_point, sprite_sheet, calculator, scale, speed)
+
+        self.maze_bitmap = maze_bitmap
 
         self._is_edible: bool = is_edible
-        self._mode = mode
+        self._mode = enemy_state
 
         self._move_timer: float = 0.0
 
@@ -176,17 +186,40 @@ class Enemy(Movable):
     def mode(self, new_state: EnemyState) -> None:
         self._mode = new_state
 
+    def update(self, delta_time: float) -> None:
+        self.state_machine()
+        super().update(delta_time)
+
+    def state_machine(self) -> None:
+        if self._mode == EnemyState.RESPAWN:
+            self._go_spawn()
+
+    def _go_spawn(self) -> None:
+        while (self._x, self._y) != self.spawn_point:
+
+            conv_x, conv_y = self.calculator.get_pixel_to_grid(self)
+
+            open_walls: list[tuple[int, int]] = check_open_wall(
+                conv_x, conv_y, self.maze_bitmap
+            )
+
+            best_distance: float = float('+inf')
+            for coords in open_walls:
+                print(coords)
+                break
+
 
 class Collectible(Entity):
     def __init__(
         self,
         spawn_point: tuple[int, int],
         sprite_data: str | arcade.Texture,
+        calculator: SuperCalculator,
         scale: float = 1.0,
         score: int = 0
     ) -> None:
 
-        super().__init__(spawn_point, sprite_data, scale)
+        super().__init__(spawn_point, sprite_data, calculator, scale)
 
         self._score: int = score
         self._collected: bool = False
@@ -198,3 +231,4 @@ class Collectible(Entity):
     @abstractmethod
     def activate_power(self) -> None:
         pass
+
