@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:45:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 11:02:38 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,6 +31,7 @@ class GameEngine(arcade.View):
         super().__init__()
 
         self.config: GameConfig = self.window.game_config
+        self.debug_mode: bool = self.window.debug_mode
 
         # Instanciate class instance
         self.game_renderer = GameRenderer()
@@ -119,7 +120,7 @@ class GameEngine(arcade.View):
             self.level_manager.factory.offset_y,
             self.level_manager.factory.tile_size,
             self.level_manager.maze_height,
-            self.state_manager
+            self.state_manager, self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START

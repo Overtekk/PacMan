@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 18:06:26 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/25 10:53:45 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,7 @@ CONFIG			=	data/config.json
 # =		RULES		=
 # ===================
 
-.PHONY:		all install run debug clean fclean lint lint-strict delete-uv
+.PHONY:		all install run run-debug debug clean fclean lint lint-strict delete-uv
 .SILENT:
 
 all:		install run
@@ -45,6 +45,9 @@ install:
 
 run:		install
 			$(UV_PYTHON) pac-man.py $(CONFIG)
+
+run-debug:	install
+			$(UV_PYTHON) pac-man.py $(CONFIG) --debug
 
 debug:		install
 			@echo "$(BGREEN)Running the main script in debug mode...$(RESET)"

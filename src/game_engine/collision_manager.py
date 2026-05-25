@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 09:31:00 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 11:04:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ import arcade
 
 from src.entity import Entity, Player
 from .gamestate_manager import GameStateManager
+from src.utils import print_log
 
 
 class CollisionManager():
@@ -26,7 +27,7 @@ class CollisionManager():
         enemies_sprite_list: arcade.SpriteList,
         maze_bitemap: dict[tuple[int, int], str],
         offset_x: int, offset_y: int, tile_size: int, maze_height: int,
-        state_manager: GameStateManager
+        state_manager: GameStateManager, debug_mode: bool
     ) -> None:
 
         self.player_reference = player_reference
@@ -34,6 +35,7 @@ class CollisionManager():
         self.enemies_sprite_list = enemies_sprite_list
         self.maze_bitemap = maze_bitemap
         self.state_manager = state_manager
+        self.debug_mode = debug_mode
 
         self.offset_x = offset_x
         self.offset_y = offset_y
@@ -50,8 +52,15 @@ class CollisionManager():
 
         # Check for collision between player/enemy
         if self._check_collisions_with_enemy():
-            self.player_reference.die()
             self.state_manager.live -= 1
+
+            if self.debug_mode:
+                print_log(
+                    f"Player died! Life remaining:{self.state_manager.live}"
+                )
+
+            self.player_reference.die()
+
 
     # :---------------:
     #  PRIVATE METHODS
