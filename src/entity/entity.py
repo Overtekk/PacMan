@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:41:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 19:23:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -170,6 +170,8 @@ class Enemy(Movable):
 
         self._move_timer: float = 0.0
 
+        self._visited_case: list[tuple[float, float]] = []
+
     @property
     def is_edible(self) -> bool:
         return self._is_edible
@@ -191,22 +193,56 @@ class Enemy(Movable):
         super().update(delta_time)
 
     def state_machine(self) -> None:
-        if self._mode == EnemyState.RESPAWN:
-            self._go_spawn()
+        if self.mode == EnemyState.RESPAWN:
+            self._return_to_spawnpoint()
 
-    def _go_spawn(self) -> None:
-        while (self._x, self._y) != self.spawn_point:
+    def _return_to_spawnpoint(self) -> None:
+        # Convert the spawnpoint from pixels to grid
+        conv_spawn_point = self.calculator.get_pixel_to_grid_any(
+            self.spawn_point[0], self.spawn_point[1]
+        )
 
-            conv_x, conv_y = self.calculator.get_pixel_to_grid(self)
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
 
-            open_walls: list[tuple[int, int]] = check_open_wall(
-                conv_x, conv_y, self.maze_bitmap
-            )
+        # Check that the entity is not arrived
+        if (conv_x, conv_y) == conv_spawn_point:
+            print("youhou")
+            self.mode = EnemyState.WAIT
+            return
 
-            best_distance: float = float('+inf')
-            for coords in open_walls:
-                print(coords)
-                break
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = check_open_wall(
+            conv_x, conv_y, self.maze_bitmap
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._current_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoiding loop)
+        if not self._current_direction == (0.0, 0.0):
+            curr_dir_x: float = self._current_direction[0] * -1
+            curr_dir_y: float = self._current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Variable to compare and store the result
+        best_distance: float = float('+inf')
+        direction: tuple[float, float] = (0.0, 0.0)
+
+        for key, coords in open_walls.items():
+            # Calculate the distance between coords and spawnpoint
+            distance: float = euclidean_distance((coords), (conv_spawn_point))
+
+            # Compare result and store it
+            if best_distance > distance:
+                best_distance = distance
+                direction = key
+
+        self._current_direction = direction
 
 
 class Collectible(Entity):

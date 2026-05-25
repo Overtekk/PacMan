@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:40:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 18:54:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -143,7 +143,7 @@ class CollisionManager():
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]
     ) -> bool:
-        conv_x, conv_y = self.calculator.get_pixel_to_grid(entity)
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(entity)
 
         # Inverted Y (because Arcade Y=0 is bottom right)
         wall_x: int = conv_x + direction[0]

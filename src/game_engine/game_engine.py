@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:36:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 19:15:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -198,7 +198,7 @@ class GameEngine(arcade.View):
         self.dog_enemy.x = t
         self.dog_enemy.y = p
 
-        self.dog_enemy._mode = EnemyState.RESPAWN
+        self.dog_enemy.mode = EnemyState.RESPAWN
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
