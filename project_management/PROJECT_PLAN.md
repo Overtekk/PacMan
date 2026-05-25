@@ -12,6 +12,9 @@
 	- Add 2 new fonts
 	- Add new argument: --debug and run debug in Makefile
 	- Add a debug button ('R') to kill the player for testing purpose
+	- Add new states for the enemy
+	- Add the respawn algo for the enemies (finding the way to their spawnpoint)
+	- Add the SuperCalculator() to convert pixel to grid (for now), more easily to do that avoiding copy-paste the same code 3 times
 
 	- Change: in config_loader, mandatory keys "lives" in now "live"
 	- Change: new game_state and use of auto() instead of writing value by hand
