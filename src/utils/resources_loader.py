@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 15:10:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/25 10:59:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,7 +68,9 @@ REQUIERED_SPRITES: dict[str, str] = {
 }
 
 REQUIERED_FONTS: dict[str, str] = {
-    "pressStart2P": "PressStart2P.ttf"
+    "pressStart2P": "PressStart2P.ttf",
+    "fibberish": "fibberish.ttf",
+    "Kaph": "Kaph-Regular.ttf"
 }
 
 
@@ -107,7 +109,6 @@ class SpritesLoader():
                     "😑"
                 )
 
-
             self.textures[sprite_name] = verified_path
 
 
@@ -122,11 +123,10 @@ class FontLoader():
         # check 'assets' folder
         check_assets_folder()
 
-        self.fonts: dict[str, Path] = {}
         self.load_fonts()
 
     def load_fonts(self) -> None:
-        for font_name, relative_path in REQUIERED_FONTS.items():
+        for relative_path in REQUIERED_FONTS.values():
 
             full_path: Path = self.default_path / relative_path
 
@@ -138,7 +138,6 @@ class FontLoader():
                     "😑"
                 )
 
-            self.fonts[font_name] = verified_path
             arcade.load_font(verified_path)
 
 
