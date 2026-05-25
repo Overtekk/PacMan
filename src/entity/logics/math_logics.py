@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 17:22:26 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 19:08:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 19:28:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -28,16 +28,20 @@ def check_open_wall(
 ) -> dict[tuple[int, int], tuple[int, int]]:
     open_wall: dict[tuple[int, int], tuple[int, int]] = {}
 
+    # West
     if maze_bitemap[(x + 1, y)] == 0:
         open_wall[(1, 0)] = (x + 1, y)
 
+    # East
     if maze_bitemap[(x - 1, y)] == 0:
         open_wall[(-1, 0)] = (x - 1, y)
 
+    # South
     if maze_bitemap[(x, y + 1)] == 0:
-        open_wall[(0, 1)] = (x, y + 1)
+        open_wall[(0, -1)] = (x, y + 1)
 
+    # North
     if maze_bitemap[(x, y - 1)] == 0:
-        open_wall[(0, -1)] = (x, y - 1)
+        open_wall[(0, 1)] = (x, y - 1)
 
     return open_wall
