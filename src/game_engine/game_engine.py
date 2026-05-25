@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 11:02:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:24:15 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from src.config import GameConfig
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 from .game_settings import GameState
+from src.utils import print_log
 
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
@@ -40,25 +41,18 @@ class GameEngine(arcade.View):
         self.level_manager = LevelManager(game_window=self.window)
 
         self._first_launch: bool = True
-        self._game_paused: bool = False
-
-    @property
-    def game_paused(self) -> bool:
-        return self._game_paused
-
-    @game_paused.setter
-    def game_paused(self, new_value: bool) -> None:
-        self._game_paused = new_value
 
     def on_update(self, delta_time: float) -> None:
-        if self._game_paused:
-            return
+        self.game_renderer.update(delta_time)
 
         if self.game_state == GameState.SETUP:
             pass
 
         elif self.game_state == GameState.STARTING:
             self._timer_start(delta_time)
+
+        elif self.game_state == GameState.PAUSE:
+            pass
 
         elif self.game_state == GameState.PLAYING:
             # Check for collisions
@@ -69,6 +63,12 @@ class GameEngine(arcade.View):
 
             for enemy_obj in self.level_manager.enemies_list.values():
                 enemy_obj.update(delta_time)
+
+        elif self.game_state == GameState.RESPAWN:
+            pass
+
+        elif self.game_state == GameState.FINISH:
+            pass
 
     def on_draw(self) -> None:
         self.clear()
@@ -147,12 +147,26 @@ class GameEngine(arcade.View):
     # :---------------:
 
     def _timer_start(self, delta_time: float) -> None:
+        # Save the current second
+        previous_second: int = int(self._current_timer_start) + 1
+
+        # Time elapsed
         self._current_timer_start -= delta_time
 
-        if self._current_timer_start > 0:
-            return
+        # New second
+        current_second: int = int(self._current_timer_start) + 1
 
-        self._setup_start()
+        if current_second != previous_second and current_second > 0:
+            if self.debug_mode:
+                print(f"Game starting in: {current_second}")
+            self.game_renderer.trigger_time_text(str(current_second))
+
+        if self._current_timer_start <= 0.0:
+            if self.debug_mode:
+                print_log("Game started")
+            self.game_renderer.trigger_time_text("GO!")
+
+            self._setup_start()
 
     def _setup_entities(self) -> None:
 
