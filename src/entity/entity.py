@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 19:23:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 20:31:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -170,7 +170,7 @@ class Enemy(Movable):
 
         self._move_timer: float = 0.0
 
-        self._visited_case: list[tuple[float, float]] = []
+        self.last_movement: tuple[float, float] = (0.0, 0.0)
 
     @property
     def is_edible(self) -> bool:
@@ -205,6 +205,11 @@ class Enemy(Movable):
         # Convert its position from pixels to grid
         conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
 
+        if (conv_x, conv_y) == self.last_movement:
+            return
+
+        self.last_movement = (conv_x, conv_y)
+
         # Check that the entity is not arrived
         if (conv_x, conv_y) == conv_spawn_point:
             print("youhou")
@@ -218,7 +223,7 @@ class Enemy(Movable):
 
         # Move to the only wall available
         if len(open_walls) == 1:
-            self._current_direction = list(open_walls.keys()).pop()
+            self._next_direction = list(open_walls.keys()).pop()
             return
 
         # Remove the inverted direction from the current one (avoiding loop)
@@ -242,7 +247,7 @@ class Enemy(Movable):
                 best_distance = distance
                 direction = key
 
-        self._current_direction = direction
+        self._next_direction = direction
 
 
 class Collectible(Entity):
