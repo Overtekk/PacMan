@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 13:12:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 14:04:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,6 +31,10 @@ class FoxEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
+
+        # Spawn right, facing right
+        self.sprite.scale_x = -abs(self.sprite.scale_x)
+        self._base_facing: float = self.sprite.scale_x
 
     def die(self) -> None:
         pass

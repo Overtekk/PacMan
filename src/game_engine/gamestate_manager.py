@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 22:51:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:48:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -51,7 +51,10 @@ class GameStateManager():
             if self.window:
                 from src.renderer.ui.game_over_screen import GameOverScreen
 
-                self.window.show_view(GameOverScreen)
+                self.window.show_view(GameOverScreen(
+                    score=self.score, filename=self.config.highscore_filename,
+                    previous_view=self
+                ))
 
     @property
     def score(self) -> float:
@@ -83,7 +86,7 @@ class GameStateManager():
 
         # TIMES OUT TRIGGER
         if self.game_data["time_left"] <= 0:
-            self.lives -= 1
+            self.live -= 1
 
     @property
     def current_level_index(self) -> int:
@@ -105,6 +108,5 @@ class GameStateManager():
                 from src.renderer.ui.pause_menu import PauseMenu
 
                 self.window.show_view(PauseMenu(
-                        previous_view=self.parent_view))
-
-    # stock data : score, lives, current_level, timer
+                    previous_view=self.parent_view
+                ))

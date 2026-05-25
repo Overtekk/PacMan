@@ -100,6 +100,11 @@ Project Management
 | :------: | :---------: |
 | [Medium](https://medium.com/@eveciana21/enemy-ai-states-using-fsm-7fe3b3d05c4a) | Tiny documentation (more example) of how to do a state machine in python |
 
+### Documentation for Enum
+| Resource | Description |
+| :------: | :---------: |
+| [Official Python Doc](https://docs.python.org/3/library/enum.html) | Documentation about the enum |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |

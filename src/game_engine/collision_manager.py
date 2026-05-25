@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:17:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:59:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,8 @@ from typing import Any
 import arcade
 
 from src.entity import Entity, Player
+from .gamestate_manager import GameStateManager
+from src.utils import print_log
 
 
 class CollisionManager():
@@ -24,20 +26,27 @@ class CollisionManager():
         enemies_reference: list[str, Any],
         enemies_sprite_list: arcade.SpriteList,
         maze_bitemap: dict[tuple[int, int], str],
-        offset_x: int, offset_y: int, tile_size: int, maze_height: int
+        offset_x: int, offset_y: int, tile_size: int, maze_height: int,
+        state_manager: GameStateManager, debug_mode: bool
     ) -> None:
 
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
         self.enemies_sprite_list = enemies_sprite_list
         self.maze_bitemap = maze_bitemap
+        self.state_manager = state_manager
 
         self.offset_x = offset_x
         self.offset_y = offset_y
         self.tile_size = tile_size
         self.maze_height = maze_height
 
-    def update(self) -> None:
+        # DEBUG
+        self.debug_mode = debug_mode
+        self.debug_force_death: bool = False
+
+
+    def update(self) -> bool:
         # Check collisions for the player
         self._entity_collisions_logic(self.player_reference)
 
@@ -46,8 +55,20 @@ class CollisionManager():
             self._entity_collisions_logic(enemy)
 
         # Check for collision between player/enemy
-        if self._check_collisions_with_enemy():
+        if self._check_collisions_with_enemy() or self.debug_force_death:
+            self.debug_force_death = False
+            self.state_manager.live -= 1
+
+            if self.debug_mode:
+                print_log(
+                    f"Player died! Life remaining: {self.state_manager.live}"
+                )
+
             self.player_reference.die()
+            return True
+
+        return False
+
 
     # :---------------:
     #  PRIVATE METHODS
@@ -169,7 +190,3 @@ class CollisionManager():
                         self.offset_y)
 
         return center_x, center_y
-
-
-    # detect player and collectibles
-    # detect player and enemy

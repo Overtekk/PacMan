@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 13:33:18 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/25 12:53:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -89,7 +89,7 @@ class GameOver(arcade.Sprite):
 
 
 class GameOverScreen(BaseMenu):
-    def __init__(self, score: str, filename: str,
+    def __init__(self, score: int, filename: str,
                  previous_view: arcade.View) -> None:
         super().__init__()
         self.player_name = ""
@@ -129,7 +129,7 @@ class GameOverScreen(BaseMenu):
                                    font_name="Press Start 2P",
                                    anchor_x="center")
         self.text_lst.append(score)
-        nb = arcade.Text(text=self.score, x=ScreenSettings.WIDTH // 2, y=285,
+        nb = arcade.Text(text=str(self.score), x=ScreenSettings.WIDTH // 2, y=285,
                                    color=arcade.color.YELLOW, font_size=40,
                                    font_name="Press Start 2P",
                                    anchor_x="center")

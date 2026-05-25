@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 10:33:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:50:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -57,6 +57,13 @@ def load_arguments() -> argparse.Namespace:
               "default: data/config.json"),
         metavar="config.json",
         type=load_config
+    )
+
+    parser.add_argument(
+        "-d", "--debug",
+        help="launch with the debug mode (for dev)",
+        required=False,
+        action="store_true"
     )
 
     args: argparse.Namespace = parser.parse_args()

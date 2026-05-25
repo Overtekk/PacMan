@@ -6,14 +6,16 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 14:58:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/18 14:59:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 11:53:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from enum import Enum
+from enum import Enum, auto
 
 
 class EnemyState(Enum):
-    WANDER = 0
-    CHASE = 1
-    ESCAPE = 2
+    WANDER = auto()
+    CHASE = auto()
+    RUNAWAY = auto()
+    RESPAWN = auto()
+    SEARCH = auto()
