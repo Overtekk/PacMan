@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 21:13:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:00:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -36,7 +36,7 @@ class LevelManager():
         self.enemies_list: list[str, Any] = {}
 
     def create_level(
-        self, maze_width: int, maze_height: int
+        self, maze_width: int, maze_height: int, first_instance: bool = False
     ) -> list[list[int]]:
 
         # Store the maze width & height in the class
@@ -44,7 +44,9 @@ class LevelManager():
         self.maze_height = maze_height
 
         # Create the level
-        generated_level: list[list[int]] = self._create_maze_level()
+        generated_level: list[list[int]] = self._create_maze_level(
+            first_instance
+        )
 
         # Create all entities
         self._create_entity()
@@ -55,16 +57,25 @@ class LevelManager():
     #  PRIVATE METHODS
     # :---------------:
 
-    def _create_maze_level(self) -> list[list[int]]:
+    def _create_maze_level(
+        self, first_instance: bool = False
+    ) -> list[list[int]]:
         # Instanciate the MazeFactory object
         self.factory = MazeFactory()
 
         # Create the Maze
-        wall_data: list[list[int]] = self.factory.generate_maze(
-            self.maze_width, self.maze_height,
-            self.asset_manager.textures,
-            ScreenSettings.WIDTH, ScreenSettings.HEIGHT
-        )
+        if first_instance:
+            wall_data: list[list[int]] = self.factory.generate_maze(
+                self.maze_width, self.maze_height,
+                self.asset_manager.textures,
+                ScreenSettings.WIDTH, ScreenSettings.HEIGHT, self.config.seed
+            )
+        else:
+            wall_data: list[list[int]] = self.factory.generate_maze(
+                self.maze_width, self.maze_height,
+                self.asset_manager.textures,
+                ScreenSettings.WIDTH, ScreenSettings.HEIGHT
+            )
         # Store the maze in bytes for later calculations
         self.byte_maze: dict[tuple[int, int], str] = generate_bytes_maze(
             self.factory.grid_data,

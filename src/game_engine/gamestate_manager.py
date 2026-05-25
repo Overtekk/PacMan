@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 22:51:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 09:25:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -83,7 +83,7 @@ class GameStateManager():
 
         # TIMES OUT TRIGGER
         if self.game_data["time_left"] <= 0:
-            self.lives -= 1
+            self.live -= 1
 
     @property
     def current_level_index(self) -> int:

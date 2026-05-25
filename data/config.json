@@ -5,11 +5,11 @@
 	"super_pacgum_points": 50,
 	"ghost_points": 200,
 	"seed": "koala",
-	"Level max_time": 180.0,
+	"level_max_time": 180.0,
 	"level": [
 		{
 			"name": "Level 1",
-			"width": 20,
+			"width": 21,
 			"height": 10
 		},
 		{

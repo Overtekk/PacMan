@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 13:57:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:16:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -51,7 +51,7 @@ class MazeFactory:
 
     def generate_maze(
         self, width: int, height: int, textures: dict,
-        screen_width: int, screen_height: int
+        screen_width: int, screen_height: int, seed: str = ""
 
     ) -> list[list[int]]:
         self.width = width
@@ -71,7 +71,16 @@ class MazeFactory:
                                        self.tile_size) // 2)
 
         # Instanciate the generator and generate the maze
-        maze_generator: Any = self._maze_class((self.width, self.height))
+        if len(str(seed)) > 0:
+
+            # Convert the string into integer
+            int_seed: int = sum(ord(c) for c in seed)
+
+            maze_generator: Any = self._maze_class((self.width, self.height),
+                                                   seed=int_seed)
+        else:
+            maze_generator: Any = self._maze_class((self.width, self.height))
+
         self.grid_data: list[list[int]] = maze_generator._maze
 
         # Create the list to store all informations

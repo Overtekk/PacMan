@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/17 14:40:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 09:26:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,7 +20,7 @@ from src.utils.display import print_error
 
 
 mandatory_keys: list[str] = [
-    "highscore_filename", "lives", "pacgum_points", "super_pacgum_points",
+    "highscore_filename", "live", "pacgum_points", "super_pacgum_points",
     "ghost_points", "seed", "level_max_time", "level"
 ]
 

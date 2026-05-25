@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 21:58:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:14:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,10 @@ from src.config import GameConfig
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 
+# Number of seconds before the level start (player and enemies movement) or
+# between lose
+TIMER_LEVEL_START: int = 3
+
 
 class GameEngine(arcade.View):
     def __init__(self) -> None:
@@ -32,7 +36,7 @@ class GameEngine(arcade.View):
         self.state_manager = GameStateManager(self.window, parent_view=self)
         self.level_manager = LevelManager(game_window=self.window)
 
-        self._initialized: bool = False
+        self._first_launch: bool = True
         self._game_paused: bool = False
 
     @property
@@ -83,29 +87,35 @@ class GameEngine(arcade.View):
         self.clear()
 
         # Call the setup method
-        if not self._initialized:
-            self._initialized = True
-            self.setup()
+        if self._first_launch:
+            self._first_launch = False
+            self.setup(first_instance=True)
 
         else:
             self.game_renderer.draw()
 
-    def setup(self) -> None:
-        level_index: int = 0
+    def setup(self, first_instance: bool = False) -> None:
+        if first_instance:
+            self.state_manager.current_level_index = 0
+            self.state_manager.score = 0
+
+        # Reset game data
+        self.state_manager.live = self.config.live
+        self.state_manager.time_left = self.config.level_max_time
 
         # Create the level
+        level_index: int = self.state_manager.current_level_index
+
         level: list[list[int]] = self.level_manager.create_level(
             maze_width=self.config.level[level_index].width,
-            maze_height=self.config.level[level_index].height
+            maze_height=self.config.level[level_index].height,
+            first_instance=first_instance
         )
 
         # Render the maze
         self.game_renderer.wall_generator(level)
 
         self._setup_entities()
-
-        # Instanciate the GameState Manager
-        self.state_manager = GameStateManager(self.window, parent_view=self)
 
         # Instanciate the Collision Manager
         self.coll_manager: CollisionManager = CollisionManager(
@@ -115,12 +125,17 @@ class GameEngine(arcade.View):
             self.level_manager.factory.offset_x,
             self.level_manager.factory.offset_y,
             self.level_manager.factory.tile_size,
-            self.level_manager.maze_height
+            self.level_manager.maze_height,
+            self.state_manager
         )
 
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
+
+    def _timer_start(self) -> None:
+        for i in range(TIMER_LEVEL_START):
+            print()
 
     def _setup_entities(self) -> None:
 
@@ -149,15 +164,6 @@ class GameEngine(arcade.View):
         self.rat_enemy._can_move = True
 
 
-        # === ÉTAPE 1 : INITIALISATION DE L'ÉTAT DU JEU (GameStateManager) ===
-        # - Instancier (ou réinitialiser) le GameStateManager.
-        # - Configurer le score à 0.
-        # - Récupérer le nombre de vies max depuis self.window.game_config et l'assigner.
-        # - Définir le niveau courant (commencer à l'index 0).
-
-        # === ÉTAPE 2 : LECTURE DE LA CONFIGURATION DU NIVEAU ===
-        # - Extraire les données du niveau actuel (width, height) depuis self.window.game_config.level[index_niveau_courant].
-        # - Extraire la seed (si présente) pour la génération.
 
         # === ÉTAPE 3 : GÉNÉRATION DU LABYRINTHE (LevelManager) ===
         # - Instancier le LevelManager.

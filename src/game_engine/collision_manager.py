@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:17:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 09:31:00 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@ from typing import Any
 import arcade
 
 from src.entity import Entity, Player
+from .gamestate_manager import GameStateManager
 
 
 class CollisionManager():
@@ -24,13 +25,15 @@ class CollisionManager():
         enemies_reference: list[str, Any],
         enemies_sprite_list: arcade.SpriteList,
         maze_bitemap: dict[tuple[int, int], str],
-        offset_x: int, offset_y: int, tile_size: int, maze_height: int
+        offset_x: int, offset_y: int, tile_size: int, maze_height: int,
+        state_manager: GameStateManager
     ) -> None:
 
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
         self.enemies_sprite_list = enemies_sprite_list
         self.maze_bitemap = maze_bitemap
+        self.state_manager = state_manager
 
         self.offset_x = offset_x
         self.offset_y = offset_y
@@ -48,6 +51,7 @@ class CollisionManager():
         # Check for collision between player/enemy
         if self._check_collisions_with_enemy():
             self.player_reference.die()
+            self.state_manager.live -= 1
 
     # :---------------:
     #  PRIVATE METHODS
