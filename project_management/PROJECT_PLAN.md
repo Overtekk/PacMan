@@ -3,6 +3,25 @@
 
 ---
 
+### 25/05/2026
+- roandrie
+	- Player lose a live when collide with a enemy
+	- The first level is generated with a seed
+	- Add timer before the game start and between respawn. Rendered on screen with a little animation.
+	- Reset entities positions (sprites, facing) when respawning
+	- Add 2 new fonts
+	- Add new argument: --debug and run debug in Makefile
+	- Add a debug button ('R') to kill the player for testing purpose
+
+	- Change: in config_loader, mandatory keys "lives" in now "live"
+	- Change: new game_state and use of auto() instead of writing value by hand
+	- Change: remove the unused dict in the font resources_loader
+	- Change: add new enemy states and use of auto()
+
+	- Fix: in config, the key "level_max_time" was named "Level max_time"
+	- Fix: crash when player have no live left and the game over screen wasn't show
+	- Fix: in the game over screen, score now need a int so it can be converted to a string when score text is created
+
 ### 22/05/2026
 - roandrie
 	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
