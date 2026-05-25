@@ -6,18 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 21:34:15 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/14 21:35:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:25:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from enum import Enum
+from enum import Enum, auto
 
 
 class GameState(Enum):
-    MENU = "menu"
-    PLAYING = "playing"
-    PAUSE = "pause"
-    FINISH = "finish"
+    SETUP = auto()
+    STARTING = auto()
+    PLAYING = auto()
+    PAUSE = auto()
+    FINISH = auto()
 
-    def __str__(self) -> str:
-        return self.value

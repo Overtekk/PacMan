@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:14:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 10:45:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,10 +19,11 @@ from src.game_engine.gamestate_manager import GameStateManager
 from src.config import GameConfig
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
+from .game_settings import GameState
 
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
-TIMER_LEVEL_START: int = 3
+TIMER_LEVEL_START: float = 3.0
 
 
 class GameEngine(arcade.View):
@@ -33,6 +34,7 @@ class GameEngine(arcade.View):
 
         # Instanciate class instance
         self.game_renderer = GameRenderer()
+        self.game_state = GameState.SETUP
         self.state_manager = GameStateManager(self.window, parent_view=self)
         self.level_manager = LevelManager(game_window=self.window)
 
@@ -51,36 +53,27 @@ class GameEngine(arcade.View):
         if self._game_paused:
             return
 
-        # Check for collisions
-        self.coll_manager.update()
+        if self.game_state == GameState.SETUP:
+            pass
 
-        # Update all entities
-        self.player.update(delta_time)
+        elif self.game_state == GameState.STARTING:
+            self._timer_start(delta_time)
 
-        for enemy_obj in self.level_manager.enemies_list.values():
-            enemy_obj.update(delta_time)
+        elif self.game_state == GameState.PLAYING:
+            # Check for collisions
+            self.coll_manager.update()
+
+            # Update all entities
+            self.player.update(delta_time)
+
+            for enemy_obj in self.level_manager.enemies_list.values():
+                enemy_obj.update(delta_time)
 
     def on_draw(self) -> None:
         self.clear()
 
         # Render the game
         self.game_renderer.draw()
-
-    def on_key_press(self, symbol: int, _modifiers: int) -> None:
-        if symbol == arcade.key.UP or symbol == arcade.key.W:
-            self.player._next_direction = (0, 1)
-
-        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
-            self.player._next_direction = (0, -1)
-
-        elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
-            self.player._next_direction = (-1, 0)
-
-        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
-            self.player._next_direction = (1, 0)
-
-        elif self.state_manager:
-            self.state_manager.on_key_press(symbol, _modifiers)
 
     def on_show_view(self) -> None:
         # Clear the screen
@@ -129,13 +122,36 @@ class GameEngine(arcade.View):
             self.state_manager
         )
 
+        self._current_timer_start: float = TIMER_LEVEL_START
+        self.game_state = GameState.STARTING
+
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        if symbol == arcade.key.UP or symbol == arcade.key.W:
+            self.player._next_direction = (0, 1)
+
+        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
+            self.player._next_direction = (0, -1)
+
+        elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
+            self.player._next_direction = (-1, 0)
+
+        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
+            self.player._next_direction = (1, 0)
+
+        elif self.state_manager:
+            self.state_manager.on_key_press(symbol, _modifiers)
+
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
 
-    def _timer_start(self) -> None:
-        for i in range(TIMER_LEVEL_START):
-            print()
+    def _timer_start(self, delta_time: float) -> None:
+        self._current_timer_start -= delta_time
+
+        if self._current_timer_start > 0:
+            return
+
+        self._setup_start()
 
     def _setup_entities(self) -> None:
 
@@ -159,26 +175,9 @@ class GameEngine(arcade.View):
         # Render the player
         self.game_renderer.setup_entities(self.player.sprite)
 
-        # ------------------------------------- Temp: authorize the player to move
+    def _setup_start(self) -> None:
+        self.game_state = GameState.PLAYING
+
+        # Authorize movement
         self.player._can_move = True
         self.rat_enemy._can_move = True
-
-
-
-        # === ÉTAPE 3 : GÉNÉRATION DU LABYRINTHE (LevelManager) ===
-        # - Instancier le LevelManager.
-        # - Appeler sa méthode de génération en lui passant les dimensions extraites à l'étape 2.
-        # - Le LevelManager doit construire ses SpriteLists (murs, pac-gums) en demandant les chemins des images à self.window.sprites_list.
-
-        # === ÉTAPE 4 : PLACEMENT DES ENTITÉS MOBILES ===
-        # - Déterminer les coordonnées de départ du joueur et des ennemis (idéalement fournies par le LevelManager en fonction du labyrinthe généré).
-        # - Instancier le Player et le placer dans une SpriteList dédiée au joueur.
-        # - Instancier les entités ennemies (Chat, Chien, etc.) et les placer dans une SpriteList dédiée aux ennemis.
-
-        # === ÉTAPE 5 : PARAMÉTRAGE DES COLLISIONS (CollisionManager) ===
-        # - Instancier le CollisionManager.
-        # - Lui transmettre les références des différentes SpriteLists (Joueur, Murs, Pac-gums, Ennemis) pour qu'il puisse vérifier les interactions dans on_update().
-
-        # === ÉTAPE 6 : PRÉPARATION VISUELLE ET SONORE ===
-        # - (Optionnel) Lancer un chronomètre ou un état "Ready!" avant d'autoriser les mouvements.
-        # - (Optionnel) Charger et lancer la musique du niveau via un AudioLoader si implémenté.
