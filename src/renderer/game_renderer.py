@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:23:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 14:10:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -64,7 +64,10 @@ class GameRenderer():
         REDUCE_SIZE_PIXELS: float = 150.0
 
         if self.timer_size > 0:
-            self.timer_size -= REDUCE_SIZE_PIXELS * delta_time
+            if self.instant_text:
+                self.timer_size -= (REDUCE_SIZE_PIXELS * delta_time) * 4
+            else:
+                self.timer_size -= REDUCE_SIZE_PIXELS * delta_time
 
             if self.timer_size < 0:
                 self.timer_size = 0
@@ -83,11 +86,12 @@ class GameRenderer():
     def setup_entities(self, entity_sprite: arcade.Sprite) -> None:
         self.entities.append(entity_sprite)
 
-    def trigger_time_text(self, text: str) -> None:
+    def trigger_time_text(self, text: str, instant_text: bool = False) -> None:
         TEXT_SIZE: float = 250.0
 
         self.timer_text = text
         self.timer_size = TEXT_SIZE
+        self.instant_text = instant_text
 
 
 #=self.window.asset_manager.textures["start_button"],

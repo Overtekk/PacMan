@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:32:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 13:07:04 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,16 +31,6 @@ class Player(Movable):
 
     def die(self) -> None:
         self.respawn()
-
-    def update(self, delta: float) -> None:
-        # Calulate the movement vector
-        dx = self._current_direction[0] * self.speed * delta
-        dy = self._current_direction[1] * self.speed * delta
-        self.x += dx
-        self.y += dy
-
-        self._update_animation(delta)
-        self._update_sprite_facing()
 
     def _update_animation(self, delta: float) -> None:
         # Verify that the sprite is moving

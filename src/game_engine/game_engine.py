@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:56:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 14:08:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,16 +56,27 @@ class GameEngine(arcade.View):
 
         elif self.game_state == GameState.PLAYING:
             # Check for collisions
-            self.coll_manager.update()
+            player_died: bool = self.coll_manager.update()
 
-            # Update all entities
-            self.player.update(delta_time)
+            if player_died:
+                self.game_state = GameState.RESPAWN
 
-            for enemy_obj in self.level_manager.enemies_list.values():
-                enemy_obj.update(delta_time)
+            else:
+                # Update all entities
+                self.player.update(delta_time)
+
+                for enemy_obj in self.level_manager.enemies_list.values():
+                    enemy_obj.update(delta_time)
 
         elif self.game_state == GameState.RESPAWN:
-            print("respawn")
+            self._reset_entities(self.player)
+
+            for enemy_obj in self.level_manager.enemies_list.values():
+                enemy_obj.respawn()
+                self._reset_entities(enemy_obj)
+
+            self._current_timer_start = TIMER_LEVEL_START
+            self.game_state = GameState.STARTING
 
         elif self.game_state == GameState.FINISH:
             pass
@@ -120,7 +131,7 @@ class GameEngine(arcade.View):
             self.level_manager.factory.offset_y,
             self.level_manager.factory.tile_size,
             self.level_manager.maze_height,
-            self.state_manager, self.game_state, self.debug_mode
+            self.state_manager, self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
@@ -166,7 +177,7 @@ class GameEngine(arcade.View):
         if self._current_timer_start <= 0.0:
             if self.debug_mode:
                 print_log("Game started")
-            self.game_renderer.trigger_time_text("GO!")
+            self.game_renderer.trigger_time_text("GO!", True)
 
             self._setup_start()
 
@@ -197,4 +208,17 @@ class GameEngine(arcade.View):
 
         # Authorize movement
         self.player._can_move = True
-        self.rat_enemy._can_move = True
+
+        for enemy_obj in self.level_manager.enemies_list.values():
+            enemy_obj._can_move = True
+
+    def _reset_entities(self, entity: Any) -> None:
+        # Block movement
+        entity._can_move = False
+
+        # Reset positions
+        entity._current_direction = (0.0, 0.0)
+        entity._next_direction = (0.0, 0.0)
+
+        # Reset sprites direction
+        entity.reset_animation()

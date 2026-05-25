@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:20:17 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 14:04:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,6 +32,10 @@ class RatEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
+
+        # Spawn right, facing right
+        self.sprite.scale_x = -abs(self.sprite.scale_x)
+        self._base_facing: float = self.sprite.scale_x
 
     def update(self, delta: float) -> None:
         self.algo_random_direction(delta)
