@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:18:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:32:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,6 @@ class Player(Movable):
         )
 
     def die(self) -> None:
-        self._can_move = False
         self.respawn()
 
     def update(self, delta: float) -> None:

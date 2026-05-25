@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 16:21:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:32:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,9 +60,6 @@ class Entity(ABC):
     def update(self, delta: float) -> None:
         pass
 
-    def respawn(self) -> None:
-        self.x, self.y = self.spawn_point
-
 
 class Movable(Entity):
     def __init__(
@@ -95,6 +92,9 @@ class Movable(Entity):
 
         self._update_animation(delta)
         self._update_sprite_facing()
+
+    def respawn(self) -> None:
+        self.x, self.y = self.spawn_point
 
     def _update_animation(self, delta: float) -> None:
         # Verify that the sprite is moving

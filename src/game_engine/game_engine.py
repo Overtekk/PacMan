@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:24:15 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/25 12:56:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,7 +65,7 @@ class GameEngine(arcade.View):
                 enemy_obj.update(delta_time)
 
         elif self.game_state == GameState.RESPAWN:
-            pass
+            print("respawn")
 
         elif self.game_state == GameState.FINISH:
             pass
@@ -120,7 +120,7 @@ class GameEngine(arcade.View):
             self.level_manager.factory.offset_y,
             self.level_manager.factory.tile_size,
             self.level_manager.maze_height,
-            self.state_manager, self.debug_mode
+            self.state_manager, self.game_state, self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
@@ -139,8 +139,10 @@ class GameEngine(arcade.View):
         elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
             self.player._next_direction = (1, 0)
 
-        elif self.state_manager:
-            self.state_manager.on_key_press(symbol, _modifiers)
+        elif self.debug_mode:
+            if symbol == arcade.key.R and self.game_state == GameState.PLAYING:
+                print_log("Debug: activate died!")
+                self.coll_manager.debug_force_death = True
 
     # :---------------:
     #  PRIVATE METHODS
