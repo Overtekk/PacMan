@@ -9,6 +9,18 @@
 	-  Update enemies sprites: they don't have an animation now. They only change the sprite based on the direction, so their eyes are facing the good direction
 	- Add spawning of pacgums throught the maze (60% of chance, one pacgum will always spawn)
 	- Add spawing of super pacgums in each corner of the maze
+- anacharp
+	- change the font of the Highscore interface
+	- connect the UI screen with the game renderer
+	- fix the finish screen issue
+	- remake Pac-Man in 32x32 resolution
+	- fix the instructions
+	- change the heart sprite to a feather sprite because the seagull loses its feathers
+	- make the main menu logo animated
+	- add an Easter egg using the main menu logo
+	- create a beach-themed background and implement it in the various menus and the maze
+	- fix the pause menu appearing during gameplay
+	- add shadows to the Pac-Man sprites (player.png, pacman_victory.png, and dead_pacman.png)
 
 ### 25/05/2026
 - roandrie
