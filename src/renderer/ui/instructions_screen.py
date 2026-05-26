@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/26 11:08:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 17:18:05 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,7 @@ from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.utils import load_sprite_sheet
 from src.game_engine.level_manager import LevelManager
+from src.renderer.screen_settings import ScreenSettings
 
 
 class Ghosts(arcade.Sprite):
@@ -108,7 +109,7 @@ class InstructionsScreen(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
         self.previous_view = previous_view
-        arcade.set_background_color(arcade.color.BLACK)
+        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
 
     def build_ui(self) -> None:
         instructions = Instructions(
@@ -295,3 +296,13 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(rule3)
         self.text_lst.append(rule4)
         self.text_lst.append(rule5)
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()

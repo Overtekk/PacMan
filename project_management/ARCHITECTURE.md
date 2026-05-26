@@ -32,6 +32,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *highscores.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_mode.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *exit.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *ocean.png*\
 ‎ ‎ ‎ ‎ ↳ **pause**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pause.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *resume.png*\
