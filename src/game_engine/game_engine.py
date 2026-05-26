@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 14:27:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:09:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -163,6 +163,10 @@ class GameEngine(arcade.View):
             elif symbol == arcade.key.R and self.debug_mode:
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
+
+            elif self.state_manager:
+                self.state_manager.on_key_press(symbol, _modifiers)
+
 
     # :---------------:
     #  PRIVATE METHODS
