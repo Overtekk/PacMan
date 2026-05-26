@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 10:13:22 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 13:05:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@ from typing import Any
 import arcade
 
 from src.renderer import GameRenderer
+from src.renderer.screen_settings import CollectiblesType
 from src.game_engine.gamestate_manager import GameStateManager
 from src.config import GameConfig
 from .level_manager import LevelManager
@@ -120,9 +121,8 @@ class GameEngine(arcade.View):
         # Render the maze
         self.game_renderer.wall_generator(level)
 
-        # -------------TEMP
-
         self._setup_entities()
+        self._setup_collectibles()
 
         # Instanciate the Collision Manager
         self.coll_manager: CollisionManager = CollisionManager(
@@ -215,6 +215,20 @@ class GameEngine(arcade.View):
 
         for enemy_obj in self.level_manager.enemies_list.values():
             enemy_obj._can_move = True
+
+    def _setup_collectibles(self) -> None:
+        # List containing all super_pacgum_sprite sprites
+        self.super_pacgum_sprite_list: arcade.SpriteList[Any] = (
+            arcade.SpriteList()
+        )
+
+        for colletible_obj in self.level_manager.super_pacgums_list:
+            # Store the sprite
+            self.super_pacgum_sprite_list.append(colletible_obj.sprite)
+            # Render the sprites on screen
+            self.game_renderer.setup_collectibles(
+                colletible_obj.sprite, CollectiblesType.SUPER_PACGUM
+            )
 
     def _reset_entities(self, entity: Any) -> None:
         # Block movement

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 10:10:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 12:02:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -266,4 +266,12 @@ class Collectible(Entity):
     @abstractmethod
     def activate_power(self) -> None:
         pass
+
+    @property
+    def collected(self) -> bool:
+        return self._collected
+
+    @collected.setter
+    def collected(self, new_value: bool) -> None:
+        self._collected = new_value
 

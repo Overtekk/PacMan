@@ -6,9 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:06:12 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:33:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 11:07:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+import arcade
+
+from pathlib import Path
 
 from ..entity import Collectible
 from src.utils import SuperCalculator
@@ -17,7 +21,7 @@ from src.utils import SuperCalculator
 class Pacgum(Collectible):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_sheet: str,
+        sprite_path: str | Path,
         calculator: SuperCalculator,
         scale: float = 1.0,
         score: int = 0
@@ -25,7 +29,7 @@ class Pacgum(Collectible):
 
         super().__init__(
             spawn_point=spawn_point,
-            sprite_data=sprite_sheet,
+            sprite_data=sprite_path,
             calculator=calculator,
             scale=scale,
             score=score

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 09:24:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 13:12:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,13 +18,17 @@ from pathlib import Path
 
 from src.utils import print_warn, load_sprite_sheet, SuperCalculator
 from src.config import GameConfig
-from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
+from src.entity import (
+    Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy, Pacgum, SuperPacgum
+)
 from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
 
 
 PLAYER_SCALE: float = 0.8
 ENEMIES_SCALE: float = 0.9
+PACGUM_SCALE: float = 1.0
+SUPERPACGUM_SCALE: float = 0.8
 
 
 class LevelManager():
@@ -34,6 +38,9 @@ class LevelManager():
         self.asset_manager: dict[str, Path] = game_window.asset_manager
 
         self.enemies_list: list[str, Any] = {}
+        self.pacgums_list: list[Pacgum] = []
+        self.super_pacgums_list: list[SuperPacgum] = []
+
 
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
@@ -58,6 +65,9 @@ class LevelManager():
 
         # Create all entities
         self._create_entity()
+
+        # Create all collectibles
+        self._create_collectibles()
 
         return generated_level
 
@@ -208,8 +218,57 @@ class LevelManager():
         self.enemies_list["rat_enemy"] = self.rat_enemy
 
     def _create_collectibles(self) -> None:
-        # SuperPacgums
+        self._create_pacgum()
+        self._create_super_pacgum()
+
+    def _create_pacgum(self) -> None:
         pass
+
+    def _create_super_pacgum(self) -> None:
+        coords_list: list[tuple[int, int]] = []
+
+        raw_upper_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, 0)
+        )
+        upper_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_left[0], raw_upper_left[1]
+        )
+        coords_list.append(upper_left)
+
+        raw_down_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, self.maze_height - 1)
+        )
+        down_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_left[0], raw_down_left[1]
+        )
+        coords_list.append(down_left)
+
+        raw_upper_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1, 0)
+        )
+        upper_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_right[0], raw_upper_right[1]
+        )
+        coords_list.append(upper_right)
+
+        raw_down_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1,
+                                          self.maze_height - 1)
+        )
+        down_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_right[0], raw_down_right[1]
+        )
+        coords_list.append(down_right)
+
+        for coords in coords_list:
+            collectible: SuperPacgum = SuperPacgum(
+                spawn_point=coords,
+                sprite=self.asset_manager.textures["super_pacgum"],
+                calculator=self.calculator,
+                scale=SUPERPACGUM_SCALE,
+                score=self.config.super_pacgum_points
+            )
+            self.super_pacgums_list.append(collectible)
 
     def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
         spawn_dict: dict[str, tuple[int, int]] = {}
@@ -354,6 +413,3 @@ class LevelManager():
 
         return valid_coords
 
-    # create the level
-    # create the player, ennemis and collectibles
-    # handle respawn, level restart, level start
