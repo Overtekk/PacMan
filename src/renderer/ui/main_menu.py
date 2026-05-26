@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 13:58:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 13:14:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from src.game_engine import GameEngine
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.ui.cheat_menu import CheatMenu
+import math
 
 
 class LogoButton(arcade.Sprite):
@@ -41,6 +42,33 @@ class LogoButton(arcade.Sprite):
         self.center_y = center_y
 
         self.parent_view = parent_view
+        self.is_landing = False
+        self.total_time = 0.0
+
+    def land(self):
+        self.scale_x = 1.4
+        self.scale_y = 0.7
+        self.is_landing = True
+
+    def jump(self):
+        self.scale_x = 0.8
+        self.scale_y = 1.4
+        self.is_landing = False
+
+    def on_update(self, delta_time):
+        self.total_time += delta_time
+        if self.is_landing:
+            speed = 8 * delta_time
+            self.scale_x = arcade.lerp(self.scale_x, 1.0, speed)
+            self.scale_y = arcade.lerp(self.scale_y, 1.0, speed)
+            if abs(self.scale_x - 1.0) < 0.01:
+                self.scale_x = 1.0
+                self.scale_y = 1.0
+                self.is_landing = False
+        else:
+            t = self.total_time
+            self.scale_x = 1.0 + math.sin(t * 3) * 0.05
+            self.scale_y = 1.0 + math.cos(t * 3) * 0.05
 
 
 class CheatButton(BaseButton):
@@ -218,3 +246,9 @@ class MainMenu(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             arcade.exit()
             exit()
+
+    def on_update(self, delta_time):
+        self.button_list.update()
+        for sprite in self.button_list:
+            if isinstance(sprite, LogoButton):
+                sprite.on_update(delta_time)
