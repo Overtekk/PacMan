@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 13:14:22 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 17:04:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,6 +21,7 @@ from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.ui.cheat_menu import CheatMenu
 import math
+from src.renderer.screen_settings import ScreenSettings
 
 
 class LogoButton(arcade.Sprite):
@@ -184,8 +185,7 @@ class PlayButton(BaseButton):
 class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-
-        arcade.set_background_color(arcade.color.BLACK)
+        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
 
     def build_ui(self) -> None:
 
@@ -252,3 +252,13 @@ class MainMenu(BaseMenu):
         for sprite in self.button_list:
             if isinstance(sprite, LogoButton):
                 sprite.on_update(delta_time)
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()
