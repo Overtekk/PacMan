@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 13:12:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 14:32:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -218,49 +218,45 @@ class LevelManager():
         self.enemies_list["rat_enemy"] = self.rat_enemy
 
     def _create_collectibles(self) -> None:
-        self._create_pacgum()
         self._create_super_pacgum()
+        self._create_pacgum()
 
     def _create_pacgum(self) -> None:
-        pass
+        # List of coords where pacgums can't spawn on
+        forbidden_coords: list[tuple[int, int]] = [
+            (self.player.spawn_point)
+        ]
+
+        # Get each corners of the maze and add it to the forbidden list
+        corners_coords_list: dict[str, tuple[int, int]] = (
+            self._get_corners_coords_pixels()
+        )
+        for coords in corners_coords_list.values():
+            forbidden_coords.append(coords)
+
+        # Traverse all case
+        for coords, byte in self.maze_bitmap.items():
+            if coords in forbidden_coords:
+                continue
+
+            if byte == 1:
+                continue
+
+            collectible: Pacgum = Pacgum(
+                spawn_point=coords,
+                sprite_path=self.asset_manager.textures["pacgum"],
+                calculator=self.calculator,
+                scale=PACGUM_SCALE,
+                score=self.config.pacgum_points
+            )
+            self.pacgums_list.append(collectible)
 
     def _create_super_pacgum(self) -> None:
-        coords_list: list[tuple[int, int]] = []
+        corners_coords_list: dict[str, tuple[int, int]] = (
+            self._get_corners_coords_pixels()
+        )
 
-        raw_upper_left: tuple[int, int] = self._get_raw_coords(
-            "Super Pacgum (upper left)", (0, 0)
-        )
-        upper_left: tuple[int, int] = self.factory.get_pixel_coordinates(
-            raw_upper_left[0], raw_upper_left[1]
-        )
-        coords_list.append(upper_left)
-
-        raw_down_left: tuple[int, int] = self._get_raw_coords(
-            "Super Pacgum (upper left)", (0, self.maze_height - 1)
-        )
-        down_left: tuple[int, int] = self.factory.get_pixel_coordinates(
-            raw_down_left[0], raw_down_left[1]
-        )
-        coords_list.append(down_left)
-
-        raw_upper_right: tuple[int, int] = self._get_raw_coords(
-            "Super Pacgum (upper left)", (self.maze_width - 1, 0)
-        )
-        upper_right: tuple[int, int] = self.factory.get_pixel_coordinates(
-            raw_upper_right[0], raw_upper_right[1]
-        )
-        coords_list.append(upper_right)
-
-        raw_down_right: tuple[int, int] = self._get_raw_coords(
-            "Super Pacgum (upper left)", (self.maze_width - 1,
-                                          self.maze_height - 1)
-        )
-        down_right: tuple[int, int] = self.factory.get_pixel_coordinates(
-            raw_down_right[0], raw_down_right[1]
-        )
-        coords_list.append(down_right)
-
-        for coords in coords_list:
+        for coords in corners_coords_list.values():
             collectible: SuperPacgum = SuperPacgum(
                 spawn_point=coords,
                 sprite=self.asset_manager.textures["super_pacgum"],
@@ -324,35 +320,6 @@ class LevelManager():
 
         return spawn_dict
 
-    def _get_raw_coords(
-        self, entity_name: str, coords: tuple[int, int]
-    ) -> tuple[int, int]:
-
-        x = coords[0]
-        y = coords[1]
-
-        extend_x = x * 2 + 1
-        extend_y = y * 2 + 1
-
-        # Is this position have cell open?
-        if self.maze_bitmap[extend_x, extend_y] == 0:
-            return ((extend_x - 1) // 2, (extend_y - 1) // 2)
-
-        # Else, finding another valable position
-        new_coords: tuple[int, int] = self._find_valid_position(
-            entity_name, (extend_x, extend_y)
-        )
-
-        print_warn(
-            f"Can't place the {entity_name} at {coords}. "
-            f"📌 Placing at {new_coords}.\n"
-        )
-
-        new_x = (new_coords[0] - 1) // 2
-        new_y = (new_coords[1] - 1) // 2
-
-        return (new_x, new_y)
-
     def _find_valid_position(
         self, entity_name: str, start_coords: tuple[int, int]
     ) -> tuple[int, int]:
@@ -413,3 +380,69 @@ class LevelManager():
 
         return valid_coords
 
+    def _get_corners_coords_pixels(self) -> dict[str, tuple[int, int]]:
+        corners_coords_list: dict[str, tuple[int, int]] = {}
+
+        raw_upper_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, 0)
+        )
+        upper_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_left[0], raw_upper_left[1]
+        )
+        corners_coords_list["upper_left"] = upper_left
+
+        raw_down_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, self.maze_height - 1)
+        )
+        down_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_left[0], raw_down_left[1]
+        )
+        corners_coords_list["down_left"] = down_left
+
+        raw_upper_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1, 0)
+        )
+        upper_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_right[0], raw_upper_right[1]
+        )
+        corners_coords_list["upper_right"] = upper_right
+
+        raw_down_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1,
+                                          self.maze_height - 1)
+        )
+        down_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_right[0], raw_down_right[1]
+        )
+        corners_coords_list["down_right"] = down_right
+
+        return corners_coords_list
+
+    def _get_raw_coords(
+        self, entity_name: str, coords: tuple[int, int]
+    ) -> tuple[int, int]:
+
+        x = coords[0]
+        y = coords[1]
+
+        extend_x = x * 2 + 1
+        extend_y = y * 2 + 1
+
+        # Is this position have cell open?
+        if self.maze_bitmap[extend_x, extend_y] == 0:
+            return ((extend_x - 1) // 2, (extend_y - 1) // 2)
+
+        # Else, finding another valable position
+        new_coords: tuple[int, int] = self._find_valid_position(
+            entity_name, (extend_x, extend_y)
+        )
+
+        print_warn(
+            f"Can't place the {entity_name} at {coords}. "
+            f"📌 Placing at {new_coords}.\n"
+        )
+
+        new_x = (new_coords[0] - 1) // 2
+        new_y = (new_coords[1] - 1) // 2
+
+        return (new_x, new_y)

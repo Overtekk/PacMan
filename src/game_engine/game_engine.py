@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 13:05:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 14:27:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -217,7 +217,7 @@ class GameEngine(arcade.View):
             enemy_obj._can_move = True
 
     def _setup_collectibles(self) -> None:
-        # List containing all super_pacgum_sprite sprites
+        # List containing all super_pacgums sprites
         self.super_pacgum_sprite_list: arcade.SpriteList[Any] = (
             arcade.SpriteList()
         )
@@ -228,6 +228,19 @@ class GameEngine(arcade.View):
             # Render the sprites on screen
             self.game_renderer.setup_collectibles(
                 colletible_obj.sprite, CollectiblesType.SUPER_PACGUM
+            )
+
+        # List containing all pacgums sprites
+        self.pacgum_sprite_list: arcade.SpriteList[Any] = (
+            arcade.SpriteList()
+        )
+
+        for collectible_obj in self.level_manager.pacgums_list:
+            # Store the sprite
+            self.pacgum_sprite_list.append(collectible_obj.sprite)
+            # Render the sprites of screen
+            self.game_renderer.setup_collectibles(
+                collectible_obj.sprite, CollectiblesType.PACGUM
             )
 
     def _reset_entities(self, entity: Any) -> None:
