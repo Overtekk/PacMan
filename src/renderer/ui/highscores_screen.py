@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/20 11:21:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 11:17:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.leaderboard.extract_leaderboard import extract_leaderboard
+from src.renderer.screen_settings import ScreenSettings
 
 
 class Highscores(BaseButton):
@@ -24,15 +25,18 @@ class Highscores(BaseButton):
             center_x: float,
             center_y: float,
             sprite_path: Path,
-            parent_view: arcade.View
+            parent_view: arcade.View,
+            anchor_x="center"
     ) -> None:
 
         super().__init__(
+            sprite_path=sprite_path,
             center_x=center_x,
             center_y=center_y,
-            sprite_path=sprite_path,
-            parent_view=parent_view
+            parent_view=parent_view,
         )
+        anchor_x=anchor_x
+
 
     def on_click(self) -> None:
         from src.renderer.ui.main_menu import MainMenu
@@ -49,7 +53,7 @@ class HighscoresScreen(BaseMenu):
 
     def build_ui(self) -> None:
         highscores = Highscores(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=600,
             sprite_path=(
                 self.window.asset_manager.textures["highscores_button"]
@@ -62,8 +66,9 @@ class HighscoresScreen(BaseMenu):
         split_content = file_content.split("\n")
         y = 520
         for string in split_content:
-            text = arcade.Text(text=string, x=540, y=y,
-                               color=arcade.color.WHITE, font_size=15)
+            text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2, y=y,
+                               color=arcade.color.WHITE, font_size=15,
+                               font_name="press Start 2P", anchor_x="center")
             self.text_lst.append(text)
             y -= 50
 
