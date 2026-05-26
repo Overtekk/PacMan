@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 11:20:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 18:59:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -153,7 +153,7 @@ class FinishScreen(BaseMenu):
                 self.window.width,
                 self.window.height
             ),
-            (0, 0, 0, 120)
+            (0, 0, 0, 180)
         )
         self.button_list.draw()
         for txt in self.text_lst:

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:10:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 18:58:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -205,7 +205,7 @@ class PauseMenu(BaseMenu):
                 self.window.width,
                 self.window.height
             ),
-            (0, 0, 0, 120)
+            (0, 0, 0, 180)
         )
         self.button_list.draw()
         for txt in self.text_lst:
