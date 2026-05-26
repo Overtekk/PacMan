@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:37:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:48:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -246,6 +246,10 @@ class LevelManager():
         for coords, byte in self.maze_bitmap.items():
             # Ignore closed cells
             if byte == 1:
+                continue
+
+            # Ignore pair coords (avoid duplication)
+            if coords[0] % 2 == 0 or coords[1] % 2 == 0:
                 continue
 
             # Convert grid coords to pixels coords
