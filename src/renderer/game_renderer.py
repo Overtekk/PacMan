@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 13:02:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 14:33:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -94,7 +94,7 @@ class GameRenderer():
         self, collectible_sprite: arcade.Sprite, collectible_type
     ) -> None:
         if collectible_type == CollectiblesType.PACGUM:
-            self.super_pacgums.append(collectible_sprite)
+            self.pacgums.append(collectible_sprite)
 
         elif collectible_type == CollectiblesType.SUPER_PACGUM:
             self.super_pacgums.append(collectible_sprite)

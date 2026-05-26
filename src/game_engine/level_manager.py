@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 14:32:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 14:57:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@ from typing import Any
 import arcade
 
 from pathlib import Path
+from random import random
 
 from src.utils import print_warn, load_sprite_sheet, SuperCalculator
 from src.config import GameConfig
@@ -27,7 +28,7 @@ from src.maze import MazeFactory, generate_bytes_maze
 
 PLAYER_SCALE: float = 0.8
 ENEMIES_SCALE: float = 0.9
-PACGUM_SCALE: float = 1.0
+PACGUM_SCALE: float = 0.5
 SUPERPACGUM_SCALE: float = 0.8
 
 
@@ -40,6 +41,8 @@ class LevelManager():
         self.enemies_list: list[str, Any] = {}
         self.pacgums_list: list[Pacgum] = []
         self.super_pacgums_list: list[SuperPacgum] = []
+
+        self.pacgum_chance_spawning: float = 0.60
 
 
     def create_level(
@@ -234,28 +237,46 @@ class LevelManager():
         for coords in corners_coords_list.values():
             forbidden_coords.append(coords)
 
+        first: bool = True
+
         # Traverse all case
         for coords, byte in self.maze_bitmap.items():
-            if coords in forbidden_coords:
-                continue
-
+            # Ignore closed cells
             if byte == 1:
                 continue
 
-            collectible: Pacgum = Pacgum(
-                spawn_point=coords,
-                sprite_path=self.asset_manager.textures["pacgum"],
-                calculator=self.calculator,
-                scale=PACGUM_SCALE,
-                score=self.config.pacgum_points
+            # Convert grid coords to pixels coords
+            conv_coords_x: int = (coords[0] - 1) // 2
+            conv_coords_y: int = (coords[1] - 1) // 2
+
+            conv_coords: tuple[int, int] = self.factory.get_pixel_coordinates(
+                conv_coords_x, conv_coords_y
             )
-            self.pacgums_list.append(collectible)
+
+            # Check if the coords are not forbidden
+            if conv_coords in forbidden_coords:
+                continue
+
+            # Create the collectible and add it to the list with a chance %
+            if random() <= self.pacgum_chance_spawning or first:
+
+                collectible: Pacgum = Pacgum(
+                    spawn_point=conv_coords,
+                    sprite_path=self.asset_manager.textures["pacgum"],
+                    calculator=self.calculator,
+                    scale=PACGUM_SCALE,
+                    score=self.config.pacgum_points
+                )
+                self.pacgums_list.append(collectible)
+                first = False
 
     def _create_super_pacgum(self) -> None:
+        # Get the coordinates of each corners
         corners_coords_list: dict[str, tuple[int, int]] = (
             self._get_corners_coords_pixels()
         )
 
+        # Create a super_pacgum for each corners
         for coords in corners_coords_list.values():
             collectible: SuperPacgum = SuperPacgum(
                 spawn_point=coords,
