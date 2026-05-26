@@ -33,6 +33,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_mode.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *exit.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *ocean.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *gullman.png*\
 ‎ ‎ ‎ ‎ ↳ **pause**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pause.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *resume.png*\
