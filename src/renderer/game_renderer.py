@@ -15,6 +15,8 @@ from typing import Any
 import arcade
 
 from src.renderer.screen_settings import ScreenSettings, CollectiblesType
+from src.renderer.screen_settings import ScreenSettings
+from src.renderer.ui.ui_screen import UIScreen
 
 
 class Wall(arcade.Sprite):
@@ -44,6 +46,7 @@ class GameRenderer():
         self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
         self.pacgums: arcade.SpriteList[Any] = arcade.SpriteList()
         self.super_pacgums: arcade.SpriteList[Any] = arcade.SpriteList()
+        self.create_ui(0, "00:00", 3)
 
         # Text
         self.timer_text: str = ""
@@ -63,6 +66,8 @@ class GameRenderer():
                 anchor_x="center", anchor_y="center", font_name="fibberish"
             )
             timer_text.draw()
+        self.ui_screen.build_ui()
+        self.ui_screen.on_draw()
 
     def update(self, delta_time: float) -> None:
         REDUCE_SIZE_PIXELS: float = 150.0
@@ -105,3 +110,9 @@ class GameRenderer():
         self.timer_text = text
         self.timer_size = TEXT_SIZE
         self.instant_text = instant_text
+
+    def update_ui(self, score, time, live):
+        self.ui_screen.update(score, time, live)
+
+    def create_ui(self, score, time, live):
+        self.ui_screen = UIScreen(score, time, live)

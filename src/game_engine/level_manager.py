@@ -116,7 +116,7 @@ class LevelManager():
             spawn_point=spawn_positions["player"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["player"],
-                sprite_width=308/6, sprite_height=63,
+                sprite_width=192/6, sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ),
             calculator=self.calculator,

@@ -45,6 +45,11 @@ class GameEngine(arcade.View):
 
     def on_update(self, delta_time: float) -> None:
         self.game_renderer.update(delta_time)
+        self.game_renderer.update_ui(
+            self.state_manager.score,
+            self.state_manager.time_left,
+            self.state_manager.live
+        )
 
         if self.game_state == GameState.SETUP:
             pass
