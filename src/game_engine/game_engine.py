@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 14:08:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:13:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -120,38 +120,42 @@ class GameEngine(arcade.View):
         # Render the maze
         self.game_renderer.wall_generator(level)
 
+        # -------------TEMP
+
         self._setup_entities()
 
         # Instanciate the Collision Manager
         self.coll_manager: CollisionManager = CollisionManager(
             self.player, self.level_manager.enemies_list,
             self.enemies_sprite_list,
-            self.level_manager.byte_maze,
-            self.level_manager.factory.offset_x,
-            self.level_manager.factory.offset_y,
-            self.level_manager.factory.tile_size,
-            self.level_manager.maze_height,
-            self.state_manager, self.debug_mode
+            self.level_manager.maze_bitmap,
+            self.level_manager.calculator,
+            self.state_manager,
+            self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
-        if symbol == arcade.key.UP or symbol == arcade.key.W:
-            self.player._next_direction = (0, 1)
+        if self.game_state == GameState.STARTING:
+            if symbol == arcade.key.SPACE:
+                self._current_timer_start = 0.0
 
-        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
-            self.player._next_direction = (0, -1)
+        elif self.game_state == GameState.PLAYING:
+            if symbol == arcade.key.UP or symbol == arcade.key.W:
+                self.player._next_direction = (0, 1)
 
-        elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
-            self.player._next_direction = (-1, 0)
+            elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
+                self.player._next_direction = (0, -1)
 
-        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
-            self.player._next_direction = (1, 0)
+            elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
+                self.player._next_direction = (-1, 0)
 
-        elif self.debug_mode:
-            if symbol == arcade.key.R and self.game_state == GameState.PLAYING:
+            elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
+                self.player._next_direction = (1, 0)
+
+            elif symbol == arcade.key.R and self.debug_mode:
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 

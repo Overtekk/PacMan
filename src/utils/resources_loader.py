@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:59:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 08:56:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,13 +32,23 @@ REQUIERED_SPRITES: dict[str, str] = {
     "dead_pacman": "end/dead_pacman.png",
     "ghosts_win": "end/ghosts_win.png",
 
-    "cat_enemy": "enemies/enemy_cat.png",
+    "enemy_cat_move": "enemies/enemy_cat_move.png",
+    "enemy_cat_eatable": "enemies/enemy_cat_eatable.png",
+    "enemy_cat_died": "enemies/enemy_cat_died.png",
 
-    "rat_enemy": "enemies/enemy_rat.png",
+    "enemy_rat_move": "enemies/enemy_rat_move.png",
+    "enemy_rat_eatable": "enemies/enemy_rat_eatable.png",
+    "enemy_rat_died": "enemies/enemy_rat_died.png",
 
-    "dog_enemy": "enemies/enemy_dog.png",
+    "enemy_dog_move": "enemies/enemy_dog_move.png",
+    "enemy_dog_eatable": "enemies/enemy_dog_eatable.png",
+    "enemy_dog_died": "enemies/enemy_dog_died.png",
 
-    "fox_enemy": "enemies/enemy_fox.png",
+    "enemy_fox_move": "enemies/enemy_fox_move.png",
+    "enemy_fox_eatable": "enemies/enemy_fox_eatable.png",
+    "enemy_fox_died": "enemies/enemy_fox_died.png",
+
+    "eyes": "enemies/eyes.png",
 
     "exit_button": "main_menu/exit.png",
     "highscores_button": "main_menu/highscores.png",
