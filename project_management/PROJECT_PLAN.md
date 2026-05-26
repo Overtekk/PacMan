@@ -3,6 +3,11 @@
 
 ---
 
+### 26/05/2026
+- roandrie
+	- Change sprites for all enemies: they now have 3 states (move/eatable/died)
+	-  Update enemies sprites: they don't have an animation now. They only change the sprite based on the direction, so their eyes are facing the good direction
+
 ### 25/05/2026
 - roandrie
 	- Player lose a live when collide with a enemy
