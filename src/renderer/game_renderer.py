@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 15:54:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 17:31:04 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -57,10 +57,17 @@ class GameRenderer():
             anchor_x="center", anchor_y="center", font_name="fibberish"
         )
 
+        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
+
+
         # UI
         self.ui_screen = UIScreen(0, 0, 0)
 
     def draw(self) -> None:
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
         self.pacgums.draw()
         self.super_pacgums.draw()
         self.walls.draw()
