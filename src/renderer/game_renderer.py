@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 15:41:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 15:46:53 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,7 +68,7 @@ class GameRenderer():
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()
-
+        self.ui_screen.build_ui()
         self.ui_screen.on_draw()
 
     def update(self, delta_time: float) -> None:
