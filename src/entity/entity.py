@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 12:02:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:30:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -255,6 +255,8 @@ class Collectible(Entity):
     ) -> None:
 
         super().__init__(spawn_point, sprite_data, calculator, scale)
+
+        self.sprite.parent = self
 
         self._score: int = score
         self._collected: bool = False

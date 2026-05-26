@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 14:27:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:26:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,7 +38,9 @@ class GameEngine(arcade.View):
         # Instanciate class instance
         self.game_renderer = GameRenderer()
         self.game_state = GameState.SETUP
-        self.state_manager = GameStateManager(self.window, parent_view=self)
+        self.state_manager = GameStateManager(
+            self.window, self, self.debug_mode
+        )
         self.level_manager = LevelManager(game_window=self.window)
 
         self._first_launch: bool = True
@@ -133,6 +135,7 @@ class GameEngine(arcade.View):
         self.coll_manager: CollisionManager = CollisionManager(
             self.player, self.level_manager.enemies_list,
             self.enemies_sprite_list,
+            self.pacgum_sprite_list, self.super_pacgum_sprite_list,
             self.level_manager.maze_bitmap,
             self.level_manager.calculator,
             self.state_manager,

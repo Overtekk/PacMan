@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:54:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:41:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,6 +25,8 @@ class CollisionManager():
         player_reference: Player,
         enemies_reference: list[str, Any],
         enemies_sprite_list: arcade.SpriteList,
+        pacgums_sprite_list: arcade.SpriteList,
+        super_pacgums_sprite_list: arcade.SpriteList,
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         state_manager: GameStateManager, debug_mode: bool
@@ -33,6 +35,8 @@ class CollisionManager():
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
         self.enemies_sprite_list = enemies_sprite_list
+        self.pacgums_sprite_list = pacgums_sprite_list
+        self.super_pacgums_sprite_list = super_pacgums_sprite_list
         self.maze_bitmap = maze_bitmap
         self.state_manager = state_manager
         self.calculator = calculator
@@ -66,6 +70,22 @@ class CollisionManager():
 
             self.player_reference.die()
             return True
+
+        # Check for collision between player/collectibles
+        list_colliding: list[arcade.SpriteType] = (
+            self._check_collision_with_collectibles()
+        )
+        if len(list_colliding) > 0:
+            for obj in list_colliding:
+                print_log(f"+{obj.parent.score} points.")
+                # Increase score
+                self.state_manager.score += obj.parent.score
+
+                # Activate power
+                obj.parent.activate_power()
+
+                # Remove the sprite
+                obj.kill()
 
         return False
 
@@ -139,6 +159,16 @@ class CollisionManager():
             ))
 
         return len(colliding_sprite)
+
+    def _check_collision_with_collectibles(self) -> list[arcade.SpriteType]:
+        colliding_sprite: list[arcade.SpriteType] = (
+            arcade.check_for_collision_with_lists(
+                sprite=self.player_reference.sprite,
+                sprite_lists=[self.pacgums_sprite_list,
+                              self.super_pacgums_sprite_list]
+        ))
+
+        return colliding_sprite
 
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[int, int]

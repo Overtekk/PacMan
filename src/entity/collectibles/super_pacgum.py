@@ -6,11 +6,9 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 11:07:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:28:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
-
-import arcade
 
 from pathlib import Path
 

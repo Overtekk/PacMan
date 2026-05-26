@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 15:13:15 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:37:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -42,8 +42,10 @@ class LevelManager():
         self.pacgums_list: list[Pacgum] = []
         self.super_pacgums_list: list[SuperPacgum] = []
 
-        self.pacgum_chance_spawning: float = 0.60
+        self.PLAYER_SPEED: float = 120.0
+        self.ENEMY_SPEED: float = 122.0
 
+        self._pacgum_chance_spawning: float = 0.60
 
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
@@ -120,7 +122,8 @@ class LevelManager():
                 sprites_columns=6, sprites_count=6
             ),
             calculator=self.calculator,
-            scale=PLAYER_SCALE
+            scale=PLAYER_SCALE,
+            speed=self.PLAYER_SPEED
         )
 
         # Create enemies
@@ -144,7 +147,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             scale=ENEMIES_SCALE,
-            speed=101
+            speed=self.ENEMY_SPEED
         )
         self.enemies_list["cat_enemy"] = self.cat_enemy
 
@@ -168,7 +171,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             scale=ENEMIES_SCALE,
-            speed=101
+            speed=self.ENEMY_SPEED
         )
         self.enemies_list["dog_enemy"] = self.dog_enemy
 
@@ -192,7 +195,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             scale=ENEMIES_SCALE,
-            speed=101
+            speed=self.ENEMY_SPEED
         )
         self.enemies_list["fox_enemy"] = self.fox_enemy
 
@@ -216,7 +219,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             scale=ENEMIES_SCALE,
-            speed=101
+            speed=self.ENEMY_SPEED
         )
         self.enemies_list["rat_enemy"] = self.rat_enemy
 
@@ -258,7 +261,7 @@ class LevelManager():
                 continue
 
             # Create the collectible and add it to the list with a chance %
-            if random() <= self.pacgum_chance_spawning or first:
+            if random() <= self._pacgum_chance_spawning or first:
 
                 collectible: Pacgum = Pacgum(
                     spawn_point=conv_coords,
