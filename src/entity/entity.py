@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 14:05:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:10:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,22 +14,27 @@ import arcade
 
 from abc import ABC, abstractmethod
 
-from .enemies.logics.StateMachine import EnemyState
+from .logics.StateMachine import EnemyState
+from .logics.math_logics import euclidean_distance, check_open_wall
+from src.utils import SuperCalculator
 
 
 class Entity(ABC):
     def __init__(
         self, spawn_point: tuple[int, int],
         sprite_path_or_texture: str | arcade.Texture,
+        calculator: SuperCalculator,
         scale: float = 1.0
     ) -> None:
+
+        self.calculator = calculator
 
         # Logical coordinates
         self.spawn_point: tuple[int, int] = spawn_point
         self._x: float = float(spawn_point[0])
         self._y: float = float(spawn_point[1])
 
-        # On utilise 'texture=' au lieu de 'filename='
+        # Create the sprite
         self.sprite = arcade.Sprite(
             path_or_texture=sprite_path_or_texture,
             scale=float(scale)
@@ -57,7 +62,7 @@ class Entity(ABC):
         self._y = new_value
         self.sprite.center_y = self._y
 
-    def update(self, delta: float) -> None:
+    def update(self, delta_time: float) -> None:
         pass
 
 
@@ -66,6 +71,7 @@ class Movable(Entity):
         self,
         spawn_point: tuple[int, int],
         sprite_sheet: list[arcade.Texture],
+        calculator: SuperCalculator,
         scale: float = 1.0,
         speed: float = 100.0
     ) -> None:
@@ -73,7 +79,7 @@ class Movable(Entity):
         self.textures: list[arcade.Texture] = sprite_sheet
         self.current_texture_index: int = 0
 
-        super().__init__(spawn_point, self.textures[0], scale)
+        super().__init__(spawn_point, self.textures[0], calculator, scale)
 
         self._base_facing: float = self.sprite.scale_x
         self._base_angle: float = self.sprite.angle
@@ -86,15 +92,14 @@ class Movable(Entity):
 
         self._animation_timer = 0.0
 
-    def update(self, delta: float) -> None:
+    def update(self, delta_time: float) -> None:
         # Calulate the movement vector
-        dx = self._current_direction[0] * self.speed * delta
-        dy = self._current_direction[1] * self.speed * delta
+        dx = self._current_direction[0] * self.speed * delta_time
+        dy = self._current_direction[1] * self.speed * delta_time
         self.x += dx
         self.y += dy
 
-        self._update_animation(delta)
-        self._update_sprite_facing()
+        self._update_animation(delta_time)
 
     def respawn(self) -> None:
         self.x, self.y = self.spawn_point
@@ -105,38 +110,6 @@ class Movable(Entity):
         self.sprite.texture = self.textures[0]
         self.current_texture_index = 0
 
-    def _update_animation(self, delta: float) -> None:
-        # Verify that the sprite is moving
-        if (self._can_move and
-                (self._current_direction[0] != 0 or
-                 self._current_direction[1] != 0)):
-
-            # Set the timer and update current texture
-            self._animation_timer += delta
-
-            if self._animation_timer > 0.05:
-                self.current_texture_index = ((self.current_texture_index + 1)
-                                                % len(self.textures))
-
-                self.sprite.texture = self.textures[self.current_texture_index]
-
-                self._animation_timer = 0
-
-    def _update_sprite_facing(self) -> None:
-        # Get the base scale of the sprite
-        base_scale: float = abs(self.sprite.scale_x)
-
-        # Move the facing in each direction based on the angle
-        match self._current_direction:
-            case (1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = base_scale
-
-            case (-1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = -base_scale
-
-
     @abstractmethod
     def die(self) -> None:
         pass
@@ -146,19 +119,32 @@ class Enemy(Movable):
     def __init__(
         self,
         spawn_point: tuple[int, int],
-        sprite_sheet: list[arcade.Texture],
+        sprite_sheet_move: list[arcade.Texture],
+        sprite_sheet_eatable: list[arcade.Texture],
+        sprite_sheet_died: list[arcade.Texture],
+        maze_bitmap: dict[tuple[int, int], str],
+        calculator: SuperCalculator,
         scale: float = 1.0,
         speed: float = 80.0,
         is_edible: bool = False,
-        mode: EnemyState = EnemyState.WANDER
+        enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
 
-        super().__init__(spawn_point, sprite_sheet, scale, speed)
+        super().__init__(
+            spawn_point, sprite_sheet_move, calculator, scale, speed
+        )
+
+        self.sprite_sheet_eatable = sprite_sheet_eatable
+        self.sprite_sheet_died = sprite_sheet_died
+
+        self.maze_bitmap = maze_bitmap
 
         self._is_edible: bool = is_edible
-        self._mode = mode
+        self._mode = enemy_state
 
         self._move_timer: float = 0.0
+
+        self.last_movement: tuple[float, float] = (0.0, 0.0)
 
     @property
     def is_edible(self) -> bool:
@@ -176,17 +162,99 @@ class Enemy(Movable):
     def mode(self, new_state: EnemyState) -> None:
         self._mode = new_state
 
+    def update(self, delta_time: float) -> None:
+        self.state_machine()
+        self._update_sprite()
+        super().update(delta_time)
+
+    def state_machine(self) -> None:
+        if self.mode == EnemyState.RESPAWN:
+            self._return_to_spawnpoint()
+
+    def _return_to_spawnpoint(self) -> None:
+        # Convert the spawnpoint from pixels to grid
+        conv_spawn_point = self.calculator.get_pixel_to_grid_any(
+            self.spawn_point[0], self.spawn_point[1]
+        )
+
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
+
+        if (conv_x, conv_y) == self.last_movement:
+            return
+
+        self.last_movement = (conv_x, conv_y)
+
+        # Check that the entity is not arrived
+        if (conv_x, conv_y) == conv_spawn_point:
+            print("youhou")
+            self.mode = EnemyState.WAIT
+            return
+
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = check_open_wall(
+            conv_x, conv_y, self.maze_bitmap
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._next_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoiding loop)
+        if not self._current_direction == (0.0, 0.0):
+            curr_dir_x: float = self._current_direction[0] * -1
+            curr_dir_y: float = self._current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Variable to compare and store the result
+        best_distance: float = float('+inf')
+        direction: tuple[float, float] = (0.0, 0.0)
+
+        for key, coords in open_walls.items():
+            # Calculate the distance between coords and spawnpoint
+            distance: float = euclidean_distance((coords), (conv_spawn_point))
+
+            # Compare result and store it
+            if best_distance > distance:
+                best_distance = distance
+                direction = key
+
+        self._next_direction = direction
+
+    def _update_animation(self, delta_time: float) -> None:
+        match self._current_direction:
+            case (1.0, 0.0):
+                self.current_texture_index = 0
+            case (-1.0, 0.0):
+                self.current_texture_index = 1
+            case (0.0, -1.0):
+                self.current_texture_index = 2
+            case (0.0, 1.0):
+                self.current_texture_index = 3
+
+    def _update_sprite(self) -> None:
+        if self.mode == EnemyState.RESPAWN:
+            self.sprite.texture = self.sprite_sheet_died[self.current_texture_index]
+        elif self.mode == EnemyState.RUNAWAY:
+            self.sprite.texture = self.sprite_sheet_eatable[self.current_texture_index]
+        else:
+            self.sprite.texture = self.textures[self.current_texture_index]
+
 
 class Collectible(Entity):
     def __init__(
         self,
         spawn_point: tuple[int, int],
         sprite_data: str | arcade.Texture,
+        calculator: SuperCalculator,
         scale: float = 1.0,
         score: int = 0
     ) -> None:
 
-        super().__init__(spawn_point, sprite_data, scale)
+        super().__init__(spawn_point, sprite_data, calculator, scale)
 
         self._score: int = score
         self._collected: bool = False
@@ -198,3 +266,4 @@ class Collectible(Entity):
     @abstractmethod
     def activate_power(self) -> None:
         pass
+

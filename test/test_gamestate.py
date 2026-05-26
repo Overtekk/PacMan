@@ -17,7 +17,7 @@ class Test(arcade.View):
         self.state_manager = GameStateManager(self.window, parent_view=self)
         self.initialized = False
 
-    def update(delta: float) -> None:
+    def update(delta_time: float) -> None:
         pass
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
