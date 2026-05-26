@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:32:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 08:52:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,7 +19,9 @@ from src.utils import SuperCalculator
 class DogEnemy(Enemy):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_sheet: list[arcade.Texture],
+        sprite_sheet_move: list[arcade.Texture],
+        sprite_sheet_eatable: list[arcade.Texture],
+        sprite_sheet_died: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         scale: float = 1.0,
@@ -29,7 +31,9 @@ class DogEnemy(Enemy):
 
         super().__init__(
             spawn_point=spawn_point,
-            sprite_sheet=sprite_sheet,
+            sprite_sheet_move=sprite_sheet_move,
+            sprite_sheet_eatable=sprite_sheet_eatable,
+            sprite_sheet_died=sprite_sheet_died,
             maze_bitmap=maze_bitmap,
             calculator=calculator,
             scale=scale,

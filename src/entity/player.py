@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:31:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 09:31:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,17 +33,21 @@ class Player(Movable):
             speed=speed
         )
 
+    def update(self, delta_time: float) -> None:
+        self._update_sprite_facing()
+        super().update(delta_time)
+
     def die(self) -> None:
         self.respawn()
 
-    def _update_animation(self, delta: float) -> None:
+    def _update_animation(self, delta_time: float) -> None:
         # Verify that the sprite is moving
         if (self._can_move and
                 (self._current_direction[0] != 0 or
                  self._current_direction[1] != 0)):
 
             # Set the timer and update current texture
-            self._animation_timer += delta
+            self._animation_timer += delta_time
 
             if self._animation_timer > 0.02:
                 self.current_texture_index = ((self.current_texture_index + 1)

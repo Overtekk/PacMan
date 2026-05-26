@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:32:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:12:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,7 +20,9 @@ from src.utils import SuperCalculator
 class RatEnemy(Enemy):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite_sheet: list[arcade.Texture],
+        sprite_sheet_move: list[arcade.Texture],
+        sprite_sheet_eatable: list[arcade.Texture],
+        sprite_sheet_died: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         scale: float = 1.0,
@@ -30,7 +32,9 @@ class RatEnemy(Enemy):
 
         super().__init__(
             spawn_point=spawn_point,
-            sprite_sheet=sprite_sheet,
+            sprite_sheet_move=sprite_sheet_move,
+            sprite_sheet_eatable=sprite_sheet_eatable,
+            sprite_sheet_died=sprite_sheet_died,
             maze_bitmap=maze_bitmap,
             calculator=calculator,
             scale=scale,
@@ -39,15 +43,14 @@ class RatEnemy(Enemy):
         )
 
         # Spawn right, facing right
-        self.sprite.scale_x = -abs(self.sprite.scale_x)
-        self._base_facing: float = self.sprite.scale_x
+        self.sprite.texture = self.textures[1]
 
-    def update(self, delta: float) -> None:
-        self.algo_random_direction(delta)
-        super().update(delta)
+    def update(self, delta_time: float) -> None:
+        self.algo_random_direction(delta_time)
+        super().update(delta_time)
 
-    def algo_random_direction(self, delta: float) -> None:
-        self._move_timer += delta
+    def algo_random_direction(self, delta_time: float) -> None:
+        self._move_timer += delta_time
 
         if self._move_timer > 1:
 
@@ -73,21 +76,4 @@ class RatEnemy(Enemy):
             self._move_timer = 0
 
     def die(self) -> None:
-        pass
-
-    def _update_sprite_facing(self) -> None:
-        # Get the base scale of the sprite
-        base_scale: float = abs(self.sprite.scale_x)
-
-        # Move the facing in each direction based on the angle
-        match self._current_direction:
-            case (1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = base_scale
-
-            case (-1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = -base_scale
-
-    def _update_animation(self, delta: float) -> None:
         pass

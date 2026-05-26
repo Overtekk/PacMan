@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:34:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 09:24:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -113,10 +113,20 @@ class LevelManager():
         # Create enemies
         self.cat_enemy: CatEnemy = CatEnemy(
             spawn_point=spawn_positions["cat_enemy"],
-            sprite_sheet=load_sprite_sheet(
-                textures=self.asset_manager.textures["cat_enemy"],
-                sprite_width=96/3, sprite_height=32,
-                sprites_columns=3, sprites_count=3
+            sprite_sheet_move=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_cat_move"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_eatable=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_cat_eatable"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_died=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_cat_died"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
@@ -127,10 +137,20 @@ class LevelManager():
 
         self.dog_enemy: DogEnemy = DogEnemy(
             spawn_point=spawn_positions["dog_enemy"],
-            sprite_sheet=load_sprite_sheet(
-                textures=self.asset_manager.textures["dog_enemy"],
-                sprite_width=96/3, sprite_height=30,
-                sprites_columns=3, sprites_count=3
+            sprite_sheet_move=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_dog_move"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_eatable=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_dog_eatable"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_died=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_dog_died"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
@@ -141,10 +161,20 @@ class LevelManager():
 
         self.fox_enemy: FoxEnemy = FoxEnemy(
             spawn_point=spawn_positions["fox_enemy"],
-            sprite_sheet=load_sprite_sheet(
-                textures=self.asset_manager.textures["fox_enemy"],
-                sprite_width=96/3, sprite_height=32,
-                sprites_columns=3, sprites_count=3
+            sprite_sheet_move=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_fox_move"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_eatable=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_fox_eatable"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_died=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_fox_died"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
@@ -155,10 +185,20 @@ class LevelManager():
 
         self.rat_enemy: RatEnemy = RatEnemy(
             spawn_point=spawn_positions["rat_enemy"],
-            sprite_sheet=load_sprite_sheet(
-                textures=self.asset_manager.textures["rat_enemy"],
-                sprite_width=96/3, sprite_height=32,
-                sprites_columns=3, sprites_count=3
+            sprite_sheet_move=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_rat_move"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_eatable=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_rat_eatable"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
+            ),
+            sprite_sheet_died=load_sprite_sheet(
+                textures=self.asset_manager.textures["enemy_rat_died"],
+                sprite_width=128/4, sprite_height=32,
+                sprites_columns=4, sprites_count=4
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 19:15:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:13:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -138,20 +138,24 @@ class GameEngine(arcade.View):
         self.game_state = GameState.STARTING
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
-        if symbol == arcade.key.UP or symbol == arcade.key.W:
-            self.player._next_direction = (0, 1)
+        if self.game_state == GameState.STARTING:
+            if symbol == arcade.key.SPACE:
+                self._current_timer_start = 0.0
 
-        elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
-            self.player._next_direction = (0, -1)
+        elif self.game_state == GameState.PLAYING:
+            if symbol == arcade.key.UP or symbol == arcade.key.W:
+                self.player._next_direction = (0, 1)
 
-        elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
-            self.player._next_direction = (-1, 0)
+            elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
+                self.player._next_direction = (0, -1)
 
-        elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
-            self.player._next_direction = (1, 0)
+            elif symbol == arcade.key.LEFT or symbol == arcade.key.A:
+                self.player._next_direction = (-1, 0)
 
-        elif self.debug_mode:
-            if symbol == arcade.key.R and self.game_state == GameState.PLAYING:
+            elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
+                self.player._next_direction = (1, 0)
+
+            elif symbol == arcade.key.R and self.debug_mode:
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
@@ -189,16 +193,6 @@ class GameEngine(arcade.View):
         self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
         self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
         self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
-
-        # -------------------------- TEMP
-        t, p = self.level_manager.factory.get_pixel_coordinates(12, 5)
-
-        from src.entity.logics.StateMachine import EnemyState
-
-        self.dog_enemy.x = t
-        self.dog_enemy.y = p
-
-        self.dog_enemy.mode = EnemyState.RESPAWN
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()

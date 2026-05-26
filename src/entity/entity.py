@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 20:31:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:10:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -62,7 +62,7 @@ class Entity(ABC):
         self._y = new_value
         self.sprite.center_y = self._y
 
-    def update(self, delta: float) -> None:
+    def update(self, delta_time: float) -> None:
         pass
 
 
@@ -92,15 +92,14 @@ class Movable(Entity):
 
         self._animation_timer = 0.0
 
-    def update(self, delta: float) -> None:
+    def update(self, delta_time: float) -> None:
         # Calulate the movement vector
-        dx = self._current_direction[0] * self.speed * delta
-        dy = self._current_direction[1] * self.speed * delta
+        dx = self._current_direction[0] * self.speed * delta_time
+        dy = self._current_direction[1] * self.speed * delta_time
         self.x += dx
         self.y += dy
 
-        self._update_animation(delta)
-        self._update_sprite_facing()
+        self._update_animation(delta_time)
 
     def respawn(self) -> None:
         self.x, self.y = self.spawn_point
@@ -111,38 +110,6 @@ class Movable(Entity):
         self.sprite.texture = self.textures[0]
         self.current_texture_index = 0
 
-    def _update_animation(self, delta: float) -> None:
-        # Verify that the sprite is moving
-        if (self._can_move and
-                (self._current_direction[0] != 0 or
-                 self._current_direction[1] != 0)):
-
-            # Set the timer and update current texture
-            self._animation_timer += delta
-
-            if self._animation_timer > 0.05:
-                self.current_texture_index = ((self.current_texture_index + 1)
-                                                % len(self.textures))
-
-                self.sprite.texture = self.textures[self.current_texture_index]
-
-                self._animation_timer = 0
-
-    def _update_sprite_facing(self) -> None:
-        # Get the base scale of the sprite
-        base_scale: float = abs(self.sprite.scale_x)
-
-        # Move the facing in each direction based on the angle
-        match self._current_direction:
-            case (1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = base_scale
-
-            case (-1.0, 0.0):
-                self.sprite.angle = 0
-                self.sprite.scale_x = -base_scale
-
-
     @abstractmethod
     def die(self) -> None:
         pass
@@ -152,7 +119,9 @@ class Enemy(Movable):
     def __init__(
         self,
         spawn_point: tuple[int, int],
-        sprite_sheet: list[arcade.Texture],
+        sprite_sheet_move: list[arcade.Texture],
+        sprite_sheet_eatable: list[arcade.Texture],
+        sprite_sheet_died: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         scale: float = 1.0,
@@ -161,7 +130,12 @@ class Enemy(Movable):
         enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
 
-        super().__init__(spawn_point, sprite_sheet, calculator, scale, speed)
+        super().__init__(
+            spawn_point, sprite_sheet_move, calculator, scale, speed
+        )
+
+        self.sprite_sheet_eatable = sprite_sheet_eatable
+        self.sprite_sheet_died = sprite_sheet_died
 
         self.maze_bitmap = maze_bitmap
 
@@ -190,6 +164,7 @@ class Enemy(Movable):
 
     def update(self, delta_time: float) -> None:
         self.state_machine()
+        self._update_sprite()
         super().update(delta_time)
 
     def state_machine(self) -> None:
@@ -248,6 +223,25 @@ class Enemy(Movable):
                 direction = key
 
         self._next_direction = direction
+
+    def _update_animation(self, delta_time: float) -> None:
+        match self._current_direction:
+            case (1.0, 0.0):
+                self.current_texture_index = 0
+            case (-1.0, 0.0):
+                self.current_texture_index = 1
+            case (0.0, -1.0):
+                self.current_texture_index = 2
+            case (0.0, 1.0):
+                self.current_texture_index = 3
+
+    def _update_sprite(self) -> None:
+        if self.mode == EnemyState.RESPAWN:
+            self.sprite.texture = self.sprite_sheet_died[self.current_texture_index]
+        elif self.mode == EnemyState.RUNAWAY:
+            self.sprite.texture = self.sprite_sheet_eatable[self.current_texture_index]
+        else:
+            self.sprite.texture = self.textures[self.current_texture_index]
 
 
 class Collectible(Entity):
