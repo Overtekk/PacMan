@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:41:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 17:05:00 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,7 +59,9 @@ class CollisionManager():
             self._entity_collisions_logic(enemy)
 
         # Check for collision between player/enemy
-        if self._check_collisions_with_enemy() or self.debug_force_death:
+        if self.player_reference.invincible:
+            pass
+        elif self._check_collisions_with_enemy() or self.debug_force_death:
             self.debug_force_death = False
             self.state_manager.live -= 1
 
@@ -82,7 +84,14 @@ class CollisionManager():
                 self.state_manager.score += obj.parent.score
 
                 # Activate power
-                obj.parent.activate_power()
+                if hasattr(obj.parent, 'activate_power'):
+
+                    if self.debug_mode:
+                        print_log("Activate SUPERPACGUM")
+
+                    obj.parent.activate_power(
+                        self.player_reference, self.enemies_reference
+                    )
 
                 # Remove the sprite
                 obj.kill()
