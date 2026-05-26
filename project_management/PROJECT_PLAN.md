@@ -7,6 +7,8 @@
 - roandrie
 	- Change sprites for all enemies: they now have 3 states (move/eatable/died)
 	-  Update enemies sprites: they don't have an animation now. They only change the sprite based on the direction, so their eyes are facing the good direction
+	- Add spawning of pacgums throught the maze (60% of chance, one pacgum will always spawn)
+	- Add spawing of super pacgums in each corner of the maze
 
 ### 25/05/2026
 - roandrie
