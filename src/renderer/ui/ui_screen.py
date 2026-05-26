@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 12:19:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 15:42:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,7 +56,7 @@ class UIScreen(BaseMenu):
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for i in range (self.nb_lives):
+        for _ in range (self.nb_lives):
             count += 1
             lives = DisplayLives(
                 center_x=x,
