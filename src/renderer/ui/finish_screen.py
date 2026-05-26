@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 13:33:25 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 11:20:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -69,7 +69,6 @@ class FinishScreen(BaseMenu):
     def __init__(self, score: str, filename: str,
                  previous_view: arcade.View) -> None:
         super().__init__()
-        arcade.set_background_color(arcade.color.BLACK)
         self.player_name = ""
         self.score = score
         self.filename = filename
