@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:00:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 10:33:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -95,7 +95,7 @@ class LevelManager():
             spawn_point=spawn_positions["player"],
             sprite_sheet=load_sprite_sheet(
                 textures=self.asset_manager.textures["player"],
-                sprite_width=308/6, sprite_height=63,
+                sprite_width=192/6, sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ),
             scale=PLAYER_SCALE
