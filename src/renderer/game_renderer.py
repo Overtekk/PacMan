@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 14:10:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 12:21:41 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,7 @@ from typing import Any
 import arcade
 
 from src.renderer.screen_settings import ScreenSettings
+from src.renderer.ui.ui_screen import UIScreen
 
 
 class Wall(arcade.Sprite):
@@ -42,6 +43,7 @@ class GameRenderer():
         # Objects
         self.walls: arcade.SpriteList = arcade.SpriteList()
         self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
+        self.create_ui(0, "00:00", 3)
 
         # Text
         self.timer_text: str = ""
@@ -59,6 +61,8 @@ class GameRenderer():
                 anchor_x="center", anchor_y="center", font_name="fibberish"
             )
             timer_text.draw()
+        self.ui_screen.build_ui()
+        self.ui_screen.on_draw()
 
     def update(self, delta_time: float) -> None:
         REDUCE_SIZE_PIXELS: float = 150.0
@@ -93,5 +97,8 @@ class GameRenderer():
         self.timer_size = TEXT_SIZE
         self.instant_text = instant_text
 
+    def update_ui(self, score, time, live):
+        self.ui_screen.update(score, time, live)
 
-#=self.window.asset_manager.textures["start_button"],
+    def create_ui(self, score, time, live):
+        self.ui_screen = UIScreen(score, time, live)
