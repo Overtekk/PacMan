@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 14:33:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 15:46:53 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,6 @@ from typing import Any
 import arcade
 
 from src.renderer.screen_settings import ScreenSettings, CollectiblesType
-from src.renderer.screen_settings import ScreenSettings
 from src.renderer.ui.ui_screen import UIScreen
 
 
@@ -46,11 +45,20 @@ class GameRenderer():
         self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
         self.pacgums: arcade.SpriteList[Any] = arcade.SpriteList()
         self.super_pacgums: arcade.SpriteList[Any] = arcade.SpriteList()
-        self.create_ui(0, "00:00", 3)
 
         # Text
         self.timer_text: str = ""
         self.timer_size: float = 0.0
+
+        self.timer_text_obj: arcade.Text = arcade.Text(
+            text=self.timer_text,
+            x=ScreenSettings.WIDTH / 2, y=ScreenSettings.HEIGHT / 2,
+            color=arcade.color.WHITE_SMOKE, font_size=int(self.timer_size),
+            anchor_x="center", anchor_y="center", font_name="fibberish"
+        )
+
+        # UI
+        self.ui_screen = UIScreen(0, 0, 0)
 
     def draw(self) -> None:
         self.pacgums.draw()
@@ -59,13 +67,7 @@ class GameRenderer():
         self.entities.draw()
 
         if self.timer_size > 0 and self.timer_text:
-            timer_text: arcade.Text = arcade.Text(
-                text=self.timer_text,
-                x=ScreenSettings.WIDTH / 2, y=ScreenSettings.HEIGHT / 2,
-                color=arcade.color.WHITE_SMOKE, font_size=int(self.timer_size),
-                anchor_x="center", anchor_y="center", font_name="fibberish"
-            )
-            timer_text.draw()
+            self.timer_text_obj.draw()
         self.ui_screen.build_ui()
         self.ui_screen.on_draw()
 
@@ -75,11 +77,14 @@ class GameRenderer():
         if self.timer_size > 0:
             if self.instant_text:
                 self.timer_size -= (REDUCE_SIZE_PIXELS * delta_time) * 4
+                self.timer_text_obj.font_size = self.timer_size
             else:
                 self.timer_size -= REDUCE_SIZE_PIXELS * delta_time
+                self.timer_text_obj.font_size = self.timer_size
 
             if self.timer_size < 0:
                 self.timer_size = 0
+        self.timer_text_obj.text = self.timer_text
 
     def wall_generator(
         self,
@@ -113,6 +118,3 @@ class GameRenderer():
 
     def update_ui(self, score, time, live):
         self.ui_screen.update(score, time, live)
-
-    def create_ui(self, score, time, live):
-        self.ui_screen = UIScreen(score, time, live)
