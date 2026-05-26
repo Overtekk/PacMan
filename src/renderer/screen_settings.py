@@ -6,11 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:14:34 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 14:01:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 11:30:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from enum import Enum
+from enum import Enum, auto
 
 
 class ScreenSettings:
@@ -29,3 +29,7 @@ class ScreenState(Enum):
 
     def __str__(self) -> str:
         return self.value
+
+class CollectiblesType(Enum):
+    PACGUM = auto()
+    SUPER_PACGUM = auto()

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 09:24:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 14:57:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,16 +15,21 @@ from typing import Any
 import arcade
 
 from pathlib import Path
+from random import random
 
 from src.utils import print_warn, load_sprite_sheet, SuperCalculator
 from src.config import GameConfig
-from src.entity import Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy
+from src.entity import (
+    Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy, Pacgum, SuperPacgum
+)
 from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
 
 
 PLAYER_SCALE: float = 0.8
 ENEMIES_SCALE: float = 0.9
+PACGUM_SCALE: float = 0.5
+SUPERPACGUM_SCALE: float = 0.8
 
 
 class LevelManager():
@@ -34,6 +39,11 @@ class LevelManager():
         self.asset_manager: dict[str, Path] = game_window.asset_manager
 
         self.enemies_list: list[str, Any] = {}
+        self.pacgums_list: list[Pacgum] = []
+        self.super_pacgums_list: list[SuperPacgum] = []
+
+        self.pacgum_chance_spawning: float = 0.60
+
 
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
@@ -58,6 +68,9 @@ class LevelManager():
 
         # Create all entities
         self._create_entity()
+
+        # Create all collectibles
+        self._create_collectibles()
 
         return generated_level
 
@@ -208,8 +221,71 @@ class LevelManager():
         self.enemies_list["rat_enemy"] = self.rat_enemy
 
     def _create_collectibles(self) -> None:
-        # SuperPacgums
-        pass
+        self._create_super_pacgum()
+        self._create_pacgum()
+
+    def _create_pacgum(self) -> None:
+        # List of coords where pacgums can't spawn on
+        forbidden_coords: list[tuple[int, int]] = [
+            (self.player.spawn_point)
+        ]
+
+        # Get each corners of the maze and add it to the forbidden list
+        corners_coords_list: dict[str, tuple[int, int]] = (
+            self._get_corners_coords_pixels()
+        )
+        for coords in corners_coords_list.values():
+            forbidden_coords.append(coords)
+
+        first: bool = True
+
+        # Traverse all case
+        for coords, byte in self.maze_bitmap.items():
+            # Ignore closed cells
+            if byte == 1:
+                continue
+
+            # Convert grid coords to pixels coords
+            conv_coords_x: int = (coords[0] - 1) // 2
+            conv_coords_y: int = (coords[1] - 1) // 2
+
+            conv_coords: tuple[int, int] = self.factory.get_pixel_coordinates(
+                conv_coords_x, conv_coords_y
+            )
+
+            # Check if the coords are not forbidden
+            if conv_coords in forbidden_coords:
+                continue
+
+            # Create the collectible and add it to the list with a chance %
+            if random() <= self.pacgum_chance_spawning or first:
+
+                collectible: Pacgum = Pacgum(
+                    spawn_point=conv_coords,
+                    sprite_path=self.asset_manager.textures["pacgum"],
+                    calculator=self.calculator,
+                    scale=PACGUM_SCALE,
+                    score=self.config.pacgum_points
+                )
+                self.pacgums_list.append(collectible)
+                first = False
+
+    def _create_super_pacgum(self) -> None:
+        # Get the coordinates of each corners
+        corners_coords_list: dict[str, tuple[int, int]] = (
+            self._get_corners_coords_pixels()
+        )
+
+        # Create a super_pacgum for each corners
+        for coords in corners_coords_list.values():
+            collectible: SuperPacgum = SuperPacgum(
+                spawn_point=coords,
+                sprite=self.asset_manager.textures["super_pacgum"],
+                calculator=self.calculator,
+                scale=SUPERPACGUM_SCALE,
+                score=self.config.super_pacgum_points
+            )
+            self.super_pacgums_list.append(collectible)
 
     def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
         spawn_dict: dict[str, tuple[int, int]] = {}
@@ -264,35 +340,6 @@ class LevelManager():
         spawn_dict["dog_enemy"] = (x, y)
 
         return spawn_dict
-
-    def _get_raw_coords(
-        self, entity_name: str, coords: tuple[int, int]
-    ) -> tuple[int, int]:
-
-        x = coords[0]
-        y = coords[1]
-
-        extend_x = x * 2 + 1
-        extend_y = y * 2 + 1
-
-        # Is this position have cell open?
-        if self.maze_bitmap[extend_x, extend_y] == 0:
-            return ((extend_x - 1) // 2, (extend_y - 1) // 2)
-
-        # Else, finding another valable position
-        new_coords: tuple[int, int] = self._find_valid_position(
-            entity_name, (extend_x, extend_y)
-        )
-
-        print_warn(
-            f"Can't place the {entity_name} at {coords}. "
-            f"📌 Placing at {new_coords}.\n"
-        )
-
-        new_x = (new_coords[0] - 1) // 2
-        new_y = (new_coords[1] - 1) // 2
-
-        return (new_x, new_y)
 
     def _find_valid_position(
         self, entity_name: str, start_coords: tuple[int, int]
@@ -354,6 +401,69 @@ class LevelManager():
 
         return valid_coords
 
-    # create the level
-    # create the player, ennemis and collectibles
-    # handle respawn, level restart, level start
+    def _get_corners_coords_pixels(self) -> dict[str, tuple[int, int]]:
+        corners_coords_list: dict[str, tuple[int, int]] = {}
+
+        raw_upper_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, 0)
+        )
+        upper_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_left[0], raw_upper_left[1]
+        )
+        corners_coords_list["upper_left"] = upper_left
+
+        raw_down_left: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (0, self.maze_height - 1)
+        )
+        down_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_left[0], raw_down_left[1]
+        )
+        corners_coords_list["down_left"] = down_left
+
+        raw_upper_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1, 0)
+        )
+        upper_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_upper_right[0], raw_upper_right[1]
+        )
+        corners_coords_list["upper_right"] = upper_right
+
+        raw_down_right: tuple[int, int] = self._get_raw_coords(
+            "Super Pacgum (upper left)", (self.maze_width - 1,
+                                          self.maze_height - 1)
+        )
+        down_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+            raw_down_right[0], raw_down_right[1]
+        )
+        corners_coords_list["down_right"] = down_right
+
+        return corners_coords_list
+
+    def _get_raw_coords(
+        self, entity_name: str, coords: tuple[int, int]
+    ) -> tuple[int, int]:
+
+        x = coords[0]
+        y = coords[1]
+
+        extend_x = x * 2 + 1
+        extend_y = y * 2 + 1
+
+        # Is this position have cell open?
+        if self.maze_bitmap[extend_x, extend_y] == 0:
+            return ((extend_x - 1) // 2, (extend_y - 1) // 2)
+
+        # Else, finding another valable position
+        new_coords: tuple[int, int] = self._find_valid_position(
+            entity_name, (extend_x, extend_y)
+        )
+
+        print_warn(
+            f"Can't place the {entity_name} at {coords}. "
+            f"📌 Placing at {new_coords}.\n"
+        )
+
+        new_x = (new_coords[0] - 1) // 2
+        new_y = (new_coords[1] - 1) // 2
+
+        return (new_x, new_y)
