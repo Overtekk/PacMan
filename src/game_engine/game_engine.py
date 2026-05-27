@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:35:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -180,7 +180,6 @@ class GameEngine(arcade.View):
 
             elif symbol == arcade.key.ESCAPE:
                 self.state_manager.pause_game()
-
 
     # :---------------:
     #  PRIVATE METHODS

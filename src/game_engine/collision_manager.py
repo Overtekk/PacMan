@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:34:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -48,7 +48,6 @@ class CollisionManager():
 
         # DEBUG
         self.debug_force_death: bool = False
-
 
     def update(self) -> bool:
         # Check collisions for the player
@@ -98,7 +97,6 @@ class CollisionManager():
 
         return False
 
-
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
@@ -108,8 +106,9 @@ class CollisionManager():
         center_x, center_y = self._get_tile_center(entity)
 
         # Verify if player near the center
-        at_center: bool = (abs(entity.x - center_x) < 3 and
-                            abs(entity.y - center_y) < 3)
+        at_center: bool = (
+            abs(entity.x - center_x) < 3 and abs(entity.y - center_y) < 3
+        )
 
         # BUFFER logic
         if at_center and entity._next_direction != (0.0, 0.0):
@@ -175,7 +174,7 @@ class CollisionManager():
                 sprite=self.player_reference.sprite,
                 sprite_lists=[self.pacgums_sprite_list,
                               self.super_pacgums_sprite_list]
-        ))
+            ))
 
         return colliding_sprite
 
@@ -193,13 +192,14 @@ class CollisionManager():
             return True
         return False
 
-    def _snap_to_grid(self, entity: Entity,
-                     direction: tuple[float, float]) -> None:
+    def _snap_to_grid(
+        self, entity: Entity, direction: tuple[float, float]
+    ) -> None:
         # Calculate the exact center of the current tile
         center_x: int = (((entity.x - self.offset_x) // self.tile_size) *
-                    self.tile_size + (self.tile_size / 2) + self.offset_x)
+                         self.tile_size + (self.tile_size / 2) + self.offset_x)
         center_y: int = (((entity.y - self.offset_y) // self.tile_size) *
-                    self.tile_size + (self.tile_size / 2) + self.offset_y)
+                         self.tile_size + (self.tile_size / 2) + self.offset_y)
 
         # Lock the perpendicular axis
         if direction == 0.0 and direction != 0.0:
@@ -213,11 +213,11 @@ class CollisionManager():
         # Calculate X center
         logic_x = (entity.x - self.offset_x) // self.tile_size
         center_x = ((logic_x * self.tile_size) + (self.tile_size / 2) +
-                        self.offset_x)
+                    self.offset_x)
 
         # Calculate Y center
         logic_y = (entity.y - self.offset_y) // self.tile_size
         center_y = ((logic_y * self.tile_size) + (self.tile_size / 2) +
-                        self.offset_y)
+                    self.offset_y)
 
         return center_x, center_y

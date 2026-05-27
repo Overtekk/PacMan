@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:49:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:29:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,6 +31,7 @@ mandatory_keys: list[str] = [
     "level_max_time",
     "level"
 ]
+
 
 def load_config(filepath: Path) -> GameConfig:
     # SECURITY: create the Path object
@@ -88,6 +89,7 @@ def load_config(filepath: Path) -> GameConfig:
 
 def _create_default_config() -> GameConfig:
     return GameConfig()
+
 
 def _print_default_error_message(error: str) -> None:
     error += "\nLet's play with the default config ! 🐨"

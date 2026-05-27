@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 13:30:21 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/27 14:28:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:37:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -37,7 +37,9 @@ def extract_leaderboard(filepath_str: str) -> Any:
         extract_content = open_leaderboard(filepath_str)
         for score, lst in extract_content.items():
             for dic in lst:
-                leaderboard_content += f"{dic['player_name']}: {dic['player_score']}\n"
+                leaderboard_content += (
+                    f"{dic['player_name']}: {dic['player_score']}\n"
+                )
         if not leaderboard_content:
             return "No highscores. Play."
         else:

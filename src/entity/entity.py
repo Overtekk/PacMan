@@ -6,18 +6,18 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:31:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
-from src import config
 
 from abc import ABC, abstractmethod
 from random import random
 
-from .logics.StateMachine import EnemyState
+from src import config
 from src.utils import SuperCalculator, print_log
+from .logics.StateMachine import EnemyState
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -209,7 +209,7 @@ class Enemy(Movable):
 
         # Stop if state is matched
         if self.mode in (
-            EnemyState.WAIT, EnemyState.RUNAWAY, EnemyState.RESPAWN):
+                EnemyState.WAIT, EnemyState.RUNAWAY, EnemyState.RESPAWN):
             return
 
         # Don't check if entity is not moving
@@ -413,9 +413,13 @@ class Enemy(Movable):
 
     def _update_sprite(self) -> None:
         if self.mode == EnemyState.RESPAWN:
-            self.sprite.texture = self.sprite_sheet_died[self.current_texture_index]
+            self.sprite.texture = self.sprite_sheet_died[
+                self.current_texture_index
+            ]
         elif self.mode == EnemyState.RUNAWAY:
-            self.sprite.texture = self.sprite_sheet_eatable[self.current_texture_index]
+            self.sprite.texture = self.sprite_sheet_eatable[
+                self.current_texture_index
+            ]
         else:
             self.sprite.texture = self.textures[self.current_texture_index]
 

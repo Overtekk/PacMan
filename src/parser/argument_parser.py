@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:50:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:48:45 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -69,4 +69,3 @@ def load_arguments() -> argparse.Namespace:
     args: argparse.Namespace = parser.parse_args()
 
     return args
-

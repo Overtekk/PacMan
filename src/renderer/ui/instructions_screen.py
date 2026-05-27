@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/27 11:31:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 16:01:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -109,7 +109,9 @@ class InstructionsScreen(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
         self.previous_view = previous_view
-        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
+        self.background = arcade.load_texture(
+            "assets/sprites/main_menu/ocean.png"
+        )
 
     def build_ui(self) -> None:
         instructions = Instructions(
@@ -135,98 +137,116 @@ class InstructionsScreen(BaseMenu):
 
     def write_ghosts(self) -> None:
         level_manager = LevelManager(self.window)
-        cat_ghost_txt = arcade.Text(text="ST GLORIUS RICTUS IV =", x=742, y=280,
-                                    color=arcade.color.GRAY, font_size=15,
-                                    font_name="Press Start 2P")
+        cat_ghost_txt = arcade.Text(
+            text="ST GLORIUS RICTUS IV =", x=742, y=280,
+            color=arcade.color.GRAY, font_size=15,
+            font_name="Press Start 2P"
+        )
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_cat_move"],
-        sprite_width=32, sprite_height=32, sprites_columns=1, sprites_count=1)
+            textures=level_manager.asset_manager.textures["enemy_cat_move"],
+            sprite_width=32, sprite_height=32,
+            sprites_columns=1, sprites_count=1
+        )
+
         cat_ghost = Ghosts(
             center_x=1240,
             center_y=295,
-            sprite_path=(
-                textures_list[0]
-            ),
+            sprite_path=textures_list[0],
             parent_view=self
         )
+
         self.text_lst.append(cat_ghost_txt)
         self.button_list.append(cat_ghost)
 
-        fox_ghost_txt = arcade.Text(text="CHIPEUR =", x=1003, y=210,
-                                    color=arcade.color.SAFETY_ORANGE, font_size=15,
-                                    font_name="Press Start 2P")
+        fox_ghost_txt = arcade.Text(
+            text="CHIPEUR =", x=1003, y=210,
+            color=arcade.color.SAFETY_ORANGE, font_size=15,
+            font_name="Press Start 2P"
+        )
+
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_fox_move"],
-        sprite_width=32, sprite_height=32, sprites_columns=1, sprites_count=1)
+            textures=level_manager.asset_manager.textures["enemy_fox_move"],
+            sprite_width=32, sprite_height=32,
+            sprites_columns=1, sprites_count=1
+        )
+
         fox_ghost = Ghosts(
             center_x=1240,
             center_y=225,
-            sprite_path=(
-                textures_list[0]
-            ),
+            sprite_path=textures_list[0],
             parent_view=self
         )
+
         self.text_lst.append(fox_ghost_txt)
         self.button_list.append(fox_ghost)
 
-        rat_ghost_txt = arcade.Text(text="RATATOUILLE =", x=923, y=140,
-                                    color=arcade.color.PASTEL_GRAY,
-                                    font_size=15, font_name="Press Start 2P")
+        rat_ghost_txt = arcade.Text(
+            text="RATATOUILLE =", x=923, y=140,
+            color=arcade.color.PASTEL_GRAY,
+            font_size=15, font_name="Press Start 2P"
+        )
+
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_rat_move"],
-        sprite_width=32, sprite_height=32, sprites_columns=1, sprites_count=1)
+            textures=level_manager.asset_manager.textures["enemy_rat_move"],
+            sprite_width=32, sprite_height=32,
+            sprites_columns=1, sprites_count=1
+        )
+
         rat_ghost = Ghosts(
             center_x=1240,
             center_y=155,
-            sprite_path=(
-                textures_list[0]
-            ),
+            sprite_path=textures_list[0],
             parent_view=self
         )
         self.text_lst.append(rat_ghost_txt)
         self.button_list.append(rat_ghost)
 
-        dog_ghost_txt = arcade.Text(text="FLEUR =", x=1043, y=70,
-                                    color=arcade.color.APRICOT, font_size=15,
-                                    font_name="Press Start 2P")
+        dog_ghost_txt = arcade.Text(
+            text="FLEUR =", x=1043, y=70,
+            color=arcade.color.APRICOT, font_size=15,
+            font_name="Press Start 2P")
+
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_dog_move"],
-        sprite_width=32, sprite_height=32, sprites_columns=1, sprites_count=1)
+            textures=level_manager.asset_manager.textures["enemy_dog_move"],
+            sprite_width=32, sprite_height=32,
+            sprites_columns=1, sprites_count=1
+        )
+
         dog_ghost = Ghosts(
             center_x=1240,
             center_y=85,
-            sprite_path=(
-                textures_list[0]
-            ),
+            sprite_path=textures_list[0],
             parent_view=self
         )
         self.text_lst.append(dog_ghost_txt)
         self.button_list.append(dog_ghost)
 
     def write_pacgums(self) -> None:
-        fish_txt = arcade.Text(text="PACGUMS =", x=1000, y=425,
-                               color=arcade.color.PASTEL_GREEN, font_size=15,
-                               font_name="Press Start 2P")
+        fish_txt = arcade.Text(
+            text="PACGUMS =", x=1000, y=425,
+            color=arcade.color.PASTEL_GREEN, font_size=15,
+            font_name="Press Start 2P"
+        )
+
         fish = Assets(
             center_x=1240,
             center_y=440,
-            sprite_path=(
-                self.window.asset_manager.textures["pacgum"]
-            ),
+            sprite_path=self.window.asset_manager.textures["pacgum"],
             parent_view=self
         )
         self.text_lst.append(fish_txt)
         self.button_list.append(fish)
 
-        burger_txt = arcade.Text(text="SUPER_PACGUMS =", x=880, y=355,
-                                 color=arcade.color.GREEN, font_size=15,
-                                 font_name="Press Start 2P")
+        burger_txt = arcade.Text(
+            text="SUPER_PACGUMS =", x=880, y=355,
+            color=arcade.color.GREEN, font_size=15,
+            font_name="Press Start 2P"
+        )
+
         burger = Assets(
             center_x=1240,
             center_y=370,
-            sprite_path=(
-                self.window.asset_manager.textures["super_pacgum"]
-            ),
+            sprite_path=self.window.asset_manager.textures["super_pacgum"],
             parent_view=self
         )
         self.text_lst.append(burger_txt)
@@ -234,18 +254,22 @@ class InstructionsScreen(BaseMenu):
 
     def write_player(self) -> None:
         level_manager = LevelManager(self.window)
-        pacman_txt = arcade.Text(text="PACMAN =", x=1020, y=505,
-                                 color=arcade.color.YELLOW_ROSE, font_size=15,
-                                 font_name="Press Start 2P")
+        pacman_txt = arcade.Text(
+            text="PACMAN =", x=1020, y=505,
+            color=arcade.color.YELLOW_ROSE, font_size=15,
+            font_name="Press Start 2P"
+        )
+
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["player"],
-        sprite_width=32, sprite_height=32, sprites_columns=1, sprites_count=1)
+            textures=level_manager.asset_manager.textures["player"],
+            sprite_width=32, sprite_height=32,
+            sprites_columns=1, sprites_count=1
+        )
+
         pacman = Pacman(
             center_x=1240,
             center_y=520,
-            sprite_path=(
-                textures_list[0]
-            ),
+            sprite_path=textures_list[0],
             parent_view=self
         )
         self.text_lst.append(pacman_txt)

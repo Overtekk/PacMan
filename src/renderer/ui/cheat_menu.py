@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:33:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 15:50:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -212,5 +212,4 @@ class CheatMenu(BaseMenu):
     def on_update(self, delta_time):
         self.button_list.update()
         for sprite in self.button_list:
-                sprite.on_update(delta_time)
-
+            sprite.on_update(delta_time)

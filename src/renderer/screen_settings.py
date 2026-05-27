@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:14:34 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 11:30:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:50:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,6 +29,7 @@ class ScreenState(Enum):
 
     def __str__(self) -> str:
         return self.value
+
 
 class CollectiblesType(Enum):
     PACGUM = auto()
