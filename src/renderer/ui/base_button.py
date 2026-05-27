@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:32:37 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 12:06:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,7 +60,11 @@ class BaseButton(arcade.Sprite, ABC):
     def check_hover(self, x: float, y: float) -> None:
         if self.collides_with_point((x, y)):
             self.color = arcade.color.LIGHT_GRAY
-            self.start_shake(0.2)
+            if arcade.get_window().time > 120.0:
+                self.center_x += 4
+                self.center_y += 4
+            else:
+                self.start_shake(0.2)
         else:
             self.color = arcade.color.WHITE
 
