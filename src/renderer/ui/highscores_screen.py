@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/26 11:17:43 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 17:18:32 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,7 +49,7 @@ class Highscores(BaseButton):
 class HighscoresScreen(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-        arcade.set_background_color(arcade.color.BLACK)
+        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
 
     def build_ui(self) -> None:
         highscores = Highscores(
@@ -77,3 +77,13 @@ class HighscoresScreen(BaseMenu):
             from src.renderer.ui.main_menu import MainMenu
             if self.window:
                 self.window.show_view(MainMenu())
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 13:14:22 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/26 18:39:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,9 +21,10 @@ from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.ui.cheat_menu import CheatMenu
 import math
+from src.renderer.screen_settings import ScreenSettings
 
 
-class LogoButton(arcade.Sprite):
+class LogoButton(BaseButton):
     def __init__(
         self,
         center_x: float,
@@ -34,16 +35,22 @@ class LogoButton(arcade.Sprite):
     ) -> None:
 
         super().__init__(
-            path_or_texture=sprite_path,
-            scale=scale
+            center_x=center_x,
+            center_y=center_y,
+            sprite_path=sprite_path,
+            parent_view=parent_view
         )
 
+        self.scale = scale
         self.center_x = center_x
         self.center_y = center_y
 
         self.parent_view = parent_view
         self.is_landing = False
         self.total_time = 0.0
+        self.gullman = False
+        self.sprite_path = sprite_path
+        # self.path_or_texture=sprite_path,
 
     def land(self):
         self.scale_x = 1.4
@@ -70,6 +77,16 @@ class LogoButton(arcade.Sprite):
             self.scale_x = 1.0 + math.sin(t * 3) * 0.05
             self.scale_y = 1.0 + math.cos(t * 3) * 0.05
 
+    def on_click(self):
+        if self.gullman is False:
+            path = self.parent_view.window.asset_manager.textures["gullman"]
+            self.texture = arcade.load_texture(path)
+            self.gullman = True
+        else:
+            path = self.parent_view.window.asset_manager.textures["logo"]
+            self.texture = arcade.load_texture(path)
+            self.gullman = False
+
 
 class CheatButton(BaseButton):
     def __init__(
@@ -88,10 +105,8 @@ class CheatButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        cheat_menu = CheatMenu()
-
         if self.parent_view.window:
-            self.parent_view.window.show_view(cheat_menu)
+            self.parent_view.window.show_view(CheatMenu())
 
 
 class ExitButton(BaseButton):
@@ -154,10 +169,8 @@ class HighscoresButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        highscores = HighscoresScreen()
-
         if self.parent_view.window:
-            self.parent_view.window.show_view(highscores)
+            self.parent_view.window.show_view(HighscoresScreen())
 
 
 class PlayButton(BaseButton):
@@ -184,8 +197,7 @@ class PlayButton(BaseButton):
 class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-
-        arcade.set_background_color(arcade.color.BLACK)
+        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
 
     def build_ui(self) -> None:
 
@@ -252,3 +264,13 @@ class MainMenu(BaseMenu):
         for sprite in self.button_list:
             if isinstance(sprite, LogoButton):
                 sprite.on_update(delta_time)
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
+        self.button_list.draw()
+        for txt in self.text_lst:
+            txt.draw()

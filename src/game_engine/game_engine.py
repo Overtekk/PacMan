@@ -167,6 +167,10 @@ class GameEngine(arcade.View):
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
+            elif self.state_manager:
+                self.state_manager.on_key_press(symbol, _modifiers)
+
+
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:

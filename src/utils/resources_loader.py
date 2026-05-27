@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 08:56:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 18:08:49 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,6 +56,7 @@ REQUIERED_SPRITES: dict[str, str] = {
     "logo": "main_menu/logo.png",
     "start_button": "main_menu/start.png",
     "cheat_button": "main_menu/cheat_mode.png",
+    "gullman": "main_menu/gullman.png",
 
     "extra_lives": "cheat_menu/cheat_extra_lives.png",
     "freeze_ghost": "cheat_menu/cheat_freeze.png",
