@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:25:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:30:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -219,7 +219,7 @@ class Enemy(Movable):
                 conv_coords_self[0] + (self._current_direction[0] * i)
             )
             dy: int = int(
-                conv_coords_self[1] + (self._current_direction[1] * i)
+                conv_coords_self[1] + (self._current_direction[1] * -1 * i)
             )
 
             # Player found: change state to chase
