@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:23:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:22:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ from typing import Any
 
 import arcade
 
+from src import config
 from src.renderer.screen_settings import ScreenSettings, CollectiblesType
 from src.renderer.ui.ui_screen import UIScreen
 from src.entity import EnemyState
@@ -40,8 +41,7 @@ class Wall(arcade.Sprite):
 
 
 class GameRenderer():
-    def __init__(self, debug_mode: bool) -> None:
-        self.debug_mode = debug_mode
+    def __init__(self) -> None:
 
         # Objects
         self.walls: arcade.SpriteList[Any] = arcade.SpriteList()
@@ -78,7 +78,7 @@ class GameRenderer():
         self.walls.draw()
         self.entities.draw()
 
-        if self.debug_mode:
+        if config.debug_mode:
             for entity in self.entities:
                 if (hasattr(entity, 'parent')
                         and hasattr(entity.parent, '_debug_raycast')):

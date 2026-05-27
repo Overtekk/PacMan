@@ -6,11 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:54:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
+from src import config
 
 from abc import ABC, abstractmethod
 from random import random
@@ -250,7 +251,7 @@ class Enemy(Movable):
             # Player found
             if (dx, dy) == (int(ext_player[0]), int(ext_player[1])):
                 if not self.mode == EnemyState.CHASE:
-                    if self.calculator.debug_mode:
+                    if config.debug_mode:
                         print_log(f"Changed state for {self} to CHASE")
                     self.mode = EnemyState.CHASE
 
@@ -278,7 +279,7 @@ class Enemy(Movable):
                 if random() <= self._loose_chance:
                     self.mode = EnemyState.WANDER
 
-                    if self.calculator.debug_mode:
+                    if config.debug_mode:
                         print_log(f"Changed state for {self} to WANDER")
                         self._timer_chase = 0
 

@@ -6,13 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 17:05:00 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
+from src import config
 
 from src.entity import Entity, Player
 from .gamestate_manager import GameStateManager
@@ -29,7 +30,7 @@ class CollisionManager():
         super_pacgums_sprite_list: arcade.SpriteList,
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
-        state_manager: GameStateManager, debug_mode: bool
+        state_manager: GameStateManager
     ) -> None:
 
         self.player_reference = player_reference
@@ -46,7 +47,6 @@ class CollisionManager():
         self.tile_size: float = self.calculator.maze_tile_size
 
         # DEBUG
-        self.debug_mode = debug_mode
         self.debug_force_death: bool = False
 
 
@@ -65,7 +65,7 @@ class CollisionManager():
             self.debug_force_death = False
             self.state_manager.live -= 1
 
-            if self.debug_mode:
+            if config.debug_mode:
                 print_log(
                     f"Player died! Life remaining: {self.state_manager.live}"
                 )
@@ -86,7 +86,7 @@ class CollisionManager():
                 # Activate power
                 if hasattr(obj.parent, 'activate_power'):
 
-                    if self.debug_mode:
+                    if config.debug_mode:
                         print_log("Activate SUPERPACGUM")
 
                     obj.parent.activate_power(

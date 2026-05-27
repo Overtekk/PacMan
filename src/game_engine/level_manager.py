@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:28:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:16:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,13 +33,10 @@ SUPERPACGUM_SCALE: float = 0.8
 
 
 class LevelManager():
-    def __init__(
-        self, game_window: arcade.Window, debug_mode: bool
-    ) -> None:
+    def __init__(self, game_window: arcade.Window) -> None:
 
         self.config: GameConfig = game_window.game_config
         self.asset_manager: dict[str, Path] = game_window.asset_manager
-        self.debug_mode = debug_mode
 
         self.enemies_list: list[str, Any] = {}
         self.pacgums_list: list[Pacgum] = []
@@ -69,7 +66,6 @@ class LevelManager():
             maze_offset_y=self.factory.offset_y,
             maze_tile_size=self.factory.tile_size,
             maze_height=self.factory.height,
-            debug_mode=self.debug_mode
         )
 
         # Create all entities

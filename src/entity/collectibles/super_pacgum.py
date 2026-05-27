@@ -6,11 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:26:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
+
+from src import config
 
 from pathlib import Path
 
@@ -47,5 +49,5 @@ class SuperPacgum(Collectible):
         for enemy in enemies_reference.values():
             enemy.mode = EnemyState.RUNAWAY
 
-            if self.calculator.debug_mode:
+            if config.debug_mode:
                 print_log(f"Changed state for {enemy} to RUNAWAY")

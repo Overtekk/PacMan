@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 11:00:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:20:45 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ from argparse import Namespace
 
 import sys
 import arcade
+import src.config
 
 from src.utils import print_error, SpritesLoader, FontLoader
 from src.parser import load_arguments
@@ -29,7 +30,7 @@ def main() -> int:
         # Check the argument, load and check the config
         args: Namespace = load_arguments()
         game_config: GameConfig = args.config_file
-        debug: bool = args.debug
+        src.config.debug_mode = args.debug
 
         # Check if sprites are available and store them
         sprite_loader: SpritesLoader = SpritesLoader()
@@ -48,12 +49,10 @@ def main() -> int:
         game_window: GameWindow = GameWindow(  # noqa
             config=game_config,
             sprites_list=sprite_loader,
-            debug_mode=debug
         )
 
         # Launch the main loop for the game
         arcade.run()
-
 
         return 0
 
