@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:16:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:51:55 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -260,7 +260,7 @@ class LevelManager():
             conv_coords_x: int = (coords[0] - 1) // 2
             conv_coords_y: int = (coords[1] - 1) // 2
 
-            conv_coords: tuple[int, int] = self.factory.get_pixel_coordinates(
+            conv_coords: tuple[int, int] = self.calculator.get_grid_to_pixel(
                 conv_coords_x, conv_coords_y
             )
 
@@ -307,7 +307,7 @@ class LevelManager():
         )
 
         # Get the coordinates in pixel
-        x, y = self.factory.get_pixel_coordinates(
+        x, y = self.calculator.get_grid_to_pixel(
             raw_x, raw_y
         )
 
@@ -318,7 +318,7 @@ class LevelManager():
         raw_x, raw_y = self._get_raw_coords(
             "fox_enemy", (self.maze_width - 1, self.maze_height - 1)
         )
-        x, y = self.factory.get_pixel_coordinates(
+        x, y = self.calculator.get_grid_to_pixel(
             raw_x, raw_y
         )
         spawn_dict["fox_enemy"] = (x, y)
@@ -327,7 +327,7 @@ class LevelManager():
         raw_x, raw_y = self._get_raw_coords(
             "cat_enemy", (0, 0)
         )
-        x, y = self.factory.get_pixel_coordinates(
+        x, y = self.calculator.get_grid_to_pixel(
             raw_x, raw_y
         )
         spawn_dict["cat_enemy"] = (x, y)
@@ -336,7 +336,7 @@ class LevelManager():
         raw_x, raw_y = self._get_raw_coords(
             "rat_enemy", (self.maze_width - 1, 0)
         )
-        x, y = self.factory.get_pixel_coordinates(
+        x, y = self.calculator.get_grid_to_pixel(
             raw_x, raw_y
         )
         spawn_dict["rat_enemy"] = (x, y)
@@ -345,7 +345,7 @@ class LevelManager():
         raw_x, raw_y = self._get_raw_coords(
             "dog_enemy", (0, self.maze_height - 1)
         )
-        x, y = self.factory.get_pixel_coordinates(
+        x, y = self.calculator.get_grid_to_pixel(
             raw_x, raw_y
         )
         spawn_dict["dog_enemy"] = (x, y)
@@ -418,7 +418,7 @@ class LevelManager():
         raw_upper_left: tuple[int, int] = self._get_raw_coords(
             "Super Pacgum (upper left)", (0, 0)
         )
-        upper_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+        upper_left: tuple[int, int] = self.calculator.get_grid_to_pixel(
             raw_upper_left[0], raw_upper_left[1]
         )
         corners_coords_list["upper_left"] = upper_left
@@ -426,7 +426,7 @@ class LevelManager():
         raw_down_left: tuple[int, int] = self._get_raw_coords(
             "Super Pacgum (upper left)", (0, self.maze_height - 1)
         )
-        down_left: tuple[int, int] = self.factory.get_pixel_coordinates(
+        down_left: tuple[int, int] = self.calculator.get_grid_to_pixel(
             raw_down_left[0], raw_down_left[1]
         )
         corners_coords_list["down_left"] = down_left
@@ -434,7 +434,7 @@ class LevelManager():
         raw_upper_right: tuple[int, int] = self._get_raw_coords(
             "Super Pacgum (upper left)", (self.maze_width - 1, 0)
         )
-        upper_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+        upper_right: tuple[int, int] = self.calculator.get_grid_to_pixel(
             raw_upper_right[0], raw_upper_right[1]
         )
         corners_coords_list["upper_right"] = upper_right
@@ -443,7 +443,7 @@ class LevelManager():
             "Super Pacgum (upper left)", (self.maze_width - 1,
                                           self.maze_height - 1)
         )
-        down_right: tuple[int, int] = self.factory.get_pixel_coordinates(
+        down_right: tuple[int, int] = self.calculator.get_grid_to_pixel(
             raw_down_right[0], raw_down_right[1]
         )
         corners_coords_list["down_right"] = down_right

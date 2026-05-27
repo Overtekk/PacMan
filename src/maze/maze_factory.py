@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:28:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:53:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -144,7 +144,6 @@ class MazeFactory:
                     wall_data.append((sprite_path, angle, x, y, self.tile_size))
 
         return wall_data
-
 
     def get_pixel_coordinates(self, col: int, row: int) -> tuple[int, int]:
 
