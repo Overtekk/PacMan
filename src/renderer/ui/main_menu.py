@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 10:42:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:15:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,6 +44,11 @@ class Pursuit(arcade.Sprite):
         self.parent_view = parent_view
         self.textures_list = textures_list
 
+    def on_update(self, delta_time: float):
+        self.center_x += self.change_x
+        if self.center_x > ScreenSettings.WIDTH + (self.width / 2):
+            self.center_x = -30
+
 
 class Pacman(arcade.Sprite):
     def __init__(self,
@@ -67,12 +72,15 @@ class Pacman(arcade.Sprite):
         self.animation_speed = 0.1
 
     def on_update(self, delta_time: float):
-            self.center_x += self.change_x
-            self.animation_time += delta_time
-            if self.animation_time >= self.animation_speed:
-                self.animation_time -= self.animation_speed
-                self.current_texture_index = (self.current_texture_index + 1) % len(self.textures_list)
-                self.texture = self.textures_list[self.current_texture_index]
+        self.center_x += self.change_x
+        if self.center_x > ScreenSettings.WIDTH + (self.width / 2):
+            self.center_x = -30
+        self.animation_time += delta_time
+        if self.animation_time >= self.animation_speed:
+            self.animation_time -= self.animation_speed
+            self.current_texture_index = (self.current_texture_index + 1) % len(self.textures_list)
+            self.texture = self.textures_list[self.current_texture_index]
+
 
 class LogoButton(BaseButton):
     def __init__(
@@ -136,6 +144,7 @@ class LogoButton(BaseButton):
 
     def check_hover(self, x: float, y: float) -> None:
         pass
+
 
 class CheatButton(BaseButton):
     def __init__(
@@ -317,69 +326,60 @@ class MainMenu(BaseMenu):
             textures_list=textures_list,
             parent_view=self
         )
-        self.button_list.append(pacman)
-        pacman.change_x = 1000 / 700
 
-        level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
         textures=level_manager.asset_manager.textures["enemy_cat_move"],
-        sprite_width=192/6, sprite_height=32, sprites_columns=6,
-        sprites_count=6)
+        sprite_width=128/4, sprite_height=32, sprites_columns=4,
+        sprites_count=4)
         cat = Pursuit(
             center_x=-110,
             center_y=120,
             textures_list=textures_list,
             parent_view=self
         )
-        cat.scale_x = -1.7
         self.button_list.append(cat)
-        cat.change_x = 1000 / 350
+        cat.change_x = 1000 / 750
 
-
-        level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
         textures=level_manager.asset_manager.textures["enemy_fox_move"],
-        sprite_width=192/6, sprite_height=32, sprites_columns=6,
-        sprites_count=6)
+        sprite_width=128/4, sprite_height=32, sprites_columns=4,
+        sprites_count=4)
         fox = Pursuit(
             center_x=-190,
             center_y=120,
             textures_list=textures_list,
             parent_view=self
         )
-        fox.scale_x = -1.7
         self.button_list.append(fox)
-        fox.change_x = 1000 / 350
+        fox.change_x = 1000 / 750
 
-        level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
         textures=level_manager.asset_manager.textures["enemy_rat_move"],
-        sprite_width=192/6, sprite_height=32, sprites_columns=6,
-        sprites_count=6)
+        sprite_width=128/4, sprite_height=32, sprites_columns=4,
+        sprites_count=4)
         rat = Pursuit(
             center_x=-270,
             center_y=120,
             textures_list=textures_list,
             parent_view=self
         )
-        rat.scale_x = -1.7
         self.button_list.append(rat)
-        rat.change_x = 1000 / 350
+        rat.change_x = 1000 / 750
 
-        level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
         textures=level_manager.asset_manager.textures["enemy_dog_move"],
-        sprite_width=192/6, sprite_height=32, sprites_columns=6,
-        sprites_count=6)
+        sprite_width=128/4, sprite_height=32, sprites_columns=4,
+        sprites_count=4)
         dog = Pursuit(
             center_x=-350,
             center_y=120,
             textures_list=textures_list,
             parent_view=self
         )
-        dog.scale_x = -1.7
         self.button_list.append(dog)
-        dog.change_x = 1000 / 350
+        dog.change_x = 1000 / 750
+        self.button_list.append(pacman)
+        pacman.change_x = 1000 / 700
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
@@ -389,7 +389,7 @@ class MainMenu(BaseMenu):
     def on_update(self, delta_time):
         self.button_list.update()
         for sprite in self.button_list:
-            if isinstance(sprite, LogoButton) or isinstance(sprite, Pacman):
+            if isinstance(sprite, LogoButton) or isinstance(sprite, Pacman) or isinstance(sprite, Pursuit):
                 sprite.on_update(delta_time)
 
     def on_draw(self):
