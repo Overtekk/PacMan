@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 12:48:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:32:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,17 +14,21 @@ from typing import Any
 
 import arcade
 
+from src.utils import print_log
+
 
 class GameStateManager():
     def __init__(
         self,
         game_window: arcade.Window,
-        parent_view: arcade.View
+        parent_view: arcade.View,
+        debug_mode: bool
     ) -> None:
 
         self.window = game_window
         self.config = game_window.game_config
         self.parent_view = parent_view
+        self.debug_mode = debug_mode
 
         # Init the game data
         self.game_data: dict[str, Any] = {
@@ -67,6 +71,11 @@ class GameStateManager():
             new_value = 0
 
         self.game_data["score"] = new_value
+
+        if self.debug_mode:
+            print_log(
+                f"Score: {self.score}"
+            )
 
     @property
     def time_left(self) -> float:

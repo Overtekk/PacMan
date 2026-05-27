@@ -6,15 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 11:07:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:57:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-import arcade
+from typing import Any
 
 from pathlib import Path
 
 from ..entity import Collectible
+from ..player import Player
+from ..logics.StateMachine import EnemyState
 from src.utils import SuperCalculator
 
 
@@ -36,5 +38,11 @@ class SuperPacgum(Collectible):
 
         )
 
-    def activate_power(self) -> None:
-        pass
+    def activate_power(
+        self, player_reference: Player, enemies_reference: list[str, Any]
+    ) -> None:
+
+        player_reference.invincible = True
+
+        for enemy in enemies_reference.values():
+            enemy.mode = EnemyState.RUNAWAY

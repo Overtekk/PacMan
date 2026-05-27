@@ -77,7 +77,7 @@ class GameRenderer():
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()
-        self.ui_screen.build_ui()
+        # self.ui_screen.build_ui()
         self.ui_screen.on_draw()
 
     def update(self, delta_time: float) -> None:

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 09:31:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 16:50:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,6 +32,8 @@ class Player(Movable):
             scale=scale,
             speed=speed
         )
+
+        self.invincible: bool = False
 
     def update(self, delta_time: float) -> None:
         self._update_sprite_facing()

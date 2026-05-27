@@ -6,11 +6,9 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:06:12 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 11:07:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 17:00:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
-
-import arcade
 
 from pathlib import Path
 
@@ -33,8 +31,4 @@ class Pacgum(Collectible):
             calculator=calculator,
             scale=scale,
             score=score
-
         )
-
-    def activate_power(self) -> None:
-        pass

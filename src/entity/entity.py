@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 12:02:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/26 17:00:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -256,22 +256,10 @@ class Collectible(Entity):
 
         super().__init__(spawn_point, sprite_data, calculator, scale)
 
+        self.sprite.parent = self
+
         self._score: int = score
-        self._collected: bool = False
 
     @property
     def score(self) -> int:
         return self._score
-
-    @abstractmethod
-    def activate_power(self) -> None:
-        pass
-
-    @property
-    def collected(self) -> bool:
-        return self._collected
-
-    @collected.setter
-    def collected(self, new_value: bool) -> None:
-        self._collected = new_value
-
