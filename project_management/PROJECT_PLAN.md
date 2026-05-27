@@ -9,6 +9,9 @@
 	-  Update enemies sprites: they don't have an animation now. They only change the sprite based on the direction, so their eyes are facing the good direction
 	- Add spawning of pacgums throught the maze (60% of chance, one pacgum will always spawn)
 	- Add spawing of super pacgums in each corner of the maze
+	- Add collisions with pacgums and superpacgums: player can collect them and score increase by x points
+	- Add the superpacgums ability that make the player invincible and change the state of the enemies
+	- Fix a lag that occurs during gameplay (object was created each 60 frames)
 - anacharp
 	- change the font of the Highscore interface
 	- connect the UI screen with the game renderer
