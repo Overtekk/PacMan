@@ -3,7 +3,68 @@
 
 ---
 
+### 22/05/2026
+- roandrie
+	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
+	- Change the file "renderer/sprites_loader" to "utils/resources_loader.py", since it's purpose is to load the resources for the game.
+	- Refactor code to add the new change
+
+### 21/05/2026
+- roandrie
+	- collision manager
+	- refactor the maze factory to calculate the screen offsets and tilesets
+- anacharp
+	- connection between ends screens and leaderboard
+	- upgrade ends screens
+	- create sprites and modification of other sprites
+	- font implementation for finish screen and game over screen -> have to load it out of finish_screen et game_over_screen...
+
+### 20/05/2026
+
+- anacharp
+	- pause menu modification
+	- sprites modification
+	- implementation of ESC use on menus
+	- block 42 coordinates for pacman spawn
+	- add rules and assets presentation on instructions menu
+	- enter a name on game over screen and finish screen
+- roandrie
+	- LevelManager completed for player and enemies
+	- start the player logic and collisions manager
+
+### 19/05/2026
+
+- anacharp
+	- create an ascii maze
+	- create a dictionary with informations about wall for each coordinates of the maze that will be use for ghosts algorithms
+	- create pause menu, victory menu, game_over menu and cheat menu
+	- create cheat menu sprites
+- roandrie
+	- creating the level manager
+	- rendering for the player and ennemis in the maze
+	- refactor some part of the code
+
+
+### 18/05/2026
+
+- anacharp
+	- maze and enemy sprite modifications
+	- maze improvements
+	- high score menu and instructions
+- roandrie
+	- logic for the player and tests for it
+	- logic for the enemy and tests for it (only the beginning, cat have a random algo)
+
+
+### 17/05/2026
+
+- roandrie
+	- refactor the code
+	- start the base of the player logic
+
+
 ### 15/05/2026
+
 - anacharp
 	- work on config validation and error handling with graceful fallback to default config
 	- work on maze rendering and wall sprite scaling
