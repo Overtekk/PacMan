@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:43:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:28:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -77,7 +77,7 @@ class SuperCalculator():
         return sqrt(distance)
 
     def check_open_wall(
-        self, x: int, y: int, maze_bitemap: dict[tuple[int, int], str],
+        self, x: int, y: int, maze_bitemap: dict[tuple[int, int], int],
     ) -> dict[tuple[int, int], tuple[int, int]]:
         open_wall: dict[tuple[int, int], tuple[int, int]] = {}
 

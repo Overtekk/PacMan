@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:47:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 12:15:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -173,6 +173,14 @@ class GameEngine(arcade.View):
                 print_log("Debug: activate chase mode!")
                 for enemy_obj in self.level_manager.enemies_list.values():
                     enemy_obj.mode = EnemyState.CHASE
+
+            elif symbol == arcade.key.N and self.debug_mode:
+                if self.player.invincible:
+                    print_log("Debug: disable invincibility!")
+                    self.player.invincible = False
+                else:
+                    print_log("Debug: activate invincibility!")
+                    self.player.invincible = True
 
             elif symbol == arcade.key.ESCAPE:
                 self.state_manager.pause_game()

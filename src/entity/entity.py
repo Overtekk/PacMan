@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:02:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:28:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -125,7 +125,7 @@ class Enemy(Movable):
         sprite_sheet_move: list[arcade.Texture],
         sprite_sheet_eatable: list[arcade.Texture],
         sprite_sheet_died: list[arcade.Texture],
-        maze_bitmap: dict[tuple[int, int], str],
+        maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         player_reference: "Player",
         scale: float = 1.0,
@@ -203,50 +203,58 @@ class Enemy(Movable):
         # MAX DISTANCE TO CHECK
         CHECK_DISTANCE: int = 4
 
-        if (self.mode == EnemyState.WAIT or self.mode == EnemyState.RESPAWN or
-                self.mode == EnemyState.RUNAWAY):
+        # Stop if state is matched
+        if self.mode in (
+            EnemyState.WAIT, EnemyState.RUNAWAY, EnemyState.RESPAWN,
+            EnemyState.CHASE
+        ):
             return
 
+        # Don't check if entity is not moving
         if self._current_direction == (0.0, 0.0):
             return
 
-        conv_coords_self: tuple[float, float] = (
+        # Convert pixels coords to grid coords
+        ext_self: tuple[float, float] = (
             self.calculator.get_pixel_to_grid_entity(self)
         )
-        conv_coords_player: tuple[float, float] = (
+        ext_player: tuple[float, float] = (
             self.calculator.get_pixel_to_grid_entity(self.player_ref)
         )
 
-        for i in range(1, CHECK_DISTANCE + 1):
-            dx: int = int(
-                conv_coords_self[0] + (self._current_direction[0] * i)
-            )
-            dy: int = int(
-                conv_coords_self[1] + (self._current_direction[1] * -1 * i)
-            )
+        # Get the current direction
+        dir_x: float = self._current_direction[0]
+        dir_y: float = self._current_direction[1]
 
-            # Player found: change state to chase
-            if (dx, dy) == (int(conv_coords_player[0]),
-                            int(conv_coords_player[1])):
+        # Default debug endpoint
+        dx, dy = int(ext_self[0]), int(ext_self[1])
+
+        for i in range(1, CHECK_DISTANCE + 1):
+            # Wall node between the current cell and cell i
+            wall_x = int(ext_self[0] + dir_x * (2 * i - 1))
+            wall_y = int(ext_self[1] + dir_y * -1 * (2 * i - 1))
+
+            # Get the vector
+            dx = int(ext_self[0] + dir_x * (2 * i))
+            dy = int(ext_self[1] + dir_y * -1 * (2 * i))
+
+            # Stop the view if a wall is here
+            if self.maze_bitmap.get((wall_x, wall_y), 1) == 1:
+                break
+
+            # Player found
+            if (dx, dy) == (int(ext_player[0]), int(ext_player[1])):
 
                 self.mode = EnemyState.CHASE
-
                 if self.calculator.debug_mode:
                     print_log(f"Changed state for {self} to CHASE")
-
                 break
 
-            # Convert coords to extended grid
-            extend_x = (dx * 2) + 1
-            extend_y = (dy * 2) + 1
-
-            # Wall found, break loop
-            if self.maze_bitmap.get((extend_x, extend_y), 1) == 1:
-                break
-
-        self._debug_raycast: tuple[float, float] = (
-            self.calculator.get_grid_to_pixel(dx, dy)
-        )
+        # Get the raycast for the debug mode
+        normal_x: float = (dx - 1) // 2
+        normal_y: float = (dy - 1) // 2
+        self._debug_raycast = self.calculator.get_grid_to_pixel(normal_x,
+                                                                normal_y)
 
     def _chase_player(self) -> None:
         # Convert player position from pixels to grid

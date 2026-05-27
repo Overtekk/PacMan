@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:19:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:23:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ import arcade
 
 from src.renderer.screen_settings import ScreenSettings, CollectiblesType
 from src.renderer.ui.ui_screen import UIScreen
+from src.entity import EnemyState
 
 
 class Wall(arcade.Sprite):
@@ -78,16 +79,19 @@ class GameRenderer():
         self.entities.draw()
 
         if self.debug_mode:
-            for enemy in self.entities:
-                if (hasattr(enemy, 'parent') and
-                        hasattr(enemy.parent, '_debug_raycast')):
+            for entity in self.entities:
+                if (hasattr(entity, 'parent')
+                        and hasattr(entity.parent, '_debug_raycast')):
+                    if (entity.parent._current_direction != (0.0, 0.0) and
+                            entity.parent.mode in [EnemyState.WANDER,
+                                                   EnemyState.SEARCH]):
 
-                    arcade.draw_line(
-                        start_x=enemy.center_x, start_y=enemy.center_y,
-                        end_x=enemy.parent._debug_raycast[0],
-                        end_y=enemy.parent._debug_raycast[1],
-                        color=arcade.color.RED_DEVIL
-                    )
+                        arcade.draw_line(
+                            start_x=entity.center_x, start_y=entity.center_y,
+                            end_x=entity.parent._debug_raycast[0],
+                            end_y=entity.parent._debug_raycast[1],
+                            color=arcade.color.RED_DEVIL
+                        )
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()

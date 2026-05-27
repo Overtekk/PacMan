@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:57:05 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:26:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,7 @@ from pathlib import Path
 from ..entity import Collectible
 from ..player import Player
 from ..logics.StateMachine import EnemyState
-from src.utils import SuperCalculator
+from src.utils import SuperCalculator, print_log
 
 
 class SuperPacgum(Collectible):
@@ -46,3 +46,6 @@ class SuperPacgum(Collectible):
 
         for enemy in enemies_reference.values():
             enemy.mode = EnemyState.RUNAWAY
+
+            if self.calculator.debug_mode:
+                print_log(f"Changed state for {enemy} to RUNAWAY")
