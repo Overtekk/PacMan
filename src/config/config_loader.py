@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 09:26:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:32:52 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from .config_schema import GameConfig
 
 from src.utils import can_read_file, can_write_to_file
-from src.utils import is_folder_exist, is_file_exist, is_file_json
+from src.utils import is_folder_exist, is_file_exist, check_file_extension
 from src.utils.display import print_error
 
 
@@ -48,7 +48,7 @@ def load_config(filepath: Path) -> GameConfig:
         default_config: GameConfig = _create_config()
         return default_config
 
-    if not is_file_json(filepath):
+    if not check_file_extension(filepath, 'json'):
         print_error(
             f"'{filepath}' is not a .json.\nLet's play with default config"
         )

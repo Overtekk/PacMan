@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:49:50 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 15:13:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:28:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from pathlib import Path
 
 from src.utils import can_read_file, can_write_to_file
-from src.utils import is_folder_exist, is_file_exist, is_file_json
+from src.utils import is_folder_exist, is_file_exist, check_file_extension
 from src.leaderboard.leaderboard_schema import Leaderboard
 from src.utils.display import print_error, print_success
 
@@ -34,7 +34,7 @@ def leaderboard_loader(filepath_str: str) -> None:
         create_leaderboard_file(filepath)
 
     else:
-        if not is_file_json(filepath):
+        if not check_file_extension(filepath, 'json'):
             raise ValueError(f"'{filepath}' must be a json.")
 
         else:

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:20:45 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:31:15 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,6 @@ from src.leaderboard import leaderboard_loader
 
 def main() -> int:
     try:
-
         # Check the argument, load and check the config
         args: Namespace = load_arguments()
         game_config: GameConfig = args.config_file
