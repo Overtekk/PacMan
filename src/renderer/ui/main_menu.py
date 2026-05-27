@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 18:39:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 08:22:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,6 +87,8 @@ class LogoButton(BaseButton):
             self.texture = arcade.load_texture(path)
             self.gullman = False
 
+    def check_hover(self, x: float, y: float) -> None:
+        pass
 
 class CheatButton(BaseButton):
     def __init__(
