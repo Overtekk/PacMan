@@ -10,6 +10,9 @@
 	- main menu animation
 	- change wall sprites
 	- buttons animation
+- roandrie
+	- Enemy have a raycast. If the player is seen on the same line, they will switch in the 'chase' state.
+	- Add the logic for the 'chase' state. In this mode, they know the position of the player and will try to catch them. If the player is not and the same line and some tiny time have passed, they will switch to the 'wander' state.
 
 ### 26/05/2026
 - roandrie
