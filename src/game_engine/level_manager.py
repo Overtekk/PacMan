@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 08:00:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:04:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -146,6 +146,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -170,6 +171,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -194,6 +196,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -218,6 +221,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )

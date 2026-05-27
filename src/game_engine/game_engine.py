@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:26:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:14:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,7 @@ from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 from .game_settings import GameState
 from src.utils import print_log
+from src.entity import EnemyState
 
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
@@ -167,8 +168,13 @@ class GameEngine(arcade.View):
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
-            elif self.state_manager:
-                self.state_manager.on_key_press(symbol, _modifiers)
+            elif symbol == arcade.key.P and self.debug_mode:
+                print_log("Debug: activate chase mode!")
+                for enemy_obj in self.level_manager.enemies_list.values():
+                    enemy_obj.mode = EnemyState.CHASE
+
+            elif symbol == arcade.key.ESCAPE:
+                self.state_manager.pause_game()
 
 
     # :---------------:

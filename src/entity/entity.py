@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 17:00:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:28:17 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,8 +15,11 @@ import arcade
 from abc import ABC, abstractmethod
 
 from .logics.StateMachine import EnemyState
-from .logics.math_logics import euclidean_distance, check_open_wall
 from src.utils import SuperCalculator
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.entity.player import Player
 
 
 class Entity(ABC):
@@ -124,6 +127,7 @@ class Enemy(Movable):
         sprite_sheet_died: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
+        player_reference: "Player",
         scale: float = 1.0,
         speed: float = 80.0,
         is_edible: bool = False,
@@ -133,6 +137,8 @@ class Enemy(Movable):
         super().__init__(
             spawn_point, sprite_sheet_move, calculator, scale, speed
         )
+
+        self.player_ref = player_reference
 
         self.sprite_sheet_eatable = sprite_sheet_eatable
         self.sprite_sheet_died = sprite_sheet_died
@@ -163,37 +169,47 @@ class Enemy(Movable):
         self._mode = new_state
 
     def update(self, delta_time: float) -> None:
-        self.state_machine()
+        self._state_machine()
         self._update_sprite()
         super().update(delta_time)
 
-    def state_machine(self) -> None:
-        if self.mode == EnemyState.RESPAWN:
+    def _state_machine(self) -> None:
+        if self.mode == EnemyState.WAIT:
+            pass
+
+        elif self.mode == EnemyState.WANDER:
+            pass
+
+        elif self.mode == EnemyState.SEARCH:
+            pass
+
+        elif self.mode == EnemyState.CHASE:
+            self._chase_player(self.player_ref)
+
+        elif self.mode == EnemyState.RUNAWAY:
+            pass
+
+        elif self.mode == EnemyState.RESPAWN:
             self._return_to_spawnpoint()
 
-    def _return_to_spawnpoint(self) -> None:
-        # Convert the spawnpoint from pixels to grid
-        conv_spawn_point = self.calculator.get_pixel_to_grid_any(
-            self.spawn_point[0], self.spawn_point[1]
+    def _chase_player(self, player: "Player") -> None:
+        # Convert player position from pixels to grid
+        conv_player_pos: tuple[float, float] = (
+            self.calculator.get_pixel_to_grid_any(player.x, player.y)
         )
 
-        # Convert its position from pixels to grid
+        # Convert his position from pixels to grid
         conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
 
+        # Prevent return to last position
         if (conv_x, conv_y) == self.last_movement:
             return
 
         self.last_movement = (conv_x, conv_y)
 
-        # Check that the entity is not arrived
-        if (conv_x, conv_y) == conv_spawn_point:
-            print("youhou")
-            self.mode = EnemyState.WAIT
-            return
-
         # Check all available walls
-        open_walls: dict[tuple[int, int], tuple[int, int]] = check_open_wall(
-            conv_x, conv_y, self.maze_bitmap
+        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+            self.calculator.check_open_wall(conv_x, conv_y, self.maze_bitmap)
         )
 
         # Move to the only wall available
@@ -215,7 +231,67 @@ class Enemy(Movable):
 
         for key, coords in open_walls.items():
             # Calculate the distance between coords and spawnpoint
-            distance: float = euclidean_distance((coords), (conv_spawn_point))
+            distance: float = (
+                self.calculator.get_euclidean_distance(coords, conv_player_pos)
+            )
+
+            # Compare result and store it
+            if best_distance > distance:
+                best_distance = distance
+                direction = key
+
+        self._next_direction = direction
+
+    def _return_to_spawnpoint(self) -> None:
+        # Convert the spawnpoint from pixels to grid
+        conv_spawn_point: tuple[float, float] = (
+            self.calculator.get_pixel_to_grid_any(self.spawn_point[0],
+                                                  self.spawn_point[1])
+        )
+
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
+
+        # Prevent return to last position
+        if (conv_x, conv_y) == self.last_movement:
+            return
+
+        self.last_movement = (conv_x, conv_y)
+
+        # Check that the entity is not arrived
+        if (conv_x, conv_y) == conv_spawn_point:
+            print("youhou")
+            self.mode = EnemyState.WAIT
+            return
+
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+            self.calculator.check_open_wall(conv_x, conv_y, self.maze_bitmap)
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._next_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoiding loop)
+        if not self._current_direction == (0.0, 0.0):
+            curr_dir_x: float = self._current_direction[0] * -1
+            curr_dir_y: float = self._current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Variable to compare and store the result
+        best_distance: float = float('+inf')
+        direction: tuple[float, float] = (0.0, 0.0)
+
+        for key, coords in open_walls.items():
+            # Calculate the distance between coords and spawnpoint
+            distance: float = (
+                self.calculator.get_euclidean_distance(coords,
+                                                       conv_spawn_point)
+            )
 
             # Compare result and store it
             if best_distance > distance:

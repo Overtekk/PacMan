@@ -6,11 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:53:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:18:04 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
+
+from math import sqrt
 
 
 class SuperCalculator():
@@ -54,3 +56,35 @@ class SuperCalculator():
         convert_y: int = (pos_y * 2) + 1
 
         return (convert_x, convert_y)
+
+    def get_euclidean_distance(
+        self, point1: tuple[float, float], point2: tuple[float, float]
+    ) -> float:
+        distance: float = 0.0
+
+        for i in range(len(point1)):
+            distance += (point2[i] - point1[i]) ** 2
+        return sqrt(distance)
+
+    def check_open_wall(
+        self, x: int, y: int, maze_bitemap: dict[tuple[int, int], str],
+    ) -> dict[tuple[int, int], tuple[int, int]]:
+        open_wall: dict[tuple[int, int], tuple[int, int]] = {}
+
+        # West
+        if maze_bitemap[(x + 1, y)] == 0:
+            open_wall[(1, 0)] = (x + 1, y)
+
+        # East
+        if maze_bitemap[(x - 1, y)] == 0:
+            open_wall[(-1, 0)] = (x - 1, y)
+
+        # South
+        if maze_bitemap[(x, y + 1)] == 0:
+            open_wall[(0, -1)] = (x, y + 1)
+
+        # North
+        if maze_bitemap[(x, y - 1)] == 0:
+            open_wall[(0, 1)] = (x, y - 1)
+
+        return open_wall

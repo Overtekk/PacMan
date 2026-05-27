@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 17:30:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 08:29:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,7 +19,6 @@ from .enemies.rat_enemy import RatEnemy
 from .collectibles.pac_gum import Pacgum
 from .collectibles.super_pacgum import SuperPacgum
 from .logics.StateMachine import EnemyState
-from .logics.math_logics import euclidean_distance, check_open_wall
 
 
 __all__ = [
@@ -35,6 +34,4 @@ __all__ = [
     "Pacgum",
     "SuperPacgum",
     "EnemyState",
-    "euclidean_distance",
-    "check_open_wall"
 ]

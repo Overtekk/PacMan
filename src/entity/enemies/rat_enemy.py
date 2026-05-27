@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 10:12:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:02:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 import random
 
 from ..entity import Enemy
+from ..player import Player
 from src.utils import SuperCalculator
 
 
@@ -25,6 +26,7 @@ class RatEnemy(Enemy):
         sprite_sheet_died: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
+        player_ref: Player,
         scale: float = 1.0,
         speed: float = 100.0,
         is_edible: bool = False
@@ -37,6 +39,7 @@ class RatEnemy(Enemy):
             sprite_sheet_died=sprite_sheet_died,
             maze_bitmap=maze_bitmap,
             calculator=calculator,
+            player_reference=player_ref,
             scale=scale,
             speed=speed,
             is_edible=is_edible
