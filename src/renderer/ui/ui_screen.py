@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 15:50:18 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 12:19:48 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,10 +68,13 @@ class UIScreen(BaseMenu):
             )
             self.button_list.append(lives)
             x += 45
-            if count >= 3:
-                count = 0
-                y -= 50
-                x = 30
+            if count > 5:
+                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives}",
+                                         x=x, y=y,
+                                         color=arcade.color.WHITE,
+                                         font_size=20,
+                                         font_name="pressStart2P")
+                self.text_lst.append(self.more_lives)
 
         self.display_score = arcade.Text(text=f"Score: {self.score}",
                                          x=ScreenSettings.WIDTH // 2, y=10,
@@ -105,19 +108,23 @@ class UIScreen(BaseMenu):
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for i in range (self.nb_lives):
+        for _ in range (self.nb_lives):
             count += 1
-            lives = DisplayLives(
-                center_x=x,
-                center_y=y,
-                sprite_path=(
-                    self.window.asset_manager.textures["life"]
-                ),
-                parent_view=self
-            )
-            self.button_list.append(lives)
-            x += 45
-            if count >= 3:
-                count = 0
-                y -= 50
-                x = 30
+            if count <= 5:
+                lives = DisplayLives(
+                    center_x=x,
+                    center_y=y,
+                    sprite_path=(
+                        self.window.asset_manager.textures["life"]
+                    ),
+                    parent_view=self
+                )
+                self.button_list.append(lives)
+                x += 45
+            if count > 5 and self.nb_lives > 5:
+                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
+                                         x=x-10, y=y-15,
+                                         color=arcade.color.LIGHT_GRAY,
+                                         font_size=30,
+                                         font_name="pressStart2P")
+                self.text_lst.append(self.more_lives)
