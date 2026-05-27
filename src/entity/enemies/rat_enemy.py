@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:02:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:25:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -48,11 +48,7 @@ class RatEnemy(Enemy):
         # Spawn right, facing right
         self.sprite.texture = self.textures[1]
 
-    def update(self, delta_time: float) -> None:
-        self.algo_random_direction(delta_time)
-        super().update(delta_time)
-
-    def algo_random_direction(self, delta_time: float) -> None:
+    def _move(self, delta_time: float) -> None:
         self._move_timer += delta_time
 
         if self._move_timer > 1:

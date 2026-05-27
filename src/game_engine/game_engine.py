@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:14:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:20:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -37,7 +37,7 @@ class GameEngine(arcade.View):
         self.debug_mode: bool = self.window.debug_mode
 
         # Instanciate class instance
-        self.game_renderer = GameRenderer()
+        self.game_renderer = GameRenderer(self.debug_mode)
         self.game_state = GameState.SETUP
         self.state_manager = GameStateManager(
             self.window, self, self.debug_mode
@@ -221,6 +221,7 @@ class GameEngine(arcade.View):
             self.enemies_sprite_list.append(enemy_obj.sprite)
             # Render the sprites on screen
             self.game_renderer.setup_entities(enemy_obj.sprite)
+            enemy_obj.mode = EnemyState.WAIT
 
         # Render the player
         self.game_renderer.setup_entities(self.player.sprite)
@@ -233,6 +234,7 @@ class GameEngine(arcade.View):
 
         for enemy_obj in self.level_manager.enemies_list.values():
             enemy_obj._can_move = True
+            enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
         # List containing all super_pacgums sprites
@@ -271,3 +273,7 @@ class GameEngine(arcade.View):
 
         # Reset sprites direction
         entity.reset_animation()
+
+        # Reset enemy state
+        if hasattr(entity, 'mode'):
+            entity.mode = EnemyState.WAIT

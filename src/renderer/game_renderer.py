@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 18:55:41 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:19:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -39,7 +39,9 @@ class Wall(arcade.Sprite):
 
 
 class GameRenderer():
-    def __init__(self) -> None:
+    def __init__(self, debug_mode: bool) -> None:
+        self.debug_mode = debug_mode
+
         # Objects
         self.walls: arcade.SpriteList[Any] = arcade.SpriteList()
         self.entities: arcade.SpriteList[Any] = arcade.SpriteList()
@@ -74,6 +76,18 @@ class GameRenderer():
         self.super_pacgums.draw()
         self.walls.draw()
         self.entities.draw()
+
+        if self.debug_mode:
+            for enemy in self.entities:
+                if (hasattr(enemy, 'parent') and
+                        hasattr(enemy.parent, '_debug_raycast')):
+
+                    arcade.draw_line(
+                        start_x=enemy.center_x, start_y=enemy.center_y,
+                        end_x=enemy.parent._debug_raycast[0],
+                        end_y=enemy.parent._debug_raycast[1],
+                        color=arcade.color.RED_DEVIL
+                    )
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()

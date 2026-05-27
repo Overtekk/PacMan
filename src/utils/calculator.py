@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:18:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:03:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,6 +56,13 @@ class SuperCalculator():
         convert_y: int = (pos_y * 2) + 1
 
         return (convert_x, convert_y)
+
+    def get_grid_to_pixel(self, x: int, y: int) -> tuple[float, float]:
+
+        x = (x * self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_x)
+        y = ((self.maze_height - 1 - y) * self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_y)
+
+        return (x, y)
 
     def get_euclidean_distance(
         self, point1: tuple[float, float], point2: tuple[float, float]

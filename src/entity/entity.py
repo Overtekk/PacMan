@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:28:17 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:25:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -143,6 +143,8 @@ class Enemy(Movable):
         self.sprite_sheet_eatable = sprite_sheet_eatable
         self.sprite_sheet_died = sprite_sheet_died
 
+        self.sprite.parent = self
+
         self.maze_bitmap = maze_bitmap
 
         self._is_edible: bool = is_edible
@@ -151,6 +153,8 @@ class Enemy(Movable):
         self._move_timer: float = 0.0
 
         self.last_movement: tuple[float, float] = (0.0, 0.0)
+
+        self._debug_raycast = (0.0, 0.0)
 
     @property
     def is_edible(self) -> bool:
@@ -169,33 +173,77 @@ class Enemy(Movable):
         self._mode = new_state
 
     def update(self, delta_time: float) -> None:
-        self._state_machine()
+        if not self.mode == EnemyState.WAIT:
+            self._raycasting()
+
+        self._state_machine(delta_time)
         self._update_sprite()
         super().update(delta_time)
 
-    def _state_machine(self) -> None:
+    def _state_machine(self, delta_time: float) -> None:
         if self.mode == EnemyState.WAIT:
             pass
 
         elif self.mode == EnemyState.WANDER:
-            pass
+            self._move(delta_time)
 
         elif self.mode == EnemyState.SEARCH:
-            pass
+            self._search_player()
 
         elif self.mode == EnemyState.CHASE:
-            self._chase_player(self.player_ref)
+            self._chase_player()
 
         elif self.mode == EnemyState.RUNAWAY:
-            pass
+            self._run_from_player()
 
         elif self.mode == EnemyState.RESPAWN:
             self._return_to_spawnpoint()
 
-    def _chase_player(self, player: "Player") -> None:
+    def _raycasting(self) -> None:
+        # MAX DISTANCE TO CHECK
+        CHECK_DISTANCE: int = 4
+
+        if (self.mode == EnemyState.WAIT or self.mode == EnemyState.RESPAWN or
+                self.mode == EnemyState.RUNAWAY):
+            return
+
+        conv_coords_self: tuple[float, float] = (
+            self.calculator.get_pixel_to_grid_entity(self)
+        )
+        conv_coords_player: tuple[float, float] = (
+            self.calculator.get_pixel_to_grid_entity(self.player_ref)
+        )
+
+        for i in range(1, CHECK_DISTANCE + 1):
+            dx: int = int(
+                conv_coords_self[0] + (self._current_direction[0] * i)
+            )
+            dy: int = int(
+                conv_coords_self[1] + (self._current_direction[1] * i)
+            )
+
+            # Player found: change state to chase
+            if (dx, dy) == (int(conv_coords_player[0]), int(conv_coords_player[1])):
+                self.mode = EnemyState.CHASE
+                return
+
+            # Convert coords to extended grid
+            extend_x = (dx * 2) + 1
+            extend_y = (dy * 2) + 1
+
+            # Wall found, break loop
+            if self.maze_bitmap.get((extend_x, extend_y), 1) == 1:
+                break
+
+        self._debug_raycast: tuple[float, float] = (
+            self.calculator.get_grid_to_pixel(dx, dy)
+        )
+
+    def _chase_player(self) -> None:
         # Convert player position from pixels to grid
         conv_player_pos: tuple[float, float] = (
-            self.calculator.get_pixel_to_grid_any(player.x, player.y)
+            self.calculator.get_pixel_to_grid_any(self.player_ref.x,
+                                                  self.player_ref.y)
         )
 
         # Convert his position from pixels to grid
@@ -241,6 +289,12 @@ class Enemy(Movable):
                 direction = key
 
         self._next_direction = direction
+
+    def _run_from_player(self) -> None:
+        pass
+
+    def _search_player(self) -> None:
+        pass
 
     def _return_to_spawnpoint(self) -> None:
         # Convert the spawnpoint from pixels to grid
@@ -299,6 +353,9 @@ class Enemy(Movable):
                 direction = key
 
         self._next_direction = direction
+
+    def _move(self, delta_time: float) -> None:
+        pass
 
     def _update_animation(self, delta_time: float) -> None:
         match self._current_direction:
