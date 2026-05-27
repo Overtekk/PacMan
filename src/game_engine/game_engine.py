@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:20:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:47:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -42,7 +42,8 @@ class GameEngine(arcade.View):
         self.state_manager = GameStateManager(
             self.window, self, self.debug_mode
         )
-        self.level_manager = LevelManager(game_window=self.window)
+        self.level_manager = LevelManager(game_window=self.window,
+                                          debug_mode=self.debug_mode)
 
         self._first_launch: bool = True
 

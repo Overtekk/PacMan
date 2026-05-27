@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:03:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 11:43:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,13 +19,16 @@ class SuperCalculator():
     def __init__(
         self,
         maze_offset_x: float, maze_offset_y: float,
-        maze_tile_size: float, maze_height: int
+        maze_tile_size: float, maze_height: int,
+        debug_mode: bool
     ) -> None:
 
         self.maze_offset_x = maze_offset_x
         self.maze_offset_y = maze_offset_y
         self.maze_tile_size = maze_tile_size
         self.maze_height = maze_height
+
+        self.debug_mode = debug_mode
 
     def get_pixel_to_grid_entity(self, entity: Any) -> tuple[float, float]:
         # Convert pixels to grid

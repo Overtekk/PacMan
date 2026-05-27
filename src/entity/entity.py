@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:30:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 12:02:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,7 @@ import arcade
 from abc import ABC, abstractmethod
 
 from .logics.StateMachine import EnemyState
-from src.utils import SuperCalculator
+from src.utils import SuperCalculator, print_log
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -207,6 +207,9 @@ class Enemy(Movable):
                 self.mode == EnemyState.RUNAWAY):
             return
 
+        if self._current_direction == (0.0, 0.0):
+            return
+
         conv_coords_self: tuple[float, float] = (
             self.calculator.get_pixel_to_grid_entity(self)
         )
@@ -223,9 +226,15 @@ class Enemy(Movable):
             )
 
             # Player found: change state to chase
-            if (dx, dy) == (int(conv_coords_player[0]), int(conv_coords_player[1])):
+            if (dx, dy) == (int(conv_coords_player[0]),
+                            int(conv_coords_player[1])):
+
                 self.mode = EnemyState.CHASE
-                return
+
+                if self.calculator.debug_mode:
+                    print_log(f"Changed state for {self} to CHASE")
+
+                break
 
             # Convert coords to extended grid
             extend_x = (dx * 2) + 1
