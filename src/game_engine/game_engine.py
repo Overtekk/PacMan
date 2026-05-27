@@ -6,24 +6,25 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:35:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 16:22:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
-from src import config
 
-from src.renderer import GameRenderer
-from src.renderer.screen_settings import CollectiblesType
-from src.game_engine.gamestate_manager import GameStateManager
-from src.config import GameConfig
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 from .game_settings import GameState
+from src import config
 from src.utils import print_log
+from src.renderer import GameRenderer
+from src.config import GameConfig
 from src.entity import EnemyState
+from src.renderer.screen_settings import CollectiblesType
+from src.game_engine.gamestate_manager import GameStateManager
+
 
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
@@ -34,17 +35,22 @@ class GameEngine(arcade.View):
     def __init__(self) -> None:
         super().__init__()
 
+        # Get the global config
         self.config: GameConfig = self.window.game_config
 
         # Instanciate class instance
-        self.game_renderer = GameRenderer()
-        self.game_state = GameState.SETUP
-        self.state_manager = GameStateManager(self.window, self)
-        self.level_manager = LevelManager(game_window=self.window,)
+        self.game_renderer: GameRenderer = GameRenderer()
+        self.game_state: GameState = GameState.SETUP
+        self.state_manager: GameStateManager = (
+            GameStateManager(self.window, self)
+        )
+        self.level_manager: LevelManager = LevelManager(self.window)
 
+        # -- Private variable --
         self._first_launch: bool = True
 
     def on_update(self, delta_time: float) -> None:
+        # Update the renderer
         self.game_renderer.update(delta_time)
         self.game_renderer.update_ui(
             self.state_manager.score,
@@ -52,43 +58,54 @@ class GameEngine(arcade.View):
             self.state_manager.live
         )
 
+        # ---------- NOTHING HAPPENS ----------
         if self.game_state == GameState.SETUP:
             pass
 
+        # ---------- START OF THE GAME ----------
         elif self.game_state == GameState.STARTING:
             self._timer_start(delta_time)
 
+        # ---------- GAME PAUSED ----------
         elif self.game_state == GameState.PAUSE:
             pass
 
+        # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
             # Check for collisions
             player_died: bool = self.coll_manager.update()
 
+            # Check if player have died
             if player_died:
                 self.game_state = GameState.RESPAWN
 
+            # Update all entities logics
             else:
-                # Update all entities
                 self.player.update(delta_time)
 
                 for enemy_obj in self.level_manager.enemies_list.values():
                     enemy_obj.update(delta_time)
 
+        # ---------- LIVE LOOSE ----------
         elif self.game_state == GameState.RESPAWN:
+            # Reset the player
             self._reset_entities(self.player)
 
+            # Reset all enemies
             for enemy_obj in self.level_manager.enemies_list.values():
                 enemy_obj.respawn()
                 self._reset_entities(enemy_obj)
 
+            # Restart the game
             self._current_timer_start = TIMER_LEVEL_START
             self.game_state = GameState.STARTING
 
+        # ---------- GAME FINISHED ----------
         elif self.game_state == GameState.FINISH:
             pass
 
     def on_draw(self) -> None:
+        # Clear the clear
         self.clear()
 
         # Render the game
