@@ -3,6 +3,14 @@
 
 ---
 
+### 27/05/2026
+- anacharp
+	- change lives display
+	- easter egg after 2min on main menu
+	- main menu animation
+	- change wall sprites
+	- buttons animation
+
 ### 26/05/2026
 - roandrie
 	- Change sprites for all enemies: they now have 3 states (move/eatable/died)
