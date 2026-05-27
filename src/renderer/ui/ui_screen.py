@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:19:48 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 12:20:42 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -58,21 +58,22 @@ class UIScreen(BaseMenu):
         count = 0
         for _ in range (self.nb_lives):
             count += 1
-            lives = DisplayLives(
-                center_x=x,
-                center_y=y,
-                sprite_path=(
-                    self.window.asset_manager.textures["life"]
-                ),
-                parent_view=self
-            )
-            self.button_list.append(lives)
-            x += 45
-            if count > 5:
-                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives}",
-                                         x=x, y=y,
-                                         color=arcade.color.WHITE,
-                                         font_size=20,
+            if count <= 5:
+                lives = DisplayLives(
+                    center_x=x,
+                    center_y=y,
+                    sprite_path=(
+                        self.window.asset_manager.textures["life"]
+                    ),
+                    parent_view=self
+                )
+                self.button_list.append(lives)
+                x += 45
+            if count > 5 and self.nb_lives > 5:
+                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
+                                         x=x-10, y=y-15,
+                                         color=arcade.color.LIGHT_GRAY,
+                                         font_size=30,
                                          font_name="pressStart2P")
                 self.text_lst.append(self.more_lives)
 
