@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 08:22:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 08:24:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -80,12 +80,10 @@ class LogoButton(BaseButton):
     def on_click(self):
         if self.gullman is False:
             path = self.parent_view.window.asset_manager.textures["gullman"]
-            self.texture = arcade.load_texture(path)
-            self.gullman = True
         else:
             path = self.parent_view.window.asset_manager.textures["logo"]
-            self.texture = arcade.load_texture(path)
-            self.gullman = False
+        self.texture = arcade.load_texture(path)
+        self.gullman = not self.gullman
 
     def check_hover(self, x: float, y: float) -> None:
         pass
