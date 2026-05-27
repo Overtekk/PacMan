@@ -1,44 +1,44 @@
 {
     "scores": [
         {
-            "player_name": "ana",
-            "player_score": 999999999
+            "player_name": "pigeonvert",
+            "player_score": 1250
         },
         {
-            "player_name": "affreuxlou",
-            "player_score": 46545215
+            "player_name": "gillou",
+            "player_score": 530
         },
         {
             "player_name": "Baptista",
-            "player_score": 789985
+            "player_score": 0
         },
         {
             "player_name": "ecureuil",
-            "player_score": 789985
+            "player_score": 0
         },
         {
             "player_name": "test",
-            "player_score": 522465.0
+            "player_score": 0.0
         },
         {
             "player_name": "retest",
-            "player_score": 522465.0
+            "player_score": 0.0
         },
         {
             "player_name": "franck",
-            "player_score": 152463
+            "player_score": 0
         },
         {
             "player_name": "lribette",
-            "player_score": 100000
+            "player_score": 0
         },
         {
             "player_name": "l",
-            "player_score": 100000
+            "player_score": 0
         },
         {
             "player_name": "REF",
-            "player_score": 100000
+            "player_score": 0
         }
     ]
 }

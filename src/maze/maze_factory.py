@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 18:17:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:28:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -156,7 +156,7 @@ class MazeFactory:
 
 def generate_bytes_maze(
     grid: list[list[int]], width: int, height: int
-) -> dict[tuple[int, int], str]:
+) -> dict[tuple[int, int], int]:
     # Calculation of grid dimensions
     rows: int = 2 * height + 1
     cols: int = 2 * width + 1
@@ -165,7 +165,7 @@ def generate_bytes_maze(
     byte_grid: list[list[int]] = [[1] * cols for _ in range(rows)]
 
     # Init dictionnary containing walls bytes
-    close_or_open: dict[tuple[int, int], str] = {}
+    close_or_open: dict[tuple[int, int], int] = {}
 
     for row_index, row in enumerate(grid):
         for col_index, cell_value in enumerate(row):
@@ -199,7 +199,7 @@ def generate_bytes_maze(
             close_or_open[(c_idx, r_idx)] = val
 
     # Block open cells inside the 42
-    bytes_maze: dict[tuple[int, int], str] = close_or_open.copy()
+    bytes_maze: dict[tuple[int, int], int] = close_or_open.copy()
 
     for coords, byte in close_or_open.items():
         x, y = coords

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:26:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 12:15:46 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,7 @@ from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 from .game_settings import GameState
 from src.utils import print_log
+from src.entity import EnemyState
 
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
@@ -36,12 +37,13 @@ class GameEngine(arcade.View):
         self.debug_mode: bool = self.window.debug_mode
 
         # Instanciate class instance
-        self.game_renderer = GameRenderer()
+        self.game_renderer = GameRenderer(self.debug_mode)
         self.game_state = GameState.SETUP
         self.state_manager = GameStateManager(
             self.window, self, self.debug_mode
         )
-        self.level_manager = LevelManager(game_window=self.window)
+        self.level_manager = LevelManager(game_window=self.window,
+                                          debug_mode=self.debug_mode)
 
         self._first_launch: bool = True
 
@@ -167,8 +169,21 @@ class GameEngine(arcade.View):
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
-            elif self.state_manager:
-                self.state_manager.on_key_press(symbol, _modifiers)
+            elif symbol == arcade.key.P and self.debug_mode:
+                print_log("Debug: activate chase mode!")
+                for enemy_obj in self.level_manager.enemies_list.values():
+                    enemy_obj.mode = EnemyState.CHASE
+
+            elif symbol == arcade.key.N and self.debug_mode:
+                if self.player.invincible:
+                    print_log("Debug: disable invincibility!")
+                    self.player.invincible = False
+                else:
+                    print_log("Debug: activate invincibility!")
+                    self.player.invincible = True
+
+            elif symbol == arcade.key.ESCAPE:
+                self.state_manager.pause_game()
 
 
     # :---------------:
@@ -215,6 +230,7 @@ class GameEngine(arcade.View):
             self.enemies_sprite_list.append(enemy_obj.sprite)
             # Render the sprites on screen
             self.game_renderer.setup_entities(enemy_obj.sprite)
+            enemy_obj.mode = EnemyState.WAIT
 
         # Render the player
         self.game_renderer.setup_entities(self.player.sprite)
@@ -227,6 +243,7 @@ class GameEngine(arcade.View):
 
         for enemy_obj in self.level_manager.enemies_list.values():
             enemy_obj._can_move = True
+            enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
         # List containing all super_pacgums sprites
@@ -265,3 +282,7 @@ class GameEngine(arcade.View):
 
         # Reset sprites direction
         entity.reset_animation()
+
+        # Reset enemy state
+        if hasattr(entity, 'mode'):
+            entity.mode = EnemyState.WAIT

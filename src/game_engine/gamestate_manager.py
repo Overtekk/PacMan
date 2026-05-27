@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:32:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 09:11:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -111,11 +111,8 @@ class GameStateManager():
 
             self.window.show(FinishScreen)
 
-    def on_key_press(self, symbol: int, _modifiers: int) -> None:
-        if symbol == arcade.key.ESCAPE:
-            if self.window:
-                from src.renderer.ui.pause_menu import PauseMenu
+    def pause_game(self) -> None:
+        if self.window:
+            from src.renderer.ui.pause_menu import PauseMenu
 
-                self.window.show_view(PauseMenu(
-                    previous_view=self.parent_view
-                ))
+            self.window.show_view(PauseMenu(previous_view=self.parent_view))

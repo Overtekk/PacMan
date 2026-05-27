@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 14:58:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 16:53:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 08:38:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,3 +20,6 @@ class EnemyState(Enum):
     RUNAWAY = auto()
     RESPAWN = auto()
     SEARCH = auto()
+
+
+

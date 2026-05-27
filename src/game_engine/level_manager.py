@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 08:00:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 13:28:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,10 +33,13 @@ SUPERPACGUM_SCALE: float = 0.8
 
 
 class LevelManager():
-    def __init__(self, game_window: arcade.Window) -> None:
+    def __init__(
+        self, game_window: arcade.Window, debug_mode: bool
+    ) -> None:
 
         self.config: GameConfig = game_window.game_config
         self.asset_manager: dict[str, Path] = game_window.asset_manager
+        self.debug_mode = debug_mode
 
         self.enemies_list: list[str, Any] = {}
         self.pacgums_list: list[Pacgum] = []
@@ -65,7 +68,8 @@ class LevelManager():
             maze_offset_x=self.factory.offset_x,
             maze_offset_y=self.factory.offset_y,
             maze_tile_size=self.factory.tile_size,
-            maze_height=self.factory.height
+            maze_height=self.factory.height,
+            debug_mode=self.debug_mode
         )
 
         # Create all entities
@@ -100,7 +104,7 @@ class LevelManager():
                 ScreenSettings.WIDTH, ScreenSettings.HEIGHT
             )
         # Store the maze in bytes for later calculations
-        self.maze_bitmap: dict[tuple[int, int], str] = generate_bytes_maze(
+        self.maze_bitmap: dict[tuple[int, int], int] = generate_bytes_maze(
             self.factory.grid_data,
             self.maze_width, self.maze_height,
         )
@@ -146,6 +150,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -170,6 +175,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -194,6 +200,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
@@ -218,6 +225,7 @@ class LevelManager():
             ),
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
+            player_ref=self.player,
             scale=ENEMIES_SCALE,
             speed=self.ENEMY_SPEED
         )
