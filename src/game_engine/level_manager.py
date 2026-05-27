@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:50:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 08:00:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -28,7 +28,7 @@ from src.maze import MazeFactory, generate_bytes_maze
 
 PLAYER_SCALE: float = 0.8
 ENEMIES_SCALE: float = 0.9
-PACGUM_SCALE: float = 0.5
+PACGUM_SCALE: float = 0.7
 SUPERPACGUM_SCALE: float = 0.8
 
 
