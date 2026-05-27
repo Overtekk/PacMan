@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/20 10:47:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:32:37 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from abc import ABC, abstractmethod
 from pathlib import Path
+import random
 
 
 class BaseButton(arcade.Sprite, ABC):
@@ -31,14 +32,35 @@ class BaseButton(arcade.Sprite, ABC):
             scale=scale
         )
 
+        self.origin_x = center_x
+        self.origin_y = center_y
         self.center_x = center_x
         self.center_y = center_y
 
         self.parent_view = parent_view
+        self.shake_timer = 0.0
+        self.shaking = False
+
+    def start_shake(self, duration: float):
+        self.shake_timer = duration
+        self.shaking = True
+
+    def on_update(self, delta_time):
+        if self.shaking:
+            self.shake_timer -= delta_time
+            if self.shake_timer <= 0:
+                self.shaking = False
+                self.center_x = self.origin_x
+                self.center_y = self.origin_y
+            else:
+                amp = 5 * (self.shake_timer / 1.0)
+                self.center_x = self.origin_x + random.uniform(-amp, amp)
+                self.center_y = self.origin_y + random.uniform(-amp, amp)
 
     def check_hover(self, x: float, y: float) -> None:
         if self.collides_with_point((x, y)):
             self.color = arcade.color.LIGHT_GRAY
+            self.start_shake(0.2)
         else:
             self.color = arcade.color.WHITE
 
