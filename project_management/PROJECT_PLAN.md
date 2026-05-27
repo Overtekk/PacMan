@@ -3,11 +3,81 @@
 
 ---
 
+### 27/05/2026
+- anacharp
+	- change lives display
+	- easter egg after 2min on main menu
+	- main menu animation
+	- change wall sprites
+	- buttons animation
+- roandrie
+	- Enemy have a raycast. If the player is seen on the same line, they will switch in the 'chase' state.
+	- Add the logic for the 'chase' state. In this mode, they know the position of the player and will try to catch them. If the player is not and the same line and some tiny time have passed, they will switch to the 'wander' state.
+
+### 26/05/2026
+- roandrie
+	- Change sprites for all enemies: they now have 3 states (move/eatable/died)
+	-  Update enemies sprites: they don't have an animation now. They only change the sprite based on the direction, so their eyes are facing the good direction
+	- Add spawning of pacgums throught the maze (60% of chance, one pacgum will always spawn)
+	- Add spawing of super pacgums in each corner of the maze
+	- Add collisions with pacgums and superpacgums: player can collect them and score increase by x points
+	- Add the superpacgums ability that make the player invincible and change the state of the enemies
+	- Fix a lag that occurs during gameplay (object was created each 60 frames)
+- anacharp
+	- change the font of the Highscore interface
+	- connect the UI screen with the game renderer
+	- fix the finish screen issue
+	- remake Pac-Man in 32x32 resolution
+	- fix the instructions
+	- change the heart sprite to a feather sprite because the seagull loses its feathers
+	- make the main menu logo animated
+	- add an Easter egg using the main menu logo
+	- create a beach-themed background and implement it in the various menus and the maze
+	- fix the pause menu appearing during gameplay
+	- add shadows to the Pac-Man sprites (player.png, pacman_victory.png, and dead_pacman.png)
+
+### 25/05/2026
+- roandrie
+	- Player lose a live when collide with a enemy
+	- The first level is generated with a seed
+	- Add timer before the game start and between respawn. Rendered on screen with a little animation.
+	- Reset entities positions (sprites, facing) when respawning
+	- Add 2 new fonts
+	- Add new argument: --debug and run debug in Makefile
+	- Add a debug button ('R') to kill the player for testing purpose
+	- Add new states for the enemy
+	- Add the respawn algo for the enemies (finding the way to their spawnpoint)
+	- Add the SuperCalculator() to convert pixel to grid (for now), more easily to do that avoiding copy-paste the same code 3 times
+
+	- Change: in config_loader, mandatory keys "lives" in now "live"
+	- Change: new game_state and use of auto() instead of writing value by hand
+	- Change: remove the unused dict in the font resources_loader
+	- Change: add new enemy states and use of auto()
+
+	- Fix: in config, the key "level_max_time" was named "Level max_time"
+	- Fix: crash when player have no live left and the game over screen wasn't show
+	- Fix: in the game over screen, score now need a int so it can be converted to a string when score text is created
+
 ### 22/05/2026
 - roandrie
 	- Add new class: FontLoader() > check if font is available and load it using arcade.load_font()
 	- Change the file "renderer/sprites_loader" to "utils/resources_loader.py", since it's purpose is to load the resources for the game.
 	- Refactor code to add the new change
+	- Add collision detection between player/enemy
+	- Rename "maze_renderer" to "game_renderer"
+	- Refactor the game_engine.py
+	- Transform the function in "collision_manager.py": "_player_collisions_logic" to "_entity_collisions_logic". The code is now modular for all entities
+	- Delete the "move()" function in the Movable abstract class since all entities will use the buffer
+	- Add walls collisions detection for all entities
+	- Start the GameState Manager logic: add the game_data dictionnary containing all informations about the current game
+- anacharp
+	- implementation of the return to game option in the pause menu
+	- connection between the game engine and the pause menu
+	- fixed the issue of returning to the game when pressing "Start" in the main menu after quitting a game using the pause menu
+	- make the overlays of the pause menu, game_over screen, and finish screen transparent so we can see our game in the background
+	- instructions improvement
+	- prevent players from validating an empty name
+	- beginning of the UI screen : lives, score and timer displays
 
 ### 21/05/2026
 - roandrie
