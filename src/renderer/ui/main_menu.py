@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:15:34 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:28:15 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -389,8 +389,7 @@ class MainMenu(BaseMenu):
     def on_update(self, delta_time):
         self.button_list.update()
         for sprite in self.button_list:
-            if isinstance(sprite, LogoButton) or isinstance(sprite, Pacman) or isinstance(sprite, Pursuit):
-                sprite.on_update(delta_time)
+            sprite.on_update(delta_time)
 
     def on_draw(self):
         self.clear()

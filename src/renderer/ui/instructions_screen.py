@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/26 17:18:05 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:31:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -306,3 +306,9 @@ class InstructionsScreen(BaseMenu):
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
+
+    def on_update(self, delta_time):
+        self.button_list.update()
+        for sprite in self.button_list:
+            if isinstance(sprite, Instructions):
+                sprite.on_update(delta_time)

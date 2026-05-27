@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 18:58:34 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 11:33:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -210,3 +210,8 @@ class PauseMenu(BaseMenu):
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
+
+    def on_update(self, delta_time):
+        self.button_list.update()
+        for sprite in self.button_list:
+                sprite.on_update(delta_time)
