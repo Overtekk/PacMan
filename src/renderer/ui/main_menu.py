@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 08:24:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 09:48:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,7 +22,27 @@ from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.ui.cheat_menu import CheatMenu
 import math
 from src.renderer.screen_settings import ScreenSettings
+from src.utils import load_sprite_sheet
+from src.game_engine.level_manager import LevelManager
 
+
+class Pursuit(arcade.Sprite):
+    def __init__(self,
+                 center_x: float,
+                 center_y: float,
+                 sprite_path: Path,
+                 parent_view: arcade.View,
+                 scale: float = 1.8) -> None:
+
+        super().__init__(
+            path_or_texture=sprite_path,
+            scale=scale
+        )
+
+        self.center_x = center_x
+        self.center_y = center_y
+
+        self.parent_view = parent_view
 
 class LogoButton(BaseButton):
     def __init__(
@@ -247,12 +267,100 @@ class MainMenu(BaseMenu):
             parent_view=self
         )
 
+        self.animation()
+
         self.button_list.append(logo_button)
         self.button_list.append(play_button)
         self.button_list.append(highscores_button)
         self.button_list.append(instructions_button)
         self.button_list.append(cheat_button)
         self.button_list.append(exit_button)
+
+    def animation(self):
+        level_manager = LevelManager(self.window)
+        textures_list = load_sprite_sheet(
+        textures=level_manager.asset_manager.textures["player"],
+        sprite_width=192/6, sprite_height=32, sprites_columns=6,
+        sprites_count=6)
+        pacman = Pursuit(
+            center_x=-30,
+            center_y=120,
+            sprite_path=(
+                textures_list[0]
+            ),
+            parent_view=self
+        )
+        self.button_list.append(pacman)
+        pacman.change_x = 1000 / 300
+
+        level_manager = LevelManager(self.window)
+        textures_list = load_sprite_sheet(
+        textures=level_manager.asset_manager.textures["enemy_cat_move"],
+        sprite_width=192/6, sprite_height=32, sprites_columns=6,
+        sprites_count=6)
+        cat = Pursuit(
+            center_x=-110,
+            center_y=120,
+            sprite_path=(
+                textures_list[1]
+            ),
+            parent_view=self
+        )
+        cat.scale_x = -1.7
+        self.button_list.append(cat)
+        cat.change_x = 1000 / 300
+
+
+        level_manager = LevelManager(self.window)
+        textures_list = load_sprite_sheet(
+        textures=level_manager.asset_manager.textures["enemy_fox_move"],
+        sprite_width=192/6, sprite_height=32, sprites_columns=6,
+        sprites_count=6)
+        fox = Pursuit(
+            center_x=-190,
+            center_y=120,
+            sprite_path=(
+                textures_list[1]
+            ),
+            parent_view=self
+        )
+        fox.scale_x = -1.7
+        self.button_list.append(fox)
+        fox.change_x = 1000 / 300
+
+        level_manager = LevelManager(self.window)
+        textures_list = load_sprite_sheet(
+        textures=level_manager.asset_manager.textures["enemy_rat_move"],
+        sprite_width=192/6, sprite_height=32, sprites_columns=6,
+        sprites_count=6)
+        rat = Pursuit(
+            center_x=-270,
+            center_y=120,
+            sprite_path=(
+                textures_list[1]
+            ),
+            parent_view=self
+        )
+        rat.scale_x = -1.7
+        self.button_list.append(rat)
+        rat.change_x = 1000 / 300
+
+        level_manager = LevelManager(self.window)
+        textures_list = load_sprite_sheet(
+        textures=level_manager.asset_manager.textures["enemy_dog_move"],
+        sprite_width=192/6, sprite_height=32, sprites_columns=6,
+        sprites_count=6)
+        dog = Pursuit(
+            center_x=-350,
+            center_y=120,
+            sprite_path=(
+                textures_list[1]
+            ),
+            parent_view=self
+        )
+        dog.scale_x = -1.7
+        self.button_list.append(dog)
+        dog.change_x = 1000 / 300
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
