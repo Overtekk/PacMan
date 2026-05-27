@@ -1,19 +1,13 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  custom_errors.py                                  :+:      :+:    :+:    #
+#  config.py                                         :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/15 09:28:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 09:35:24 by roandrie        ###   ########.fr        #
+#  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
+#  Updated: 2026/05/27 14:08:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-
-class MazeGenerationError(Exception):
-    pass
-
-
-class ConfigError(Exception):
-    pass
+debug_mode = False

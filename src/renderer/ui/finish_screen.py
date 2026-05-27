@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 18:59:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 15:52:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -93,22 +93,30 @@ class FinishScreen(BaseMenu):
             ),
             parent_view=self
         )
-        score = arcade.Text(text="SCORE", x=ScreenSettings.WIDTH // 2, y=410,
-                                   color=arcade.color.WHITE, font_size=40,
-                                   font_name="Press Start 2P",
-                                   anchor_x="center")
+        score = arcade.Text(
+            text="SCORE", x=ScreenSettings.WIDTH // 2, y=410,
+            color=arcade.color.WHITE, font_size=40,
+            font_name="Press Start 2P",
+            anchor_x="center"
+        )
         self.text_lst.append(score)
-        nb = arcade.Text(text=self.score, x=ScreenSettings.WIDTH // 2, y=335,
-                                   color=arcade.color.YELLOW, font_size=40,
-                                   font_name="Press Start 2P",
-                                   anchor_x="center")
+
+        nb = arcade.Text(
+            text=self.score, x=ScreenSettings.WIDTH // 2, y=335,
+            color=arcade.color.YELLOW, font_size=40,
+            font_name="Press Start 2P",
+            anchor_x="center"
+        )
         self.text_lst.append(nb)
-        enter_name = arcade.Text(text="SAVE YOUR NAME",
-                                 x=ScreenSettings.WIDTH // 2, y=230,
-                                 color=arcade.color.WHITE, font_size=40,
-                                 font_name="Press Start 2P",
-                                 anchor_x="center")
+
+        enter_name = arcade.Text(
+            text="SAVE YOUR NAME", x=ScreenSettings.WIDTH // 2, y=230,
+            color=arcade.color.WHITE, font_size=40,
+            font_name="Press Start 2P",
+            anchor_x="center"
+        )
         self.text_lst.append(enter_name)
+
         self.button_list.append(victory)
         self.button_list.append(pacman)
 
@@ -132,7 +140,7 @@ class FinishScreen(BaseMenu):
                 if self.window:
                     self.window.show_view(MainMenu())
                 save_score_to_leaderboard(self.filename, self.player_name,
-                                        float(self.score))
+                                          float(self.score))
 
     def on_draw(self) -> None:
         self.clear()

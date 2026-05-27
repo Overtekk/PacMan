@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/27 11:31:23 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 15:56:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,8 +35,7 @@ class Highscores(BaseButton):
             center_y=center_y,
             parent_view=parent_view,
         )
-        anchor_x=anchor_x
-
+        anchor_x = anchor_x
 
     def on_click(self) -> None:
         from src.renderer.ui.main_menu import MainMenu
@@ -49,7 +48,9 @@ class Highscores(BaseButton):
 class HighscoresScreen(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
+        self.background = arcade.load_texture(
+            "assets/sprites/main_menu/ocean.png"
+        )
 
     def build_ui(self) -> None:
         highscores = Highscores(

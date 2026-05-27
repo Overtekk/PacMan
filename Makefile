@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 10:53:45 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:28:15 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,6 +23,9 @@ INSTALL_UV		=	curl -LsSf https://astral.sh/uv/install.sh | sh
 CHECK_UV		=	command -v uv
 UV_WARN			=	--link-mode copy
 UV_SKIP_WHEEL	=	UV_SKIP_WHEEL_FILENAME_CHECK=1
+
+LINT_TESTER		=	src \
+					test
 
 CONFIG			=	data/config.json
 

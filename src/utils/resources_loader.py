@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 18:08:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 14:28:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,7 @@ import pathlib
 from pathlib import Path
 
 from ..utils import (
-    check_path, check_folder, print_error, is_file_png, is_file_ttf
+    check_path, check_folder, print_error, check_file_extension
 )
 
 DEFAULT_SPRITES_PATH: str = "assets/sprites/"
@@ -114,7 +114,7 @@ class SpritesLoader():
 
             verified_path: Path = check_path(str(full_path))
 
-            if not is_file_png(full_path):
+            if not check_file_extension(full_path, 'png'):
                 raise ValueError(
                     f"Wrong file extension for '{full_path}'.\n"
                     "😑"
@@ -143,7 +143,7 @@ class FontLoader():
 
             verified_path: Path = check_path(str(full_path))
 
-            if not is_file_ttf(full_path):
+            if not check_file_extension(full_path, 'ttf'):
                 raise ValueError(
                     f"Wrong file extension for '{full_path}'.\n"
                     "😑"

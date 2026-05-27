@@ -6,13 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:11:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
+from src import config
 
 from src.utils import print_log
 
@@ -22,13 +23,11 @@ class GameStateManager():
         self,
         game_window: arcade.Window,
         parent_view: arcade.View,
-        debug_mode: bool
     ) -> None:
 
         self.window = game_window
         self.config = game_window.game_config
         self.parent_view = parent_view
-        self.debug_mode = debug_mode
 
         # Init the game data
         self.game_data: dict[str, Any] = {
@@ -72,7 +71,7 @@ class GameStateManager():
 
         self.game_data["score"] = new_value
 
-        if self.debug_mode:
+        if config.debug_mode:
             print_log(
                 f"Score: {self.score}"
             )

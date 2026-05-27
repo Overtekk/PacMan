@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/25 11:01:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:11:55 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,6 @@ class GameWindow(arcade.Window):
         self,
         config: GameConfig,
         sprites_list: SpritesLoader,
-        debug_mode: bool
     ) -> None:
 
         super().__init__(
@@ -35,7 +34,6 @@ class GameWindow(arcade.Window):
         )
 
         self.game_config = config
-        self.debug_mode = debug_mode
         self.asset_manager = sprites_list
 
         self._screen_state = ScreenState.MENU

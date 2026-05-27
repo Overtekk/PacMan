@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/26 16:50:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:31:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,7 +53,7 @@ class Player(Movable):
 
             if self._animation_timer > 0.02:
                 self.current_texture_index = ((self.current_texture_index + 1)
-                                                % len(self.textures))
+                                              % len(self.textures))
 
                 self.sprite.texture = self.textures[self.current_texture_index]
 
@@ -80,4 +80,3 @@ class Player(Movable):
             case (0.0, -1.0):
                 self.sprite.angle = 90
                 self.sprite.scale_x = base_scale
-

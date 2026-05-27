@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:28:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 16:03:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,15 +20,12 @@ class SuperCalculator():
         self,
         maze_offset_x: float, maze_offset_y: float,
         maze_tile_size: float, maze_height: int,
-        debug_mode: bool
     ) -> None:
 
         self.maze_offset_x = maze_offset_x
         self.maze_offset_y = maze_offset_y
         self.maze_tile_size = maze_tile_size
         self.maze_height = maze_height
-
-        self.debug_mode = debug_mode
 
     def get_pixel_to_grid_entity(self, entity: Any) -> tuple[float, float]:
         # Convert pixels to grid
@@ -62,8 +59,14 @@ class SuperCalculator():
 
     def get_grid_to_pixel(self, x: int, y: int) -> tuple[float, float]:
 
-        x = (x * self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_x)
-        y = ((self.maze_height - 1 - y) * self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_y)
+        x: float = (
+            (x * self.maze_tile_size) +
+            self.maze_tile_size / 2 + self.maze_offset_x
+        )
+        y: float = (
+            (self.maze_height - 1 - y) *
+            self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_y
+        )
 
         return (x, y)
 

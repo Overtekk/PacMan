@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 13:28:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:48:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,10 +65,12 @@ class MazeFactory:
         )
 
         # Calculate the screen offsets
-        self.offset_x: float = ((screen_width - width *
-                                        self.tile_size) // 2)
-        self.offset_y: float = ((screen_height - self.height *
-                                       self.tile_size) // 2)
+        self.offset_x: float = (
+            (screen_width - width * self.tile_size) // 2
+        )
+        self.offset_y: float = (
+            (screen_height - self.height * self.tile_size) // 2
+        )
 
         # Instanciate the generator and generate the maze
         if len(str(seed)) > 0:
@@ -141,15 +143,17 @@ class MazeFactory:
                     sprite_path: str = str(textures[sprite_name])
                     self.wall_sprites_list.append(str(textures[sprite_name]))
 
-                    wall_data.append((sprite_path, angle, x, y, self.tile_size))
+                    wall_data.append(
+                        (sprite_path, angle, x, y, self.tile_size)
+                    )
 
         return wall_data
-
 
     def get_pixel_coordinates(self, col: int, row: int) -> tuple[int, int]:
 
         x = col * self.tile_size + self.tile_size / 2 + self.offset_x
-        y = (self.height - 1 - row) * self.tile_size + self.tile_size / 2 + self.offset_y
+        y = ((self.height - 1 - row) *
+             self.tile_size + self.tile_size / 2 + self.offset_y)
 
         return (x, y)
 
@@ -211,8 +215,7 @@ def generate_bytes_maze(
             if (close_or_open[(x - 1, y)] == 1 and
                     close_or_open[(x + 1, y)] == 1 and
                     close_or_open[(x, y - 1)] == 1 and
-                    close_or_open[(x, y + 1)] == 1
-                ):
+                    close_or_open[(x, y + 1)] == 1):
 
                 # Replace the byte
                 bytes_maze[(x, y)] = new_byte

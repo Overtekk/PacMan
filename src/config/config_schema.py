@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 22:06:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:29:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,6 +29,7 @@ class LevelConfig(BaseModel):
         default=20,
         description="Height of a level"
     )
+
 
 DEFAULT_LEVELS: list[LevelConfig] = [
     LevelConfig(name="Level 1", width=20, height=10),

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:02:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:23:38 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -315,7 +315,7 @@ class MainMenu(BaseMenu):
         self.button_list.append(exit_button)
 
     def animation(self):
-        level_manager = LevelManager(self.window, None)
+        level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
         textures=level_manager.asset_manager.textures["player"],
         sprite_width=192/6, sprite_height=32, sprites_columns=6,

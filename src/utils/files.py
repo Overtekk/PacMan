@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 09:23:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:35:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 14:32:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,44 +47,19 @@ def is_file_exist(file: pathlib.Path) -> bool:
     """
     return file.exists() and file.is_file()
 
-
-def is_file_json(file: pathlib.Path) -> bool:
+def check_file_extension(file: pathlib.Path, extension: str) -> bool:
     """
-    Check if a file has a .json extension.
+    Check if a file has the intended extension.
 
     Args:
         file (pathlib.Path): The file path to check.
 
     Returns:
-        bool: True if the file suffix is '.json', False otherwise.
+        bool: True if the file suffix is right, False otherwise.
     """
-    return file.suffix == ".json"
-
-
-def is_file_png(file: pathlib.Path) -> bool:
-    """
-    Check if a file has a .png extension.
-
-    Args:
-        file (pathlib.Path): The file path to check.
-
-    Returns:
-        bool: True if the file suffix is '.png', False otherwise.
-    """
-    return file.suffix == ".png"
-
-def is_file_ttf(file: pathlib.Path) -> bool:
-    """
-    Check if a file has a .png extension.
-
-    Args:
-        file (pathlib.Path): The file path to check.
-
-    Returns:
-        bool: True if the file suffix is '.png', False otherwise.
-    """
-    return file.suffix == ".ttf"
-
+    if not extension.startswith('.'):
+        extension = f".{extension}"
+    return file.suffix == extension
 
 def can_read_file(file: pathlib.Path) -> bool:
     """

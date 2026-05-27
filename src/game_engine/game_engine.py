@@ -6,13 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:15:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/27 15:35:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
+from src import config
 
 from src.renderer import GameRenderer
 from src.renderer.screen_settings import CollectiblesType
@@ -34,16 +35,12 @@ class GameEngine(arcade.View):
         super().__init__()
 
         self.config: GameConfig = self.window.game_config
-        self.debug_mode: bool = self.window.debug_mode
 
         # Instanciate class instance
-        self.game_renderer = GameRenderer(self.debug_mode)
+        self.game_renderer = GameRenderer()
         self.game_state = GameState.SETUP
-        self.state_manager = GameStateManager(
-            self.window, self, self.debug_mode
-        )
-        self.level_manager = LevelManager(game_window=self.window,
-                                          debug_mode=self.debug_mode)
+        self.state_manager = GameStateManager(self.window, self)
+        self.level_manager = LevelManager(game_window=self.window,)
 
         self._first_launch: bool = True
 
@@ -141,7 +138,6 @@ class GameEngine(arcade.View):
             self.level_manager.maze_bitmap,
             self.level_manager.calculator,
             self.state_manager,
-            self.debug_mode
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
@@ -165,16 +161,16 @@ class GameEngine(arcade.View):
             elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
                 self.player._next_direction = (1, 0)
 
-            elif symbol == arcade.key.R and self.debug_mode:
+            elif symbol == arcade.key.R and config.debug_mode:
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
-            elif symbol == arcade.key.P and self.debug_mode:
+            elif symbol == arcade.key.P and config.debug_mode:
                 print_log("Debug: activate chase mode!")
                 for enemy_obj in self.level_manager.enemies_list.values():
                     enemy_obj.mode = EnemyState.CHASE
 
-            elif symbol == arcade.key.N and self.debug_mode:
+            elif symbol == arcade.key.N and config.debug_mode:
                 if self.player.invincible:
                     print_log("Debug: disable invincibility!")
                     self.player.invincible = False
@@ -184,7 +180,6 @@ class GameEngine(arcade.View):
 
             elif symbol == arcade.key.ESCAPE:
                 self.state_manager.pause_game()
-
 
     # :---------------:
     #  PRIVATE METHODS
@@ -201,12 +196,12 @@ class GameEngine(arcade.View):
         current_second: int = int(self._current_timer_start) + 1
 
         if current_second != previous_second and current_second > 0:
-            if self.debug_mode:
+            if config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
-            if self.debug_mode:
+            if config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)
 
