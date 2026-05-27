@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:48:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/27 10:42:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,19 +30,49 @@ class Pursuit(arcade.Sprite):
     def __init__(self,
                  center_x: float,
                  center_y: float,
-                 sprite_path: Path,
                  parent_view: arcade.View,
+                 textures_list: list,
                  scale: float = 1.8) -> None:
 
         super().__init__(
-            path_or_texture=sprite_path,
+            path_or_texture=textures_list[0],
+            center_x=center_x,
+            center_y=center_y,
             scale=scale
         )
 
-        self.center_x = center_x
-        self.center_y = center_y
+        self.parent_view = parent_view
+        self.textures_list = textures_list
+
+
+class Pacman(arcade.Sprite):
+    def __init__(self,
+                 center_x: float,
+                 center_y: float,
+                 parent_view: arcade.View,
+                 textures_list: list,
+                 scale: float = 1.8) -> None:
+
+        super().__init__(
+            path_or_texture=textures_list[0],
+            center_x=center_x,
+            center_y=center_y,
+            scale=scale
+        )
 
         self.parent_view = parent_view
+        self.textures_list = textures_list
+        self.current_texture_index = 0
+        self.animation_time = 0.0
+        self.animation_speed = 0.1
+
+    def on_update(self, delta_time: float):
+            self.center_x += self.change_x
+            self.animation_time += delta_time
+            if self.animation_time >= self.animation_speed:
+                self.animation_time -= self.animation_speed
+                self.current_texture_index = (self.current_texture_index + 1) % len(self.textures_list)
+                self.texture = self.textures_list[self.current_texture_index]
 
 class LogoButton(BaseButton):
     def __init__(
@@ -70,7 +100,6 @@ class LogoButton(BaseButton):
         self.total_time = 0.0
         self.gullman = False
         self.sprite_path = sprite_path
-        # self.path_or_texture=sprite_path,
 
     def land(self):
         self.scale_x = 1.4
@@ -282,16 +311,14 @@ class MainMenu(BaseMenu):
         textures=level_manager.asset_manager.textures["player"],
         sprite_width=192/6, sprite_height=32, sprites_columns=6,
         sprites_count=6)
-        pacman = Pursuit(
+        pacman = Pacman(
             center_x=-30,
             center_y=120,
-            sprite_path=(
-                textures_list[0]
-            ),
+            textures_list=textures_list,
             parent_view=self
         )
         self.button_list.append(pacman)
-        pacman.change_x = 1000 / 300
+        pacman.change_x = 1000 / 700
 
         level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
@@ -301,14 +328,12 @@ class MainMenu(BaseMenu):
         cat = Pursuit(
             center_x=-110,
             center_y=120,
-            sprite_path=(
-                textures_list[1]
-            ),
+            textures_list=textures_list,
             parent_view=self
         )
         cat.scale_x = -1.7
         self.button_list.append(cat)
-        cat.change_x = 1000 / 300
+        cat.change_x = 1000 / 350
 
 
         level_manager = LevelManager(self.window)
@@ -319,14 +344,12 @@ class MainMenu(BaseMenu):
         fox = Pursuit(
             center_x=-190,
             center_y=120,
-            sprite_path=(
-                textures_list[1]
-            ),
+            textures_list=textures_list,
             parent_view=self
         )
         fox.scale_x = -1.7
         self.button_list.append(fox)
-        fox.change_x = 1000 / 300
+        fox.change_x = 1000 / 350
 
         level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
@@ -336,14 +359,12 @@ class MainMenu(BaseMenu):
         rat = Pursuit(
             center_x=-270,
             center_y=120,
-            sprite_path=(
-                textures_list[1]
-            ),
+            textures_list=textures_list,
             parent_view=self
         )
         rat.scale_x = -1.7
         self.button_list.append(rat)
-        rat.change_x = 1000 / 300
+        rat.change_x = 1000 / 350
 
         level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
@@ -353,14 +374,12 @@ class MainMenu(BaseMenu):
         dog = Pursuit(
             center_x=-350,
             center_y=120,
-            sprite_path=(
-                textures_list[1]
-            ),
+            textures_list=textures_list,
             parent_view=self
         )
         dog.scale_x = -1.7
         self.button_list.append(dog)
-        dog.change_x = 1000 / 300
+        dog.change_x = 1000 / 350
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
@@ -370,7 +389,7 @@ class MainMenu(BaseMenu):
     def on_update(self, delta_time):
         self.button_list.update()
         for sprite in self.button_list:
-            if isinstance(sprite, LogoButton):
+            if isinstance(sprite, LogoButton) or isinstance(sprite, Pacman):
                 sprite.on_update(delta_time)
 
     def on_draw(self):
