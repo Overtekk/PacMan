@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/27 16:01:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 09:54:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -279,13 +279,13 @@ class InstructionsScreen(BaseMenu):
         commands = arcade.Text(text="COMMANDS:", x=15, y=520,
                                color=arcade.color.BABY_BLUE, font_size=20,
                                font_name="Press Start 2P")
-        play = arcade.Text(text="- Play with WASD", x=15, y=470,
+        play = arcade.Text(text="- Play with WASD or ←↑↓→", x=15, y=470,
                            color=arcade.color.WHITE, font_size=15,
                            font_name="Press Start 2P")
-        pause = arcade.Text(text="- Press SPACE to pause", x=15, y=420,
+        pause = arcade.Text(text="- Press ESC to pause", x=15, y=420,
                             color=arcade.color.WHITE, font_size=15,
                             font_name="Press Start 2P")
-        exit = arcade.Text(text="- Press ESC to exit", x=15, y=370,
+        exit = arcade.Text(text="- Press ESC to exit instructions", x=15, y=370,
                            color=arcade.color.WHITE, font_size=15,
                            font_name="Press Start 2P")
         self.text_lst.append(commands)
