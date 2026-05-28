@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 11:34:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 12:44:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -132,7 +132,7 @@ class FinishScreen(BaseMenu):
         self.text_lst.append(score)
 
         nb = arcade.Text(
-            text=self.score, x=ScreenSettings.WIDTH // 2, y=335,
+            text=(int(self.score)), x=ScreenSettings.WIDTH // 2, y=335,
             color=arcade.color.YELLOW, font_size=40,
             font_name="Press Start 2P",
             anchor_x="center"
