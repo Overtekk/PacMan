@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:52:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 11:34:03 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,8 +15,38 @@ import arcade
 from src.renderer.screen_settings import ScreenSettings
 from pathlib import Path
 from src.leaderboard.update_leaderboard import save_score_to_leaderboard
-
 from .base_menu import BaseMenu
+
+
+class Glasses(arcade.Sprite):
+    def __init__(self,
+                 center_x: float,
+                 center_y: float,
+                 parent_view: arcade.View,
+                 sprite_path: list,
+                 scale: float = 1.8) -> None:
+
+        super().__init__(
+            path_or_texture=sprite_path,
+            center_x=center_x,
+            center_y=center_y,
+            scale=scale
+        )
+
+        self.parent_view = parent_view
+        self.sprite_path = sprite_path
+
+    def on_update(self, delta_time: float):
+        target_x = ScreenSettings.WIDTH // 2 - 292
+        target_y = 407
+
+        self.center_x += (target_x - self.center_x) * 0.03
+        self.center_y += (target_y - self.center_y) * 0.03
+
+        if (abs(self.center_x - target_x) < 0.5
+            and abs(self.center_y - target_y) < 0.5):
+            self.center_x = target_x
+            self.center_y = target_y
 
 
 class PacmanVictory(arcade.Sprite):
@@ -86,8 +116,8 @@ class FinishScreen(BaseMenu):
             parent_view=self
         )
         pacman = PacmanVictory(
-            center_x=300,
-            center_y=400,
+            center_x= ScreenSettings.WIDTH // 2 - 300,
+            center_y=380,
             sprite_path=(
                 self.window.asset_manager.textures["pacman_victory"]
             ),
@@ -119,6 +149,11 @@ class FinishScreen(BaseMenu):
 
         self.button_list.append(victory)
         self.button_list.append(pacman)
+        glasses = Glasses(center_x=100, center_y=ScreenSettings.HEIGHT-50,
+                          sprite_path=(
+                self.window.asset_manager.textures["glasses"]
+            ), parent_view=self)
+        self.button_list.append(glasses)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if len(self.player_name) < 10:
@@ -166,3 +201,9 @@ class FinishScreen(BaseMenu):
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
+
+    def on_update(self, delta_time):
+        self.button_list.update()
+        for sprite in self.button_list:
+            if isinstance(sprite, Glasses):
+                sprite.on_update(delta_time)

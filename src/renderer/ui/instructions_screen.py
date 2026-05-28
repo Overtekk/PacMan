@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/28 09:54:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 10:51:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -285,8 +285,8 @@ class InstructionsScreen(BaseMenu):
         pause = arcade.Text(text="- Press ESC to pause", x=15, y=420,
                             color=arcade.color.WHITE, font_size=15,
                             font_name="Press Start 2P")
-        exit = arcade.Text(text="- Press ESC to exit instructions", x=15, y=370,
-                           color=arcade.color.WHITE, font_size=15,
+        exit = arcade.Text(text="- Press SPACE to skip the countdown", x=15,
+                           y=370, color=arcade.color.WHITE, font_size=15,
                            font_name="Press Start 2P")
         self.text_lst.append(commands)
         self.text_lst.append(play)
