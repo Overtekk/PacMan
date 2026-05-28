@@ -10,6 +10,7 @@
 	- Animated glasses falling over Pac-Man's eyes when the player wins
 	- Changed the final score display in the end screenshots
 	- Start of standardization
+	- Hide cheat mode
 
 ### 27/05/2026
 - anacharp
