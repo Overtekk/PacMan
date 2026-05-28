@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 11:57:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 13:25:32 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -254,13 +254,14 @@ class PlayButton(BaseButton):
 
 
 class MainMenu(BaseMenu):
+    count_touch_A = 0
+
     def __init__(self) -> None:
         super().__init__()
         path = "assets/sprites/main_menu/ocean.png"
         self.background = arcade.load_texture(path)
 
     def build_ui(self) -> None:
-
         logo_button = LogoButton(
             center_x=640,
             center_y=600,
@@ -292,20 +293,29 @@ class MainMenu(BaseMenu):
             ),
             parent_view=self
         )
-
-        cheat_button = CheatButton(
-            center_x=640,
-            center_y=175,
-            sprite_path=self.window.asset_manager.textures["cheat_button"],
-            parent_view=self
-        )
-
-        exit_button = ExitButton(
-            center_x=640,
-            center_y=75,
-            sprite_path=self.window.asset_manager.textures["exit_button"],
-            parent_view=self
-        )
+        print(MainMenu.count_touch_A)
+        if MainMenu.count_touch_A >= 3:
+            self.button_list.clear()
+            cheat_button = CheatButton(
+                center_x=640,
+                center_y=175,
+                sprite_path=self.window.asset_manager.textures["cheat_button"],
+                parent_view=self
+            )
+            exit_button = ExitButton(
+                center_x=640,
+                center_y=75,
+                sprite_path=self.window.asset_manager.textures["exit_button"],
+                parent_view=self
+            )
+            self.button_list.append(cheat_button)
+        else:
+            exit_button = ExitButton(
+                center_x=640,
+                center_y=175,
+                sprite_path=self.window.asset_manager.textures["exit_button"],
+                parent_view=self
+            )
 
         self.animation()
 
@@ -313,7 +323,6 @@ class MainMenu(BaseMenu):
         self.button_list.append(play_button)
         self.button_list.append(highscores_button)
         self.button_list.append(instructions_button)
-        self.button_list.append(cheat_button)
         self.button_list.append(exit_button)
 
     def animation(self) -> None:
@@ -387,6 +396,10 @@ class MainMenu(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             arcade.exit()
             exit()
+        if symbol == arcade.key.A:
+            MainMenu.count_touch_A += 1
+            if MainMenu.count_touch_A == 3:
+                self.build_ui()
 
     def on_update(self, delta_time: float) -> None:
         self.button_list.update()
