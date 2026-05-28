@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:20:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 11:39:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,7 +56,7 @@ class UIScreen(BaseMenu):
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for _ in range (self.nb_lives):
+        for _ in range(self.nb_lives):
             count += 1
             if count <= 5:
                 lives = DisplayLives(
@@ -70,11 +70,12 @@ class UIScreen(BaseMenu):
                 self.button_list.append(lives)
                 x += 45
             if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
-                                         x=x-10, y=y-15,
-                                         color=arcade.color.LIGHT_GRAY,
-                                         font_size=30,
-                                         font_name="pressStart2P")
+                self.more_lives = arcade.Text(text="+ "
+                                              f"{count - self.nb_lives+1}",
+                                              x=x-10, y=y-15,
+                                              color=arcade.color.LIGHT_GRAY,
+                                              font_size=30,
+                                              font_name="pressStart2P")
                 self.text_lst.append(self.more_lives)
 
         self.display_score = arcade.Text(text=f"Score: {self.score}",
@@ -109,7 +110,7 @@ class UIScreen(BaseMenu):
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for _ in range (self.nb_lives):
+        for _ in range(self.nb_lives):
             count += 1
             if count <= 5:
                 lives = DisplayLives(
@@ -123,9 +124,10 @@ class UIScreen(BaseMenu):
                 self.button_list.append(lives)
                 x += 45
             if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
-                                         x=x-10, y=y-15,
-                                         color=arcade.color.LIGHT_GRAY,
-                                         font_size=30,
-                                         font_name="pressStart2P")
+                self.more_lives = arcade.Text(text="+ "
+                                              "{count - self.nb_lives+1}",
+                                              x=x-10, y=y-15,
+                                              color=arcade.color.LIGHT_GRAY,
+                                              font_size=30,
+                                              font_name="pressStart2P")
                 self.text_lst.append(self.more_lives)

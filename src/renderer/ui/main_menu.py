@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:23:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 11:38:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -78,7 +78,8 @@ class Pacman(arcade.Sprite):
         self.animation_time += delta_time
         if self.animation_time >= self.animation_speed:
             self.animation_time -= self.animation_speed
-            self.current_texture_index = (self.current_texture_index + 1) % len(self.textures_list)
+            self.current_texture_index = ((self.current_texture_index + 1)
+                                          % len(self.textures_list))
             self.texture = self.textures_list[self.current_texture_index]
 
 
@@ -255,7 +256,8 @@ class PlayButton(BaseButton):
 class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-        self.background = arcade.load_texture("assets/sprites/main_menu/ocean.png")
+        path = "assets/sprites/main_menu/ocean.png"
+        self.background = arcade.load_texture(path)
 
     def build_ui(self) -> None:
 
@@ -317,9 +319,9 @@ class MainMenu(BaseMenu):
     def animation(self):
         level_manager = LevelManager(self.window)
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["player"],
-        sprite_width=192/6, sprite_height=32, sprites_columns=6,
-        sprites_count=6)
+            textures=level_manager.asset_manager.textures["player"],
+            sprite_width=192/6, sprite_height=32, sprites_columns=6,
+            sprites_count=6)
         pacman = Pacman(
             center_x=-30,
             center_y=120,
@@ -328,9 +330,9 @@ class MainMenu(BaseMenu):
         )
 
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_cat_move"],
-        sprite_width=128/4, sprite_height=32, sprites_columns=4,
-        sprites_count=4)
+            textures=level_manager.asset_manager.textures["enemy_cat_move"],
+            sprite_width=128/4, sprite_height=32, sprites_columns=4,
+            sprites_count=4)
         cat = Pursuit(
             center_x=-110,
             center_y=120,
@@ -341,9 +343,9 @@ class MainMenu(BaseMenu):
         cat.change_x = 1000 / 750
 
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_fox_move"],
-        sprite_width=128/4, sprite_height=32, sprites_columns=4,
-        sprites_count=4)
+            textures=level_manager.asset_manager.textures["enemy_fox_move"],
+            sprite_width=128/4, sprite_height=32, sprites_columns=4,
+            sprites_count=4)
         fox = Pursuit(
             center_x=-190,
             center_y=120,
@@ -354,9 +356,9 @@ class MainMenu(BaseMenu):
         fox.change_x = 1000 / 750
 
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_rat_move"],
-        sprite_width=128/4, sprite_height=32, sprites_columns=4,
-        sprites_count=4)
+            textures=level_manager.asset_manager.textures["enemy_rat_move"],
+            sprite_width=128/4, sprite_height=32, sprites_columns=4,
+            sprites_count=4)
         rat = Pursuit(
             center_x=-270,
             center_y=120,
@@ -367,9 +369,9 @@ class MainMenu(BaseMenu):
         rat.change_x = 1000 / 750
 
         textures_list = load_sprite_sheet(
-        textures=level_manager.asset_manager.textures["enemy_dog_move"],
-        sprite_width=128/4, sprite_height=32, sprites_columns=4,
-        sprites_count=4)
+            textures=level_manager.asset_manager.textures["enemy_dog_move"],
+            sprite_width=128/4, sprite_height=32, sprites_columns=4,
+            sprites_count=4)
         dog = Pursuit(
             center_x=-350,
             center_y=120,
