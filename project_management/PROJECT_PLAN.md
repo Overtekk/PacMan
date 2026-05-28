@@ -3,6 +3,14 @@
 
 ---
 
+### 28/05/2026
+- anacharp
+	- bugs because of ui screen fixes
+	- Updated commands in the instructions
+	- Animated glasses falling over Pac-Man's eyes when the player wins
+	- Changed the final score display in the end screenshots
+	- Start of standardization
+
 ### 27/05/2026
 - anacharp
 	- change lives display
