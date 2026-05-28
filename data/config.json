@@ -1,6 +1,6 @@
 {
 	"highscore_filename": "data/leaderboard.json",
-	"live": 3,
+	"live": 500,
 	"pacgum_points": 10,
 	"super_pacgum_points": 50,
 	"ghost_points": 200,
