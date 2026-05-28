@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 12:14:52 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 12:35:16 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -52,39 +52,12 @@ class UIScreen(BaseMenu):
         self.display_score: arcade.Text = ""
         self.display_time: arcade.Text = ""
 
-    def build_ui(self) -> None:
-        x = 30
-        y = ScreenSettings.HEIGHT - 30
-        count = 0
-        for _ in range(self.nb_lives):
-            count += 1
-            if count <= 5:
-                lives = DisplayLives(
-                    center_x=x,
-                    center_y=y,
-                    sprite_path=(
-                        self.window.asset_manager.textures["life"]
-                    ),
-                    parent_view=self
-                )
-                self.button_list.append(lives)
-                x += 45
-            if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text="+ "
-                                              f"{count - self.nb_lives+1}",
-                                              x=x-10, y=y-15,
-                                              color=arcade.color.LIGHT_GRAY,
-                                              font_size=30,
-                                              font_name="Press Start 2P")
-                self.text_lst.append(self.more_lives)
-
         self.display_score = arcade.Text(text=f"Score: {self.score}",
                                          x=ScreenSettings.WIDTH // 2, y=10,
                                          color=arcade.color.WHITE,
                                          font_size=20,
                                          font_name="Press Start 2P",
                                          anchor_x="center", anchor_y="bottom")
-        self.text_lst.append(self.display_score)
         self.display_time = arcade.Text(text=self.time,
                                         x=ScreenSettings.WIDTH - 10,
                                         y=ScreenSettings.HEIGHT - 10,
@@ -92,7 +65,35 @@ class UIScreen(BaseMenu):
                                         font_size=20,
                                         font_name="Press Start 2P",
                                         anchor_x="right", anchor_y="top")
+        self.more_lives = arcade.Text(text="", x=0, y=0,
+                                      color=arcade.color.LIGHT_GRAY,
+                                      font_size=30, font_name="Press Start 2P")
+        self.text_lst.append(self.display_score)
         self.text_lst.append(self.display_time)
+        self.text_lst.append(self.more_lives)
+
+    def build_ui(self) -> None:
+        self.regenerate_lives()
+
+    def regenerate_lives(self) -> None:
+        self.button_list.clear()
+        x = 30
+        y = ScreenSettings.HEIGHT - 30
+        for count in range(1, self.nb_lives + 1):
+            if count <= 5:
+                lives = DisplayLives(
+                    center_x=x, center_y=y,
+                    sprite_path=self.window.asset_manager.textures["life"],
+                    parent_view=self
+                )
+                self.button_list.append(lives)
+                x += 45
+        if self.nb_lives > 5:
+            self.more_lives.text = f"+{self.nb_lives - 5}"
+            self.more_lives.x = x - 10
+            self.more_lives.y = y - 22
+        else:
+            self.more_lives.text = ""
 
     def on_draw(self) -> None:
         self.button_list.draw()
@@ -102,35 +103,8 @@ class UIScreen(BaseMenu):
     def update(self, score: str, time: str, live: int) -> None:
         self.score = str(score)
         self.time = str(time)
-        self.nb_lives = int(live)
-        if isinstance(self.display_score, arcade.Text):
-            self.display_score.text = f"Score: {self.score}"
-        if isinstance(self.display_time, arcade.Text):
-            self.display_time.text = self.time
-        self.button_list.clear()
-        self.text_lst.clear()
-        x = 30
-        y = ScreenSettings.HEIGHT - 30
-        count = 0
-        for _ in range(self.nb_lives):
-            count += 1
-            if count <= 5:
-                lives = DisplayLives(
-                    center_x=x,
-                    center_y=y,
-                    sprite_path=(
-                        self.window.asset_manager.textures["life"]
-                    ),
-                    parent_view=self
-                )
-                self.button_list.append(lives)
-                x += 45
-            if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text="+"
-                                              f"{count - 5}",
-                                              x=x-10, y=y-22,
-                                              color=arcade.color.LIGHT_GRAY,
-                                              font_size=30,
-                                              font_name="Press Start 2P")
-                if count == self.nb_lives:
-                    self.text_lst.append(self.more_lives)
+        self.display_score. text = f"Score: {self.score}"
+        self.display_time.text = self.time
+        if int(live) != self.nb_lives:
+            self.nb_lives = int(live)
+            self.regenerate_lives()
