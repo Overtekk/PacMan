@@ -321,7 +321,7 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(rule4)
         self.text_lst.append(rule5)
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
         arcade.draw_texture_rect(
             texture=self.background,
@@ -331,7 +331,7 @@ class InstructionsScreen(BaseMenu):
         for txt in self.text_lst:
             txt.draw()
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time: float) -> None:
         self.button_list.update()
         for sprite in self.button_list:
             if isinstance(sprite, Instructions):

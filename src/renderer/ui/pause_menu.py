@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:33:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 11:59:18 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -186,7 +186,7 @@ class PauseMenu(BaseMenu):
             if self.window:
                 self.window.show_view(self.previous_view)
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
         if self.background:
             arcade.draw_texture_rect(
@@ -211,7 +211,7 @@ class PauseMenu(BaseMenu):
         for txt in self.text_lst:
             txt.draw()
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time: float) -> None:
         self.button_list.update()
         for sprite in self.button_list:
-                sprite.on_update(delta_time)
+            sprite.on_update(delta_time)

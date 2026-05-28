@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:20:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 12:03:16 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,8 +26,8 @@ class DisplayLives(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.5,
-        anchor_x="left",
-        anchor_y="top"
+        anchor_x: str="left",
+        anchor_y: str="top"
     ) -> None:
 
         super().__init__(
@@ -46,17 +46,17 @@ class DisplayLives(arcade.Sprite):
 class UIScreen(BaseMenu):
     def __init__(self, score: str, time: str, nb_lives: int) -> None:
         super().__init__()
-        self.score = score
-        self.time = time
-        self.nb_lives = nb_lives
-        self.display_score = ""
-        self.display_time = ""
+        self.score: str = score
+        self.time: str = time
+        self.nb_lives: int = nb_lives
+        self.display_score: arcade.Text = ""
+        self.display_time: arcade.Text = ""
 
     def build_ui(self) -> None:
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for _ in range (self.nb_lives):
+        for _ in range(self.nb_lives):
             count += 1
             if count <= 5:
                 lives = DisplayLives(
@@ -70,11 +70,12 @@ class UIScreen(BaseMenu):
                 self.button_list.append(lives)
                 x += 45
             if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
-                                         x=x-10, y=y-15,
-                                         color=arcade.color.LIGHT_GRAY,
-                                         font_size=30,
-                                         font_name="pressStart2P")
+                self.more_lives = arcade.Text(text="+ "
+                                              f"{count - self.nb_lives+1}",
+                                              x=x-10, y=y-15,
+                                              color=arcade.color.LIGHT_GRAY,
+                                              font_size=30,
+                                              font_name="pressStart2P")
                 self.text_lst.append(self.more_lives)
 
         self.display_score = arcade.Text(text=f"Score: {self.score}",
@@ -92,12 +93,12 @@ class UIScreen(BaseMenu):
                                         anchor_x="right", anchor_y="top")
         self.text_lst.append(self.display_time)
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
 
-    def update(self, score, time, live):
+    def update(self, score: str, time: str, live: int) -> None:
         self.score = str(score)
         self.time = str(time)
         self.nb_lives = int(live)
@@ -109,7 +110,7 @@ class UIScreen(BaseMenu):
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
-        for _ in range (self.nb_lives):
+        for _ in range(self.nb_lives):
             count += 1
             if count <= 5:
                 lives = DisplayLives(
@@ -123,9 +124,10 @@ class UIScreen(BaseMenu):
                 self.button_list.append(lives)
                 x += 45
             if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text=f"+ {count - self.nb_lives+1}",
-                                         x=x-10, y=y-15,
-                                         color=arcade.color.LIGHT_GRAY,
-                                         font_size=30,
-                                         font_name="pressStart2P")
+                self.more_lives = arcade.Text(text="+ "
+                                              "{count - self.nb_lives+1}",
+                                              x=x-10, y=y-15,
+                                              color=arcade.color.LIGHT_GRAY,
+                                              font_size=30,
+                                              font_name="pressStart2P")
                 self.text_lst.append(self.more_lives)

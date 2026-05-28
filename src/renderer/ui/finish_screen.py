@@ -57,7 +57,7 @@ class PacmanVictory(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 2.2,
-        anchor_x="center"
+        anchor_x: str="center"
     ) -> None:
 
         super().__init__(
@@ -80,7 +80,7 @@ class Victory(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.5,
-        anchor_x="center"
+        anchor_x: str="center"
     ) -> None:
 
         super().__init__(
