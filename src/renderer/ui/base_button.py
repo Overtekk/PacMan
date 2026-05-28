@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 12:06:17 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 11:53:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,11 +41,11 @@ class BaseButton(arcade.Sprite, ABC):
         self.shake_timer = 0.0
         self.shaking = False
 
-    def start_shake(self, duration: float):
+    def start_shake(self, duration: float) -> None:
         self.shake_timer = duration
         self.shaking = True
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time: float) -> None:
         if self.shaking:
             self.shake_timer -= delta_time
             if self.shake_timer <= 0:

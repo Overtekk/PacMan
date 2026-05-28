@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/27 15:56:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 12:00:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,7 @@ class Highscores(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            anchor_x="center"
+            anchor_x: str ="center"
     ) -> None:
 
         super().__init__(
@@ -79,7 +79,7 @@ class HighscoresScreen(BaseMenu):
             if self.window:
                 self.window.show_view(MainMenu())
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
         arcade.draw_texture_rect(
             texture=self.background,
@@ -89,7 +89,7 @@ class HighscoresScreen(BaseMenu):
         for txt in self.text_lst:
             txt.draw()
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time: float) -> None:
         self.button_list.update()
         for sprite in self.button_list:
             if isinstance(sprite, Highscores):

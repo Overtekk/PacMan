@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:55:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 11:58:13 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,7 +27,7 @@ class GhostsWin(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.8,
-        anchor_x="center"
+        anchor_x: str ="center"
     ) -> None:
 
         super().__init__(
@@ -50,7 +50,7 @@ class DeadPacman(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 2.0,
-        anchor_x="center"
+        anchor_x: str ="center"
     ) -> None:
 
         super().__init__(
@@ -73,7 +73,7 @@ class GameOver(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.5,
-        anchor_x="center"
+        anchor_x: str ="center"
     ) -> None:
 
         super().__init__(

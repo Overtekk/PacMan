@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:50:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/28 12:01:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,7 +65,7 @@ class GameRenderer():
         )
 
         # UI
-        self.ui_screen = UIScreen(0, 0, 0)
+        self.ui_screen = UIScreen("0", "0", 0)
 
     def draw(self) -> None:
         dark_tint = arcade.types.Color(140, 140, 140)
