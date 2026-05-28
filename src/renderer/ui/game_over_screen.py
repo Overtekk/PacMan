@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 11:58:13 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 10:40:32 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -133,7 +133,7 @@ class GameOverScreen(BaseMenu):
         self.text_lst.append(score)
 
         nb = arcade.Text(
-            text=str(self.score), x=ScreenSettings.WIDTH // 2, y=285,
+            text=str(int(self.score)), x=ScreenSettings.WIDTH // 2, y=285,
             color=arcade.color.YELLOW, font_size=40,
             font_name="Press Start 2P",
             anchor_x="center"
