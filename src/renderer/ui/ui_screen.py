@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 12:03:16 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/28 12:14:52 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -75,21 +75,22 @@ class UIScreen(BaseMenu):
                                               x=x-10, y=y-15,
                                               color=arcade.color.LIGHT_GRAY,
                                               font_size=30,
-                                              font_name="pressStart2P")
+                                              font_name="Press Start 2P")
                 self.text_lst.append(self.more_lives)
 
         self.display_score = arcade.Text(text=f"Score: {self.score}",
                                          x=ScreenSettings.WIDTH // 2, y=10,
                                          color=arcade.color.WHITE,
                                          font_size=20,
-                                         font_name="pressStart2P",
+                                         font_name="Press Start 2P",
                                          anchor_x="center", anchor_y="bottom")
         self.text_lst.append(self.display_score)
         self.display_time = arcade.Text(text=self.time,
                                         x=ScreenSettings.WIDTH - 10,
                                         y=ScreenSettings.HEIGHT - 10,
                                         color=arcade.color.WHITE,
-                                        font_size=20, font_name="pressStart2P",
+                                        font_size=20,
+                                        font_name="Press Start 2P",
                                         anchor_x="right", anchor_y="top")
         self.text_lst.append(self.display_time)
 
@@ -107,6 +108,7 @@ class UIScreen(BaseMenu):
         if isinstance(self.display_time, arcade.Text):
             self.display_time.text = self.time
         self.button_list.clear()
+        self.text_lst.clear()
         x = 30
         y = ScreenSettings.HEIGHT - 30
         count = 0
@@ -124,10 +126,11 @@ class UIScreen(BaseMenu):
                 self.button_list.append(lives)
                 x += 45
             if count > 5 and self.nb_lives > 5:
-                self.more_lives = arcade.Text(text="+ "
-                                              "{count - self.nb_lives+1}",
-                                              x=x-10, y=y-15,
+                self.more_lives = arcade.Text(text="+"
+                                              f"{count - 5}",
+                                              x=x-10, y=y-22,
                                               color=arcade.color.LIGHT_GRAY,
                                               font_size=30,
-                                              font_name="pressStart2P")
-                self.text_lst.append(self.more_lives)
+                                              font_name="Press Start 2P")
+                if count == self.nb_lives:
+                    self.text_lst.append(self.more_lives)
