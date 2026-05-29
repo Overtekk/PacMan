@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:03:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:01:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -43,6 +43,3 @@ class CatEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
-
-    def die(self) -> None:
-        pass

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:05:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:01:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -43,6 +43,3 @@ class DogEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
-
-    def die(self) -> None:
-        pass
