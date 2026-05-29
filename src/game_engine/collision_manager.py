@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:34:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -113,10 +113,10 @@ class CollisionManager():
         # BUFFER logic
         if at_center and entity._next_direction != (0.0, 0.0):
             if self._check_for_collisions(entity, entity._next_direction):
-                entity._current_direction = entity._next_direction
+                entity.current_direction = entity._next_direction
                 entity._next_direction = (0.0, 0.0)
 
-        direction: tuple[float, float] = entity._current_direction
+        direction: tuple[float, float] = entity.current_direction
 
         # If the player is not moving, do nothing
         if direction == (0.0, 0.0):
@@ -132,19 +132,19 @@ class CollisionManager():
             # movement axis
             if dx > 0 and entity.x >= center_x:
                 entity.x = center_x
-                entity._current_direction = (0.0, 0.0)
+                entity.current_direction = (0.0, 0.0)
 
             elif dx < 0 and entity.x <= center_x:
                 entity.x = center_x
-                entity._current_direction = (0.0, 0.0)
+                entity.current_direction = (0.0, 0.0)
 
             elif dy > 0 and entity.y >= center_y:
                 entity.y = center_y
-                entity._current_direction = (0.0, 0.0)
+                entity.current_direction = (0.0, 0.0)
 
             elif dy < 0 and entity.y <= center_y:
                 entity.y = center_y
-                entity._current_direction = (0.0, 0.0)
+                entity.current_direction = (0.0, 0.0)
 
         else:
             # Snap the player

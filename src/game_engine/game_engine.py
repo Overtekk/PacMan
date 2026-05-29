@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 10:07:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -308,7 +308,7 @@ class GameEngine(arcade.View):
         entity._can_move = False
 
         # Reset positions
-        entity._current_direction = (0.0, 0.0)
+        entity.current_direction = (0.0, 0.0)
         entity._next_direction = (0.0, 0.0)
 
         # Reset sprites direction

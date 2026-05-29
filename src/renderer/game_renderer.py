@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 12:01:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,7 +85,7 @@ class GameRenderer():
             for entity in self.entities:
                 if (hasattr(entity, 'parent')
                         and hasattr(entity.parent, '_debug_raycast')):
-                    if (entity.parent._current_direction != (0.0, 0.0) and
+                    if (entity.parent.current_direction != (0.0, 0.0) and
                             entity.parent.mode in [EnemyState.WANDER,
                                                    EnemyState.SEARCH]):
 

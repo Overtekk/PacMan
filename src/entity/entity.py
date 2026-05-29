@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 10:49:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:28:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
 from abc import ABC, abstractmethod
-from random import random
+from random import random, randint
 
 from src import config
 from src.utils import SuperCalculator, print_log
@@ -92,15 +92,15 @@ class Movable(Entity):
         self.speed: float = speed
 
         self._can_move: bool = False
-        self._current_direction: tuple[float, float] = (0.0, 0.0)
+        self.current_direction: tuple[float, float] = (0.0, 0.0)
         self._next_direction: tuple[float, float] = (0.0, 0.0)
 
         self._animation_timer = 0.0
 
     def update(self, delta_time: float) -> None:
         # Calulate the movement vector
-        dx = self._current_direction[0] * self.speed * delta_time
-        dy = self._current_direction[1] * self.speed * delta_time
+        dx = self.current_direction[0] * self.speed * delta_time
+        dy = self.current_direction[1] * self.speed * delta_time
         self.x += dx
         self.y += dy
 
@@ -215,7 +215,7 @@ class Enemy(Movable):
             return
 
         # Don't check if entity is not moving
-        if self._current_direction == (0.0, 0.0):
+        if self.current_direction == (0.0, 0.0):
             return
 
         # Convert pixels coords to grid coords
@@ -227,8 +227,8 @@ class Enemy(Movable):
         )
 
         # Get the current direction
-        dir_x: float = self._current_direction[0]
-        dir_y: float = self._current_direction[1]
+        dir_x: float = self.current_direction[0]
+        dir_y: float = self.current_direction[1]
 
         # Default debug endpoint
         dx, dy = int(ext_self[0]), int(ext_self[1])
@@ -311,9 +311,9 @@ class Enemy(Movable):
             return
 
         # Remove the inverted direction from the current one (avoiding loop)
-        if not self._current_direction == (0.0, 0.0):
-            curr_dir_x: float = self._current_direction[0] * -1
-            curr_dir_y: float = self._current_direction[1] * -1
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
 
             if (curr_dir_x, curr_dir_y) in open_walls:
                 open_walls.pop((curr_dir_x, curr_dir_y))
@@ -336,7 +336,44 @@ class Enemy(Movable):
         self._next_direction = direction
 
     def _run_from_player(self) -> None:
-        pass
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
+
+        # Prevent return to last position
+        if (conv_x, conv_y) == self.last_movement:
+            return
+        self.last_movement = (conv_x, conv_y)
+
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+            self.calculator.check_open_wall(conv_x, conv_y, self.maze_bitmap)
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._next_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoid loop)
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Move randomly
+        random_dir: int = randint(0, 3)
+
+        match random_dir:
+            case 0:
+                self._next_direction = (0, 1)
+            case 1:
+                self._next_direction = (0, -1)
+            case 2:
+                self._next_direction = (1, 0)
+            case 3:
+                self._next_direction = (-1, 0)
 
     def _search_player(self) -> None:
         pass
@@ -374,9 +411,9 @@ class Enemy(Movable):
             return
 
         # Remove the inverted direction from the current one (avoiding loop)
-        if not self._current_direction == (0.0, 0.0):
-            curr_dir_x: float = self._current_direction[0] * -1
-            curr_dir_y: float = self._current_direction[1] * -1
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
 
             if (curr_dir_x, curr_dir_y) in open_walls:
                 open_walls.pop((curr_dir_x, curr_dir_y))
@@ -403,7 +440,7 @@ class Enemy(Movable):
         pass
 
     def _update_animation(self, delta_time: float) -> None:
-        match self._current_direction:
+        match self.current_direction:
             case (1.0, 0.0):
                 self.current_texture_index = 0
             case (-1.0, 0.0):
