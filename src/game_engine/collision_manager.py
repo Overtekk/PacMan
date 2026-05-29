@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 13:46:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 15:40:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -62,8 +62,19 @@ class CollisionManager():
             self._check_collisions_with_enemy()
         )
 
+        # Debug force died
+        if self.debug_force_death:
+            self.debug_force_death = False
+            self.state_manager.live -= 1
+            self.player_reference.die(delta_time)
+
+            if game_config.debug_mode:
+                print_log(
+                    f"Player died! Life remaining: {self.state_manager.live}")
+            return True
+
         # If player is invisible, check if enemy can be eaten
-        if self.player_reference.invincible:
+        elif self.player_reference.invincible:
             for enemy in enemy_colliding:
                 if enemy.parent.is_edible and not enemy.parent.died:
 
@@ -75,24 +86,27 @@ class CollisionManager():
                         print_log(f"{enemy.parent} died!")
 
         # Check if player have encountered an enemy
-        elif len(enemy_colliding) > 0 or self.debug_force_death:
+        elif len(enemy_colliding) > 0:
+            for enemy in enemy_colliding:
+                if not enemy.parent._died:
 
-            self.debug_force_death = False
-            self.state_manager.live -= 1
+                    self.debug_force_death = False
+                    self.state_manager.live -= 1
 
-            if game_config.debug_mode:
-                print_log(
-                    f"Player died! Life remaining: {self.state_manager.live}"
-                )
+                    if game_config.debug_mode:
+                        print_log(
+                            "Player died! Life remaining: "
+                            f"{self.state_manager.live}"
+                        )
 
-            self.player_reference.die(delta_time)
-            return True
+                    self.player_reference.die(delta_time)
+                    return True
 
         # Check for collision between player/collectibles
         list_colliding: list[arcade.SpriteType] = (
             self._check_collision_with_collectibles()
         )
-        if len(list_colliding) > 0:
+        if len(list_colliding) > 0 and not self.player_reference.invincible:
             for obj in list_colliding:
                 print_log(f"+{obj.parent.score} points.")
                 # Increase score

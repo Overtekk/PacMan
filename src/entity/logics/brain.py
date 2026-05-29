@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:02:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 15:27:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,7 +68,8 @@ class EnemyBrain():
         )
 
         # Prevent recalculating on the same tile
-        if (conv_x, conv_y) == self.enemy.last_movement:
+        if ((conv_x, conv_y) == self.enemy.last_movement and
+                self.enemy.current_direction != (0.0, 0.0)):
             return {}
 
         self.enemy.last_movement = (conv_x, conv_y)
@@ -198,11 +199,17 @@ class EnemyBrain():
 
         best_distance: float = float('inf')
         direction: tuple[float, float] = (0.0, 0.0)
+        TURN_PENALTY: float = 0.2
 
         for key, coords in open_walls.items():
             distance: float = self.enemy.calculator.get_euclidean_distance(
                 coords, conv_player_pos
             )
+
+            # Apply momentum penalty if the path forces a turn
+            if (key != self.enemy.current_direction and
+                    self.enemy.current_direction != (0.0, 0.0)):
+                distance += TURN_PENALTY
 
             if distance < best_distance:
                 best_distance = distance
@@ -215,10 +222,7 @@ class EnemyBrain():
         if not open_walls:
             return
 
-        available_directions: list[tuple[float, float]] = (
-            list(open_walls.keys())
-        )
-        self.enemy._next_direction = random.choice(available_directions)
+        self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _return_to_spawnpoint(self) -> None:
         conv_spawn_point: tuple[float, float] = (
@@ -250,12 +254,18 @@ class EnemyBrain():
 
         best_distance: float = float('inf')
         direction: tuple[float, float] = (0.0, 0.0)
+        TURN_PENALTY: float = 0.2
 
         for key, coords in open_walls.items():
             distance: float = (
                 self.enemy.calculator.get_euclidean_distance(
                     coords, conv_spawn_point
             ))
+
+            # Apply momentum penalty if the path forces a turn
+            if (key != self.enemy.current_direction and
+                    self.enemy.current_direction != (0.0, 0.0)):
+                distance += TURN_PENALTY
 
             if distance < best_distance:
                 best_distance = distance
@@ -268,10 +278,7 @@ class EnemyBrain():
         if not open_walls:
             return
 
-        available_directions: list[tuple[float, float]] = (
-            list(open_walls.keys())
-        )
-        self.enemy._next_direction = random.choice(available_directions)
+        self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _revive(self, delta_time: float) -> None:
         self.enemy._revive_timer += delta_time
@@ -280,7 +287,30 @@ class EnemyBrain():
             self.enemy.mode = EnemyState.WANDER
             self.enemy.sprite.color = (255, 255, 255)
             self.enemy._wait_revive = False
+            self.enemy._died = False
             self.enemy._revive_timer = 0.0
 
             if game_config.debug_mode:
                 print_log(f"Changed state for {self.enemy} to WANDER")
+
+    def _apply_momentum_choice(
+        self, open_walls: dict[tuple[float, float], tuple[int, int]]
+    ) -> tuple[float, float]:
+
+        available_directions: list[tuple[float, float]] = (
+            list(open_walls.keys())
+        )
+        current_dir: tuple[float, float] = self.enemy.current_direction
+
+        # If current direction is an option and there are other choices
+        if (current_dir in available_directions and
+                len(available_directions) > 1):
+            KEEP_DIRECTION_CHANCE: float = 0.80
+
+            if random.random() < KEEP_DIRECTION_CHANCE:
+                return current_dir
+            else:
+                # Force a turn by removing the straight path from options
+                available_directions.remove(current_dir)
+
+        return random.choice(available_directions)

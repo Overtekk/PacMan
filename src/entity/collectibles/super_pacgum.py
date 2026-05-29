@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 13:47:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 15:31:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,10 +19,6 @@ from ..entity import Collectible, Enemy
 from ..player import Player
 from ..logics.StateMachine import EnemyState
 from src.utils import SuperCalculator, print_log
-
-
-POWER_UP_MAX_TIME: float = 8.0
-ENEMY_SPEED_DIMINUTION: float = 10
 
 
 class SuperPacgum(Collectible):
@@ -54,17 +50,17 @@ class SuperPacgum(Collectible):
         self._power_up_time += delta_time
 
         # Blinking logic
-        warning: float = POWER_UP_MAX_TIME - 3.0
+        warning: float = game_config.time_power_up - 3.0
         blink_speed: float = 0.30
 
-        if warning <= self._power_up_time < POWER_UP_MAX_TIME:
+        if warning <= self._power_up_time < game_config.time_power_up:
             is_blinking: bool = (
                 (self._power_up_time % (blink_speed * 2)) < blink_speed
             )
             self._apply_blinking(is_blinking)
 
         # Disable power up
-        if self._power_up_time > POWER_UP_MAX_TIME:
+        if self._power_up_time > game_config.time_power_up:
             self._deactivate_effect()
 
     def activate_power(
@@ -87,7 +83,8 @@ class SuperPacgum(Collectible):
             enemy.mode = EnemyState.RUNAWAY
             enemy.is_edible = True
             enemy.sprite.color = (64, 99, 193)
-            enemy.speed = game_config.enemy_speed - ENEMY_SPEED_DIMINUTION
+            enemy.speed =(
+                game_config.enemy_speed - game_config.ennemy_speed_reduction)
 
             # Turn the enemy
             x: float = enemy.current_direction[0] * -1
@@ -125,7 +122,7 @@ class SuperPacgum(Collectible):
             enemy.mode = EnemyState.WANDER
             enemy.is_edible = False
             enemy.sprite.color = (255, 255, 255)
-            enemy.speed = game_config.enemy_speed + ENEMY_SPEED_DIMINUTION
+            enemy.speed = game_config.enemy_speed
 
             if game_config.debug_mode:
                 print_log(f"Changed state for {enemy} to WANDER")
