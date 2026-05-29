@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 14:55:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 17:13:16 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -40,13 +40,15 @@ class DisplayLives(arcade.Sprite):
 
 
 class UIScreen(BaseMenu):
-    def __init__(self, score: str, time: str, nb_lives: int) -> None:
+    def __init__(self, score: str, time: str, nb_lives: int,
+                 level: int) -> None:
         super().__init__()
         self.score: str = score
         self.time: str = time
         self.nb_lives: int = nb_lives
         self.display_score: arcade.Text
         self.display_time: arcade.Text
+        self.level: int = level
 
         # Initialise the display of scores, timer and lives
         self.display_score = arcade.Text(text=f"Score: {self.score}",
@@ -65,11 +67,19 @@ class UIScreen(BaseMenu):
         self.more_lives = arcade.Text(text="", x=0, y=0,
                                       color=arcade.color.LIGHT_GRAY,
                                       font_size=30, font_name="Press Start 2P")
+        self.display_level = arcade.Text(text=f"Level {self.level}",
+                                        x=ScreenSettings.WIDTH //2,
+                                        y=ScreenSettings.HEIGHT - 10,
+                                        color=arcade.color.WHITE,
+                                        font_size=20,
+                                        font_name="Press Start 2P",
+                                        anchor_x="center", anchor_y="top")
 
         # Add it into the text list
         self.text_lst.append(self.display_score)
         self.text_lst.append(self.display_time)
         self.text_lst.append(self.more_lives)
+        self.text_lst.append(self.display_level)
 
     def build_ui(self) -> None:
         self.regenerate_lives()
@@ -108,12 +118,15 @@ class UIScreen(BaseMenu):
         for txt in self.text_lst:
             txt.draw()
 
-    def update(self, score: str, time: str, live: int) -> None:
+    def update(self, score: str, time: str, live: int,
+               level: int) -> None:
         # Update the time, the score, and the number of lives
         self.score = str(int(score))
         self.time = str(int(time))
+        self.level = level
         self.display_score. text = f"Score: {self.score}"
         self.display_time.text = self.time
+        self.display_level.text = f"Level {self.level}"
         if int(live) != self.nb_lives:
             self.nb_lives = int(live)
             self.regenerate_lives()
