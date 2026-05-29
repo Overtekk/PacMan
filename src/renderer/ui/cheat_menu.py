@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 12:01:24 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 11:46:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ from pathlib import Path
 
 from .base_menu import BaseMenu
 from .base_button import BaseButton
+from src.renderer.screen_settings import ScreenSettings
 
 
 class MenuButton(BaseButton):
@@ -145,9 +146,12 @@ class InvincibilityButton(BaseButton):
 class CheatMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
-        arcade.set_background_color(arcade.color.BLACK)
+        # Initialise the beach background
+        path = "assets/sprites/main_menu/ocean.png"
+        self.background = arcade.load_texture(path)
 
     def build_ui(self) -> None:
+        # Create all the cheat mode buttons
         invincibility = InvincibilityButton(
             center_x=640,
             center_y=600,
@@ -196,6 +200,7 @@ class CheatMenu(BaseMenu):
             ),
             parent_view=self
         )
+        # Add all buttons on a button list
         self.button_list.append(invincibility)
         self.button_list.append(extra_lives)
         self.button_list.append(freeze_ghost)
@@ -205,11 +210,17 @@ class CheatMenu(BaseMenu):
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
+            # Set the "return to the main menu"
             from src.renderer.ui.main_menu import MainMenu
             if self.window:
                 self.window.show_view(MainMenu())
 
-    def on_update(self, delta_time: float) -> None:
-        self.button_list.update()
-        for sprite in self.button_list:
-            sprite.on_update(delta_time)
+    def on_draw(self) -> None:
+        self.clear()
+        # Draw the beach background
+        arcade.draw_texture_rect(
+            texture=self.background,
+            rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
+        )
+        # Draw the buttons
+        self.button_list.draw()
