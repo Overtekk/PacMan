@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:31:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 10:49:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -181,7 +181,9 @@ class Enemy(Movable):
             self._raycasting()
 
         self._state_machine(delta_time)
+
         self._update_sprite()
+
         super().update(delta_time)
 
     def _state_machine(self, delta_time: float) -> None:

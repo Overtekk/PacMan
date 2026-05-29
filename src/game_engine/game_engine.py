@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 16:22:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 10:07:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,6 +85,10 @@ class GameEngine(arcade.View):
 
                 for enemy_obj in self.level_manager.enemies_list.values():
                     enemy_obj.update(delta_time)
+
+                for s_pacgum in self.level_manager.super_pacgums_list:
+                    if s_pacgum.is_activate:
+                        s_pacgum.update(delta_time)
 
         # ---------- LIVE LOOSE ----------
         elif self.game_state == GameState.RESPAWN:
@@ -194,6 +198,21 @@ class GameEngine(arcade.View):
                 else:
                     print_log("Debug: activate invincibility!")
                     self.player.invincible = True
+
+            elif symbol == arcade.key.EQUAL and config.debug_mode:
+                self.player.speed += 10
+                print_log(
+                    f"Debug: change player speed to: {self.player.speed}"
+                )
+
+            elif symbol == arcade.key.MINUS and config.debug_mode:
+                if self.player.speed <= 50:
+                    self.player.speed = 50
+                else:
+                    self.player.speed -= 10
+                    print_log(
+                        f"Debug: change player speed to: {self.player.speed}"
+                    )
 
             elif symbol == arcade.key.ESCAPE:
                 self.state_manager.pause_game()
