@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 13:27:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 15:48:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -75,7 +75,7 @@ class GameEngine(arcade.View):
             self.state_manager.time_left -= delta_time
             if int(self.state_manager.time_left) <= 0:
                 self.state_manager.time_left = self.config.level_max_time
-                self.player.die()
+                self.player.die(delta_time)
                 self.game_state = GameState.RESPAWN
 
             # Check for collisions
