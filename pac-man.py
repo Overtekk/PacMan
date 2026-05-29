@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:31:15 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 12:00:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,7 +29,7 @@ def main() -> int:
         # Check the argument, load and check the config
         args: Namespace = load_arguments()
         game_config: GameConfig = args.config_file
-        src.config.debug_mode = args.debug
+        src.game_config.debug_mode = args.debug
 
         # Check if sprites are available and store them
         sprite_loader: SpritesLoader = SpritesLoader()

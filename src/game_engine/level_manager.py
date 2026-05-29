@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:51:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 12:00:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,7 @@ import arcade
 from pathlib import Path
 from random import random
 
+from src import game_config
 from src.utils import print_warn, load_sprite_sheet, SuperCalculator
 from src.config import GameConfig
 from src.entity import (
@@ -42,8 +43,8 @@ class LevelManager():
         self.pacgums_list: list[Pacgum] = []
         self.super_pacgums_list: list[SuperPacgum] = []
 
-        self.PLAYER_SPEED: float = 120.0
-        self.ENEMY_SPEED: float = 122.0
+        self.PLAYER_SPEED: float = game_config.player_speed
+        self.ENEMY_SPEED: float = game_config.enemy_speed
 
         self._pacgum_chance_spawning: float = 0.70
 

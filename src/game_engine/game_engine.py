@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,7 @@ import arcade
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
 from .game_settings import GameState
-from src import config
+from src import game_config
 from src.utils import print_log
 from src.renderer import GameRenderer
 from src.config import GameConfig
@@ -182,16 +182,16 @@ class GameEngine(arcade.View):
             elif symbol == arcade.key.RIGHT or symbol == arcade.key.D:
                 self.player._next_direction = (1, 0)
 
-            elif symbol == arcade.key.R and config.debug_mode:
+            elif symbol == arcade.key.R and game_config.debug_mode:
                 print_log("Debug: activate died!")
                 self.coll_manager.debug_force_death = True
 
-            elif symbol == arcade.key.P and config.debug_mode:
+            elif symbol == arcade.key.P and game_config.debug_mode:
                 print_log("Debug: activate chase mode!")
                 for enemy_obj in self.level_manager.enemies_list.values():
                     enemy_obj.mode = EnemyState.CHASE
 
-            elif symbol == arcade.key.N and config.debug_mode:
+            elif symbol == arcade.key.N and game_config.debug_mode:
                 if self.player.invincible:
                     print_log("Debug: disable invincibility!")
                     self.player.invincible = False
@@ -199,13 +199,13 @@ class GameEngine(arcade.View):
                     print_log("Debug: activate invincibility!")
                     self.player.invincible = True
 
-            elif symbol == arcade.key.EQUAL and config.debug_mode:
+            elif symbol == arcade.key.EQUAL and game_config.debug_mode:
                 self.player.speed += 10
                 print_log(
                     f"Debug: change player speed to: {self.player.speed}"
                 )
 
-            elif symbol == arcade.key.MINUS and config.debug_mode:
+            elif symbol == arcade.key.MINUS and game_config.debug_mode:
                 if self.player.speed <= 50:
                     self.player.speed = 50
                 else:
@@ -232,12 +232,12 @@ class GameEngine(arcade.View):
         current_second: int = int(self._current_timer_start) + 1
 
         if current_second != previous_second and current_second > 0:
-            if config.debug_mode:
+            if game_config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
-            if config.debug_mode:
+            if game_config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)
 

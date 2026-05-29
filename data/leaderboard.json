@@ -1,8 +1,16 @@
 {
     "scores": [
         {
+            "player_name": "macron",
+            "player_score": 1560
+        },
+        {
             "player_name": "pigeonvert",
             "player_score": 1250
+        },
+        {
+            "player_name": "romlenul",
+            "player_score": 1140
         },
         {
             "player_name": "gillou",
@@ -11,14 +19,6 @@
         {
             "player_name": "tropBG",
             "player_score": 20
-        },
-        {
-            "player_name": "ecureuil",
-            "player_score": 0
-        },
-        {
-            "player_name": "test",
-            "player_score": 0
         },
         {
             "player_name": "retest",

@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:22:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
-from src import config
+from src import game_config
 
 from src.utils import print_log
 
@@ -71,7 +71,7 @@ class GameStateManager():
 
         self.game_data["score"] = new_value
 
-        if config.debug_mode:
+        if game_config.debug_mode:
             print_log(
                 f"Score: {self.score}"
             )

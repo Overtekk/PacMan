@@ -6,12 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 11:25:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:32:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
-import random
 
 from ..entity import Enemy
 from ..player import Player
@@ -47,32 +46,6 @@ class RatEnemy(Enemy):
 
         # Spawn right, facing right
         self.sprite.texture = self.textures[1]
-
-    def _move(self, delta_time: float) -> None:
-        self._move_timer += delta_time
-
-        if self._move_timer > 1:
-
-            random_direction: int = random.randint(0, 3)
-
-            direction: tuple[float, float] = (0, 0)
-
-            match random_direction:
-                case 0:
-                    direction = (0, 1)
-
-                case 1:
-                    direction = (0, -1)
-
-                case 2:
-                    direction = (1, 0)
-
-                case 3:
-                    direction = (-1, 0)
-
-            self._next_direction = direction
-
-            self._move_timer = 0
 
     def die(self) -> None:
         pass

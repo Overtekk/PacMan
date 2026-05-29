@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
-from src import config
+from src import game_config
 
 from src.entity import Entity, Player
 from .gamestate_manager import GameStateManager
@@ -64,7 +64,7 @@ class CollisionManager():
             self.debug_force_death = False
             self.state_manager.live -= 1
 
-            if config.debug_mode:
+            if game_config.debug_mode:
                 print_log(
                     f"Player died! Life remaining: {self.state_manager.live}"
                 )
@@ -85,7 +85,7 @@ class CollisionManager():
                 # Activate power
                 if hasattr(obj.parent, 'activate_power'):
 
-                    if config.debug_mode:
+                    if game_config.debug_mode:
                         print_log("Activate SUPERPACGUM")
 
                     obj.parent.activate_power(

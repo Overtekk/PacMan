@@ -6,16 +6,15 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:30:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 12:05:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
-from src import config
-
 from pathlib import Path
 
+from src import game_config
 from ..entity import Collectible, Enemy
 from ..player import Player
 from ..logics.StateMachine import EnemyState
@@ -23,7 +22,7 @@ from src.utils import SuperCalculator, print_log
 
 
 POWER_UP_MAX_TIME: float = 8.0
-ENEMY_SPEED_DIMINUTION: float = 3.0
+ENEMY_SPEED_DIMINUTION: float = 10
 
 
 class SuperPacgum(Collectible):
@@ -85,7 +84,7 @@ class SuperPacgum(Collectible):
             enemy.mode = EnemyState.RUNAWAY
             enemy.is_edible = True
             enemy.sprite.color = (64, 99, 193)
-            enemy.speed -= ENEMY_SPEED_DIMINUTION
+            enemy.speed = game_config.enemy_speed - ENEMY_SPEED_DIMINUTION
 
             # Turn the enemy
             x: float = enemy.current_direction[0] * -1
@@ -93,7 +92,7 @@ class SuperPacgum(Collectible):
             enemy.current_direction = (x, y)
 
 
-            if config.debug_mode:
+            if game_config.debug_mode:
                 print_log(f"Changed state for {enemy} to RUNAWAY")
 
     # :---------------:
@@ -117,10 +116,10 @@ class SuperPacgum(Collectible):
             enemy.mode = EnemyState.WANDER
             enemy.is_edible = False
             enemy.sprite.color = (255, 255, 255)
-            enemy.speed += ENEMY_SPEED_DIMINUTION
+            enemy.speed = game_config.enemy_speed + ENEMY_SPEED_DIMINUTION
 
-            if config.debug_mode:
+            if game_config.debug_mode:
                 print_log(f"Changed state for {enemy} to WANDER")
 
-        if config.debug_mode:
+        if game_config.debug_mode:
             print_log("DISABLE SUPERPACGUM")

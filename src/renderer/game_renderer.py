@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:09:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,7 +14,7 @@ from typing import Any
 
 import arcade
 
-from src import config
+from src import game_config
 from src.renderer.screen_settings import ScreenSettings, CollectiblesType
 from src.renderer.ui.ui_screen import UIScreen
 from src.entity import EnemyState
@@ -81,7 +81,7 @@ class GameRenderer():
         self.walls.draw()
         self.entities.draw()
 
-        if config.debug_mode:
+        if game_config.debug_mode:
             for entity in self.entities:
                 if (hasattr(entity, 'parent')
                         and hasattr(entity.parent, '_debug_raycast')):
