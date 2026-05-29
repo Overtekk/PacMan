@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/28 12:00:55 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 10:19:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,14 +19,14 @@ from src.leaderboard.extract_leaderboard import extract_leaderboard
 from src.renderer.screen_settings import ScreenSettings
 
 
-class Highscores(BaseButton):
+class HighscoresButton(BaseButton):
     def __init__(
             self,
             center_x: float,
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            anchor_x: str ="center"
+            anchor_x: str = "center"
     ) -> None:
 
         super().__init__(
@@ -38,30 +38,30 @@ class Highscores(BaseButton):
         anchor_x = anchor_x
 
     def on_click(self) -> None:
+        # Return to main menu
         from src.renderer.ui.main_menu import MainMenu
-        menu = MainMenu()
-
         if self.parent_view.window:
-            self.parent_view.window.show_view(menu)
+            self.parent_view.window.show_view(MainMenu())
 
 
 class HighscoresScreen(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
+        # Initialise the beach background
         self.background = arcade.load_texture(
             "assets/sprites/main_menu/ocean.png"
         )
 
     def build_ui(self) -> None:
-        highscores = Highscores(
-            center_x=ScreenSettings.WIDTH // 2,
-            center_y=600,
+        # Create highscore button to go back on main menu
+        highscores = HighscoresButton(
+            center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=(
-                self.window.asset_manager.textures["highscores_button"]
-            ),
-            parent_view=self
-        )
+                self.window.asset_manager.textures["highscores_button"]),
+            parent_view=self)
         self.button_list.append(highscores)
+
+        # Put the leaderboard content on a text list
         file_content = extract_leaderboard(
             self.window.game_config.highscore_filename)
         split_content = file_content.split("\n")
@@ -81,16 +81,20 @@ class HighscoresScreen(BaseMenu):
 
     def on_draw(self) -> None:
         self.clear()
+        # Draw the beach background
         arcade.draw_texture_rect(
             texture=self.background,
             rect=arcade.LBWH(0, 0, ScreenSettings.WIDTH, ScreenSettings.HEIGHT)
         )
+
+        # Draw highscore button and text (leaderboard content)
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
 
     def on_update(self, delta_time: float) -> None:
+        # Update the highscore sprite to check if user touch it or not
         self.button_list.update()
         for sprite in self.button_list:
-            if isinstance(sprite, Highscores):
+            if isinstance(sprite, HighscoresButton):
                 sprite.on_update(delta_time)

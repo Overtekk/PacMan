@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 10:40:32 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 10:12:16 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,7 +27,7 @@ class GhostsWin(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.8,
-        anchor_x: str ="center"
+        anchor_x: str = "center"
     ) -> None:
 
         super().__init__(
@@ -50,7 +50,7 @@ class DeadPacman(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 2.0,
-        anchor_x: str ="center"
+        anchor_x: str = "center"
     ) -> None:
 
         super().__init__(
@@ -73,7 +73,7 @@ class GameOver(arcade.Sprite):
         sprite_path: Path,
         parent_view: arcade.View,
         scale: float = 1.5,
-        anchor_x: str ="center"
+        anchor_x: str = "center"
     ) -> None:
 
         super().__init__(
@@ -100,60 +100,54 @@ class GameOverScreen(BaseMenu):
         self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
+        # Set the 'game over' sprite
         game_over = GameOver(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=560,
-            sprite_path=(
-                self.window.asset_manager.textures["game_over_screen"]
-            ),
-            parent_view=self
-        )
+            sprite_path=self.window.asset_manager.textures["game_over_screen"],
+            parent_view=self)
+
+        # Set funny sprites
         dead_pacman = DeadPacman(
             center_x=ScreenSettings.WIDTH // 2 - 290,
             center_y=330,
-            sprite_path=(
-                self.window.asset_manager.textures["dead_pacman"]
-            ),
-            parent_view=self
-        )
+            sprite_path=self.window.asset_manager.textures["dead_pacman"],
+            parent_view=self)
         ghosts_win = GhostsWin(
             center_x=ScreenSettings.WIDTH // 2 + 285,
             center_y=345,
-            sprite_path=(
-                self.window.asset_manager.textures["ghosts_win"]
-            ),
-            parent_view=self
-        )
-        score = arcade.Text(
-            text="SCORE", x=ScreenSettings.WIDTH // 2, y=360,
-            color=arcade.color.WHITE, font_size=40,
-            font_name="Press Start 2P",
-            anchor_x="center"
-        )
+            sprite_path=self.window.asset_manager.textures["ghosts_win"],
+            parent_view=self)
+
+        # Write some text
+        score = arcade.Text(text="SCORE", x=ScreenSettings.WIDTH // 2, y=360,
+                            color=arcade.color.WHITE, font_size=40,
+                            font_name="Press Start 2P",
+                            anchor_x="center")
+        nb = arcade.Text(text=str(int(self.score)),
+                         x=ScreenSettings.WIDTH // 2, y=285,
+                         color=arcade.color.YELLOW, font_size=40,
+                         font_name="Press Start 2P",
+                         anchor_x="center")
+        enter_name = arcade.Text(text="SAVE YOUR NAME",
+                                 x=ScreenSettings.WIDTH // 2, y=180,
+                                 color=arcade.color.WHITE, font_size=40,
+                                 font_name="Press Start 2P",
+                                 anchor_x="center")
+
+        # Add all texts on a text list and all buttons on a button list
         self.text_lst.append(score)
-
-        nb = arcade.Text(
-            text=str(int(self.score)), x=ScreenSettings.WIDTH // 2, y=285,
-            color=arcade.color.YELLOW, font_size=40,
-            font_name="Press Start 2P",
-            anchor_x="center"
-        )
         self.text_lst.append(nb)
-
-        enter_name = arcade.Text(
-            text="SAVE YOUR NAME", x=ScreenSettings.WIDTH // 2, y=180,
-            color=arcade.color.WHITE, font_size=40,
-            font_name="Press Start 2P",
-            anchor_x="center"
-        )
         self.text_lst.append(enter_name)
-
         self.button_list.append(game_over)
         self.button_list.append(dead_pacman)
         self.button_list.append(ghosts_win)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
+        # Enter name to save the score in the highscores list
+
         if len(self.player_name) < 10:
+            # User can only use alpha characters
             if arcade.key.A <= symbol <= arcade.key.Z:
                 maj = modifiers & arcade.key.MOD_CAPSLOCK
                 self.player_name += chr(symbol).upper() if maj else chr(symbol)
@@ -162,40 +156,41 @@ class GameOverScreen(BaseMenu):
                                    color=arcade.color.YELLOW, font_size=40,
                                    font_name="Press Start 2P")
                 self.text_lst.append(text)
+
         if len(self.player_name) > 0:
+            # Delete a character
             if symbol == arcade.key.BACKSPACE:
                 self.player_name = self.player_name[:-1]
                 if self.text_lst:
                     self.text_lst.pop()
+
             if symbol == arcade.key.ENTER:
+                # Press enter to return on main menu, it saves the name and
+                # highscore on the highscores list
                 from src.renderer.ui.main_menu import MainMenu
                 if self.window:
                     self.window.show_view(MainMenu())
                 save_score_to_leaderboard(
-                    self.filename, self.player_name, float(self.score)
-                )
+                    self.filename, self.player_name, float(self.score))
 
     def on_draw(self) -> None:
         self.clear()
+
+        # Draw the game background image
         if self.background:
-            arcade.draw_texture_rect(
-                self.background,
-                arcade.XYWH(
-                    self.window.width / 2,
-                    self.window.height / 2,
-                    self.window.width,
-                    self.window.height
-                )
-            )
-        arcade.draw_rect_filled(
-            arcade.XYWH(
-                self.window.width / 2,
-                self.window.height / 2,
-                self.window.width,
-                self.window.height
-            ),
-            (0, 0, 0, 180)
-        )
+            arcade.draw_texture_rect(self.background,
+                                     arcade.XYWH(self.window.width / 2,
+                                                 self.window.height / 2,
+                                                 self.window.width,
+                                                 self.window.height))
+
+        # Draw a black rectangle with an opacity
+        arcade.draw_rect_filled(arcade.XYWH(self.window.width / 2,
+                                            self.window.height / 2,
+                                            self.window.width,
+                                            self.window.height),
+                                            (0, 0, 0, 180))
+
         self.button_list.draw()
         for txt in self.text_lst:
             txt.draw()
