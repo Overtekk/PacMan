@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 08:29:46 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 14:12:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,7 @@ from .enemies.rat_enemy import RatEnemy
 from .collectibles.pac_gum import Pacgum
 from .collectibles.super_pacgum import SuperPacgum
 from .logics.StateMachine import EnemyState
+from .logics.brain import EnemyBrain
 
 
 __all__ = [
@@ -34,4 +35,5 @@ __all__ = [
     "Pacgum",
     "SuperPacgum",
     "EnemyState",
+    "EnemyBrain"
 ]
