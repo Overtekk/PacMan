@@ -10,6 +10,7 @@
 	- standardization of renderer/ui/ files
 	- modify timer easter egg on main menu
 	- timer
+	- display the level on the game
 - roandrie
 	- Refactor the enemy and entity class
 	- Create a new class: EnemyBrain. It have all the logic for the enemies movement logic
