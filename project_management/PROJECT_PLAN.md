@@ -3,6 +3,13 @@
 
 ---
 
+### 29/05/2026
+- anacharp
+	- put the beach background on the cheat menu
+	- put comments on my functions
+	- standardization of renderer/ui/ files
+	- modify timer easter egg on main menu
+
 ### 28/05/2026
 - anacharp
 	- bugs because of ui screen fixes
