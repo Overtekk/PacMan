@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:39:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -146,5 +146,5 @@ class GameRenderer():
         self.timer_size = TEXT_SIZE
         self.instant_text = instant_text
 
-    def update_ui(self, score, time, live):
+    def update_ui(self, score, time, live) -> None:
         self.ui_screen.update(score, time, live)

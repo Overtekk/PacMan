@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:27:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:05:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -77,8 +77,7 @@ class EnemyBrain():
         # Check all available walls
         open_walls: dict[tuple[int, int], tuple[int, int]] = (
             self.enemy.calculator.check_open_wall(
-                conv_x, conv_y, self.enemy.maze_bitmap
-        ))
+                conv_x, conv_y, self.enemy.maze_bitmap))
 
         # Dead end handling: Move to the only wall available
         if len(open_walls) == 1:
@@ -121,8 +120,7 @@ class EnemyBrain():
         )
         ext_player = (
             self.enemy.calculator.get_pixel_to_grid_entity(
-                self.enemy.player_ref
-        ))
+                self.enemy.player_ref))
 
         dir_x: float = self.enemy.current_direction[0]
         dir_y: float = self.enemy.current_direction[1]
@@ -194,8 +192,7 @@ class EnemyBrain():
 
         conv_player_pos: tuple[float, float] = (
             self.enemy.calculator.get_pixel_to_grid_any(
-                self.enemy.player_ref.x, self.enemy.player_ref.y
-        ))
+                self.enemy.player_ref.x, self.enemy.player_ref.y))
 
         best_distance: float = float('inf')
         direction: tuple[float, float] = (0.0, 0.0)
@@ -227,8 +224,7 @@ class EnemyBrain():
     def _return_to_spawnpoint(self) -> None:
         conv_spawn_point: tuple[float, float] = (
             self.enemy.calculator.get_pixel_to_grid_any(
-                self.enemy.spawn_point[0], self.enemy.spawn_point[1]
-        ))
+                self.enemy.spawn_point[0], self.enemy.spawn_point[1]))
 
         conv_x, conv_y = self.enemy.calculator.get_pixel_to_grid_entity(
             self.enemy
@@ -259,8 +255,7 @@ class EnemyBrain():
         for key, coords in open_walls.items():
             distance: float = (
                 self.enemy.calculator.get_euclidean_distance(
-                    coords, conv_spawn_point
-            ))
+                    coords, conv_spawn_point))
 
             # Apply momentum penalty if the path forces a turn
             if (key != self.enemy.current_direction and

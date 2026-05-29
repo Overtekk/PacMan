@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:57:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:14:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,7 +60,7 @@ class BaseButton(arcade.Sprite, ABC):
         if self.collides_with_point((x, y)):
             self.color = arcade.color.LIGHT_GRAY
             if (hasattr(self.parent_view, "menu_time")
-                and self.parent_view.menu_time > 120.0):
+               and self.parent_view.menu_time > 120.0):
                 # If the user spend more than 2 minutes on main menu it moves
                 # the sprites when you hover the mouse over them
                 self.center_x += 4

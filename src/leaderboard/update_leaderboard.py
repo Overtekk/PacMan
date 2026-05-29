@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:53:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/21 12:00:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:21:15 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -71,7 +71,7 @@ def open_leaderboard(file: str) -> Any:
     return data
 
 
-def _find_lowest_score(data: dict[str, Any]) -> dict[str, Any]:
+def _find_lowest_score(data: dict[dict[str, Any]]) -> dict[str, Any]:
     weakest_player: dict[str, Any] = {
         "player_name": "",
         "player_score": float('+inf')

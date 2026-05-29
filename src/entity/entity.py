@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 14:59:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:31:28 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,14 +53,14 @@ class Entity(ABC):
     def x(self) -> float:
         return self._x
 
-    @property
-    def y(self) -> float:
-        return self._y
-
     @x.setter
     def x(self, new_value: float) -> None:
         self._x = new_value
         self.sprite.center_x = self._x
+
+    @property
+    def y(self) -> float:
+        return self._y
 
     @y.setter
     def y(self, new_value: float) -> None:
