@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:08:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:26:20 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -39,7 +39,7 @@ class Player(Movable):
         self._update_sprite_facing()
         super().update(delta_time)
 
-    def die(self) -> None:
+    def die(self, delta_time) -> None:
         self.respawn()
 
     def _update_animation(self, delta_time: float) -> None:

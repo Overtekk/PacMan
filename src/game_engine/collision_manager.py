@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:46:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,18 +49,34 @@ class CollisionManager():
         # DEBUG
         self.debug_force_death: bool = False
 
-    def update(self) -> bool:
-        # Check collisions for the player
+    def update(self, delta_time: float) -> bool:
+        # Check collisions for the player with walls
         self._entity_collisions_logic(self.player_reference)
 
-        # Check collisions for enemies
+        # Check collisions for enemies with walls
         for enemy in self.enemies_reference.values():
             self._entity_collisions_logic(enemy)
 
         # Check for collision between player/enemy
+        enemy_colliding: list[arcade.SpriteType] = (
+            self._check_collisions_with_enemy()
+        )
+
+        # If player is invisible, check if enemy can be eaten
         if self.player_reference.invincible:
-            pass
-        elif self._check_collisions_with_enemy() or self.debug_force_death:
+            for enemy in enemy_colliding:
+                if enemy.parent.is_edible and not enemy.parent.died:
+
+                    enemy.parent.die(delta_time)
+                    self.state_manager.score += (
+                        self.state_manager.config.ghost_points)
+
+                    if game_config.debug_mode:
+                        print_log(f"{enemy.parent} died!")
+
+        # Check if player have encountered an enemy
+        elif len(enemy_colliding) > 0 or self.debug_force_death:
+
             self.debug_force_death = False
             self.state_manager.live -= 1
 
@@ -69,7 +85,7 @@ class CollisionManager():
                     f"Player died! Life remaining: {self.state_manager.live}"
                 )
 
-            self.player_reference.die()
+            self.player_reference.die(delta_time)
             return True
 
         # Check for collision between player/collectibles
@@ -159,14 +175,14 @@ class CollisionManager():
             elif dx != 0 and dy == 0:
                 entity.y = center_y
 
-    def _check_collisions_with_enemy(self) -> bool:
+    def _check_collisions_with_enemy(self) -> list[arcade.SpriteType]:
         colliding_sprite: list[arcade.SpriteType] = (
             arcade.check_for_collision_with_list(
                 self.player_reference.sprite,
                 sprite_list=self.enemies_sprite_list
             ))
 
-        return len(colliding_sprite)
+        return colliding_sprite
 
     def _check_collision_with_collectibles(self) -> list[arcade.SpriteType]:
         colliding_sprite: list[arcade.SpriteType] = (

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 12:05:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:47:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -81,6 +81,9 @@ class SuperPacgum(Collectible):
 
         # Change state of all enemies
         for enemy in enemies_reference.values():
+            if enemy.died:
+                continue
+
             enemy.mode = EnemyState.RUNAWAY
             enemy.is_edible = True
             enemy.sprite.color = (64, 99, 193)
@@ -101,9 +104,12 @@ class SuperPacgum(Collectible):
 
     def _apply_blinking(self, is_blinking: bool) -> None:
         for enemy in self._enemy_ref.values():
+
+            if enemy.died:
+                continue
+
             if is_blinking:
                 enemy.sprite.color = (255, 255, 255)
-
             else:
                 enemy.sprite.color = (64, 99, 193)
 
@@ -113,6 +119,9 @@ class SuperPacgum(Collectible):
         self._player_ref.invincible = False
 
         for enemy in self._enemy_ref.values():
+            if enemy.died:
+                continue
+
             enemy.mode = EnemyState.WANDER
             enemy.is_edible = False
             enemy.sprite.color = (255, 255, 255)

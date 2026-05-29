@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 12:04:45 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:57:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -119,7 +119,7 @@ class Movable(Entity):
         self.current_texture_index = 0
 
     @abstractmethod
-    def die(self) -> None:
+    def die(self, delta_time: float) -> None:
         pass
 
 
@@ -152,12 +152,17 @@ class Enemy(Movable):
 
         self.maze_bitmap = maze_bitmap
 
-        self._is_edible: bool = is_edible
+        self._is_edible = is_edible
+        self._died: bool = False
         self._mode = enemy_state
 
         self._move_timer: float = 0.0
         self._timer_chase: float = 0.0
+        self._current_timer_die: float = 0.0
         self._loose_chance: float = 0.7
+
+        self._wait_revive: bool = False
+        self._revive_timer: float = 0.0
 
         self.last_movement: tuple[float, float] = (0.0, 0.0)
 
@@ -179,6 +184,10 @@ class Enemy(Movable):
     def mode(self, new_state: EnemyState) -> None:
         self._mode = new_state
 
+    @property
+    def died(self) -> bool:
+        return self._died
+
     def update(self, delta_time: float) -> None:
         if self.mode not in [EnemyState.WAIT, EnemyState.CHASE]:
             self._raycasting()
@@ -189,9 +198,20 @@ class Enemy(Movable):
 
         super().update(delta_time)
 
+    def die(self, delta_time: float) -> None:
+        if self._is_edible:
+
+            self._died = True
+            self._is_edible = False
+            self.mode = EnemyState.RESPAWN
+
+            if game_config.debug_mode:
+                print_log(f"Changed state for {self} to RESPAWN")
+
     def _state_machine(self, delta_time: float) -> None:
         if self.mode == EnemyState.WAIT:
-            pass
+            if self._wait_revive:
+                self._revive(delta_time)
 
         elif self.mode == EnemyState.WANDER:
             self._move(delta_time)
@@ -394,8 +414,12 @@ class Enemy(Movable):
 
         # Check that the entity is not arrived
         if (conv_x, conv_y) == conv_spawn_point:
-            print("youhou")
+            self._wait_revive = True
             self.mode = EnemyState.WAIT
+
+            if game_config.debug_mode:
+                print_log(f"Changed state for {self} to WAIT")
+
             return
 
         # Check all available walls
@@ -465,6 +489,21 @@ class Enemy(Movable):
         available_directions: list[tuple[int, int]] = list(open_walls.keys())
         self._next_direction = random.choice(available_directions)
 
+    def _revive(self, delta_time: float) -> None:
+        self._revive_timer += delta_time
+
+        if self._revive_timer > game_config.player_revive_time:
+            self.mode = EnemyState.WANDER
+            self.sprite.color = (255, 255, 255)
+            self._wait_revive = False
+
+        if game_config.debug_mode:
+            print_log(f"Changed state for {self} to WANDER")
+
+    # :---------------:
+    #  RENDERING LOGIC
+    # :---------------:
+
     def _update_animation(self, delta_time: float) -> None:
         match self.current_direction:
             case (1.0, 0.0):
@@ -485,7 +524,7 @@ class Enemy(Movable):
             self.sprite.texture = self.sprite_sheet_eatable[
                 self.current_texture_index
             ]
-        else:
+        elif not self._wait_revive:
             self.sprite.texture = self.textures[self.current_texture_index]
 
 
