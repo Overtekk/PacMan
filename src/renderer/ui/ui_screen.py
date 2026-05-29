@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:21:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 14:55:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -110,8 +110,8 @@ class UIScreen(BaseMenu):
 
     def update(self, score: str, time: str, live: int) -> None:
         # Update the time, the score, and the number of lives
-        self.score = str(score)
-        self.time = str(time)
+        self.score = str(int(score))
+        self.time = str(int(time))
         self.display_score. text = f"Score: {self.score}"
         self.display_time.text = self.time
         if int(live) != self.nb_lives:

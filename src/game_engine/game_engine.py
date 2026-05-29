@@ -72,6 +72,12 @@ class GameEngine(arcade.View):
 
         # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
+            self.state_manager.time_left -= delta_time
+            if int(self.state_manager.time_left) <= 0:
+                self.state_manager.time_left = self.config.level_max_time
+                self.player.die()
+                self.game_state = GameState.RESPAWN
+
             # Check for collisions
             player_died: bool = self.coll_manager.update(delta_time)
 
