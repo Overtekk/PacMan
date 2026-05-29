@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 09:02:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:01:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -45,6 +45,3 @@ class FoxEnemy(Enemy):
         )
 
         self.sprite.texture = self.textures[1]
-
-    def die(self) -> None:
-        pass

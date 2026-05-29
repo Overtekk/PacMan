@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:45:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 13:27:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -79,7 +79,7 @@ class GameEngine(arcade.View):
                 self.game_state = GameState.RESPAWN
 
             # Check for collisions
-            player_died: bool = self.coll_manager.update()
+            player_died: bool = self.coll_manager.update(delta_time)
 
             # Check if player have died
             if player_died:

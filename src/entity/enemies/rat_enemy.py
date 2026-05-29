@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:32:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 13:01:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -46,6 +46,3 @@ class RatEnemy(Enemy):
 
         # Spawn right, facing right
         self.sprite.texture = self.textures[1]
-
-    def die(self) -> None:
-        pass
