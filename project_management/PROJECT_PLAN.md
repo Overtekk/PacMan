@@ -9,6 +9,14 @@
 	- put comments on my functions
 	- standardization of renderer/ui/ files
 	- modify timer easter egg on main menu
+	- timer
+- roandrie
+	- Refactor the enemy and entity class
+	- Create a new class: EnemyBrain. It have all the logic for the enemies movement logic
+	- Add the logic for eating enemy (eating, enemy returning to spawn point and waits to revive, blink effect to know when the effect is going off)
+	- Add movements logic for all enemies (they have all the same algo for now)
+	- Prevent enemy to be stuck on a path or in a loop
+	- Finish the chase state
 
 ### 28/05/2026
 - anacharp
