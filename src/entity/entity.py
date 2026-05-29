@@ -6,22 +6,25 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:31:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 12:04:45 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
+import random
 
 from abc import ABC, abstractmethod
-from random import random
 
-from src import config
+from src import game_config
 from src.utils import SuperCalculator, print_log
 from .logics.StateMachine import EnemyState
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.entity.player import Player
+
+
+ENEMY_SPEED_AUGMENTATION: float = 10.0
 
 
 class Entity(ABC):
@@ -92,15 +95,15 @@ class Movable(Entity):
         self.speed: float = speed
 
         self._can_move: bool = False
-        self._current_direction: tuple[float, float] = (0.0, 0.0)
+        self.current_direction: tuple[float, float] = (0.0, 0.0)
         self._next_direction: tuple[float, float] = (0.0, 0.0)
 
         self._animation_timer = 0.0
 
     def update(self, delta_time: float) -> None:
         # Calulate the movement vector
-        dx = self._current_direction[0] * self.speed * delta_time
-        dy = self._current_direction[1] * self.speed * delta_time
+        dx = self.current_direction[0] * self.speed * delta_time
+        dy = self.current_direction[1] * self.speed * delta_time
         self.x += dx
         self.y += dy
 
@@ -181,7 +184,9 @@ class Enemy(Movable):
             self._raycasting()
 
         self._state_machine(delta_time)
+
         self._update_sprite()
+
         super().update(delta_time)
 
     def _state_machine(self, delta_time: float) -> None:
@@ -195,6 +200,7 @@ class Enemy(Movable):
             self._search_player()
 
         elif self.mode == EnemyState.CHASE:
+            self.speed = game_config.enemy_speed + ENEMY_SPEED_AUGMENTATION
             self._chase_player(delta_time)
 
         elif self.mode == EnemyState.RUNAWAY:
@@ -213,7 +219,7 @@ class Enemy(Movable):
             return
 
         # Don't check if entity is not moving
-        if self._current_direction == (0.0, 0.0):
+        if self.current_direction == (0.0, 0.0):
             return
 
         # Convert pixels coords to grid coords
@@ -225,8 +231,8 @@ class Enemy(Movable):
         )
 
         # Get the current direction
-        dir_x: float = self._current_direction[0]
-        dir_y: float = self._current_direction[1]
+        dir_x: float = self.current_direction[0]
+        dir_y: float = self.current_direction[1]
 
         # Default debug endpoint
         dx, dy = int(ext_self[0]), int(ext_self[1])
@@ -251,7 +257,7 @@ class Enemy(Movable):
             # Player found
             if (dx, dy) == (int(ext_player[0]), int(ext_player[1])):
                 if not self.mode == EnemyState.CHASE:
-                    if config.debug_mode:
+                    if game_config.debug_mode:
                         print_log(f"Changed state for {self} to CHASE")
                     self.mode = EnemyState.CHASE
 
@@ -267,7 +273,7 @@ class Enemy(Movable):
         return player_found
 
     def _chase_player(self, delta_time: float) -> None:
-        MAX_TIME_TO_FORGET: float = 5.0
+        MAX_TIME_TO_FORGET: float = 7.0
 
         # Call the raycasting
         player_found: bool = self._raycasting()
@@ -276,10 +282,13 @@ class Enemy(Movable):
             self._timer_chase += delta_time
 
             if self._timer_chase > MAX_TIME_TO_FORGET:
-                if random() <= self._loose_chance:
+                if random.random() <= self._loose_chance:
+                    self.speed = (
+                        game_config.enemy_speed - ENEMY_SPEED_AUGMENTATION
+                    )
                     self.mode = EnemyState.WANDER
 
-                    if config.debug_mode:
+                    if game_config.debug_mode:
                         print_log(f"Changed state for {self} to WANDER")
                         self._timer_chase = 0
 
@@ -309,9 +318,9 @@ class Enemy(Movable):
             return
 
         # Remove the inverted direction from the current one (avoiding loop)
-        if not self._current_direction == (0.0, 0.0):
-            curr_dir_x: float = self._current_direction[0] * -1
-            curr_dir_y: float = self._current_direction[1] * -1
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
 
             if (curr_dir_x, curr_dir_y) in open_walls:
                 open_walls.pop((curr_dir_x, curr_dir_y))
@@ -334,7 +343,35 @@ class Enemy(Movable):
         self._next_direction = direction
 
     def _run_from_player(self) -> None:
-        pass
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
+
+        # Prevent return to last position
+        if (conv_x, conv_y) == self.last_movement:
+            return
+        self.last_movement = (conv_x, conv_y)
+
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+            self.calculator.check_open_wall(conv_x, conv_y, self.maze_bitmap)
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._next_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoid loop)
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Move randomly
+        available_directions: list[tuple[int, int]] = list(open_walls.keys())
+        self._next_direction = random.choice(available_directions)
 
     def _search_player(self) -> None:
         pass
@@ -372,9 +409,9 @@ class Enemy(Movable):
             return
 
         # Remove the inverted direction from the current one (avoiding loop)
-        if not self._current_direction == (0.0, 0.0):
-            curr_dir_x: float = self._current_direction[0] * -1
-            curr_dir_y: float = self._current_direction[1] * -1
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
 
             if (curr_dir_x, curr_dir_y) in open_walls:
                 open_walls.pop((curr_dir_x, curr_dir_y))
@@ -398,10 +435,38 @@ class Enemy(Movable):
         self._next_direction = direction
 
     def _move(self, delta_time: float) -> None:
-        pass
+        # Convert its position from pixels to grid
+        conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(self)
+
+        # Prevent return to last position
+        if (conv_x, conv_y) == self.last_movement:
+            return
+        self.last_movement = (conv_x, conv_y)
+
+        # Check all available walls
+        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+            self.calculator.check_open_wall(conv_x, conv_y, self.maze_bitmap)
+        )
+
+        # Move to the only wall available
+        if len(open_walls) == 1:
+            self._next_direction = list(open_walls.keys()).pop()
+            return
+
+        # Remove the inverted direction from the current one (avoid loop)
+        if not self.current_direction == (0.0, 0.0):
+            curr_dir_x: float = self.current_direction[0] * -1
+            curr_dir_y: float = self.current_direction[1] * -1
+
+            if (curr_dir_x, curr_dir_y) in open_walls:
+                open_walls.pop((curr_dir_x, curr_dir_y))
+
+        # Move randomly
+        available_directions: list[tuple[int, int]] = list(open_walls.keys())
+        self._next_direction = random.choice(available_directions)
 
     def _update_animation(self, delta_time: float) -> None:
-        match self._current_direction:
+        match self.current_direction:
             case (1.0, 0.0):
                 self.current_texture_index = 0
             case (-1.0, 0.0):

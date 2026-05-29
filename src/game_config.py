@@ -6,8 +6,10 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:08:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 11:48:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-debug_mode = False
+debug_mode: bool = False
+player_speed: float = 125.0
+enemy_speed: float = 115.0
