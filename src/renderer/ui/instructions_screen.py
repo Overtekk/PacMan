@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/29 11:28:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:16:10 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -139,7 +139,7 @@ class InstructionsScreen(BaseMenu):
                                     font_size=15, font_name="Press Start 2P")
         textures_list = load_sprite_sheet(
             textures=self.window.asset_manager.textures["enemy_fox_move"],
-            sprite_width=32, sprite_height=32,sprites_columns=1,
+            sprite_width=32, sprite_height=32, sprites_columns=1,
             sprites_count=1)
         fox_ghost = Ghosts(center_x=1240, center_y=225,
                            sprite_path=textures_list[0], parent_view=self)

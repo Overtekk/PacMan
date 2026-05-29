@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:31:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:04:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -83,14 +83,13 @@ class SuperPacgum(Collectible):
             enemy.mode = EnemyState.RUNAWAY
             enemy.is_edible = True
             enemy.sprite.color = (64, 99, 193)
-            enemy.speed =(
+            enemy.speed = (
                 game_config.enemy_speed - game_config.ennemy_speed_reduction)
 
             # Turn the enemy
             x: float = enemy.current_direction[0] * -1
             y: float = enemy.current_direction[1] * -1
             enemy.current_direction = (x, y)
-
 
             if game_config.debug_mode:
                 print_log(f"Changed state for {enemy} to RUNAWAY")

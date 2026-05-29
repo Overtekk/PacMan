@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:48:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:36:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,7 @@ from typing import Any
 from src.maze.load_mazegenerator import load_mazegenerator
 
 
-WALL_SPRITES: dict[int, tuple[str, float]] = {
+WALL_SPRITES: dict[str, tuple[str, float]] = {
     "wall":  ("maze_wall", 0),
     "wall_90":  ("maze_wall", 90),
     "wall_180":  ("maze_wall", 180),
@@ -50,7 +50,7 @@ class MazeFactory:
         self._maze_class: Any = load_mazegenerator()
 
     def generate_maze(
-        self, width: int, height: int, textures: dict,
+        self, width: int, height: int, textures: dict[str, Any],
         screen_width: int, screen_height: int, seed: str = ""
 
     ) -> list[list[int]]:
@@ -81,12 +81,12 @@ class MazeFactory:
             maze_generator: Any = self._maze_class((self.width, self.height),
                                                    seed=int_seed)
         else:
-            maze_generator: Any = self._maze_class((self.width, self.height))
+            maze_generator = self._maze_class((self.width, self.height))
 
         self.grid_data: list[list[int]] = maze_generator._maze
 
         # Create the list to store all informations
-        wall_data: list[tuple[str, float, float, float]] = []
+        wall_data: list[tuple[str, float, float, float, float]] = []
         self.wall_sprites_list: list[str] = []
 
         # Create the maze data
@@ -149,7 +149,7 @@ class MazeFactory:
 
         return wall_data
 
-    def get_pixel_coordinates(self, col: int, row: int) -> tuple[int, int]:
+    def get_pixel_coordinates(self, col: int, row: int) -> tuple[float, float]:
 
         x = col * self.tile_size + self.tile_size / 2 + self.offset_x
         y = ((self.height - 1 - row) *

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/28 11:49:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:18:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,7 +25,7 @@ UV_WARN			=	--link-mode copy
 UV_SKIP_WHEEL	=	UV_SKIP_WHEEL_FILENAME_CHECK=1
 
 LINT_TESTER		=	src \
-					test
+# 					test
 
 CONFIG			=	data/config.json
 

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:30:37 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:14:39 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,4 +32,4 @@ player_revive_time: float = 5.0
 #  POWER-UP
 # :--------:
 
-time_power_up : float = 8.0
+time_power_up: float = 8.0

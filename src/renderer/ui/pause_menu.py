@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:47:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:13:19 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -161,7 +161,7 @@ class PauseMenu(BaseMenu):
                                             self.window.height / 2,
                                             self.window.width,
                                             self.window.height),
-                                            (0, 0, 0, 180))
+                                (0, 0, 0, 180))
 
         # Draw buttons
         self.button_list.draw()

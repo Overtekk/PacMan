@@ -6,13 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/19 16:31:56 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:28:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:10:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from src.maze import MazeFactory, generate_bytes_maze
 from src.utils import SpritesLoader
 from src.renderer import ScreenSettings
+
 
 if __name__ == "__main__":
 

@@ -2,7 +2,8 @@ from src.renderer.game_renderer import GameRenderer
 from src.game_engine.gamestate_manager import GameStateManager
 import arcade
 from src.renderer.ui.finish_screen import FinishScreen
-from src.renderer.ui.game_over_screen import GameOverScreen
+# from src.renderer.ui.game_over_screen import GameOverScreen
+
 
 class Test(arcade.View):
     def __init__(self) -> None:

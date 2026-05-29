@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:34:16 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:15:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -127,7 +127,7 @@ class FinishScreen(BaseMenu):
                                  anchor_x="center")
         glasses = Glasses(center_x=100, center_y=ScreenSettings.HEIGHT-50,
                           sprite_path=(
-                          self.window.asset_manager.textures["glasses"]),
+                            self.window.asset_manager.textures["glasses"]),
                           parent_view=self)
 
         # Add all texts on a text list and all buttons on a button list
@@ -184,7 +184,7 @@ class FinishScreen(BaseMenu):
                                             self.window.height / 2,
                                             self.window.width,
                                             self.window.height),
-                                            (0, 0, 0, 180))
+                                (0, 0, 0, 180))
 
         self.button_list.draw()
         for txt in self.text_lst:

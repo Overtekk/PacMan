@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 09:23:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:32:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:06:14 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,6 +47,7 @@ def is_file_exist(file: pathlib.Path) -> bool:
     """
     return file.exists() and file.is_file()
 
+
 def check_file_extension(file: pathlib.Path, extension: str) -> bool:
     """
     Check if a file has the intended extension.
@@ -60,6 +61,7 @@ def check_file_extension(file: pathlib.Path, extension: str) -> bool:
     if not extension.startswith('.'):
         extension = f".{extension}"
     return file.suffix == extension
+
 
 def can_read_file(file: pathlib.Path) -> bool:
     """

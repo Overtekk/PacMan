@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:57:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:28:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:10:23 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,6 +35,5 @@ if __name__ == "__main__":
 
     player_test.enemy_list.append(enemy1.sprite)
     player_test.enemies_data.append(enemy1)
-
 
     arcade.run()
