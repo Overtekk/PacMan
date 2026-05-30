@@ -10,6 +10,8 @@
 	- find and report bugs
 	- activate the cheat mode and the return on the previous view
 	- standardization
+	- creating a new sprite for cheat menu
+	- implementation of extra lives, extra time and speed up cheats
 
 ### 29/05/2026
 - anacharp
