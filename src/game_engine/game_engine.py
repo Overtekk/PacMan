@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:47:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/30 09:38:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -70,7 +70,8 @@ class GameEngine(arcade.View):
         self.game_renderer.update_ui(
             self.state_manager.score,
             self.state_manager.time_left,
-            self.state_manager.live
+            self.state_manager.live,
+            self.state_manager.current_level_index
         )
 
         # KONAMI CODE TIMER

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:28:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:26:18 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,10 +87,10 @@ REQUIERED_FONTS: dict[str, str] = {
 
 def check_assets_folder() -> None:
     try:
-        check_folder("assets")
-        check_folder("assets/sprites")
+        check_folder(Path("assets"))
+        check_folder(Path("assets/sprites"))
     except ValueError as e:
-        print_error(e)
+        print_error(str(e))
 
 
 class SpritesLoader():
@@ -152,13 +152,13 @@ class FontLoader():
             arcade.load_font(verified_path)
 
 
-def load_sprite_sheet(
-    textures: dict[str, Path],
-    sprite_width: int, sprite_height: int,
-    sprites_columns: int, sprites_count: int
-) -> list[arcade.Texture]:
+def load_sprite_sheet(textures: dict[str, Path],
+                      sprite_width: int,
+                      sprite_height: int,
+                      sprites_columns: int,
+                      sprites_count: int) -> list[arcade.Texture]:
 
-    sheet =  arcade.SpriteSheet(textures)
+    sheet = arcade.SpriteSheet(textures)
 
     textures_list: list[arcade.Texture] = sheet.get_texture_grid(
         size=(sprite_width, sprite_height),

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 10:12:16 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/29 16:15:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -189,7 +189,7 @@ class GameOverScreen(BaseMenu):
                                             self.window.height / 2,
                                             self.window.width,
                                             self.window.height),
-                                            (0, 0, 0, 180))
+                                (0, 0, 0, 180))
 
         self.button_list.draw()
         for txt in self.text_lst:

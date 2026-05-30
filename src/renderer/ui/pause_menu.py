@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 14:50:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 12:29:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,6 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
-from src.renderer.ui.cheat_menu import CheatMenu
 from src.renderer.screen_settings import ScreenSettings
 
 
@@ -181,7 +180,7 @@ class PauseMenu(BaseMenu):
                                             self.window.height / 2,
                                             self.window.width,
                                             self.window.height),
-                                            (0, 0, 0, 180))
+                                (0, 0, 0, 180))
 
         # Draw buttons
         self.button_list.draw()

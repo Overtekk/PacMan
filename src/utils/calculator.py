@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 16:03:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 16:16:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -34,8 +34,7 @@ class SuperCalculator():
         )
         pos_y: int = int(
             (self.maze_height - 1) -
-                ((entity.y - self.maze_offset_y) // self.maze_tile_size)
-        )
+            ((entity.y - self.maze_offset_y) // self.maze_tile_size))
 
         # Convert index to extended grid
         convert_x: int = (pos_x * 2) + 1
@@ -48,8 +47,7 @@ class SuperCalculator():
         pos_x: int = int((x - self.maze_offset_x) // self.maze_tile_size)
         pos_y: int = int(
             (self.maze_height - 1) -
-                ((y - self.maze_offset_y) // self.maze_tile_size)
-        )
+            ((y - self.maze_offset_y) // self.maze_tile_size))
 
         # Convert index to extended grid
         convert_x: int = (pos_x * 2) + 1
@@ -59,16 +57,16 @@ class SuperCalculator():
 
     def get_grid_to_pixel(self, x: int, y: int) -> tuple[float, float]:
 
-        x: float = (
+        new_x: float = (
             (x * self.maze_tile_size) +
             self.maze_tile_size / 2 + self.maze_offset_x
         )
-        y: float = (
+        new_y: float = (
             (self.maze_height - 1 - y) *
             self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_y
         )
 
-        return (x, y)
+        return (new_x, new_y)
 
     def get_euclidean_distance(
         self, point1: tuple[float, float], point2: tuple[float, float]

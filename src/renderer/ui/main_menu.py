@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 14:48:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 12:28:14 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -241,23 +241,23 @@ class MainMenu(BaseMenu):
     def build_ui(self) -> None:
         # Create buttons
         logo_button = LogoButton(
-            center_x=640, center_y=600,
+            center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=self.window.asset_manager.textures["logo"],
-            parent_view=self,)
+            parent_view=self)
 
         play_button = PlayButton(
-            center_x=640, center_y=475,
+            center_x=ScreenSettings.WIDTH // 2, center_y=475,
             sprite_path=self.window.asset_manager.textures["start_button"],
             parent_view=self)
 
         highscores_button = HighscoresButton(
-            center_x=640, center_y=375,
+            center_x=ScreenSettings.WIDTH // 2, center_y=375,
             sprite_path=(
                 self.window.asset_manager.textures["highscores_button"]),
             parent_view=self)
 
         instructions_button = InstructionsButton(
-            center_x=640, center_y=275,
+            center_x=ScreenSettings.WIDTH // 2, center_y=275,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]),
             parent_view=self)
@@ -266,17 +266,17 @@ class MainMenu(BaseMenu):
         if MainMenu.count_touch_A >= 3:
             self.button_list.clear()
             cheat_button = CheatButton(
-                center_x=640, center_y=175,
+                center_x=ScreenSettings.WIDTH // 2, center_y=175,
                 sprite_path=self.window.asset_manager.textures["cheat_button"],
                 parent_view=self)
             exit_button = ExitButton(
-                center_x=640, center_y=75,
+                center_x=ScreenSettings.WIDTH // 2, center_y=75,
                 sprite_path=self.window.asset_manager.textures["exit_button"],
                 parent_view=self)
             self.button_list.append(cheat_button)
         else:
             exit_button = ExitButton(
-                center_x=640, center_y=175,
+                center_x=ScreenSettings.WIDTH // 2, center_y=175,
                 sprite_path=self.window.asset_manager.textures["exit_button"],
                 parent_view=self)
 
@@ -315,7 +315,7 @@ class MainMenu(BaseMenu):
             sprite_width=int(128/4), sprite_height=32, sprites_columns=4,
             sprites_count=4)
         fox = Pursuit(center_x=-190, center_y=120,
-            textures_list=textures_list, parent_view=self)
+                      textures_list=textures_list, parent_view=self)
         self.button_list.append(fox)
         fox.change_x = 1000 / 750
 
@@ -372,4 +372,3 @@ class MainMenu(BaseMenu):
 
         # Draw all the sprites
         self.button_list.draw()
-

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:59:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/29 17:14:26 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,7 +65,7 @@ class GameRenderer():
         )
 
         # UI
-        self.ui_screen = UIScreen("0", "0", 0)
+        self.ui_screen = UIScreen("0", "0", 0, 1)
 
     def draw(self) -> None:
         dark_tint = arcade.types.Color(140, 140, 140)
@@ -98,7 +98,6 @@ class GameRenderer():
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()
-        # self.ui_screen.build_ui()
         self.ui_screen.on_draw()
 
     def update(self, delta_time: float) -> None:
@@ -146,5 +145,5 @@ class GameRenderer():
         self.timer_size = TEXT_SIZE
         self.instant_text = instant_text
 
-    def update_ui(self, score, time, live):
-        self.ui_screen.update(score, time, live)
+    def update_ui(self, score: str, time: str, live: int, level: int) -> None:
+        self.ui_screen.update(score, time, live, level)
