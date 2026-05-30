@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:04:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 18:15:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -126,5 +126,5 @@ class SuperPacgum(Collectible):
             if game_config.debug_mode:
                 print_log(f"Changed state for {enemy} to WANDER")
 
-        if game_config.debug_mode:
+        if game_config._mode:
             print_log("DISABLE SUPERPACGUM")

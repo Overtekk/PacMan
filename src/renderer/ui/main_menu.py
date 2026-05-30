@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 15:02:22 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 18:36:24 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,7 +19,6 @@ from .base_button import BaseButton
 from src.game_engine import GameEngine
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
-from src.renderer.ui.cheat_menu import CheatMenu
 import math
 from src.renderer.screen_settings import ScreenSettings
 from src.utils import load_sprite_sheet
@@ -150,6 +149,7 @@ class CheatButton(BaseButton):
 
     def on_click(self) -> None:
         # Go on cheat menu
+        from src.renderer.ui.cheat_menu import CheatMenu
         cheat = CheatMenu(previous_view=self.parent_view)
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat)

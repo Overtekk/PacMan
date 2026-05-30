@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:26:18 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 18:31:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -63,6 +63,7 @@ REQUIERED_SPRITES: dict[str, str] = {
     "invincibility": "cheat_menu/cheat_invincibility.png",
     "next_level": "cheat_menu/cheat_next_level.png",
     "speed_up": "cheat_menu/cheat_speed_up.png",
+    "extra_time": 'cheat_menu/cheat_extra_time.png',
 
     "maze_wall_corner": "maze/corner_wall.png",
     "maze_four_wall": "maze/four_wall.png",
