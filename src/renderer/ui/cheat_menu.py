@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 18:44:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 19:02:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,7 +59,8 @@ class ExtraTime(BaseButton):
             parent_view=parent_view
         )
 
-    def on_click(self) -> bool:
+    def on_click(self) -> None:
+        # Add more time only in main menu
         if isinstance(self.parent_view, MainMenu):
             if self.parent_view.window:
                 self.parent_view.window.game_config.level_max_time += 3000.0
@@ -84,6 +85,7 @@ class SpeedUpButton(BaseButton):
         )
 
     def on_click(self) -> bool:
+        # Add more speed only in game
         from src.game_engine import GameEngine
         from src.renderer.ui.pause_menu import PauseMenu
         if isinstance(self.parent_view, PauseMenu):
@@ -110,7 +112,8 @@ class NextLevelButton(BaseButton):
             parent_view=parent_view
         )
 
-    def on_click(self) -> bool:
+    def on_click(self) -> None:
+        # Mets un booleen youpi Rom1 content
         pass
 
 
@@ -130,7 +133,8 @@ class FreezeGhostButton(BaseButton):
             parent_view=parent_view
         )
 
-    def on_click(self) -> bool:
+    def on_click(self) -> None:
+        # Mets un booleen youpi Rom1 content
         pass
 
 
@@ -151,6 +155,7 @@ class ExtraLivesButton(BaseButton):
         )
 
     def on_click(self) -> None:
+        # Add more lives in main menu and in game
         from src.game_engine import GameEngine
         from src.renderer.ui.pause_menu import PauseMenu
         from src.renderer.ui.main_menu import MainMenu
@@ -183,6 +188,7 @@ class InvincibilityButton(BaseButton):
         )
 
     def on_click(self) -> None:
+        # Mets un booleen youpi Rom1 content
         pass
 
 
