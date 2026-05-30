@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 17:13:16 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 16:21:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,12 +68,12 @@ class UIScreen(BaseMenu):
                                       color=arcade.color.LIGHT_GRAY,
                                       font_size=30, font_name="Press Start 2P")
         self.display_level = arcade.Text(text=f"Level {self.level}",
-                                        x=ScreenSettings.WIDTH //2,
-                                        y=ScreenSettings.HEIGHT - 10,
-                                        color=arcade.color.WHITE,
-                                        font_size=20,
-                                        font_name="Press Start 2P",
-                                        anchor_x="center", anchor_y="top")
+                                         x=ScreenSettings.WIDTH // 2,
+                                         y=ScreenSettings.HEIGHT - 10,
+                                         color=arcade.color.WHITE,
+                                         font_size=20,
+                                         font_name="Press Start 2P",
+                                         anchor_x="center", anchor_y="top")
 
         # Add it into the text list
         self.text_lst.append(self.display_score)

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 15:05:05 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 16:20:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,7 @@ from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.screen_settings import ScreenSettings
 from src.renderer.ui.cheat_menu import CheatMenu
+from src.game_engine import GameEngine
 
 
 class Exit(BaseButton):
@@ -160,7 +161,8 @@ class PauseMenu(BaseMenu):
         self.button_list.append(go_back)
         self.button_list.append(exit)
 
-        if self.previous_view.code_found:
+        if (isinstance(self.previous_view, GameEngine)
+           and GameEngine.code_found):
             self.create_cheat_button()
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
