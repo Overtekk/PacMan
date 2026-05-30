@@ -72,4 +72,5 @@ Traceback (most recent call last):
        ^^^^^^^^^^^^^^^^^
 AttributeError: module 'src.game_config' has no attribute '_mode'
 ```
+- meme message d'erreur lorsque jetais en speed que jai mange un burger puis 3 ghosts (oui javais beaucoup de speed)
 
