@@ -1,6 +1,10 @@
 {
     "scores": [
         {
+            "player_name": "lreboot",
+            "player_score": 1880
+        },
+        {
             "player_name": "gibraltar",
             "player_score": 1760
         },
@@ -35,10 +39,6 @@
         {
             "player_name": "noemie",
             "player_score": 10
-        },
-        {
-            "player_name": "REF",
-            "player_score": 0
         }
     ]
 }
