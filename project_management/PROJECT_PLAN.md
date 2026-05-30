@@ -3,6 +3,10 @@
 
 ---
 
+### 30/05/2026
+- anacharp
+	- create songs
+
 ### 29/05/2026
 - anacharp
 	- put the beach background on the cheat menu
