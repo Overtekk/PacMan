@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:46:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 12:26:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,7 +25,7 @@ class MenuButton(BaseButton):
             center_x: float,
             center_y: float,
             sprite_path: Path,
-            parent_view: arcade.View
+            parent_view: arcade.View,
     ) -> None:
 
         super().__init__(
@@ -153,7 +153,7 @@ class CheatMenu(BaseMenu):
     def build_ui(self) -> None:
         # Create all the cheat mode buttons
         invincibility = InvincibilityButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=600,
             sprite_path=(
                 self.window.asset_manager.textures["invincibility"]
@@ -161,7 +161,7 @@ class CheatMenu(BaseMenu):
             parent_view=self
         )
         extra_lives = ExtraLivesButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=500,
             sprite_path=(
                 self.window.asset_manager.textures["extra_lives"]
@@ -169,7 +169,7 @@ class CheatMenu(BaseMenu):
             parent_view=self
         )
         freeze_ghost = FreezeGhostButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=400,
             sprite_path=(
                 self.window.asset_manager.textures["freeze_ghost"]
@@ -177,7 +177,7 @@ class CheatMenu(BaseMenu):
             parent_view=self
         )
         next_level = NextLevelButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=300,
             sprite_path=(
                 self.window.asset_manager.textures["next_level"]
@@ -185,7 +185,7 @@ class CheatMenu(BaseMenu):
             parent_view=self
         )
         speed_up = SpeedUpButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=200,
             sprite_path=(
                 self.window.asset_manager.textures["speed_up"]
@@ -193,12 +193,12 @@ class CheatMenu(BaseMenu):
             parent_view=self
         )
         menu = MenuButton(
-            center_x=640,
+            center_x=ScreenSettings.WIDTH // 2,
             center_y=100,
             sprite_path=(
                 self.window.asset_manager.textures["return_button"]
             ),
-            parent_view=self
+            parent_view=self,
         )
         # Add all buttons on a button list
         self.button_list.append(invincibility)
