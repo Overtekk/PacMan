@@ -51,6 +51,7 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_invincibility.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_next_level.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_speed_up.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_time.png*\
 
 
 ## launch script
