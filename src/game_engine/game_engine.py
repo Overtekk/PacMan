@@ -29,6 +29,11 @@ from src.game_engine.gamestate_manager import GameStateManager
 # Number of seconds before the level start (player and enemies movement) or
 # between lose
 TIMER_LEVEL_START: float = 3.0
+KONAMI_CODE: list[Any] = [
+    arcade.key.UP, arcade.key.UP, arcade.key.DOWN, arcade.key.DOWN,
+    arcade.key.LEFT, arcade.key.RIGHT, arcade.key.LEFT, arcade.key.RIGHT,
+    arcade.key.B, arcade.key.A]
+CODE_TIMER: float = 5.0
 
 
 class GameEngine(arcade.View):
@@ -49,6 +54,16 @@ class GameEngine(arcade.View):
         # -- Private variable --
         self._first_launch: bool = True
 
+        # - Easter Egg -
+        self._code: list[Any] = []
+        self._index: int = 0
+        self._timer_code: float = 0.0
+        self._code_found: bool = False
+
+    @property
+    def code_found(self) -> bool:
+        return self._code_found
+
     def on_update(self, delta_time: float) -> None:
         # Update the renderer
         self.game_renderer.update(delta_time)
@@ -58,6 +73,15 @@ class GameEngine(arcade.View):
             self.state_manager.live,
             self.state_manager.current_level_index
         )
+
+        # KONAMI CODE TIMER
+        if self._index > 0 and not self._code_found:
+            self._timer_code += delta_time
+
+            if self._timer_code > CODE_TIMER:
+                self._timer_code = 0
+                self._index = 0
+                self._code.clear()
 
         # ---------- NOTHING HAPPENS ----------
         if self.game_state == GameState.SETUP:
@@ -177,6 +201,23 @@ class GameEngine(arcade.View):
                 self._current_timer_start = 0.0
 
         elif self.game_state == GameState.PLAYING:
+            # Konami code
+            if not self._code_found:
+                if symbol == KONAMI_CODE[self._index]:
+                    self._code.append(KONAMI_CODE[self._index])
+                    self._index += 1
+                    self._timer_code = 0
+
+                    if self._code == KONAMI_CODE:
+                        self._code_found = True
+                        print("🫦")
+
+                elif self._index > 0 and symbol != KONAMI_CODE[self._index]:
+                    self._code.clear()
+                    self._index = 0
+                    self._timer_code = 0
+
+            # Gameplay
             if symbol == arcade.key.UP or symbol == arcade.key.W:
                 self.player._next_direction = (0, 1)
 

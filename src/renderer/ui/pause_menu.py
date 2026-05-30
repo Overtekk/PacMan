@@ -86,6 +86,21 @@ class Resume(BaseButton):
             self.parent_view.window.show_view(self.parent_view)
 
 
+class Cheat(BaseButton):
+    def __init__(self,
+                 center_x: float,
+                 center_y: float,
+                 sprite_path: Path,
+                 parent_view: arcade.View) -> None:
+
+        super().__init__(center_x=center_x, center_y=center_y,
+                         sprite_path=sprite_path, parent_view=parent_view)
+
+    def on_click(self) -> None:
+        if self.parent_view.window:
+            self.parent_view.window.show_view(CheatMenu())
+
+
 class Pause(BaseButton):
     def __init__(self,
                  center_x: float,
@@ -140,6 +155,9 @@ class PauseMenu(BaseMenu):
         self.button_list.append(go_back)
         self.button_list.append(exit)
 
+        if self.previous_view.code_found:
+            self.create_cheat_button()
+
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         # Go back on the game
         if symbol == arcade.key.ESCAPE:
@@ -173,3 +191,11 @@ class PauseMenu(BaseMenu):
         for sprite in self.button_list:
             if hasattr(sprite, "on_update"):
                 sprite.on_update(delta_time)
+
+    def create_cheat_button(self) -> None:
+        cheat = Cheat(
+            center_x=ScreenSettings.WIDTH // 2, center_y=575,
+            sprite_path=self.window.asset_manager.textures["cheat_button"],
+            parent_view=self
+        )
+        self.button_list.append(cheat)
