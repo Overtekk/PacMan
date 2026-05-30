@@ -6,6 +6,7 @@
 ### 30/05/2026
 - anacharp
 	- create songs
+	- put all renderer's sprites with screen width
 
 ### 29/05/2026
 - anacharp
