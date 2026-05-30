@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:55:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 14:48:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,7 @@ from src.renderer.ui.cheat_menu import CheatMenu
 import math
 from src.renderer.screen_settings import ScreenSettings
 from src.utils import load_sprite_sheet
-from src.game_engine.level_manager import LevelManager
+# from src.game_engine.level_manager import LevelManager
 
 
 class Pursuit(arcade.Sprite):

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:43:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/30 14:50:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,8 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
+from src.renderer.ui.cheat_menu import CheatMenu
+from src.renderer.screen_settings import ScreenSettings
 
 
 class Exit(BaseButton):
@@ -96,7 +98,8 @@ class Cheat(BaseButton):
                          sprite_path=sprite_path, parent_view=parent_view)
 
     def on_click(self) -> None:
-        pass
+        if self.parent_view.window:
+            self.parent_view.window.show_view(CheatMenu())
 
 
 class Pause(BaseButton):
@@ -122,26 +125,26 @@ class PauseMenu(BaseMenu):
 
     def build_ui(self) -> None:
         # Create buttons
-        pause = Pause(center_x=640, center_y=575,
+        pause = Pause(center_x=ScreenSettings.WIDTH // 2, center_y=575,
                       sprite_path=(
                           self.window.asset_manager.textures["pause_button"]),
                       parent_view=self)
         resume = Resume(
-            center_x=640, center_y=475,
+            center_x=ScreenSettings.WIDTH // 2, center_y=475,
             sprite_path=(
                 self.window.asset_manager.textures["resume_button"]),
             parent_view=self.previous_view)
         instructions_button = InstructionsButton(
-            center_x=640, center_y=375,
+            center_x=ScreenSettings.WIDTH // 2, center_y=375,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]),
             parent_view=self)
         go_back = GoBack(
-            center_x=640, center_y=275,
+            center_x=ScreenSettings.WIDTH // 2, center_y=275,
             sprite_path=(
                 self.window.asset_manager.textures["return_button"]),
             parent_view=self)
-        exit = Exit(center_x=640, center_y=175,
+        exit = Exit(center_x=ScreenSettings.WIDTH // 2, center_y=175,
                     sprite_path=(
                         self.window.asset_manager.textures["exit_button"]),
                     parent_view=self)
@@ -192,7 +195,7 @@ class PauseMenu(BaseMenu):
 
     def create_cheat_button(self) -> None:
         cheat = Cheat(
-            center_x=200, center_y=375,
+            center_x=ScreenSettings.WIDTH // 2, center_y=575,
             sprite_path=self.window.asset_manager.textures["cheat_button"],
             parent_view=self
         )
