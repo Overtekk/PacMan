@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 12:29:01 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 14:55:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,7 @@ from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.screen_settings import ScreenSettings
+from src.renderer.ui.cheat_menu import CheatMenu
 
 
 class Exit(BaseButton):
