@@ -19,3 +19,10 @@ Parsing:
 - if all keys are missing : defaut values
 - json valid
 - json empty : {}
+
+
+bugs :
+- lorsqu'on mange un burger on ne peut plus manger de pacgums pendant un certain moment (j'ai pas test avec un autre burger)
+- a un moment un fantome est devenu bleu et ne pouvait plus manger ni etre mange, manger un burger n'a pas debuguer la situation
+- dans le run-debug souvent le chat avait son rayon rouge au debut puis apres il n'en n'avait plus alors que les autres le gardaient tout du long
+- on ne peut pas spam gauche droite avec le pacman qui fait exactement gauche droite au moment ou on appuie, manque de fluidite, on peut pas manier le pacman comme on voudrait
