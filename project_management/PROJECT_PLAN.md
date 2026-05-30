@@ -7,6 +7,7 @@
 - anacharp
 	- create songs
 	- put all renderer's sprites with screen width
+	- find and report bugs
 
 ### 29/05/2026
 - anacharp
