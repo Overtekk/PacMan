@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 12:28:14 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 15:02:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -150,8 +150,9 @@ class CheatButton(BaseButton):
 
     def on_click(self) -> None:
         # Go on cheat menu
+        cheat = CheatMenu(previous_view=self.parent_view)
         if self.parent_view.window:
-            self.parent_view.window.show_view(CheatMenu())
+            self.parent_view.window.show_view(cheat)
 
 
 class ExitButton(BaseButton):

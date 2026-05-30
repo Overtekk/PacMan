@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 14:55:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 15:05:05 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -94,12 +94,16 @@ class Cheat(BaseButton):
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
 
-        super().__init__(center_x=center_x, center_y=center_y,
-                         sprite_path=sprite_path, parent_view=parent_view)
+        super().__init__(center_x=center_x,
+                         center_y=center_y,
+                         sprite_path=sprite_path,
+                         parent_view=parent_view)
 
     def on_click(self) -> None:
+        # Go on cheat menu
+        cheat = CheatMenu(previous_view=self.parent_view)
         if self.parent_view.window:
-            self.parent_view.window.show_view(CheatMenu())
+            self.parent_view.window.show_view(cheat)
 
 
 class Pause(BaseButton):
