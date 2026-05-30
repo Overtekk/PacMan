@@ -8,6 +8,7 @@
 	- create songs
 	- put all renderer's sprites with screen width
 	- find and report bugs
+	- activate the cheat mode and the return on the previous view
 
 ### 29/05/2026
 - anacharp
