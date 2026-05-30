@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 17:14:26 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 16:27:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -117,7 +117,7 @@ class GameRenderer():
 
     def wall_generator(
         self,
-        wall_data: list[tuple[str, float, float, float]]
+        wall_data: list[tuple[str, float, float, float, float]]
     ) -> None:
         self.walls.clear()
         self.entities.clear()
@@ -130,7 +130,7 @@ class GameRenderer():
         self.entities.append(entity_sprite)
 
     def setup_collectibles(
-        self, collectible_sprite: arcade.Sprite, collectible_type
+        self, collectible_sprite: arcade.Sprite, collectible_type: Any
     ) -> None:
         if collectible_type == CollectiblesType.PACGUM:
             self.pacgums.append(collectible_sprite)

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:40:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/05/30 16:11:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,7 +15,7 @@ from typing import Any
 import arcade
 from src import game_config
 
-from src.entity import Entity, Player
+from src.entity import Entity, Player, Movable
 from .gamestate_manager import GameStateManager
 from src.utils import print_log, SuperCalculator
 
@@ -131,7 +131,7 @@ class CollisionManager():
     #  PRIVATE METHODS
     # :---------------:
 
-    def _entity_collisions_logic(self, entity: Entity) -> None:
+    def _entity_collisions_logic(self, entity: Movable) -> None:
         # Get the exact center of the current tile
         center_x, center_y = self._get_tile_center(entity)
 
@@ -209,7 +209,7 @@ class CollisionManager():
         return colliding_sprite
 
     def _check_for_collisions(
-        self, entity: Entity, direction: tuple[int, int]
+        self, entity: Entity, direction: tuple[float, float]
     ) -> bool:
         conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(entity)
 
