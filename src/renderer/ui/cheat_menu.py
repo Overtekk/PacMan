@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 12:26:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/05/30 15:07:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,7 +19,7 @@ from .base_button import BaseButton
 from src.renderer.screen_settings import ScreenSettings
 
 
-class MenuButton(BaseButton):
+class BackButton(BaseButton):
     def __init__(
             self,
             center_x: float,
@@ -36,11 +36,8 @@ class MenuButton(BaseButton):
         )
 
     def on_click(self) -> None:
-        from src.renderer.ui.main_menu import MainMenu
-        menu = MainMenu()
-
         if self.parent_view.window:
-            self.parent_view.window.show_view(menu)
+            self.parent_view.window.show_view(self.parent_view)
 
 
 class SpeedUpButton(BaseButton):
@@ -144,8 +141,9 @@ class InvincibilityButton(BaseButton):
 
 
 class CheatMenu(BaseMenu):
-    def __init__(self) -> None:
+    def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
+        self.previous_view = previous_view
         # Initialise the beach background
         path = "assets/sprites/main_menu/ocean.png"
         self.background = arcade.load_texture(path)
@@ -192,13 +190,13 @@ class CheatMenu(BaseMenu):
             ),
             parent_view=self
         )
-        menu = MenuButton(
+        back = BackButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=100,
             sprite_path=(
                 self.window.asset_manager.textures["return_button"]
             ),
-            parent_view=self,
+            parent_view=self.previous_view,
         )
         # Add all buttons on a button list
         self.button_list.append(invincibility)
@@ -206,7 +204,7 @@ class CheatMenu(BaseMenu):
         self.button_list.append(freeze_ghost)
         self.button_list.append(next_level)
         self.button_list.append(speed_up)
-        self.button_list.append(menu)
+        self.button_list.append(back)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
