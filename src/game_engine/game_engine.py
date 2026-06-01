@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 14:54:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -378,10 +378,19 @@ class GameEngine(arcade.View):
         # Reset positions
         entity.current_direction = (0.0, 0.0)
         entity._next_direction = (0.0, 0.0)
+        entity.sprite.color = (255, 255, 255)
 
         # Reset sprites direction
         entity.reset_animation()
 
-        # Reset enemy state
+        # Reset the player
+        if hasattr(entity, 'invincible'):
+            entity.invincible = False
+            entity.speed = game_config.player_speed
+
+        # Reset enemy
         if hasattr(entity, 'mode'):
             entity.mode = EnemyState.WAIT
+            entity.speed = game_config.enemy_speed
+        if hasattr(entity, 'is_edible'):
+            entity.is_edible = False
