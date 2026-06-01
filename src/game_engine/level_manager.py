@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 12:00:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 11:13:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -123,7 +123,7 @@ class LevelManager():
                 sprites_columns=6, sprites_count=6
             ),
             calculator=self.calculator,
-            scale=PLAYER_SCALE,
+            scale=(self.factory.tile_size * PLAYER_SCALE) / 32,
             speed=self.PLAYER_SPEED
         )
 
@@ -148,7 +148,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             player_ref=self.player,
-            scale=ENEMIES_SCALE,
+            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
             speed=self.ENEMY_SPEED
         )
         self.enemies_list["cat_enemy"] = self.cat_enemy
@@ -173,7 +173,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             player_ref=self.player,
-            scale=ENEMIES_SCALE,
+            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
             speed=self.ENEMY_SPEED
         )
         self.enemies_list["dog_enemy"] = self.dog_enemy
@@ -198,7 +198,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             player_ref=self.player,
-            scale=ENEMIES_SCALE,
+            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
             speed=self.ENEMY_SPEED
         )
         self.enemies_list["fox_enemy"] = self.fox_enemy
@@ -223,7 +223,7 @@ class LevelManager():
             maze_bitmap=self.maze_bitmap,
             calculator=self.calculator,
             player_ref=self.player,
-            scale=ENEMIES_SCALE,
+            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
             speed=self.ENEMY_SPEED
         )
         self.enemies_list["rat_enemy"] = self.rat_enemy
@@ -276,7 +276,7 @@ class LevelManager():
                     spawn_point=conv_coords,
                     sprite_path=self.asset_manager.textures["pacgum"],
                     calculator=self.calculator,
-                    scale=PACGUM_SCALE,
+                    scale=(self.factory.tile_size * PACGUM_SCALE) / 40,
                     score=self.config.pacgum_points
                 )
                 self.pacgums_list.append(collectible)
@@ -294,7 +294,7 @@ class LevelManager():
                 spawn_point=coords,
                 sprite=self.asset_manager.textures["super_pacgum"],
                 calculator=self.calculator,
-                scale=SUPERPACGUM_SCALE,
+                scale=(self.factory.tile_size * SUPERPACGUM_SCALE) / 40,
                 score=self.config.super_pacgum_points
             )
             self.super_pacgums_list.append(collectible)

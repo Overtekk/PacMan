@@ -126,6 +126,9 @@ class CollisionManager():
                 # Remove the sprite
                 obj.kill()
 
+        if len(self.pacgums_sprite_list) == 0:
+            print("fini\n\n")
+
         return False
 
     # :---------------:
