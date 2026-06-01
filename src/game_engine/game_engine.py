@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 14:02:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -64,6 +64,7 @@ class GameEngine(arcade.View):
         self.is_cheat_invincible_active: bool = False
         self.is_cheat_freeze_active: bool = False
         self.extra_life_activate: bool = False
+        self.extra_time_activate: bool = False
 
     @property
     def code_found(self) -> bool:
