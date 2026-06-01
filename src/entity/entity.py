@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:31:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 13:46:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,7 +87,7 @@ class Movable(Entity):
 
         super().__init__(spawn_point, self.textures[0], calculator, scale)
 
-        self._can_move: bool = False
+        self.can_move: bool = False
         self._base_facing: float = self.sprite.scale_x
         self._base_angle: float = self.sprite.angle
         self.speed: float = speed
@@ -184,7 +184,12 @@ class Enemy(Movable):
 
     def update(self, delta_time: float) -> None:
         # Delegate logic execution to the brain
-        self.brain.update(delta_time)
+        if self.can_move:
+            self.brain.update(delta_time)
+        else:
+            self._next_direction = (0.0, 0.0)
+            self.current_direction = (0.0, 0.0)
+
         self._update_sprite()
 
         # Apply physics calculations from Movable

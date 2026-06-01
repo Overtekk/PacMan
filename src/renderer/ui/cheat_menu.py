@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 12:26:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 13:44:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -192,26 +192,39 @@ class FreezeGhostButton(BaseButton):
 
         self.texture_off = self.texture
         self.texture_on = texture_on
-        self.active: bool = False
+
+        # Check state of the button
+        if self.parent_view.previous_view.is_cheat_freeze_active:
+            self.texture = self.texture_on
 
     def on_click(self) -> None:
-        if self.active:
-            self.texture = self.texture_on
-            self.active = False
+        if  self.parent_view.previous_view.is_cheat_freeze_active:
+            self.texture = self.texture_off
+            self.parent_view.previous_view.is_cheat_freeze_active = False
             self._disable_cheat()
 
         else:
-            self.texture = self.texture_off
-            self.active = True
+            self.texture = self.texture_on
+            self.parent_view.previous_view.is_cheat_freeze_active = True
             self._activate_cheat()
 
     def _activate_cheat(self) -> None:
         if game_config.debug_mode:
-            print_log("Cheat mode: INVINCIBILITY on")
+            print_log("Cheat mode: FREEZE on")
+
+        enemy_list = self.parent_view.previous_view.level_manager.enemies_list
+
+        for enemy in enemy_list.values():
+            enemy.can_move = False
 
     def _disable_cheat(self) -> None:
         if game_config.debug_mode:
-            print_log("Cheat mode: INVINCIBILITY off")
+            print_log("Cheat mode: FREEZE off")
+
+        enemy_list = self.parent_view.previous_view.level_manager.enemies_list
+
+        for enemy in enemy_list.values():
+            enemy.can_move = True
 
 
 class ExtraLivesButton(BaseButton):
@@ -238,16 +251,19 @@ class ExtraLivesButton(BaseButton):
         if self.parent_view.previous_view.extra_life_activate:
             self.texture = self.texture_on
 
-
         self.floating_texts: list[dict[str, Any]] = []
 
     def on_click(self) -> None:
         self.texture = self.texture_on
         self.parent_view.previous_view.extra_life_activate = True
 
+        current_menu = self.parent_view.window.current_view
+        click_x = getattr(current_menu, "last_click_x", self.center_x)
+        click_y = getattr(current_menu, "last_click_y", self.center_y)
+
         new_text: arcade.Text = arcade.Text(
-            "+1", self.center_x, self.center_y, arcade.color.WHITE_SMOKE, 12,
-            1, "center", "Kaph", False, True
+            "+1", click_x, click_y, arcade.color.WHITE_SMOKE, 22,
+            1, "center", "Kaph", True, True
         )
 
         self.floating_texts.append({"text_obj": new_text, "timer": 1.0})
@@ -294,18 +310,18 @@ class InvincibilityButton(BaseButton):
         self.texture_on = texture_on
 
         # Check state of the button
-        if self.parent_view.previous_view.is_cheat_invincible_state:
+        if self.parent_view.previous_view.is_cheat_invincible_active:
             self.texture = self.texture_on
 
     def on_click(self) -> None:
-        if  self.parent_view.previous_view.is_cheat_invincible_state:
+        if  self.parent_view.previous_view.is_cheat_invincible_active:
             self.texture = self.texture_off
-            self.parent_view.previous_view.is_cheat_invincible_state = False
+            self.parent_view.previous_view.is_cheat_invincible_active = False
             self._disable_cheat()
 
         else:
             self.texture = self.texture_on
-            self.parent_view.previous_view.is_cheat_invincible_state = True
+            self.parent_view.previous_view.is_cheat_invincible_active = True
             self._activate_cheat()
 
     def _activate_cheat(self) -> None:
@@ -362,7 +378,7 @@ class CheatMenu(BaseMenu):
             ),
             parent_view=self.previous_view,
             texture_on=arcade.load_texture(
-                self.window.asset_manager.textures["extra_lives_on"]
+                self.window.asset_manager.textures["freeze_ghost_on"]
             )
         )
         next_level = NextLevelButton(

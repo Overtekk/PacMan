@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:49:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,7 @@ class Player(Movable):
 
     def _update_animation(self, delta_time: float) -> None:
         # Verify that the sprite is moving
-        if (self._can_move and
+        if (self.can_move and
                 (self.current_direction[0] != 0 or
                  self.current_direction[1] != 0)):
 

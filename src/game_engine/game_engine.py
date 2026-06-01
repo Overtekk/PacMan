@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:54:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -61,7 +61,8 @@ class GameEngine(arcade.View):
         self._code_found: bool = False
 
         # - Cheat
-        self.is_cheat_invincible_state: bool = False
+        self.is_cheat_invincible_active: bool = False
+        self.is_cheat_freeze_active: bool = False
         self.extra_life_activate: bool = False
 
     @property
@@ -327,10 +328,10 @@ class GameEngine(arcade.View):
         self.game_state = GameState.PLAYING
 
         # Authorize movement
-        self.player._can_move = True
+        self.player.can_move = True
 
         for enemy_obj in self.level_manager.enemies_list.values():
-            enemy_obj._can_move = True
+            enemy_obj.can_move = True
             enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
@@ -362,7 +363,7 @@ class GameEngine(arcade.View):
 
     def _reset_entities(self, entity: Any) -> None:
         # Block movement
-        entity._can_move = False
+        entity.can_move = False
 
         # Reset positions
         entity.current_direction = (0.0, 0.0)
