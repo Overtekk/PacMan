@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:24:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 10:39:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -162,9 +162,13 @@ class NextLevelButton(BaseButton):
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY on")
 
+        self.parent_view.previous_view.player.cheat_invincible = True
+
     def _disable_cheat(self) -> None:
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY off")
+
+        self.parent_view.previous_view.player.cheat_invincible = False
 
 
 class FreezeGhostButton(BaseButton):

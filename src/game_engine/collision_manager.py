@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 16:11:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 10:36:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -86,7 +86,8 @@ class CollisionManager():
                         print_log(f"{enemy.parent} died!")
 
         # Check if player have encountered an enemy
-        elif len(enemy_colliding) > 0:
+        elif (len(enemy_colliding) > 0 and
+                not self.player_reference.cheat_invincible):
             for enemy in enemy_colliding:
                 if not enemy.parent._died:
 
