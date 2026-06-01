@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:03:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:24:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,6 +23,7 @@ class AudioManager():
         self.audio_dict: dict[str, arcade.Sound] = (
             game_window.audio_manager.audio
         )
+        self._init_audio()
 
     def play_sound(self, audio_name: str, volume: float = 1.0) -> None:
         if audio_name in self.audio_dict:
@@ -37,3 +38,7 @@ class AudioManager():
                 print_log(
                     f"{audio_name} not found... 😂"
                 )
+
+    def _init_audio(self) -> None:
+        self.play_sound('eat', 0)
+        self.play_sound('fah', 0)

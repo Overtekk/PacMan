@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:08:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:20:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -113,6 +113,8 @@ class CollisionManager():
         )
         if len(list_colliding) > 0:
             for obj in list_colliding:
+                self.audio_manager.play_sound('eat', 1)
+
                 print_log(f"+{obj.parent.score} points.")
                 # Increase score
                 self.state_manager.score += obj.parent.score

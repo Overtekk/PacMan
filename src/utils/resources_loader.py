@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:07:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:19:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -101,6 +101,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "bruit": {
         "path": "bruit.mp3",
+        "streaming": False
+    },
+    "eat": {
+        "path": "eat.mp3",
         "streaming": False
     }
 }
