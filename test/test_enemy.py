@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:57:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:10:23 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         scale=1.2
     )
 
-    enemy1._can_move = True
+    enemy1.can_move = True
 
     player_test.enemy_list.append(enemy1.sprite)
     player_test.enemies_data.append(enemy1)

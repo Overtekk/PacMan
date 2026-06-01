@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:53:34 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,7 @@ class GameEngine(arcade.View):
         self.config: GameConfig = self.window.game_config
 
         # Instanciate class instance
-        self.game_renderer: GameRenderer = GameRenderer()
+        self.game_renderer: GameRenderer = GameRenderer(self.window)
         self.game_state: GameState = GameState.SETUP
         self.state_manager: GameStateManager = (
             GameStateManager(self.window, self)
@@ -59,6 +59,11 @@ class GameEngine(arcade.View):
         self._index: int = 0
         self._timer_code: float = 0.0
         self._code_found: bool = False
+
+        # - Cheat
+        self.is_cheat_invincible_active: bool = False
+        self.is_cheat_freeze_active: bool = False
+        self.extra_life_activate: bool = False
 
     @property
     def code_found(self) -> bool:
@@ -227,6 +232,11 @@ class GameEngine(arcade.View):
                     self._index = 0
                     self._timer_code = 0
 
+                elif game_config.debug_mode:
+                    if symbol == arcade.key.SLASH:
+                        self._code_found = True
+                        print("🫦")
+
             # Gameplay
             if symbol == arcade.key.UP or symbol == arcade.key.W:
                 self.player._next_direction = (0, 1)
@@ -328,10 +338,10 @@ class GameEngine(arcade.View):
         self.game_state = GameState.PLAYING
 
         # Authorize movement
-        self.player._can_move = True
+        self.player.can_move = True
 
         for enemy_obj in self.level_manager.enemies_list.values():
-            enemy_obj._can_move = True
+            enemy_obj.can_move = True
             enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
@@ -363,7 +373,7 @@ class GameEngine(arcade.View):
 
     def _reset_entities(self, entity: Any) -> None:
         # Block movement
-        entity._can_move = False
+        entity.can_move = False
 
         # Reset positions
         entity.current_direction = (0.0, 0.0)
