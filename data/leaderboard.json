@@ -1,5 +1,9 @@
 {
     "scores": [
+		{
+            "player_name": "roandrie",
+            "player_score": 20140
+        },
         {
             "player_name": "lreboot",
             "player_score": 1880
@@ -47,10 +51,6 @@
         {
             "player_name": "timtestyes",
             "player_score": 300
-        },
-        {
-            "player_name": "fakefleur",
-            "player_score": 150
         }
     ]
 }
