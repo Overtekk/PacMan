@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:29:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 11:20:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,12 +20,12 @@ class LevelConfig(BaseModel):
         description="Name of a level"
     )
     width: int = Field(
-        ge=1, le=9999,
+        ge=4, le=42,
         default=20,
         description="Width of a level"
     )
     height: int = Field(
-        ge=1, le=9999,
+        ge=4, le=42,
         default=20,
         description="Height of a level"
     )
