@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 08:51:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 10:13:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,12 +24,18 @@ DEFAULT_FONT_PATH: str = "assets/fonts/"
 REQUIERED_SPRITES: dict[str, str] = {
     "ocean": "background/ocean.png",
 
-    "extra_lives": "cheat_buttons/cheat_extra_lives.png",
-    "freeze_ghost": "cheat_buttons/cheat_freeze.png",
-    "invincibility": "cheat_buttons/cheat_invincibility.png",
-    "next_level": "cheat_buttons/cheat_next_level.png",
-    "speed_up": "cheat_buttons/cheat_speed_up.png",
-    "extra_time": 'cheat_buttons/cheat_extra_time.png',
+    "extra_lives_off": "cheat_buttons/cheat_extra_lives_off.png",
+    "freeze_ghost_off": "cheat_buttons/cheat_freeze_off.png",
+    "invincibility_off": "cheat_buttons/cheat_invincibility_off.png",
+    "next_level_off": "cheat_buttons/cheat_next_level_off.png",
+    "speed_up_off": "cheat_buttons/cheat_speed_up_off.png",
+    "extra_time_off": 'cheat_buttons/cheat_extra_time_off.png',
+    "extra_lives_on": "cheat_buttons/cheat_extra_lives_on.png",
+    "freeze_ghost_on": "cheat_buttons/cheat_freeze_on.png",
+    "invincibility_on": "cheat_buttons/cheat_invincibility_on.png",
+    "next_level_on": "cheat_buttons/cheat_next_level_on.png",
+    "speed_up_on": "cheat_buttons/cheat_speed_up_on.png",
+    "extra_time_on": 'cheat_buttons/cheat_extra_time_on.png',
 
     "heart": "collectibles/heart.png",
     "pacgum": "collectibles/pacgum.png",
