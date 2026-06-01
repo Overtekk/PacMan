@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 09:13:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:11:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,7 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.game_engine import GameEngine
+from src.audio import AudioManager
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
 import math
@@ -239,6 +240,7 @@ class MainMenu(BaseMenu):
             self.window.asset_manager.textures["ocean"]
         )
         self.menu_time: float = 0.0
+        self.audio_manager = AudioManager(self.window)
 
     def build_ui(self) -> None:
         # Create buttons
@@ -266,6 +268,8 @@ class MainMenu(BaseMenu):
 
         # Create the secret way to have the cheat mode
         if MainMenu.count_touch_A >= 3:
+            self.audio_manager.play_sound('bruit')
+
             self.button_list.clear()
             cheat_button = CheatButton(
                 center_x=ScreenSettings.WIDTH // 2, center_y=175,
