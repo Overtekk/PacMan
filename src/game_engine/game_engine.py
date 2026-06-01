@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 18:06:41 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:18:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,7 @@ class GameEngine(arcade.View):
         self.config: GameConfig = self.window.game_config
 
         # Instanciate class instance
-        self.game_renderer: GameRenderer = GameRenderer()
+        self.game_renderer: GameRenderer = GameRenderer(self.window)
         self.game_state: GameState = GameState.SETUP
         self.state_manager: GameStateManager = (
             GameStateManager(self.window, self)
@@ -216,6 +216,11 @@ class GameEngine(arcade.View):
                     self._code.clear()
                     self._index = 0
                     self._timer_code = 0
+
+                elif game_config.debug_mode:
+                    if symbol == arcade.key.SLASH:
+                        self._code_found = True
+                        print("🫦")
 
             # Gameplay
             if symbol == arcade.key.UP or symbol == arcade.key.W:

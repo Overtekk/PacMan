@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 16:27:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:18:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,7 +41,8 @@ class Wall(arcade.Sprite):
 
 
 class GameRenderer():
-    def __init__(self) -> None:
+    def __init__(self, window: arcade.Window) -> None:
+        self.window = window
 
         # Objects
         self.walls: arcade.SpriteList[Any] = arcade.SpriteList()
@@ -61,7 +62,7 @@ class GameRenderer():
         )
 
         self.background = arcade.load_texture(
-            "assets/sprites/main_menu/ocean.png"
+            self.window.asset_manager.textures["ocean"]
         )
 
         # UI

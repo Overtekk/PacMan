@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/05/30 12:39:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:14:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -93,7 +93,7 @@ class InstructionsScreen(BaseMenu):
 
         # Initialise the beach background
         self.background = arcade.load_texture(
-            "assets/sprites/main_menu/ocean.png"
+            self.window.asset_manager.textures["ocean"]
         )
 
     def build_ui(self) -> None:

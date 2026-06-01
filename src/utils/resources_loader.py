@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 18:31:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 08:51:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,15 +22,25 @@ DEFAULT_SPRITES_PATH: str = "assets/sprites/"
 DEFAULT_FONT_PATH: str = "assets/fonts/"
 
 REQUIERED_SPRITES: dict[str, str] = {
+    "ocean": "background/ocean.png",
+
+    "extra_lives": "cheat_buttons/cheat_extra_lives.png",
+    "freeze_ghost": "cheat_buttons/cheat_freeze.png",
+    "invincibility": "cheat_buttons/cheat_invincibility.png",
+    "next_level": "cheat_buttons/cheat_next_level.png",
+    "speed_up": "cheat_buttons/cheat_speed_up.png",
+    "extra_time": 'cheat_buttons/cheat_extra_time.png',
+
+    "heart": "collectibles/heart.png",
     "pacgum": "collectibles/pacgum.png",
     "super_pacgum": "collectibles/super_pacgum.png",
 
-    "game_over_screen": "end/game_over.png",
-    "victory_screen": "end/victory.png",
-    "pacman_victory": "end/pacman_victory.png",
-    "glasses": "end/glasses_victory.png",
-    "dead_pacman": "end/dead_pacman.png",
-    "ghosts_win": "end/ghosts_win.png",
+    "dead_pacman": "end_elements/dead_pacman.png",
+    "game_over_screen": "end_elements/game_over.png",
+    "ghosts_win": "end_elements/ghosts_win.png",
+    "glasses": "end_elements/glasses_victory.png",
+    "pacman_victory": "end_elements/pacman_victory.png",
+    "victory_screen": "end_elements/victory.png",
 
     "enemy_cat_move": "enemies/enemy_cat_move.png",
     "enemy_cat_eatable": "enemies/enemy_cat_eatable.png",
@@ -58,19 +68,11 @@ REQUIERED_SPRITES: dict[str, str] = {
     "cheat_button": "main_menu/cheat_mode.png",
     "gullman": "main_menu/gullman.png",
 
-    "extra_lives": "cheat_menu/cheat_extra_lives.png",
-    "freeze_ghost": "cheat_menu/cheat_freeze.png",
-    "invincibility": "cheat_menu/cheat_invincibility.png",
-    "next_level": "cheat_menu/cheat_next_level.png",
-    "speed_up": "cheat_menu/cheat_speed_up.png",
-    "extra_time": 'cheat_menu/cheat_extra_time.png',
-
     "maze_wall_corner": "maze/corner_wall.png",
     "maze_four_wall": "maze/four_wall.png",
     "maze_triple_wall": "maze/triple_wall.png",
     "maze_inside_wall": "maze/inside_wall.png",
     "maze_wall": "maze/wall.png",
-    "life": "maze/heart.png",
 
     "pause_button": "pause/pause.png",
     "resume_button": "pause/resume.png",

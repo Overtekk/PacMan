@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 19:02:35 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:13:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,8 +18,8 @@ from .base_menu import BaseMenu
 from .base_button import BaseButton
 from src.renderer.screen_settings import ScreenSettings
 from src import game_config
-from src.utils import print_log
 from src.renderer.ui.main_menu import MainMenu
+from src.utils import print_log
 
 
 class BackButton(BaseButton):
@@ -195,10 +195,11 @@ class InvincibilityButton(BaseButton):
 class CheatMenu(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
+
         self.previous_view = previous_view
-        # Initialise the beach background
-        path = "assets/sprites/main_menu/ocean.png"
-        self.background = arcade.load_texture(path)
+        self.background = arcade.load_texture(
+            self.window.asset_manager.textures["ocean"]
+        )
 
     def build_ui(self) -> None:
         # Create all the cheat mode buttons
@@ -271,12 +272,10 @@ class CheatMenu(BaseMenu):
         self.button_list.append(next_level)
         self.button_list.append(back)
 
-    def on_key_press(self, symbol: int, modifiers: int) -> None:
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
-            # Set the "return to the main menu"
-            from src.renderer.ui.main_menu import MainMenu
-            if self.window:
-                self.window.show_view(MainMenu())
+            if self.previous_view:
+                self.window.show_view(self.previous_view)
 
     def on_draw(self) -> None:
         self.clear()

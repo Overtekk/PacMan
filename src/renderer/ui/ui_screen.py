@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 16:21:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:19:55 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -95,7 +95,7 @@ class UIScreen(BaseMenu):
             if count <= 5:
                 lives = DisplayLives(
                     center_x=x, center_y=y,
-                    sprite_path=self.window.asset_manager.textures["life"],
+                    sprite_path=self.window.asset_manager.textures["heart"],
                     parent_view=self
                 )
                 self.button_list.append(lives)
