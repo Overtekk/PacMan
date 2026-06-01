@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 09:22:36 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 12:49:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,7 @@ from src import game_config
 from src.entity import Entity, Player, Movable
 from .gamestate_manager import GameStateManager
 from src.utils import print_log, SuperCalculator
+from .level_manager import LevelManager
 
 
 class CollisionManager():
@@ -49,7 +50,7 @@ class CollisionManager():
         # DEBUG
         self.debug_force_death: bool = False
 
-    def update(self, delta_time: float) -> bool:
+    def update(self, delta_time: float) -> bool | str:
         # Check collisions for the player with walls
         self._entity_collisions_logic(self.player_reference)
 
@@ -106,7 +107,7 @@ class CollisionManager():
         list_colliding: list[arcade.SpriteType] = (
             self._check_collision_with_collectibles()
         )
-        if len(list_colliding) > 0 and not self.player_reference.invincible:
+        if len(list_colliding) > 0:
             for obj in list_colliding:
                 print_log(f"+{obj.parent.score} points.")
                 # Increase score
@@ -126,7 +127,9 @@ class CollisionManager():
                 obj.kill()
 
         if len(self.pacgums_sprite_list) == 0:
-            print("fini\n\n")
+            for sprite in self.super_pacgums_sprite_list:
+                sprite.remove_from_sprite_lists()
+            return "level_complete"
 
         return False
 

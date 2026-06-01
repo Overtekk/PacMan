@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 15:40:58 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 13:53:23 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -102,13 +102,16 @@ class GameStateManager():
 
     @current_level_index.setter
     def current_level_index(self, new_index: int) -> None:
-        self.game_data["current_level_index"] += new_index
+        self.game_data["current_level_index"] = new_index
 
+    def win(self) -> None:
         # TRIGGER VICTORY SCREEN
-        if self.game_data["current_level_index"] > len(self.config.level):
+        if self.game_data["current_level_index"] == len(self.config.level) + 1:
             from src.renderer.ui.finish_screen import FinishScreen
-
-            self.window.show(FinishScreen)
+            self.window.show_view(FinishScreen(
+                score=self.score,
+                filename=self.config.highscore_filename,
+                previous_view=self))
 
     def pause_game(self) -> None:
         if self.window:
