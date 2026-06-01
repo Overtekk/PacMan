@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:52:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 12:51:06 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -122,6 +122,8 @@ class GameRenderer():
     ) -> None:
         self.walls.clear()
         self.entities.clear()
+        self.pacgums.clear()
+        self.super_pacgums.clear()
         for sprite_path, angle, x, y, tile_size in wall_data:
             wall = Wall(sprite_path, angle, x, y, tile_size)
 

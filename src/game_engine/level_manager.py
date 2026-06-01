@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 11:13:01 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 12:57:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,8 +27,8 @@ from src.renderer.screen_settings import ScreenSettings
 from src.maze import MazeFactory, generate_bytes_maze
 
 
-PLAYER_SCALE: float = 0.8
-ENEMIES_SCALE: float = 0.9
+PLAYER_SCALE: float = 0.7
+ENEMIES_SCALE: float = 0.7
 PACGUM_SCALE: float = 0.7
 SUPERPACGUM_SCALE: float = 0.8
 
@@ -233,6 +233,8 @@ class LevelManager():
         self._create_pacgum()
 
     def _create_pacgum(self) -> None:
+        self.pacgums_list.clear()
+
         # List of coords where pacgums can't spawn on
         forbidden_coords: list[tuple[int, int]] = [
             (self.player.spawn_point)
@@ -283,6 +285,8 @@ class LevelManager():
                 first = False
 
     def _create_super_pacgum(self) -> None:
+        self.super_pacgums_list.clear()
+
         # Get the coordinates of each corners
         corners_coords_list: dict[str, tuple[int, int]] = (
             self._get_corners_coords_pixels()

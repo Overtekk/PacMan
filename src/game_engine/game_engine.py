@@ -109,10 +109,15 @@ class GameEngine(arcade.View):
                 self.game_state = GameState.RESPAWN
 
             # Check for collisions
-            player_died: bool = self.coll_manager.update(delta_time)
+            result: bool | str = self.coll_manager.update(delta_time)
 
-            # Check if player have died
-            if player_died:
+            # Check if player have died or if the level is complete
+            if result == "level_complete":
+                self.state_manager.current_level_index += 1
+                res = self.setup(False)
+                if res == "finish":
+                    self.state_manager.win()
+            elif result is True:
                 self.game_state = GameState.RESPAWN
 
             # Update all entities logics
@@ -174,16 +179,19 @@ class GameEngine(arcade.View):
 
         # Create the level
         level_index: int = self.state_manager.current_level_index
+        print(level_index)
 
-        level: list[list[int]] = self.level_manager.create_level(
-            maze_width=self.config.level[level_index].width,
-            maze_height=self.config.level[level_index].height,
-            first_instance=first_instance
-        )
+        try:
+            level: list[list[int]] = self.level_manager.create_level(
+                maze_width=self.config.level[level_index].width,
+                maze_height=self.config.level[level_index].height,
+                first_instance=first_instance
+            )
+        except IndexError:
+            return "finish"
 
         # Render the maze
         self.game_renderer.wall_generator(level)
-
         self._setup_entities()
         self._setup_collectibles()
 
@@ -199,6 +207,8 @@ class GameEngine(arcade.View):
 
         self._current_timer_start: float = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
+
+        return "not finish"
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if self.game_state == GameState.STARTING:
