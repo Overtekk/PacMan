@@ -17,6 +17,10 @@
 		- invincible
 		- extra-life
 		- freeze ghosts
+		- add speed
+		- add time
+	- move the logic of the superpacgum (timer, blinking effect) from the superpacgum class to the game engine time (fixing bugs with time)
+	- add more reset values for entities so they are not stuck
 
 - anacharp
 	- adjust the size of the mazes and sprites correctly
