@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:36:35 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 10:44:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -54,22 +54,21 @@ class MazeFactory:
         screen_width: int, screen_height: int, seed: str = ""
 
     ) -> list[list[int]]:
+        screen_height -= 100
         self.width = width
         self.height = height
 
-        gap: int = 5
-
         # Calculate the Tile Size
         self.tile_size: float = min(
-            (screen_width // width), ((screen_height // height) - gap)
+            (screen_width // self.width), ((screen_height // self.height))
         )
 
         # Calculate the screen offsets
         self.offset_x: float = (
-            (screen_width - width * self.tile_size) // 2
+            (screen_width - self.width * self.tile_size) // 2
         )
         self.offset_y: float = (
-            (screen_height - self.height * self.tile_size) // 2
+            (screen_height - self.height * self.tile_size) // 2 + 50
         )
 
         # Instanciate the generator and generate the maze

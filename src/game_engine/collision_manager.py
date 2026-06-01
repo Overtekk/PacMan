@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 16:11:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:22:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -124,6 +124,9 @@ class CollisionManager():
 
                 # Remove the sprite
                 obj.kill()
+
+        if len(self.pacgums_sprite_list) == 0:
+            print("fini\n\n")
 
         return False
 
