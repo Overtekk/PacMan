@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/17 15:16:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/22 10:29:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 13:41:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,7 @@ class TestPlayer(arcade.Window):
 
         self.player_list: arcade.SpriteList = arcade.SpriteList()
         self.player_list.append(self.player.sprite)
-        self.player._can_move = True
+        self.player.can_move = True
 
         self.enemy_list: arcade.SpriteList = arcade.SpriteList()
 

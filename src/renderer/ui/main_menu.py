@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 18:36:24 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 09:13:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -235,8 +235,9 @@ class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
         # Set a beach background
-        path = "assets/sprites/main_menu/ocean.png"
-        self.background = arcade.load_texture(path)
+        self.background = arcade.load_texture(
+            self.window.asset_manager.textures["ocean"]
+        )
         self.menu_time: float = 0.0
 
     def build_ui(self) -> None:

@@ -6,11 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/30 16:20:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 10:05:17 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
+import PIL.Image
 
 from pathlib import Path
 
@@ -19,23 +20,6 @@ from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.screen_settings import ScreenSettings
 from src.renderer.ui.cheat_menu import CheatMenu
-from src.game_engine import GameEngine
-
-
-class Exit(BaseButton):
-    def __init__(self,
-                 center_x: float,
-                 center_y: float,
-                 sprite_path: Path,
-                 parent_view: arcade.View) -> None:
-
-        super().__init__(center_x=center_x, center_y=center_y,
-                         sprite_path=sprite_path, parent_view=parent_view)
-
-    def on_click(self) -> None:
-        # Close arcade
-        arcade.exit()
-        exit()
 
 
 class GoBack(BaseButton):
@@ -89,20 +73,27 @@ class Resume(BaseButton):
 
 
 class Cheat(BaseButton):
-    def __init__(self,
-                 center_x: float,
-                 center_y: float,
-                 sprite_path: Path,
-                 parent_view: arcade.View) -> None:
+    def __init__(
+        self,
+        center_x: float,
+        center_y: float,
+        sprite_path: Path,
+        parent_view: arcade.View,
+        background: PIL.Image.Image
+    ) -> None:
 
-        super().__init__(center_x=center_x,
-                         center_y=center_y,
-                         sprite_path=sprite_path,
-                         parent_view=parent_view)
+        super().__init__(
+            center_x=center_x, center_y=center_y, sprite_path=sprite_path,
+            parent_view=parent_view
+        )
+
+        self.background = background
 
     def on_click(self) -> None:
         # Go on cheat menu
-        cheat = CheatMenu(previous_view=self.parent_view)
+        cheat = CheatMenu(
+            previous_view=self.parent_view, background =self.background
+        )
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat)
 
@@ -114,10 +105,16 @@ class Pause(BaseButton):
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
 
-        super().__init__(center_x=center_x, center_y=center_y,
-                         sprite_path=sprite_path, parent_view=parent_view)
+        super().__init__(
+            center_x=center_x, center_y=center_y,
+            sprite_path=sprite_path, parent_view=parent_view,
+            scale=2
+        )
 
     def on_click(self) -> None:
+        pass
+
+    def check_hover(self, x: float, y: float) -> None:
         pass
 
 
@@ -125,44 +122,45 @@ class PauseMenu(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
         self.previous_view = previous_view
-        image = arcade.get_image()
+        image: PIL.Image.Image = arcade.get_image()
         self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
         # Create buttons
-        pause = Pause(center_x=ScreenSettings.WIDTH // 2, center_y=575,
-                      sprite_path=(
-                          self.window.asset_manager.textures["pause_button"]),
-                      parent_view=self)
+        pause = Pause(
+            center_x=ScreenSettings.WIDTH // 2, center_y=575,
+            sprite_path=(self.window.asset_manager.textures["pause_button"]),
+            parent_view=self
+        )
+
         resume = Resume(
-            center_x=ScreenSettings.WIDTH // 2, center_y=475,
-            sprite_path=(
-                self.window.asset_manager.textures["resume_button"]),
-            parent_view=self.previous_view)
-        instructions_button = InstructionsButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=375,
-            sprite_path=(
-                self.window.asset_manager.textures["instructions_button"]),
-            parent_view=self)
-        go_back = GoBack(
+            sprite_path=(self.window.asset_manager.textures["resume_button"]),
+            parent_view=self.previous_view
+        )
+
+        instructions_button = InstructionsButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=275,
             sprite_path=(
-                self.window.asset_manager.textures["return_button"]),
-            parent_view=self)
-        exit = Exit(center_x=ScreenSettings.WIDTH // 2, center_y=175,
-                    sprite_path=(
-                        self.window.asset_manager.textures["exit_button"]),
-                    parent_view=self)
+                self.window.asset_manager.textures["instructions_button"]
+            ),
+            parent_view=self
+        )
+
+        go_back = GoBack(
+            center_x=ScreenSettings.WIDTH // 2, center_y=175,
+            sprite_path=(self.window.asset_manager.textures["return_button"]),
+            parent_view=self
+        )
 
         # Put buttons on a button list
         self.button_list.append(pause)
         self.button_list.append(resume)
         self.button_list.append(instructions_button)
         self.button_list.append(go_back)
-        self.button_list.append(exit)
 
-        if (isinstance(self.previous_view, GameEngine)
-           and GameEngine.code_found):
+        # Create the cheat button if KONAMI code have been entered
+        if self.previous_view.code_found:
             self.create_cheat_button()
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
@@ -176,18 +174,19 @@ class PauseMenu(BaseMenu):
 
         # Draw the game background image
         if self.background:
-            arcade.draw_texture_rect(self.background,
-                                     arcade.XYWH(self.window.width / 2,
-                                                 self.window.height / 2,
-                                                 self.window.width,
-                                                 self.window.height))
+            arcade.draw_texture_rect(
+                self.background, arcade.XYWH(
+                    self.window.width / 2, self.window.height / 2,
+                    self.window.width, self.window.height)
+            )
 
         # Draw a black rectangle with an opacity
-        arcade.draw_rect_filled(arcade.XYWH(self.window.width / 2,
-                                            self.window.height / 2,
-                                            self.window.width,
-                                            self.window.height),
-                                (0, 0, 0, 180))
+        arcade.draw_rect_filled(
+            arcade.XYWH(
+                self.window.width / 2, self.window.height / 2,
+                self.window.width, self.window.height),
+            (0, 0, 0, 180)
+        )
 
         # Draw buttons
         self.button_list.draw()
@@ -201,8 +200,8 @@ class PauseMenu(BaseMenu):
 
     def create_cheat_button(self) -> None:
         cheat = Cheat(
-            center_x=ScreenSettings.WIDTH // 2, center_y=575,
+            center_x=ScreenSettings.WIDTH // 2, center_y=475,
             sprite_path=self.window.asset_manager.textures["cheat_button"],
-            parent_view=self
+            parent_view=self, background=self.background
         )
         self.button_list.append(cheat)

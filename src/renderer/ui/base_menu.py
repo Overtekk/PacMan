@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:35:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 11:43:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 12:29:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -42,6 +42,8 @@ class BaseMenu(arcade.View, ABC):
     def on_mouse_press(
         self, x: float, y: float, button: int, _modifiers: int
     ) -> None:
+        self.last_click_x = x
+        self.last_click_y = y
 
         if button == arcade.MOUSE_BUTTON_LEFT:
             for ui_button in self.button_list:

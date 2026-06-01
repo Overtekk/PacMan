@@ -41,7 +41,8 @@ class Wall(arcade.Sprite):
 
 
 class GameRenderer():
-    def __init__(self) -> None:
+    def __init__(self, window: arcade.Window) -> None:
+        self.window = window
 
         # Objects
         self.walls: arcade.SpriteList[Any] = arcade.SpriteList()
@@ -61,7 +62,7 @@ class GameRenderer():
         )
 
         self.background = arcade.load_texture(
-            "assets/sprites/main_menu/ocean.png"
+            self.window.asset_manager.textures["ocean"]
         )
 
         # UI
