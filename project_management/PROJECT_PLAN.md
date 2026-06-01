@@ -3,6 +3,21 @@
 
 ---
 
+### 01/06/2026
+- roandrie
+	fix: pressing escape in the 'cheat menu' in game returned to main menu
+	fix: add the asset loader instead of the path for rendering the background
+	fix: instructions button in game return ton main menu (TODO: go back in game)
+
+	add:
+	- in game screen in the cheat menu
+	- the cheat button will appear only if the konami code is activated
+	- add UI rendering (green/red button) to see if a cheat is active
+	- add cheats:
+		- invincible
+		- extra-life
+		- freeze ghosts
+
 ### 30/05/2026
 - anacharp
 	- create songs
