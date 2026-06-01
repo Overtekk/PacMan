@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:36:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 10:51:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -73,8 +73,9 @@ class CollisionManager():
                     f"Player died! Life remaining: {self.state_manager.live}")
             return True
 
-        # If player is invisible, check if enemy can be eaten
-        elif self.player_reference.invincible:
+        # If player is invincible, check if enemy can be eaten
+        elif (self.player_reference.invincible or
+                self.state_manager.parent_view.is_cheat_invincible_state):
             for enemy in enemy_colliding:
                 if enemy.parent.is_edible and not enemy.parent.died:
 
@@ -86,8 +87,7 @@ class CollisionManager():
                         print_log(f"{enemy.parent} died!")
 
         # Check if player have encountered an enemy
-        elif (len(enemy_colliding) > 0 and
-                not self.player_reference.cheat_invincible):
+        elif len(enemy_colliding) > 0:
             for enemy in enemy_colliding:
                 if not enemy.parent._died:
 

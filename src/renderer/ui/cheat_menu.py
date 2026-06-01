@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:39:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 12:26:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+from typing import Any
 
 import PIL.Image
 import arcade
@@ -51,7 +53,7 @@ class ExtraTime(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -61,8 +63,8 @@ class ExtraTime(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
+        self.texture_off = self.texture
+        self.texture_on = texture_on
         self.active: bool = False
 
     def on_click(self) -> None:
@@ -92,7 +94,7 @@ class SpeedUpButton(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -102,8 +104,8 @@ class SpeedUpButton(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
+        self.texture_off = self.texture
+        self.texture_on = texture_on
         self.active: bool = False
 
     def on_click(self) -> None:
@@ -133,7 +135,7 @@ class NextLevelButton(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -143,8 +145,8 @@ class NextLevelButton(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
+        self.texture_off = self.texture
+        self.texture_on = texture_on
         self.active: bool = False
 
     def on_click(self) -> None:
@@ -178,7 +180,7 @@ class FreezeGhostButton(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -188,8 +190,8 @@ class FreezeGhostButton(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
+        self.texture_off = self.texture
+        self.texture_on = texture_on
         self.active: bool = False
 
     def on_click(self) -> None:
@@ -219,7 +221,7 @@ class ExtraLivesButton(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -229,28 +231,46 @@ class ExtraLivesButton(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
-        self.active: bool = False
+        self.texture_off = self.texture
+        self.texture_on = texture_on
+
+        # Check state of the button
+        if self.parent_view.previous_view.extra_life_activate:
+            self.texture = self.texture_on
+
+
+        self.floating_texts: list[dict[str, Any]] = []
 
     def on_click(self) -> None:
-        if self.active:
-            self.texture = self.texture_on
-            self.active = False
-            self._disable_cheat()
+        self.texture = self.texture_on
+        self.parent_view.previous_view.extra_life_activate = True
 
-        else:
-            self.texture = self.texture_off
-            self.active = True
-            self._activate_cheat()
+        new_text: arcade.Text = arcade.Text(
+            "+1", self.center_x, self.center_y, arcade.color.WHITE_SMOKE, 12,
+            1, "center", "Kaph", False, True
+        )
+
+        self.floating_texts.append({"text_obj": new_text, "timer": 1.0})
+
+        self._activate_cheat()
+
+    def on_update(self, delta_time) -> None:
+        for item in reversed(self.floating_texts):
+            item["timer"] -= delta_time
+
+            if item["timer"] <= 0.0:
+                self.floating_texts.remove(item)
+            else:
+                item["text_obj"].y += 50 * delta_time
+
+                alpha: int = int((item["timer"] / 1.0) * 255)
+                item["text_obj"].color = (255, 255, 255, alpha)
 
     def _activate_cheat(self) -> None:
         if game_config.debug_mode:
-            print_log("Cheat mode: INVINCIBILITY on")
+            print_log("Cheat mode: +1 life")
 
-    def _disable_cheat(self) -> None:
-        if game_config.debug_mode:
-            print_log("Cheat mode: INVINCIBILITY off")
+        self.parent_view.previous_view.state_manager.live += 1
 
 
 class InvincibilityButton(BaseButton):
@@ -260,7 +280,7 @@ class InvincibilityButton(BaseButton):
             center_y: float,
             sprite_path: Path,
             parent_view: arcade.View,
-            texture_off: Path
+            texture_on: Path
     ) -> None:
 
         super().__init__(
@@ -270,28 +290,35 @@ class InvincibilityButton(BaseButton):
             parent_view=parent_view
         )
 
-        self.texture_on = self.texture
-        self.texture_off = texture_off
-        self.active: bool = False
+        self.texture_off = self.texture
+        self.texture_on = texture_on
+
+        # Check state of the button
+        if self.parent_view.previous_view.is_cheat_invincible_state:
+            self.texture = self.texture_on
 
     def on_click(self) -> None:
-        if self.active:
-            self.texture = self.texture_on
-            self.active = False
+        if  self.parent_view.previous_view.is_cheat_invincible_state:
+            self.texture = self.texture_off
+            self.parent_view.previous_view.is_cheat_invincible_state = False
             self._disable_cheat()
 
         else:
-            self.texture = self.texture_off
-            self.active = True
+            self.texture = self.texture_on
+            self.parent_view.previous_view.is_cheat_invincible_state = True
             self._activate_cheat()
 
     def _activate_cheat(self) -> None:
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY on")
 
+        self.parent_view.previous_view.player.cheat_invincible = True
+
     def _disable_cheat(self) -> None:
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY off")
+
+        self.parent_view.previous_view.player.cheat_invincible = False
 
 
 class CheatMenu(BaseMenu):
@@ -312,7 +339,7 @@ class CheatMenu(BaseMenu):
                 self.window.asset_manager.textures["invincibility_off"]
             ),
             parent_view=self.previous_view,
-            texture_off=arcade.load_texture(
+            texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["invincibility_on"]
             )
         )
@@ -323,7 +350,7 @@ class CheatMenu(BaseMenu):
                 self.window.asset_manager.textures["extra_lives_off"]
             ),
             parent_view=self.previous_view,
-            texture_off=arcade.load_texture(
+            texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["extra_lives_on"]
             )
         )
@@ -334,7 +361,7 @@ class CheatMenu(BaseMenu):
                 self.window.asset_manager.textures["freeze_ghost_off"]
             ),
             parent_view=self.previous_view,
-            texture_off=arcade.load_texture(
+            texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["extra_lives_on"]
             )
         )
@@ -345,7 +372,7 @@ class CheatMenu(BaseMenu):
                 self.window.asset_manager.textures["next_level_off"]
             ),
             parent_view=self.previous_view,
-            texture_off=arcade.load_texture(
+            texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["next_level_on"]
             )
         )
@@ -358,7 +385,7 @@ class CheatMenu(BaseMenu):
                     self.window.asset_manager.textures["extra_time_off"]
                 ),
                 parent_view=self.previous_view,
-                texture_off=arcade.load_texture(
+                texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["extra_time_on"]
             )
             )
@@ -371,7 +398,7 @@ class CheatMenu(BaseMenu):
                     self.window.asset_manager.textures["speed_up_off"]
                 ),
                 parent_view=self.previous_view,
-                texture_off=arcade.load_texture(
+                texture_on=arcade.load_texture(
                 self.window.asset_manager.textures["speed_up_on"]
             )
             )
@@ -399,6 +426,7 @@ class CheatMenu(BaseMenu):
 
     def on_draw(self) -> None:
         self.clear()
+
         # Draw the game background image
         if self.background:
             arcade.draw_texture_rect(
@@ -414,5 +442,19 @@ class CheatMenu(BaseMenu):
                 self.window.width, self.window.height),
             (0, 0, 0, 180)
         )
+
         # Draw the buttons
         self.button_list.draw()
+
+        # Draw texts
+        for button in self.button_list:
+            if hasattr(button, 'floating_texts'):
+                for item in button.floating_texts:
+                    item["text_obj"].draw()
+
+    def on_update(self, delta_time) -> None:
+        self.button_list.update()
+
+        for sprite in self.button_list:
+            if hasattr(sprite, "on_update"):
+                sprite.on_update(delta_time)
