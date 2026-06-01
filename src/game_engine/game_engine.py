@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 14:57:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 15:20:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,6 +53,7 @@ class GameEngine(arcade.View):
 
         # -- Private variable --
         self._first_launch: bool = True
+        self._pacgum_timer: float = 0.0
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -102,6 +103,40 @@ class GameEngine(arcade.View):
 
         # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
+            # Super Pacgum managing
+            if self._pacgum_timer > 0.0:
+                self._pacgum_timer -= delta_time
+
+                # Blinking logic
+                blink_speed: float = 0.30
+                if 0.0 < self._pacgum_timer <= 3.0:
+                    is_blinking: bool = ((self._pacgum_timer %
+                                            (blink_speed * 2)) < blink_speed)
+
+                    for enemy_obj in self.level_manager.enemies_list.values():
+                        if enemy_obj.mode == EnemyState.RUNAWAY:
+                            if is_blinking:
+                                enemy_obj.sprite.color = (255, 255, 255)
+                            else:
+                                enemy_obj.sprite.color = (64, 99, 193)
+
+                # End
+                if self._pacgum_timer <= 0.0:
+                    self._pacgum_timer = 0.0
+                    self.player.invincible = False
+
+                    if game_config.debug_mode:
+                        print_log("DISABLE SUPERPACGUM")
+
+                    for enemy_obj in self.level_manager.enemies_list.values():
+                        if enemy_obj.mode == EnemyState.RUNAWAY:
+                            enemy_obj.mode = EnemyState.WANDER
+
+                        enemy_obj.is_edible = False
+                        enemy_obj.sprite.color = (255, 255, 255)
+                        enemy_obj.speed = game_config.enemy_speed
+
+            # Time managing
             self.state_manager.time_left -= delta_time
             if int(self.state_manager.time_left) <= 0:
                 self.state_manager.time_left = self.config.level_max_time

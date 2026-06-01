@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:36:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 15:19:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,10 +15,9 @@ from typing import Any
 import arcade
 from src import game_config
 
-from src.entity import Entity, Player, Movable
+from src.entity import Entity, Player, Movable, EnemyState
 from .gamestate_manager import GameStateManager
 from src.utils import print_log, SuperCalculator
-from .level_manager import LevelManager
 
 
 class CollisionManager():
@@ -115,14 +114,33 @@ class CollisionManager():
                 self.state_manager.score += obj.parent.score
 
                 # Activate power
-                if hasattr(obj.parent, 'activate_power'):
-
+                if hasattr(obj.parent, 'is_activate'):
                     if game_config.debug_mode:
                         print_log("Activate SUPERPACGUM")
 
-                    obj.parent.activate_power(
-                        self.player_reference, self.enemies_reference
+                    self.player_reference.invincible = True
+
+                    self.state_manager.parent_view._pacgum_timer = (
+                        game_config.time_power_up
                     )
+
+                    for enemy in self.enemies_reference.values():
+                        if enemy.mode in [EnemyState.RESPAWN, EnemyState.WAIT]:
+                            continue
+
+                        if enemy.mode != EnemyState.RUNAWAY:
+                            enemy.mode = EnemyState.RUNAWAY
+                        enemy.is_edible = True
+                        enemy.sprite.color = (64, 99, 193)
+                        enemy.speed = (
+                            (game_config.enemy_speed -
+                                game_config.ennemy_speed_reduction)
+                        )
+
+                        # Turn the enemy
+                        x: float = enemy.current_direction[0] * -1.0
+                        y: float = enemy.current_direction[1] * -1.0
+                        enemy.current_direction = (x, y)
 
                 # Remove the sprite
                 obj.kill()
