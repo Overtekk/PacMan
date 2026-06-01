@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:03:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/01 16:03:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,7 +16,7 @@ import sys
 import arcade
 import src.config
 
-from src.utils import print_error, SpritesLoader, FontLoader
+from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 from src.parser import load_arguments
 from src.config import GameConfig
 from src.maze import load_mazegenerator
@@ -36,6 +36,8 @@ def main() -> int:
 
         # Load fonts
         FontLoader()
+        # Load audios
+        audio_loader: AudioLoader = AudioLoader()
 
         # Load the leaderboard
         leaderboard_loader(str(game_config.highscore_filename))
@@ -48,6 +50,7 @@ def main() -> int:
         game_window: GameWindow = GameWindow(  # noqa
             config=game_config,
             sprites_list=sprite_loader,
+            audio_list=audio_loader
         )
 
         # Launch the main loop for the game

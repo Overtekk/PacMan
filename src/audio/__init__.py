@@ -6,11 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 15:30:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 15:51:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from src.audio import AudioManager
+from src.audio.AudioManager import AudioManager
 
 
 __all__ = [

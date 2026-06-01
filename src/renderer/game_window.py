@@ -6,14 +6,14 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:11:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:02:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
 from src.config import GameConfig
-from src.utils import SpritesLoader
+from src.utils import SpritesLoader, AudioLoader
 from .screen_settings import ScreenSettings, ScreenState
 from src.renderer import MainMenu
 
@@ -23,6 +23,7 @@ class GameWindow(arcade.Window):
         self,
         config: GameConfig,
         sprites_list: SpritesLoader,
+        audio_list: AudioLoader
     ) -> None:
 
         super().__init__(
@@ -35,6 +36,7 @@ class GameWindow(arcade.Window):
 
         self.game_config = config
         self.asset_manager = sprites_list
+        self.audio_manager = audio_list
 
         self._screen_state = ScreenState.MENU
         self.show_view(MainMenu())

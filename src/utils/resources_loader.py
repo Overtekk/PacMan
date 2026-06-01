@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:13:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:07:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from ..utils import (
 
 DEFAULT_SPRITES_PATH: str = "assets/sprites/"
 DEFAULT_FONT_PATH: str = "assets/fonts/"
+DEFAULT_AUDIO_PATH: str = "assets/audio/"
 
 REQUIERED_SPRITES: dict[str, str] = {
     "ocean": "background/ocean.png",
@@ -93,6 +94,17 @@ REQUIERED_FONTS: dict[str, str] = {
     "Kaph": "Kaph-Regular.ttf"
 }
 
+REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
+    "fah": {
+        "path": "fah.mp3",
+        "streaming": True
+    },
+    "bruit": {
+        "path": "bruit.mp3",
+        "streaming": False
+    }
+}
+
 
 def check_assets_folder() -> None:
     try:
@@ -159,6 +171,42 @@ class FontLoader():
                 )
 
             arcade.load_font(verified_path)
+
+
+class AudioLoader():
+    def __init__(
+        self,
+        default_path: str = DEFAULT_AUDIO_PATH
+    ) -> None:
+
+        self.default_path: Path = pathlib.Path(default_path)
+
+        # check 'assets' folder
+        check_assets_folder()
+
+        self.audio: dict[str, arcade.Sound] = {}
+        self.load_audio()
+
+    def load_audio(self) -> None:
+        for audio_name, audio_data in REQUIERED_SOUNDS.items():
+
+            relative_path = audio_data["path"]
+            full_path: Path = self.default_path / relative_path
+
+            verified_path: Path = check_path(str(full_path))
+
+            if (not check_file_extension(full_path, 'mp3') and
+                    not check_file_extension(full_path, 'ogg')):
+                raise ValueError(
+                    f"Wrong file extension for '{full_path}'.\n"
+                    "😑"
+                )
+
+            self.audio[audio_name] = arcade.Sound(
+                verified_path,
+                streaming=audio_data["streaming"]
+            )
+
 
 
 def load_sprite_sheet(textures: dict[str, Path],

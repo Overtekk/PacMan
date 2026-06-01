@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 15:19:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 16:08:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,7 @@ from src import game_config
 from src.entity import Entity, Player, Movable, EnemyState
 from .gamestate_manager import GameStateManager
 from src.utils import print_log, SuperCalculator
+from src.audio import AudioManager
 
 
 class CollisionManager():
@@ -30,7 +31,8 @@ class CollisionManager():
         super_pacgums_sprite_list: arcade.SpriteList,
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
-        state_manager: GameStateManager
+        state_manager: GameStateManager,
+        audio_manager: AudioManager
     ) -> None:
 
         self.player_reference = player_reference
@@ -40,6 +42,7 @@ class CollisionManager():
         self.super_pacgums_sprite_list = super_pacgums_sprite_list
         self.maze_bitmap = maze_bitmap
         self.state_manager = state_manager
+        self.audio_manager = audio_manager
         self.calculator = calculator
 
         self.offset_x: float = self.calculator.maze_offset_x
@@ -91,6 +94,7 @@ class CollisionManager():
             for enemy in enemy_colliding:
                 if not enemy.parent._died:
 
+                    self.audio_manager.play_sound('fah', 1)
                     self.debug_force_death = False
                     self.state_manager.live -= 1
 

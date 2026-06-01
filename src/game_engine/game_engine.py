@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 15:20:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/01 15:53:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,6 +24,7 @@ from src.config import GameConfig
 from src.entity import EnemyState
 from src.renderer.screen_settings import CollectiblesType
 from src.game_engine.gamestate_manager import GameStateManager
+from src.audio import AudioManager
 
 
 # Number of seconds before the level start (player and enemies movement) or
@@ -50,6 +51,7 @@ class GameEngine(arcade.View):
             GameStateManager(self.window, self)
         )
         self.level_manager: LevelManager = LevelManager(self.window)
+        self.audio_manager: AudioManager = AudioManager(self.window)
 
         # -- Private variable --
         self._first_launch: bool = True
@@ -237,7 +239,7 @@ class GameEngine(arcade.View):
             self.pacgum_sprite_list, self.super_pacgum_sprite_list,
             self.level_manager.maze_bitmap,
             self.level_manager.calculator,
-            self.state_manager,
+            self.state_manager, self.audio_manager
         )
 
         self._current_timer_start: float = TIMER_LEVEL_START
