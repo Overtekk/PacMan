@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:06:20 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:34:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -81,6 +81,10 @@ class CollisionManager():
                 self.state_manager.parent_view.is_cheat_invincible_active):
             for enemy in enemy_colliding:
                 if enemy.parent.is_edible and not enemy.parent.died:
+
+                    self.audio_manager.play_random_sound(
+                        ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 2.0
+                    )
 
                     enemy.parent.die(delta_time)
                     self.state_manager.score += (
