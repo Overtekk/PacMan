@@ -1,12 +1,16 @@
 {
     "scores": [
         {
-            "player_name": "roandrie",
+            "player_name": "CHEATER roandrie",
             "player_score": 20140
         },
         {
             "player_name": "Noemie",
             "player_score": 5890
+        },
+        {
+            "player_name": "CHEATER cheater",
+            "player_score": 2240
         },
         {
             "player_name": "lreboot",
@@ -17,7 +21,7 @@
             "player_score": 1760
         },
         {
-            "player_name": "gravebien",
+            "player_name": "CHEATER gravebien",
             "player_score": 1760
         },
         {
@@ -35,10 +39,6 @@
         {
             "player_name": "macron",
             "player_score": 1560
-        },
-        {
-            "player_name": "maisnon",
-            "player_score": 1270
         }
     ]
 }

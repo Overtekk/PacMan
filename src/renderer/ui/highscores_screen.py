@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/01 09:14:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:53:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,9 +67,17 @@ class HighscoresScreen(BaseMenu):
         split_content = file_content.split("\n")
         y = 520
         for string in split_content:
-            text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2, y=y,
-                               color=arcade.color.WHITE, font_size=15,
-                               font_name="press Start 2P", anchor_x="center")
+            if string.startswith("CHEATER"):
+                string = string.strip("CHEATER ")
+                text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2,
+                                   y=y, color=arcade.color.RED, font_size=15,
+                                   font_name="press Start 2P",
+                                   anchor_x="center")
+            else:
+                text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2,
+                                   y=y, color=arcade.color.WHITE, font_size=15,
+                                   font_name="press Start 2P",
+                                   anchor_x="center")
             self.text_lst.append(text)
             y -= 50
 
