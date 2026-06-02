@@ -6,16 +6,16 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:14:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 16:31:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
+import random
 
+from typing import Union
 from abc import ABC, abstractmethod
 from pathlib import Path
-import random
-from typing import Union
 
 
 class BaseButton(arcade.Sprite, ABC):

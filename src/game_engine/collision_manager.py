@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 14:30:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 16:34:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,9 +67,9 @@ class CollisionManager():
 
         # Debug force died
         if self.debug_force_death:
+            self.audio_manager.play_sound('dead1', 1.3)
             self.debug_force_death = False
             self.state_manager.live -= 1
-            self.player_reference.die(delta_time)
 
             if game_config.debug_mode:
                 print_log(
@@ -81,6 +81,10 @@ class CollisionManager():
                 self.state_manager.parent_view.is_cheat_invincible_active):
             for enemy in enemy_colliding:
                 if enemy.parent.is_edible and not enemy.parent.died:
+
+                    self.audio_manager.play_random_sound(
+                        ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 2.0
+                    )
 
                     enemy.parent.die(delta_time)
                     self.state_manager.score += (
@@ -94,7 +98,7 @@ class CollisionManager():
             for enemy in enemy_colliding:
                 if not enemy.parent._died:
 
-                    self.audio_manager.play_sound('fah', 1)
+                    self.audio_manager.play_sound('dead1', 1.3)
                     self.debug_force_death = False
                     self.state_manager.live -= 1
 
@@ -104,7 +108,6 @@ class CollisionManager():
                             f"{self.state_manager.live}"
                         )
 
-                    self.player_reference.die(delta_time)
                     return True
 
         # Check for collision between player/collectibles
@@ -113,11 +116,16 @@ class CollisionManager():
         )
         if len(list_colliding) > 0:
             for obj in list_colliding:
-                self.audio_manager.play_sound('eat', 1)
+                # Play the audio
+                self.audio_manager.play_random_sound(
+                    ['eat1', 'eat2', 'eat3'], 0.5
+                )
 
-                print_log(f"+{obj.parent.score} points.")
                 # Increase score
                 self.state_manager.score += obj.parent.score
+
+                if game_config.debug_mode:
+                    print_log(f"+{obj.parent.score} points.")
 
                 # Activate power
                 if hasattr(obj.parent, 'is_activate'):

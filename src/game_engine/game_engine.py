@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 11:26:17 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 18:07:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,15 +47,18 @@ class GameEngine(arcade.View):
         # Instanciate class instance
         self.game_renderer: GameRenderer = GameRenderer(self.window)
         self.game_state: GameState = GameState.SETUP
+        self.audio_manager: AudioManager = AudioManager(self.window)
         self.state_manager: GameStateManager = (
-            GameStateManager(self.window, self)
+            GameStateManager(self.window, self, self.audio_manager)
         )
         self.level_manager: LevelManager = LevelManager(self.window)
-        self.audio_manager: AudioManager = AudioManager(self.window)
 
         # -- Private variable --
         self._first_launch: bool = True
         self._pacgum_timer: float = 0.0
+        self._timer_pause: float = 2.0
+        self._next_level: bool = False
+        self._finish: bool = False
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -73,6 +76,10 @@ class GameEngine(arcade.View):
         return self._code_found
 
     def on_update(self, delta_time: float) -> None:
+        if self._finish:
+            self.state_manager.win()
+            return
+
         # Update the renderer
         self.game_renderer.update(delta_time)
         self.game_renderer.update_ui(
@@ -101,7 +108,31 @@ class GameEngine(arcade.View):
 
         # ---------- GAME PAUSED ----------
         elif self.game_state == GameState.PAUSE:
-            pass
+            self._timer_pause -= delta_time
+
+            # Animation for next level
+            if self._next_level:
+                if self._timer_pause < 0.3:
+                    self.player.sprite.visible = False
+                else:
+                    self.player.sprite.angle += 100 * delta_time
+
+                if self._timer_pause < 0.0:
+                    self._timer_pause = 2.0
+                    self._next_level = False
+                    self.setup(False)
+
+            # Animation for dying
+            else:
+                sc_x, sc_y = self.player.sprite.scale
+                reduction = 0.5 * delta_time
+                self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
+
+                if self._timer_pause < 0.0:
+                    self.player.die(delta_time)
+                    self._timer_pause = 2.0
+                    self.player.sprite.scale = self._player_scale
+                    self.game_state = GameState.RESPAWN
 
         # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
@@ -142,8 +173,8 @@ class GameEngine(arcade.View):
             self.state_manager.time_left -= delta_time
             if int(self.state_manager.time_left) <= 0:
                 self.state_manager.time_left = self.config.level_max_time
-                self.player.die(delta_time)
-                self.game_state = GameState.RESPAWN
+                self.player.can_move = False
+                self.game_state = GameState.PAUSE
 
             # Check for collisions
             result: bool | str = self.coll_manager.update(delta_time)
@@ -151,11 +182,22 @@ class GameEngine(arcade.View):
             # Check if player have died or if the level is complete
             if result == "level_complete":
                 self.state_manager.current_level_index += 1
-                res = self.setup(False)
-                if res == "finish":
-                    self.state_manager.win()
+                self.audio_manager.play_random_sound(
+                    ['gg1', 'gg2', 'gg3', 'gg4'], 10
+                )
+                self._next_level = True
+                self._timer_pause = 5
+                self.player.can_move = False
+                for enemy in self.level_manager.enemies_list.values():
+                    enemy.can_move = False
+                self.audio_manager.play_sound(
+                    'levelcompleted', 0.2
+                )
+                self.game_state = GameState.PAUSE
+
             elif result is True:
-                self.game_state = GameState.RESPAWN
+                self.player.can_move = False
+                self.game_state = GameState.PAUSE
 
             # Update all entities logics
             else:
@@ -216,7 +258,6 @@ class GameEngine(arcade.View):
 
         # Create the level
         level_index: int = self.state_manager.current_level_index
-        print(level_index)
 
         try:
             level: list[list[int]] = self.level_manager.create_level(
@@ -225,7 +266,8 @@ class GameEngine(arcade.View):
                 first_instance=first_instance
             )
         except IndexError:
-            return "finish"
+            self._finish = True
+            return
 
         # Render the maze
         self.game_renderer.wall_generator(level)
@@ -245,8 +287,6 @@ class GameEngine(arcade.View):
         self._current_timer_start: float = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
 
-        return "not finish"
-
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if self.game_state == GameState.STARTING:
             if symbol == arcade.key.SPACE:
@@ -261,6 +301,7 @@ class GameEngine(arcade.View):
                     self._timer_code = 0
 
                     if self._code == KONAMI_CODE:
+                        self.audio_manager.play_sound('oh_oh', 0.6)
                         self._code_found = True
                         print("🫦")
 
@@ -337,11 +378,19 @@ class GameEngine(arcade.View):
         current_second: int = int(self._current_timer_start) + 1
 
         if current_second != previous_second and current_second > 0:
+            if current_second == 3:
+                self.audio_manager.play_sound('start_three', 1.0)
+            elif current_second == 2:
+                self.audio_manager.play_sound('start_two', 1.0)
+            elif current_second == 1:
+                self.audio_manager.play_sound('start_one', 1.0)
+
             if game_config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
+            self.audio_manager.play_sound('start_go', 1.0)
             if game_config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)
@@ -359,6 +408,9 @@ class GameEngine(arcade.View):
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
+
+        # utils
+        self._player_scale = self.player.sprite.scale
 
         # Enemy rendering
         for enemy_obj in self.level_manager.enemies_list.values():
