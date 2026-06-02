@@ -13,6 +13,11 @@
 	- find bugs and report them
 	- starting with level 1 and not level 0
 	- cheater in red on leaderboard
+- roandrie
+	- add sounds effects in the game including:
+		- eating pacgums and enemies, death, click, victory, game over, cheat menu found, starting
+	- add new methods to the AudioLoader class (stop a specific sound, stop all sounds)
+	- add animation for dying and for winning a level
 
 ### 01/06/2026
 - roandrie
