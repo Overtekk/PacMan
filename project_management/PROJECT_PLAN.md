@@ -2,6 +2,10 @@
 ### *anacharp + roandrie*
 
 ---
+### 02/06/2026
+- anacharp
+	- according speed of the player and enemies is adjusted to the size of the maze
+
 
 ### 01/06/2026
 - roandrie
