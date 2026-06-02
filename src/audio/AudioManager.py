@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 13:56:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 15:25:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,8 +59,12 @@ class AudioManager():
     # :---------------:
 
     def _init_audio(self) -> None:
-        self.play_sound('eat', 0)
-        self.play_sound('fah', 0)
+        audios_to_init: list[str] = [
+            'eat', 'eat1', 'eat2', 'eat3', 'fah'
+        ]
+
+        for audio_name in audios_to_init:
+            self.play_sound(audio_name, 0)
 
     def _sound_not_found_error(self, audio_name: str) -> None:
         print_log(f"{audio_name} not found... 😂")

@@ -4,6 +4,10 @@
             "player_name": "roandrie",
             "player_score": 20140
         },
+		{
+			"player_name": "melkope",
+            "player_score": 6950
+		},
         {
             "player_name": "lreboot",
             "player_score": 1880
@@ -35,10 +39,6 @@
         {
             "player_name": "maisnon",
             "player_score": 1270
-        },
-        {
-            "player_name": "pigeonvert",
-            "player_score": 1250
         }
     ]
 }

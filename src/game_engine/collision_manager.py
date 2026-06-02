@@ -6,7 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
+<<<<<<< HEAD
 #  Updated: 2026/06/02 15:33:23 by roandrie        ###   ########.fr        #
+=======
+#  Updated: 2026/06/02 15:27:41 by roandrie        ###   ########.fr        #
+>>>>>>> b1fbfbd (t)
 #                                                                           #
 # ************************************************************************* #
 
@@ -113,13 +117,16 @@ class CollisionManager():
         )
         if len(list_colliding) > 0:
             for obj in list_colliding:
+                # Play the audio
                 self.audio_manager.play_random_sound(
-                    ['eat1', 'eat2', 'eat3', 1.0]
+                    ['eat1', 'eat2', 'eat3'], 1.0
                 )
 
-                print_log(f"+{obj.parent.score} points.")
                 # Increase score
                 self.state_manager.score += obj.parent.score
+
+                if game_config.debug_mode:
+                    print_log(f"+{obj.parent.score} points.")
 
                 # Activate power
                 if hasattr(obj.parent, 'is_activate'):

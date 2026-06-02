@@ -9,8 +9,8 @@
 	"level": [
 		{
 			"name": "Level 1",
-			"width": 20,
-			"height": 21
+			"width": 21,
+			"height": 10
 		},
 		{
 			"name": "Level 2",
