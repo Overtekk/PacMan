@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 15:04:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 16:10:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,7 +67,7 @@ class UIScreen(BaseMenu):
         self.more_lives = arcade.Text(text="", x=0, y=0,
                                       color=arcade.color.LIGHT_GRAY,
                                       font_size=30, font_name="Press Start 2P")
-        self.display_level = arcade.Text(text=f"Level {self.level}",
+        self.display_level = arcade.Text(text=f"Level {self.level+1}",
                                          x=ScreenSettings.WIDTH // 2,
                                          y=ScreenSettings.HEIGHT - 10,
                                          color=arcade.color.WHITE,
@@ -126,7 +126,7 @@ class UIScreen(BaseMenu):
         self.level = level
         self.display_score.text = f"Score: {self.score}"
         self.display_time.text = self.time
-        self.display_level.text = f"Level {self.level}"
+        self.display_level.text = f"Level {self.level+1}"
         if int(live) != self.nb_lives:
             self.nb_lives = int(live)
             self.regenerate_lives()
