@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:04:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:26:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -273,6 +273,7 @@ class GameEngine(arcade.View):
                     self._timer_code = 0
 
                     if self._code == KONAMI_CODE:
+                        self.audio_manager.play_sound('oh_oh', 0.6)
                         self._code_found = True
                         print("🫦")
 
@@ -349,11 +350,19 @@ class GameEngine(arcade.View):
         current_second: int = int(self._current_timer_start) + 1
 
         if current_second != previous_second and current_second > 0:
+            if current_second == 3:
+                self.audio_manager.play_sound('start_three', 1.0)
+            elif current_second == 2:
+                self.audio_manager.play_sound('start_two', 1.0)
+            elif current_second == 1:
+                self.audio_manager.play_sound('start_one', 1.0)
+
             if game_config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
+            self.audio_manager.play_sound('start_go', 1.0)
             if game_config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)
