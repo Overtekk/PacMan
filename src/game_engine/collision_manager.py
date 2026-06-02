@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 15:59:17 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:06:20 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,6 +67,7 @@ class CollisionManager():
 
         # Debug force died
         if self.debug_force_death:
+            self.audio_manager.play_sound('dead1', 1.3)
             self.debug_force_death = False
             self.state_manager.live -= 1
 

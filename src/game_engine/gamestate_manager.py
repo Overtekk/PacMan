@@ -6,16 +6,17 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:53:23 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 16:16:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
-from src import game_config
 
+from src import game_config
 from src.utils import print_log
+from src.audio import AudioManager
 
 
 class GameStateManager():
@@ -23,11 +24,13 @@ class GameStateManager():
         self,
         game_window: arcade.Window,
         parent_view: arcade.View,
+        audio_manager: AudioManager
     ) -> None:
 
         self.window = game_window
         self.config = game_window.game_config
         self.parent_view = parent_view
+        self.audio_manager = audio_manager
 
         # Init the game data
         self.game_data: dict[str, Any] = {
@@ -51,6 +54,9 @@ class GameStateManager():
 
         # DEATH TRIGGER
         if self.game_data["live"] <= 0:
+            self.audio_manager.stop_all_sounds()
+            self.audio_manager.play_sound('gameover', 2.0)
+
             if self.window:
                 from src.renderer.ui.game_over_screen import GameOverScreen
 
