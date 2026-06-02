@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 10:42:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 11:26:17 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -136,7 +136,7 @@ class GameEngine(arcade.View):
 
                         enemy_obj.is_edible = False
                         enemy_obj.sprite.color = (255, 255, 255)
-                        enemy_obj.speed = game_config.enemy_speed
+                        enemy_obj.speed = self.level_manager.enemy_speed
 
             # Time managing
             self.state_manager.time_left -= delta_time
