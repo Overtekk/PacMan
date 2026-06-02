@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:24:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:57:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,7 +87,7 @@ class AudioManager():
             'eat', 'eat1', 'eat2', 'eat3', 'fah', 'dead1', 'gameover',
             'slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5',
             'start_one', 'start_two', 'start_three', "start_go", 'click1',
-            'gg1', 'gg2', 'gg3', 'gg4', 'oh_oh'
+            'gg1', 'gg2', 'gg3', 'gg4', 'oh_oh', 'victory'
         ]
 
         for audio_name in audios_to_init:

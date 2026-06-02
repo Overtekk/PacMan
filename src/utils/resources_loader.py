@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 13:49:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:58:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -189,6 +189,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "gg4": {
         "path": "victory/gg_4.ogg",
+        "streaming": False
+    },
+    "victory": {
+        "path": "victory/victory.mp3",
         "streaming": False
     },
 }
