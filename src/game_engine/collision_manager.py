@@ -6,11 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-<<<<<<< HEAD
-#  Updated: 2026/06/02 15:33:23 by roandrie        ###   ########.fr        #
-=======
-#  Updated: 2026/06/02 15:27:41 by roandrie        ###   ########.fr        #
->>>>>>> b1fbfbd (t)
+#  Updated: 2026/06/02 15:59:17 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -73,7 +69,6 @@ class CollisionManager():
         if self.debug_force_death:
             self.debug_force_death = False
             self.state_manager.live -= 1
-            self.player_reference.die(delta_time)
 
             if game_config.debug_mode:
                 print_log(
@@ -98,7 +93,7 @@ class CollisionManager():
             for enemy in enemy_colliding:
                 if not enemy.parent._died:
 
-                    self.audio_manager.play_sound('fah', 1)
+                    self.audio_manager.play_sound('dead1', 1.3)
                     self.debug_force_death = False
                     self.state_manager.live -= 1
 
@@ -108,7 +103,6 @@ class CollisionManager():
                             f"{self.state_manager.live}"
                         )
 
-                    self.player_reference.die(delta_time)
                     return True
 
         # Check for collision between player/collectibles
@@ -119,7 +113,7 @@ class CollisionManager():
             for obj in list_colliding:
                 # Play the audio
                 self.audio_manager.play_random_sound(
-                    ['eat1', 'eat2', 'eat3'], 1.0
+                    ['eat1', 'eat2', 'eat3'], 0.5
                 )
 
                 # Increase score

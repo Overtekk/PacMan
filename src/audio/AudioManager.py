@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 15:25:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 15:41:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,7 +60,7 @@ class AudioManager():
 
     def _init_audio(self) -> None:
         audios_to_init: list[str] = [
-            'eat', 'eat1', 'eat2', 'eat3', 'fah'
+            'eat', 'eat1', 'eat2', 'eat3', 'fah', 'dead1'
         ]
 
         for audio_name in audios_to_init:

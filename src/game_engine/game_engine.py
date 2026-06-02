@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 11:26:17 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 15:59:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,6 +56,7 @@ class GameEngine(arcade.View):
         # -- Private variable --
         self._first_launch: bool = True
         self._pacgum_timer: float = 0.0
+        self._timer_pause: float = 2.0
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -101,7 +102,17 @@ class GameEngine(arcade.View):
 
         # ---------- GAME PAUSED ----------
         elif self.game_state == GameState.PAUSE:
-            pass
+            self._timer_pause -= delta_time
+
+            sc_x, sc_y = self.player.sprite.scale
+            reduction = 0.5 * delta_time
+            self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
+
+            if self._timer_pause < 0.0:
+                self.player.die(delta_time)
+                self._timer_pause = 2.0
+                self.player.sprite.scale = self._player_scale
+                self.game_state = GameState.RESPAWN
 
         # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
@@ -142,8 +153,8 @@ class GameEngine(arcade.View):
             self.state_manager.time_left -= delta_time
             if int(self.state_manager.time_left) <= 0:
                 self.state_manager.time_left = self.config.level_max_time
-                self.player.die(delta_time)
-                self.game_state = GameState.RESPAWN
+                self.player.can_move = False
+                self.game_state = GameState.PAUSE
 
             # Check for collisions
             result: bool | str = self.coll_manager.update(delta_time)
@@ -155,7 +166,8 @@ class GameEngine(arcade.View):
                 if res == "finish":
                     self.state_manager.win()
             elif result is True:
-                self.game_state = GameState.RESPAWN
+                self.player.can_move = False
+                self.game_state = GameState.PAUSE
 
             # Update all entities logics
             else:
@@ -359,6 +371,9 @@ class GameEngine(arcade.View):
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
+
+        # utils
+        self._player_scale = self.player.sprite.scale
 
         # Enemy rendering
         for enemy_obj in self.level_manager.enemies_list.values():
