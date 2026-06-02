@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:58:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 18:06:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -111,13 +111,19 @@ class GameStateManager():
         self.game_data["current_level_index"] = new_index
 
     def win(self) -> None:
+        # SECURITY
+        if hasattr(self, "_win_triggered") and self._win_triggered:
+            return
+        self._win_triggered = True
+
         # TRIGGER VICTORY SCREEN
         self.audio_manager.stop_all_sounds()
         self.audio_manager.play_sound('victory', 0.05)
         self.audio_manager.play_random_sound(
             ['gg1', 'gg2', 'gg3', 'gg4'], 10
         )
-        if self.game_data["current_level_index"] == len(self.config.level) + 1:
+
+        if self.game_data["current_level_index"] >= len(self.config.level):
             from src.renderer.ui.finish_screen import FinishScreen
             self.window.show_view(FinishScreen(
                 score=self.score,
