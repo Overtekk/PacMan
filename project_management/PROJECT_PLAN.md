@@ -4,8 +4,14 @@
 ---
 ### 02/06/2026
 - anacharp
-	- according speed of the player and enemies is adjusted to the size of the maze
-
+	- according speed of the player and enemies to the size of the maze
+	- according chase speed and runaway speed to the sprites speed
+	- making some songs
+	- changing scales
+	- changing sprites
+	- changing pause menu and cheat mode apparition
+	- find bugs and report them
+	- starting with level 1 and not level 0
 
 ### 01/06/2026
 - roandrie
