@@ -12,6 +12,7 @@
 	- changing pause menu and cheat mode apparition
 	- find bugs and report them
 	- starting with level 1 and not level 0
+	- cheater in red on leaderboard
 
 ### 01/06/2026
 - roandrie
