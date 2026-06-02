@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:15:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 17:41:18 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -166,7 +166,8 @@ class FinishScreen(BaseMenu):
                 if self.window:
                     self.window.show_view(MainMenu())
                 save_score_to_leaderboard(self.filename, self.player_name,
-                                          float(self.score))
+                                          float(self.score),
+                                          self.previous_view.parent_view.code_found)
 
     def on_draw(self) -> None:
         self.clear()
@@ -195,3 +196,5 @@ class FinishScreen(BaseMenu):
         for sprite in self.button_list:
             if isinstance(sprite, Glasses):
                 sprite.on_update(delta_time)
+
+# si le joueur a cheat on ajoute CHEATER devant son nom
