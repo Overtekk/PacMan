@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 13:01:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 10:58:13 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,8 +26,8 @@ class DogEnemy(Enemy):
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         player_ref: Player,
-        scale: float = 1.0,
-        speed: float = 100.0,
+        scale: float,
+        speed: float,
         is_edible: bool = False
     ) -> None:
 
