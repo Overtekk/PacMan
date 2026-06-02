@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:16:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:45:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -112,6 +112,10 @@ class GameStateManager():
 
     def win(self) -> None:
         # TRIGGER VICTORY SCREEN
+        self.audio_manager.stop_all_sounds()
+        self.audio_manager.play_random_sound(
+            ['gg1', 'gg2', 'gg3', 'gg4'], 5.0
+        )
         if self.game_data["current_level_index"] == len(self.config.level) + 1:
             from src.renderer.ui.finish_screen import FinishScreen
             self.window.show_view(FinishScreen(

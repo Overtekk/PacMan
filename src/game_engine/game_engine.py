@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:26:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 16:47:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -162,6 +162,9 @@ class GameEngine(arcade.View):
             # Check if player have died or if the level is complete
             if result == "level_complete":
                 self.state_manager.current_level_index += 1
+                self.audio_manager.play_random_sound(
+                    ['gg1', 'gg2', 'gg3', 'gg4'], 5.0
+                )
                 res = self.setup(False)
                 if res == "finish":
                     self.state_manager.win()
