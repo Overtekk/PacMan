@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/01 13:51:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 14:56:19 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -102,7 +102,7 @@ class InstructionsScreen(BaseMenu):
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]
             ),
-            parent_view=self
+            parent_view=self.previous_view
         )
         self.button_list.append(instructions)
 

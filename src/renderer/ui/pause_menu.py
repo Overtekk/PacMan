@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:05:17 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 15:23:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -98,26 +98,6 @@ class Cheat(BaseButton):
             self.parent_view.window.show_view(cheat)
 
 
-class Pause(BaseButton):
-    def __init__(self,
-                 center_x: float,
-                 center_y: float,
-                 sprite_path: Path,
-                 parent_view: arcade.View) -> None:
-
-        super().__init__(
-            center_x=center_x, center_y=center_y,
-            sprite_path=sprite_path, parent_view=parent_view,
-            scale=2
-        )
-
-    def on_click(self) -> None:
-        pass
-
-    def check_hover(self, x: float, y: float) -> None:
-        pass
-
-
 class PauseMenu(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
@@ -127,37 +107,31 @@ class PauseMenu(BaseMenu):
 
     def build_ui(self) -> None:
         # Create buttons
-        pause = Pause(
-            center_x=ScreenSettings.WIDTH // 2, center_y=575,
-            sprite_path=(self.window.asset_manager.textures["pause_button"]),
-            parent_view=self
-        )
 
-        resume = Resume(
-            center_x=ScreenSettings.WIDTH // 2, center_y=375,
+        self.resume = Resume(
+            center_x=ScreenSettings.WIDTH // 2, center_y=475,
             sprite_path=(self.window.asset_manager.textures["resume_button"]),
             parent_view=self.previous_view
         )
 
-        instructions_button = InstructionsButton(
-            center_x=ScreenSettings.WIDTH // 2, center_y=275,
+        self.instructions_button = InstructionsButton(
+            center_x=ScreenSettings.WIDTH // 2, center_y=375,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]
             ),
             parent_view=self
         )
 
-        go_back = GoBack(
-            center_x=ScreenSettings.WIDTH // 2, center_y=175,
+        self.go_back = GoBack(
+            center_x=ScreenSettings.WIDTH // 2, center_y=275,
             sprite_path=(self.window.asset_manager.textures["return_button"]),
             parent_view=self
         )
 
         # Put buttons on a button list
-        self.button_list.append(pause)
-        self.button_list.append(resume)
-        self.button_list.append(instructions_button)
-        self.button_list.append(go_back)
+        self.button_list.append(self.resume)
+        self.button_list.append(self.instructions_button)
+        self.button_list.append(self.go_back)
 
         # Create the cheat button if KONAMI code have been entered
         if self.previous_view.code_found:
@@ -197,10 +171,16 @@ class PauseMenu(BaseMenu):
         for sprite in self.button_list:
             if hasattr(sprite, "on_update"):
                 sprite.on_update(delta_time)
+        for obj in self.button_list:
+            if isinstance(obj, Cheat):
+                self.resume.center_y = 400
+                self.instructions_button.center_y = 300
+                self.go_back.center_y = 200
+                break
 
     def create_cheat_button(self) -> None:
         cheat = Cheat(
-            center_x=ScreenSettings.WIDTH // 2, center_y=475,
+            center_x=ScreenSettings.WIDTH // 2, center_y=500,
             sprite_path=self.window.asset_manager.textures["cheat_button"],
             parent_view=self, background=self.background
         )
