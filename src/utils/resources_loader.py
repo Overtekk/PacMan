@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:19:48 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 13:49:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -97,7 +97,7 @@ REQUIERED_FONTS: dict[str, str] = {
 REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     "fah": {
         "path": "fah.mp3",
-        "streaming": True
+        "streaming": False
     },
     "bruit": {
         "path": "bruit.mp3",
@@ -106,7 +106,91 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     "eat": {
         "path": "eat.mp3",
         "streaming": False
-    }
+    },
+    "oh_oh": {
+        "path": "oh_oh.ogg",
+        "streaming": False
+    },
+    "starting": {
+        "path": "starting.mp3",
+        "streaming": False
+    },
+    "gameover": {
+        "path": "gameover/game_over.ogg",
+        "streaming": False
+    },
+    "dead1": {
+        "path": "player/dead_1.ogg",
+        "streaming": False
+    },
+    "eat1": {
+        "path": "player/eat_1.ogg",
+        "streaming": False
+    },
+    "eat2": {
+        "path": "player/eat_2.ogg",
+        "streaming": False
+    },
+    "eat3": {
+        "path": "player/eat_3.ogg",
+        "streaming": False
+    },
+    "slurp1": {
+        "path": "player/slurp_1.ogg",
+        "streaming": False
+    },
+    "slurp2": {
+        "path": "player/slurp_2.ogg",
+        "streaming": False
+    },
+    "slurp3": {
+        "path": "player/slurp_3.ogg",
+        "streaming": False
+    },
+    "slurp4": {
+        "path": "player/slurp_4.ogg",
+        "streaming": False
+    },
+    "slurp5": {
+        "path": "player/slurp_5.ogg",
+        "streaming": False
+    },
+    "start_one": {
+        "path": "start/1.ogg",
+        "streaming": False
+    },
+    "start_two": {
+        "path": "start/2.ogg",
+        "streaming": False
+    },
+    "start_three": {
+        "path": "start/3.ogg",
+        "streaming": False
+    },
+    "start_go": {
+        "path": "start/go.ogg",
+        "streaming": False
+    },
+    "click1": {
+        "path": "ui/click_1.ogg",
+        "streaming": False
+    },
+    "gg1": {
+        "path": "victory/gg_1.ogg",
+        "streaming": False
+    },
+    "gg2": {
+        "path": "victory/gg_2.ogg",
+        "streaming": False
+    },
+    "gg3": {
+        "path": "victory/gg_3.ogg",
+        "streaming": False
+    },
+    "gg4": {
+        "path": "victory/gg_4.ogg",
+        "streaming": False
+    },
 }
 
 
