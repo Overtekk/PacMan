@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 11:07:40 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 16:06:21 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,10 +26,10 @@ from src.entity import (Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy,
                         Pacgum, SuperPacgum)
 
 
-PLAYER_SCALE: float = 0.7
-ENEMIES_SCALE: float = 0.7
-PACGUM_SCALE: float = 0.7
-SUPERPACGUM_SCALE: float = 0.8
+PLAYER_SCALE: float = 0.5
+ENEMIES_SCALE: float = 0.5
+PACGUM_SCALE: float = 0.6
+SUPERPACGUM_SCALE: float = 0.6
 
 
 class LevelManager():
