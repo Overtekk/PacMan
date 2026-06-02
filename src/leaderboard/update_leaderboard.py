@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:53:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:21:15 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 17:39:40 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,7 +16,7 @@ import json
 
 
 def save_score_to_leaderboard(
-    file: str, player_name: str, score: float
+    file: str, player_name: str, score: float, cheater_or_not: bool
 ) -> None:
 
     # If player_name is too long, cut the characters
@@ -28,10 +28,17 @@ def save_score_to_leaderboard(
         score = 0
 
     # Store the data
-    player_data: dict[str, Any] = {
-        "player_name": player_name,
-        "player_score": int(score)
-    }
+    if cheater_or_not is True:
+        cheater_name = f"CHEATER {player_name}"
+        player_data: dict[str, Any] = {
+            "player_name": cheater_name,
+            "player_score": int(score)
+        }
+    else:
+        player_data: dict[str, Any] = {
+            "player_name": player_name,
+            "player_score": int(score)
+        }
 
     # Get all the leaderboard
     data: Any = open_leaderboard(file)
