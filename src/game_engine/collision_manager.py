@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 11:22:35 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/02 14:30:46 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -140,7 +140,7 @@ class CollisionManager():
                         enemy.sprite.color = (64, 99, 193)
                         enemy.speed = (
                             (enemy.base_speed -
-                                game_config.ennemy_speed_reduction)
+                                (enemy.base_speed//10))
                         )
 
                         # Turn the enemy
