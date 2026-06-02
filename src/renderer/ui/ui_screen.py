@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 09:19:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 15:04:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -107,7 +107,7 @@ class UIScreen(BaseMenu):
             self.more_lives.x = x - 10
             self.more_lives.y = y - 22
 
-        # When the user loose lives and there is not more than 5 lives anymore
+        # When the user looses lives and there is not more than 5 lives anymore
         # it writes nothing except the sprites
         else:
             self.more_lives.text = ""
@@ -124,7 +124,7 @@ class UIScreen(BaseMenu):
         self.score = str(int(score))
         self.time = str(int(time))
         self.level = level
-        self.display_score. text = f"Score: {self.score}"
+        self.display_score.text = f"Score: {self.score}"
         self.display_time.text = self.time
         self.display_level.text = f"Level {self.level}"
         if int(live) != self.nb_lives:
