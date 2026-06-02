@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:20:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 11:22:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -139,7 +139,7 @@ class CollisionManager():
                         enemy.is_edible = True
                         enemy.sprite.color = (64, 99, 193)
                         enemy.speed = (
-                            (game_config.enemy_speed -
+                            (enemy.base_speed -
                                 game_config.ennemy_speed_reduction)
                         )
 

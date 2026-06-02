@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 13:46:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/02 11:05:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -132,8 +132,8 @@ class Enemy(Movable):
         maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         player_reference: "Player",
-        scale: float = 1.0,
-        speed: float = 80.0,
+        scale: float,
+        speed: float,
         is_edible: bool = False,
         enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
@@ -148,6 +148,8 @@ class Enemy(Movable):
         self.player_ref = player_reference
         self._is_edible = is_edible
         self._mode = enemy_state
+
+        self.base_speed = speed
 
         self.sprite.parent = self
 
