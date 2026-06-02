@@ -28,6 +28,7 @@
 	- Parsing correction to prevent errors when creating a maze larger than 42 by 42
 	- Implementation of the progression to the next level upon completion of the current level; if all levels are completed, the victory overlay is displayed.
 	- crash fix
+	- sound effects creation
 
 ### 30/05/2026
 - anacharp
