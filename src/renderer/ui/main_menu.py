@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:11:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 11:23:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -225,6 +225,7 @@ class PlayButton(BaseButton):
 
     def on_click(self) -> None:
         # Start the game
+        self.parent_view.audio_manager.stop_sound('music_mainmenu')
         self.parent_view.window.game_session = GameEngine()
         self.parent_view.window.show_view(self.parent_view.window.game_session)
 
@@ -241,6 +242,8 @@ class MainMenu(BaseMenu):
         )
         self.menu_time: float = 0.0
         self.audio_manager = AudioManager(self.window)
+
+        self._play_music()
 
     def build_ui(self) -> None:
         # Create buttons
@@ -347,7 +350,7 @@ class MainMenu(BaseMenu):
         self.button_list.append(pacman)
         pacman.change_x = 1000 / 700
 
-    def on_key_press(self, symbol: int, modifiers: int) -> None:
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
             # Close arcade
             arcade.exit()
@@ -367,6 +370,11 @@ class MainMenu(BaseMenu):
             if hasattr(sprite, "on_update"):
                 sprite.on_update(delta_time)
 
+        self._music_duration -= delta_time
+
+        if self._music_duration < 0.0:
+            self._play_music()
+
     def on_draw(self) -> None:
         self.clear()
 
@@ -378,3 +386,9 @@ class MainMenu(BaseMenu):
 
         # Draw all the sprites
         self.button_list.draw()
+
+    def _play_music(self) -> None:
+        self._music_duration = 66
+        self.audio_manager.play_sound(
+            'music_mainmenu', 0.2
+        )

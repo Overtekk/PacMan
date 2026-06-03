@@ -6,16 +6,16 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 16:02:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 10:30:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 import arcade
 
+from .screen_settings import ScreenSettings, ScreenState
 from src.config import GameConfig
 from src.utils import SpritesLoader, AudioLoader
-from .screen_settings import ScreenSettings, ScreenState
-from src.renderer import MainMenu
+from src.renderer import MainMenu, LogoScreen
 
 
 class GameWindow(arcade.Window):
@@ -39,7 +39,7 @@ class GameWindow(arcade.Window):
         self.audio_manager = audio_list
 
         self._screen_state = ScreenState.MENU
-        self.show_view(MainMenu())
+        self.show_view(LogoScreen(self))
 
     @property
     def screen_state(self) -> str:
@@ -48,3 +48,6 @@ class GameWindow(arcade.Window):
     @screen_state.setter
     def screen_state(self, new_state: ScreenState) -> None:
         self._screen_state = new_state
+
+    def show_main_menu(self) -> None:
+        self.show_view(MainMenu())
