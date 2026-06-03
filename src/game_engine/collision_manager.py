@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 12:30:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:04:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,7 @@ from src import game_config
 
 from src.entity import Entity, Player, Movable, EnemyState
 from .gamestate_manager import GameStateManager
+from .game_settings import LevelState
 from src.utils import print_log, SuperCalculator
 from src.audio import AudioManager
 
@@ -52,7 +53,7 @@ class CollisionManager():
         # DEBUG
         self.debug_force_death: bool = False
 
-    def update(self, delta_time: float) -> bool | str:
+    def update(self, delta_time: float) -> LevelState:
         # Check collisions for the player with walls
         self._entity_collisions_logic(self.player_reference)
 
@@ -78,14 +79,15 @@ class CollisionManager():
         # Debug force player to died
         if self.debug_force_death:
             self._kill_player()
-            return True
+            return LevelState.PLAYER_DIED
 
         # Kill player if an enemy is colliding with him
-        if len(enemy_colliding) > 0:
-            for enemy in enemy_colliding:
-                if not enemy.parent._died:
-                    self._kill_player()
-                    return True
+        if not self.player_reference.invincible:
+            if len(enemy_colliding) > 0:
+                for enemy in enemy_colliding:
+                    if not enemy.parent._died:
+                        self._kill_player()
+                        return LevelState.PLAYER_DIED
 
         # Get the collectible if it collides with the player
         if len(list_colliding) > 0:
@@ -96,9 +98,9 @@ class CollisionManager():
         if len(self.pacgums_sprite_list) == 0:
             for sprite in self.super_pacgums_sprite_list:
                 sprite.remove_from_sprite_lists()
-            return "level_complete"
+            return LevelState.LEVEL_COMPLETED
 
-        return False
+        return LevelState.CONTINUE
 
     # :---------------:
     #  PRIVATE METHODS
@@ -108,7 +110,7 @@ class CollisionManager():
         if self.debug_force_death:
             self.debug_force_death = False
 
-        self.audio_manager.play_sound('dead1', 1.3)
+        self.audio_manager.play_sound('dead1', 1.0)
         self.state_manager.live -= 1
 
         if game_config.debug_mode:
@@ -118,7 +120,7 @@ class CollisionManager():
 
     def _kill_enemy(self, enemy: Any, delta_time: float) -> None:
         self.audio_manager.play_random_sound(
-            ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 5.0
+            ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 4.0
         )
         enemy.die(delta_time)
         self.state_manager.score += self.state_manager.config.ghost_points
@@ -128,7 +130,7 @@ class CollisionManager():
 
     def _collect_collectible(self, collectible: Any) -> None:
         self.audio_manager.play_random_sound(
-            ['eat1', 'eat2', 'eat3'], 3.3
+            ['eat1', 'eat2', 'eat3'], 4.0
         )
 
         self.state_manager.score += collectible.score

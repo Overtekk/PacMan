@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 21:34:15 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:36:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 12:56:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,3 +20,9 @@ class GameState(Enum):
     RESPAWN = auto()
     PAUSE = auto()
     FINISH = auto()
+
+
+class LevelState(Enum):
+    LEVEL_COMPLETED = auto()
+    PLAYER_DIED = auto()
+    CONTINUE = auto()
