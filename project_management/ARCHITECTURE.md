@@ -46,12 +46,18 @@
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *dead_pacman.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *ghosts_win.png*\
 ‎ ‎ ‎ ‎ ↳ **cheat_menu**\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_lives.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_freeze.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_invincibility.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_next_level.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_speed_up.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_time.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_lives_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_lives_off.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_freeze_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_freeze_off.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_invincibility_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_invincibility_off.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_next_level_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_next_level_off.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_speed_up_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_speed_up_off.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_time_on.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *cheat_extra_time_off.png*\
 
 
 ## launch script
