@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 14:27:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 15:36:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -45,7 +45,9 @@ class EnemyBrain():
             pass
 
         elif self.enemy.mode == EnemyState.CHASE:
-            self.enemy.speed = self.enemy.base_speed + (self.enemy.base_speed//10)
+            self.enemy.speed = (
+                self.enemy.base_speed + (self.enemy.base_speed//10)
+            )
             self._chase_player(delta_time)
 
         elif self.enemy.mode == EnemyState.RUNAWAY:
@@ -53,6 +55,14 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.RESPAWN:
             self._return_to_spawnpoint()
+
+            self.enemy._timer_check_respawn -= delta_time
+
+            if self.enemy._timer_check_respawn < 0.0:
+                self.enemy.respawn()
+                self.enemy._timer_check_respawn = (
+                    game_config.enemy_check_res_timer
+                )
 
     # :---------------:
     #  PRIVATE METHODS
@@ -278,12 +288,17 @@ class EnemyBrain():
     def _revive(self, delta_time: float) -> None:
         self.enemy._revive_timer += delta_time
 
+        ratio = self.enemy._revive_timer / game_config.player_revive_time
+        ratio = min(ratio, 1.0)
+        self.enemy.sprite.alpha = int(255 * ratio)
+
         if self.enemy._revive_timer > game_config.player_revive_time:
             self.enemy.mode = EnemyState.WANDER
             self.enemy.sprite.color = (255, 255, 255)
             self.enemy._wait_revive = False
             self.enemy._died = False
             self.enemy._revive_timer = 0.0
+            self.enemy.sprite.alpha = 255
 
             if game_config.debug_mode:
                 print_log(f"Changed state for {self.enemy} to WANDER")

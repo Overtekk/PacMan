@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:12:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 15:31:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -550,6 +550,7 @@ class GameEngine(arcade.View):
         if hasattr(entity, 'mode'):
             entity.mode = EnemyState.WAIT
             entity.speed = self.level_manager.enemy_speed
+            entity.sprite.alpha = 255
         if hasattr(entity, 'is_edible'):
             entity.is_edible = False
 

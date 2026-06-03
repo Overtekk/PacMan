@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 14:57:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 15:27:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -146,14 +146,16 @@ class Enemy(Movable):
         self.sprite_sheet_died = sprite_sheet_died
         self.maze_bitmap = maze_bitmap
         self.player_ref = player_reference
-        self._is_edible = is_edible
-        self._mode = enemy_state
 
         self.base_speed = speed
 
         self.sprite.parent = self
 
+        # - Private variables -
         self._died: bool = False
+        self._is_edible = is_edible
+        self._mode = enemy_state
+        self._timer_check_respawn: float = game_config.enemy_check_res_timer
 
         # Internal AI components
         self.brain = EnemyBrain(self)
@@ -204,6 +206,7 @@ class Enemy(Movable):
             self.sprite.texture = self.sprite_sheet_died[
                 self.current_texture_index
             ]
+            self.sprite.alpha = 50
             self.mode = EnemyState.RESPAWN
 
             if game_config.debug_mode:
