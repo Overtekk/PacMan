@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 12:51:06 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 11:53:46 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,8 +67,12 @@ class GameRenderer():
 
         # UI
         self.ui_screen = UIScreen("0", "0", 0, 1)
+        self.next_ui = False
+
+        self.gui_camera = arcade.camera.Camera2D()
 
     def draw(self) -> None:
+        self.gui_camera.use()
         dark_tint = arcade.types.Color(140, 140, 140)
         arcade.draw_texture_rect(
             texture=self.background,
@@ -118,16 +122,16 @@ class GameRenderer():
 
     def wall_generator(
         self,
-        wall_data: list[tuple[str, float, float, float, float]]
+        wall_data: list[tuple[str, float, float, float, float]],
     ) -> None:
         self.walls.clear()
-        self.entities.clear()
         self.pacgums.clear()
         self.super_pacgums.clear()
+        self.entities.clear()
         for sprite_path, angle, x, y, tile_size in wall_data:
             wall = Wall(sprite_path, angle, x, y, tile_size)
-
             self.walls.append(wall)
+        self.next_ui = True
 
     def setup_entities(self, entity_sprite: arcade.Sprite) -> None:
         self.entities.append(entity_sprite)
@@ -148,5 +152,24 @@ class GameRenderer():
         self.timer_size = TEXT_SIZE
         self.instant_text = instant_text
 
+    def zoom(self, player_obj: arcade.Sprite) -> None:
+        x, y = self.gui_camera.position
+        if x < player_obj.center_x:
+            x += 1
+        if x > player_obj.center_x:
+            x -= 1
+        if y < player_obj.center_y:
+            y += 1
+        if y > player_obj.center_y:
+            y -= 1
+        self.gui_camera.position = (x, y)
+        self.gui_camera.zoom += 0.010
+
+    def dezoom(self) -> None:
+        self.gui_camera.position = (ScreenSettings.WIDTH//2, ScreenSettings.HEIGHT//2)
+        self.gui_camera.zoom = 1.0
+
     def update_ui(self, score: str, time: str, live: int, level: int) -> None:
-        self.ui_screen.update(score, time, live, level)
+        if self.next_ui:
+            self.ui_screen.update(score, time, live, level)
+            self.next_ui = False

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 09:36:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 12:04:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -112,12 +112,11 @@ class GameEngine(arcade.View):
 
             # Animation for next level
             if self._next_level:
-                if self._timer_pause < 0.3:
-                    self.player.sprite.visible = False
-                else:
-                    self.player.sprite.angle += 100 * delta_time
+                self.player.sprite.angle += 150 * delta_time
+                self.game_renderer.zoom(self.player.sprite)
 
                 if self._timer_pause < 0.0:
+                    self.game_renderer.dezoom()
                     self._timer_pause = 2.0
                     self._next_level = False
                     self.setup(False)
@@ -127,6 +126,7 @@ class GameEngine(arcade.View):
                 sc_x, sc_y = self.player.sprite.scale
                 reduction = 0.5 * delta_time
                 self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
+                self.player.sprite.angle += 100 * delta_time
 
                 if self._timer_pause < 0.0:
                     self.player.die(delta_time)
