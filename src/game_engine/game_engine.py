@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:18:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:26:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -281,6 +281,7 @@ class GameEngine(arcade.View):
                 self._dying_screen_fading = 20
                 self._show_score_text(self.player.x, self.player.y, 'score')
                 self._text_score_showed = True
+                self.audio_manager.play_sound('points', 0.3)
 
             if self._timer_pause < 0.0:
                 del self._floating_texts['score']

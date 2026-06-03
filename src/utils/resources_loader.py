@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:17:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:24:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -117,6 +117,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
         "path": "starting.mp3",
         "streaming": True
     },
+    "starting2": {
+        "path": "starting2.mp3",
+        "streaming": True
+    },
     "gameover": {
         "path": "gameover/game_over.ogg",
         "streaming": False
@@ -175,6 +179,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "click1": {
         "path": "ui/click_1.ogg",
+        "streaming": False
+    },
+    "points": {
+        "path": "ui/points.mp3",
         "streaming": False
     },
     "gg1": {

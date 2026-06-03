@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:17:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:26:53 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -150,6 +150,7 @@ class CollisionManager():
         if game_config.debug_mode:
             print_log("Activate SUPERPACGUM")
 
+        self.audio_manager.stop_sound('music_invincible')
         self.audio_manager.play_sound('music_invincible', 0.3)
 
         self.player_reference.invincible = True
