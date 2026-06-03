@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:22:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:37:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -374,7 +374,6 @@ class MainMenu(BaseMenu):
                 sprite.on_update(delta_time)
 
         self._music_duration -= delta_time
-        print(self._music_duration)
 
         if self._music_duration <= 0.0:
             self._play_music()

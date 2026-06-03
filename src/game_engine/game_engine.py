@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:18:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:31:40 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -148,7 +148,7 @@ class GameEngine(arcade.View):
                     self._timer_code = 0
 
                     if self._code == KONAMI_CODE:
-                        self.audio_manager.play_sound('oh_oh', 1)
+                        self.audio_manager.play_sound('oh_oh', 1.0)
                         self._code_found = True
                         print("🫦")
 
@@ -345,10 +345,10 @@ class GameEngine(arcade.View):
         # Player have completed the level
         if collision_result == LevelState.LEVEL_COMPLETED:
             self.audio_manager.play_random_sound(
-                ['gg1', 'gg2', 'gg3', 'gg4'], 3
+                ['gg1', 'gg2', 'gg3', 'gg4'], 1.0
             )
             self.audio_manager.play_sound(
-                'levelcompleted', 0.5
+                'levelcompleted', 0.2
             )
 
             self.state_manager.current_level_index += 1
@@ -402,18 +402,18 @@ class GameEngine(arcade.View):
 
         if current_second != previous_second and current_second > 0:
             if current_second == 3:
-                self.audio_manager.play_sound('start_three', 1.5)
+                self.audio_manager.play_sound('start_three', 1.0)
             elif current_second == 2:
-                self.audio_manager.play_sound('start_two', 1.5)
+                self.audio_manager.play_sound('start_two', 1.0)
             elif current_second == 1:
-                self.audio_manager.play_sound('start_one', 1.5)
+                self.audio_manager.play_sound('start_one', 1.0)
 
             if game_config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
-            self.audio_manager.play_sound('start_go', 1.5)
+            self.audio_manager.play_sound('start_go', 1.0)
             if game_config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)

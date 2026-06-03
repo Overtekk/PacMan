@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:35:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:15:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:31:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -55,7 +55,7 @@ class BaseMenu(arcade.View, ABC):
                         ui_button.collides_with_point((x, y))):
 
                     if self.audio_manager:
-                        self.audio_manager.play_sound('click1', 2)
+                        self.audio_manager.play_sound('click1', 1.0)
 
                     ui_button.on_click()
 

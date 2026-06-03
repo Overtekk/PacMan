@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:09:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:36:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -63,6 +63,7 @@ class AudioManager():
             sound=self.audio_dict[random_sound],
             volume=volume
         )
+
         self.active_players[audio_name] = player
 
     def stop_sound(self, audio_name: str) -> None:

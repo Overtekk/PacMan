@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:00:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:31:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -55,7 +55,7 @@ class GameStateManager():
         # DEATH TRIGGER
         if self.game_data["live"] <= 0:
             self.audio_manager.stop_all_sounds()
-            self.audio_manager.play_sound('gameover', 2.0)
+            self.audio_manager.play_sound('gameover', 1.0)
 
             if self.window:
                 from src.renderer.ui.game_over_screen import GameOverScreen
@@ -120,7 +120,7 @@ class GameStateManager():
         self.audio_manager.stop_all_sounds()
         self.audio_manager.play_sound('victory', 0.2)
         self.audio_manager.play_random_sound(
-            ['gg1', 'gg2', 'gg3', 'gg4'], 5
+            ['gg1', 'gg2', 'gg3', 'gg4'], 1.0
         )
 
         if self.game_data["current_level_index"] >= len(self.config.level):
