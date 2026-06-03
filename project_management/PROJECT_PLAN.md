@@ -2,6 +2,12 @@
 ### *anacharp + roandrie*
 
 ---
+
+### 03/06/2026
+- roandrie
+	- add the logo screen at the start of the game
+	- add music to the main menu
+
 ### 02/06/2026
 - anacharp
 	- according speed of the player and enemies to the size of the maze
