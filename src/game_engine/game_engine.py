@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:13:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:18:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -343,6 +343,8 @@ class GameEngine(arcade.View):
 
                 if game_config.debug_mode:
                     print_log("DISABLE SUPERPACGUM")
+
+                self.audio_manager.stop_sound('music_invincible')
 
                 for enemy_obj in self.level_manager.enemies_list.values():
                     if enemy_obj.mode == EnemyState.RUNAWAY:
