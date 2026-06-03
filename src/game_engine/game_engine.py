@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:08:52 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 13:18:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,14 +16,14 @@ import arcade
 
 from .level_manager import LevelManager
 from .collision_manager import CollisionManager
-from .game_settings import GameState
+from .game_settings import GameState, LevelState
+from .gamestate_manager import GameStateManager
 from src import game_config
 from src.utils import print_log
 from src.renderer import GameRenderer
 from src.config import GameConfig
 from src.entity import EnemyState
 from src.renderer.screen_settings import CollectiblesType
-from src.game_engine.gamestate_manager import GameStateManager
 from src.audio import AudioManager
 
 
@@ -47,7 +47,7 @@ class GameEngine(arcade.View):
         # Instanciate class instance
         self.game_renderer: GameRenderer = GameRenderer(self.window)
         self.game_state: GameState = GameState.SETUP
-        self.audio_manager: AudioManager = AudioManager(self.window)
+        self.audio_manager: AudioManager = self.window.audio_player
         self.state_manager: GameStateManager = (
             GameStateManager(self.window, self, self.audio_manager)
         )
@@ -76,10 +76,6 @@ class GameEngine(arcade.View):
         return self._code_found
 
     def on_update(self, delta_time: float) -> None:
-        if self._finish:
-            self.state_manager.win()
-            return
-
         # Update the renderer
         self.game_renderer.update(delta_time)
         self.game_renderer.update_ui(
@@ -89,20 +85,14 @@ class GameEngine(arcade.View):
             self.state_manager.current_level_index
         )
 
-        # KONAMI CODE TIMER
-        if self._index > 0 and not self._code_found:
-            self._timer_code += delta_time
-
-            if self._timer_code > CODE_TIMER:
-                self._timer_code = 0
-                self._index = 0
-                self._code.clear()
+        # Call the timer for the konami code (cheat menu)
+        self._timer_konami_code(delta_time)
 
         # ---------- NOTHING HAPPENS ----------
         if self.game_state == GameState.SETUP:
             pass
 
-        # ---------- START OF THE GAME ----------
+        # ---------- GAME START ----------
         elif self.game_state == GameState.STARTING:
             self.game_renderer.replace(self.player.sprite)
             self.game_renderer.dezoom()
@@ -110,124 +100,20 @@ class GameEngine(arcade.View):
 
         # ---------- GAME PAUSED ----------
         elif self.game_state == GameState.PAUSE:
-            self._timer_pause -= delta_time
-
-            # Animation for next level
-            if self._next_level:
-                self.player.sprite.angle += 150 * delta_time
-                self.game_renderer.zoom(self.player.sprite)
-
-                if self._timer_pause < 0.0:
-                    self._timer_pause = 2.0
-                    self._next_level = False
-                    self.setup(False)
-
-            # Animation for dying
-            else:
-                sc_x, sc_y = self.player.sprite.scale
-                reduction = 0.5 * delta_time
-                self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
-                self.player.sprite.angle += 100 * delta_time
-
-                if self._timer_pause < 0.0:
-                    self.player.die(delta_time)
-                    self._timer_pause = 2.0
-                    self.player.sprite.scale = self._player_scale
-                    self.game_state = GameState.RESPAWN
+            self._state_paused(delta_time)
 
         # ---------- GAME PLAYING ----------
         elif self.game_state == GameState.PLAYING:
-            # Super Pacgum managing
-            if self._pacgum_timer > 0.0:
-                self._pacgum_timer -= delta_time
-
-                # Blinking logic
-                blink_speed: float = 0.30
-                if 0.0 < self._pacgum_timer <= 3.0:
-                    is_blinking: bool = ((self._pacgum_timer %
-                                            (blink_speed * 2)) < blink_speed)
-
-                    for enemy_obj in self.level_manager.enemies_list.values():
-                        if enemy_obj.mode == EnemyState.RUNAWAY:
-                            if is_blinking:
-                                enemy_obj.sprite.color = (255, 255, 255)
-                            else:
-                                enemy_obj.sprite.color = (64, 99, 193)
-
-                # End
-                if self._pacgum_timer <= 0.0:
-                    self._pacgum_timer = 0.0
-                    self.player.invincible = False
-
-                    if game_config.debug_mode:
-                        print_log("DISABLE SUPERPACGUM")
-
-                    for enemy_obj in self.level_manager.enemies_list.values():
-                        if enemy_obj.mode == EnemyState.RUNAWAY:
-                            enemy_obj.mode = EnemyState.WANDER
-
-                        enemy_obj.is_edible = False
-                        enemy_obj.sprite.color = (255, 255, 255)
-                        enemy_obj.speed = self.level_manager.enemy_speed
-
-            # Time managing
-            self.state_manager.time_left -= delta_time
-            if int(self.state_manager.time_left) <= 0:
-                self.state_manager.time_left = self.config.level_max_time
-                self.player.can_move = False
-                self.game_state = GameState.PAUSE
-
-            # Check for collisions
-            result: bool | str = self.coll_manager.update(delta_time)
-
-            # Check if player have died or if the level is complete
-            if result == "level_complete":
-                self.state_manager.current_level_index += 1
-                self.audio_manager.play_random_sound(
-                    ['gg1', 'gg2', 'gg3', 'gg4'], 10
-                )
-                self._next_level = True
-                self._timer_pause = 5
-                self.player.can_move = False
-                for enemy in self.level_manager.enemies_list.values():
-                    enemy.can_move = False
-                self.audio_manager.play_sound(
-                    'levelcompleted', 0.2
-                )
-                self.game_state = GameState.PAUSE
-
-            elif result is True:
-                self.player.can_move = False
-                self.game_state = GameState.PAUSE
-
-            # Update all entities logics
-            else:
-                self.player.update(delta_time)
-
-                for enemy_obj in self.level_manager.enemies_list.values():
-                    enemy_obj.update(delta_time)
-
-                for s_pacgum in self.level_manager.super_pacgums_list:
-                    if s_pacgum.is_activate:
-                        s_pacgum.update(delta_time)
+            self._state_play(delta_time)
 
         # ---------- LIVE LOOSE ----------
         elif self.game_state == GameState.RESPAWN:
-            # Reset the player
-            self._reset_entities(self.player)
-
-            # Reset all enemies
-            for enemy_obj in self.level_manager.enemies_list.values():
-                enemy_obj.respawn()
-                self._reset_entities(enemy_obj)
-
-            # Restart the game
-            self._current_timer_start = TIMER_LEVEL_START
-            self.game_state = GameState.STARTING
+            self._state_respawn()
 
         # ---------- GAME FINISHED ----------
         elif self.game_state == GameState.FINISH:
-            pass
+            if self._finish:
+                self.state_manager.win()
 
     def on_draw(self) -> None:
         # Clear the clear
@@ -248,46 +134,6 @@ class GameEngine(arcade.View):
         else:
             self.game_renderer.draw()
 
-    def setup(self, first_instance: bool = False) -> None:
-        if first_instance:
-            self.state_manager.current_level_index = 0
-            self.state_manager.score = 0
-
-        # Reset game data
-        self.state_manager.live = self.config.live
-        self.state_manager.time_left = self.config.level_max_time
-
-        # Create the level
-        level_index: int = self.state_manager.current_level_index
-
-        try:
-            level: list[list[int]] = self.level_manager.create_level(
-                maze_width=self.config.level[level_index].width,
-                maze_height=self.config.level[level_index].height,
-                first_instance=first_instance
-            )
-        except IndexError:
-            self._finish = True
-            return
-
-        # Render the maze
-        self.game_renderer.wall_generator(level)
-        self._setup_entities()
-        self._setup_collectibles()
-
-        # Instanciate the Collision Manager
-        self.coll_manager: CollisionManager = CollisionManager(
-            self.player, self.level_manager.enemies_list,
-            self.enemies_sprite_list,
-            self.pacgum_sprite_list, self.super_pacgum_sprite_list,
-            self.level_manager.maze_bitmap,
-            self.level_manager.calculator,
-            self.state_manager, self.audio_manager
-        )
-
-        self._current_timer_start: float = TIMER_LEVEL_START
-        self.game_state = GameState.STARTING
-
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if self.game_state == GameState.STARTING:
             if symbol == arcade.key.SPACE:
@@ -302,7 +148,7 @@ class GameEngine(arcade.View):
                     self._timer_code = 0
 
                     if self._code == KONAMI_CODE:
-                        self.audio_manager.play_sound('oh_oh', 0.6)
+                        self.audio_manager.play_sound('oh_oh', 1)
                         self._code_found = True
                         print("🫦")
 
@@ -364,9 +210,185 @@ class GameEngine(arcade.View):
             elif symbol == arcade.key.ESCAPE:
                 self.state_manager.pause_game()
 
+    def setup(self, first_instance: bool = False) -> None:
+        if first_instance:
+            self.state_manager.current_level_index = 0
+            self.state_manager.score = 0
+
+        # Reset game data
+        self.state_manager.live = self.config.live
+        self.state_manager.time_left = self.config.level_max_time
+
+        # Create the level
+        level_index: int = self.state_manager.current_level_index
+
+        try:
+            level: list[list[int]] = self.level_manager.create_level(
+                maze_width=self.config.level[level_index].width,
+                maze_height=self.config.level[level_index].height,
+                first_instance=first_instance
+            )
+        except IndexError:
+            self._finish = True
+            self.game_state = GameState.FINISH
+            return
+
+        # Render the maze
+        self.game_renderer.wall_generator(level)
+        self._setup_entities()
+        self._setup_collectibles()
+
+        # Instanciate the Collision Manager
+        self.coll_manager: CollisionManager = CollisionManager(
+            self.player, self.level_manager.enemies_list,
+            self.enemies_sprite_list,
+            self.pacgum_sprite_list, self.super_pacgum_sprite_list,
+            self.level_manager.maze_bitmap,
+            self.level_manager.calculator,
+            self.state_manager, self.audio_manager
+        )
+
+        self._current_timer_start: float = TIMER_LEVEL_START
+        self.game_state = GameState.STARTING
+
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
+
+    def _state_paused(self, delta_time: float) -> None:
+        self._timer_pause -= delta_time
+
+        # Animation for next level
+        if self._next_level:
+            if self._timer_pause < 0.3:
+                self.player.sprite.visible = False
+            else:
+                self.player.sprite.angle += 100 * delta_time
+
+            if self._timer_pause < 0.0:
+                self._timer_pause = 2.0
+                self._next_level = False
+                self.setup(False)
+
+        # Animation for dying
+        else:
+            sc_x, sc_y = self.player.sprite.scale
+            reduction = 0.5 * delta_time
+            self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
+
+            if self._timer_pause < 0.0:
+                self.player.die(delta_time)
+                self._timer_pause = 2.0
+                self.player.sprite.scale = self._player_scale
+                self.game_state = GameState.RESPAWN
+
+    def _state_play(self, delta_time: float) -> None:
+        # - SUPER PACGUM MANAGING -
+        self._super_pacgum_timer_manager(delta_time)
+
+        # - MAIN TIMER -
+        self._main_timer_manager(delta_time)
+
+        # - COLLISIONS CHECKER -
+        collision_result: LevelState = self.coll_manager.update(delta_time)
+        self._collision_manager(collision_result, delta_time)
+
+    def _super_pacgum_timer_manager(self, delta_time: float) -> None:
+        # Check if a pacgum have been activate
+        if self._pacgum_timer > 0.0:
+            # Start the timer
+            self._pacgum_timer -= delta_time
+
+            self._enemies_blinking()
+
+            # Check for the timer ending
+            if self._pacgum_timer <= 0.0:
+                self._pacgum_timer = 0.0
+                self.player.invincible = False
+
+                if game_config.debug_mode:
+                    print_log("DISABLE SUPERPACGUM")
+
+                for enemy_obj in self.level_manager.enemies_list.values():
+                    if enemy_obj.mode == EnemyState.RUNAWAY:
+                        enemy_obj.mode = EnemyState.WANDER
+
+                    enemy_obj.is_edible = False
+                    enemy_obj.sprite.color = (255, 255, 255)
+                    enemy_obj.speed = self.level_manager.enemy_speed
+
+    def _enemies_blinking(self) -> None:
+        BLINK_SPEED: float = 0.30
+
+        if 0.0 < self._pacgum_timer <= 3.0:
+            is_blinking: bool = ((self._pacgum_timer %
+                                    (BLINK_SPEED * 2)) < BLINK_SPEED)
+
+            for enemy_obj in self.level_manager.enemies_list.values():
+                if enemy_obj.mode == EnemyState.RUNAWAY:
+                    if is_blinking:
+                        enemy_obj.sprite.color = (255, 255, 255)
+                    else:
+                        enemy_obj.sprite.color = (64, 99, 193)
+
+    def _main_timer_manager(self, delta_time: float) -> None:
+        self.state_manager.time_left -= delta_time
+
+        if int(self.state_manager.time_left) <= 0:
+            self.state_manager.time_left = self.config.level_max_time
+            self.player.can_move = False
+            self.game_state = GameState.PAUSE
+
+    def _collision_manager(
+        self, collision_result: LevelState, delta_time: float
+    ) -> None:
+        # Player have completed the level
+        if collision_result == LevelState.LEVEL_COMPLETED:
+            self.audio_manager.play_random_sound(
+                ['gg1', 'gg2', 'gg3', 'gg4'], 3
+            )
+            self.audio_manager.play_sound(
+                'levelcompleted', 0.5
+            )
+
+            self.state_manager.current_level_index += 1
+            self._next_level = True
+            self._timer_pause = 5
+
+            self.player.can_move = False
+            for enemy in self.level_manager.enemies_list.values():
+                enemy.can_move = False
+
+            self.game_state = GameState.PAUSE
+
+        # Player have died
+        elif collision_result is LevelState.PLAYER_DIED:
+            self.player.can_move = False
+            self.game_state = GameState.PAUSE
+
+        # Continue the game
+        else:
+            self.player.update(delta_time)
+
+            for enemy_obj in self.level_manager.enemies_list.values():
+                enemy_obj.update(delta_time)
+
+            for s_pacgum in self.level_manager.super_pacgums_list:
+                if s_pacgum.is_activate:
+                    s_pacgum.update(delta_time)
+
+    def _state_respawn(self) -> None:
+        # Reset the player
+        self._reset_entities(self.player)
+
+        # Reset all enemies
+        for enemy_obj in self.level_manager.enemies_list.values():
+            enemy_obj.respawn()
+            self._reset_entities(enemy_obj)
+
+        # Restart the game
+        self._current_timer_start = TIMER_LEVEL_START
+        self.game_state = GameState.STARTING
 
     def _timer_start(self, delta_time: float) -> None:
         # Save the current second
@@ -397,6 +419,15 @@ class GameEngine(arcade.View):
             self.game_renderer.trigger_time_text("GO!", True)
 
             self._setup_start()
+
+    def _timer_konami_code(self, delta_time: float) -> None:
+        if self._index > 0 and not self._code_found:
+            self._timer_code += delta_time
+
+            if self._timer_code > CODE_TIMER:
+                self._timer_code = 0
+                self._index = 0
+                self._code.clear()
 
     def _setup_entities(self) -> None:
 

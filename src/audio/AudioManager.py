@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 12:53:02 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 13:09:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,7 +38,8 @@ class AudioManager():
                 sound=self.audio_dict[audio_name],
                 volume=volume,
             )
-            self.active_players[audio_name] = player
+            if player is not None:
+                self.active_players[audio_name] = player
 
         else:
             if game_config.debug_mode:
@@ -66,7 +67,11 @@ class AudioManager():
 
     def stop_sound(self, audio_name: str) -> None:
         if audio_name in self.active_players:
-            arcade.stop_sound(self.active_players[audio_name])
+            player = self.active_players[audio_name]
+
+            if player is not None:
+                arcade.stop_sound(player)
+
             del self.active_players[audio_name]
 
         else:
