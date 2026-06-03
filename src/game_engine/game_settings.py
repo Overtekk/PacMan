@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 21:34:15 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 12:56:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 14:15:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,4 +25,5 @@ class GameState(Enum):
 class LevelState(Enum):
     LEVEL_COMPLETED = auto()
     PLAYER_DIED = auto()
+    ENEMY_DIED = auto()
     CONTINUE = auto()

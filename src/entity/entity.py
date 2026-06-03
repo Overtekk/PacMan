@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 11:05:12 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 14:57:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -201,6 +201,9 @@ class Enemy(Movable):
         if self._is_edible:
             self._died = True
             self._is_edible = False
+            self.sprite.texture = self.sprite_sheet_died[
+                self.current_texture_index
+            ]
             self.mode = EnemyState.RESPAWN
 
             if game_config.debug_mode:

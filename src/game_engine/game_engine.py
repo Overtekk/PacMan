@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:31:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 14:59:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -59,6 +59,9 @@ class GameEngine(arcade.View):
         self._timer_pause: float = 2.0
         self._next_level: bool = False
         self._finish: bool = False
+        self._enemy_died: bool = False
+        self._floating_texts: list[dict[str, arcade.Text]] = {}
+        self._text_score_showed: bool = False
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -121,6 +124,10 @@ class GameEngine(arcade.View):
 
         # Render the game
         self.game_renderer.draw()
+
+        # Render texts
+        for text in self._floating_texts.values():
+            text.draw()
 
     def on_show_view(self) -> None:
         # Clear the screen
@@ -258,8 +265,25 @@ class GameEngine(arcade.View):
     def _state_paused(self, delta_time: float) -> None:
         self._timer_pause -= delta_time
 
+        # Animation when enemy died
+        if self._enemy_died:
+            self.player.sprite.visible = False
+
+            if not self._text_score_showed:
+                self._show_score_text(self.player.x, self.player.y, 'score')
+                self._text_score_showed = True
+
+            if self._timer_pause < 0.0:
+                del self._floating_texts['score']
+                self.player.sprite.visible = True
+                self._text_score_showed = False
+                self._timer_pause = 2.0
+                self._enemy_died = False
+                self.game_state = GameState.PLAYING
+                self._change_entities_movement(True)
+
         # Animation for next level
-        if self._next_level:
+        elif self._next_level:
             if self._timer_pause < 0.3:
                 self.player.sprite.visible = False
             else:
@@ -353,11 +377,9 @@ class GameEngine(arcade.View):
 
             self.state_manager.current_level_index += 1
             self._next_level = True
-            self._timer_pause = 5
+            self._timer_pause = 3
 
-            self.player.can_move = False
-            for enemy in self.level_manager.enemies_list.values():
-                enemy.can_move = False
+            self._change_entities_movement(False)
 
             self.game_state = GameState.PAUSE
 
@@ -365,6 +387,13 @@ class GameEngine(arcade.View):
         elif collision_result is LevelState.PLAYER_DIED:
             self.player.can_move = False
             self.game_state = GameState.PAUSE
+
+        # An enemy have died
+        elif collision_result is LevelState.ENEMY_DIED:
+            self._change_entities_movement(False)
+            self._enemy_died = True
+            self.game_state = GameState.PAUSE
+            self._timer_pause = 2
 
         # Continue the game
         else:
@@ -458,11 +487,9 @@ class GameEngine(arcade.View):
     def _setup_start(self) -> None:
         self.game_state = GameState.PLAYING
 
-        # Authorize movement
-        self.player.can_move = True
+        self._change_entities_movement(True)
 
         for enemy_obj in self.level_manager.enemies_list.values():
-            enemy_obj.can_move = True
             enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
@@ -515,3 +542,17 @@ class GameEngine(arcade.View):
             entity.speed = self.level_manager.enemy_speed
         if hasattr(entity, 'is_edible'):
             entity.is_edible = False
+
+    def _change_entities_movement(self, movement: bool) -> None:
+        self.player.can_move = movement
+        for enemy in self.level_manager.enemies_list.values():
+            enemy.can_move = movement
+
+    def _show_score_text(self, x: float, y: float, txt_name: str) -> None:
+        score_text: arcade.Text = arcade.Text(
+            text=f'{self.config.ghost_points}', x=x, y=y,
+            color=arcade.color.BLEU_DE_FRANCE, font_size=20,
+            align='center', font_name='Press Start 2P', bold=False,
+            anchor_x='center', anchor_y='center'
+        )
+        self._floating_texts[txt_name] = score_text
