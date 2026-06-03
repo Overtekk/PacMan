@@ -94,6 +94,8 @@ class GameEngine(arcade.View):
 
         # ---------- GAME START ----------
         elif self.game_state == GameState.STARTING:
+            self.game_renderer.replace(self.player.sprite)
+            self.game_renderer.dezoom()
             self._timer_start(delta_time)
 
         # ---------- GAME PAUSED ----------

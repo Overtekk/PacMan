@@ -249,6 +249,7 @@ class MainMenu(BaseMenu):
 
     def build_ui(self) -> None:
         # Create buttons
+
         logo_button = LogoButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=self.window.asset_manager.textures["logo"],
@@ -373,8 +374,9 @@ class MainMenu(BaseMenu):
                 sprite.on_update(delta_time)
 
         self._music_duration -= delta_time
+        print(self._music_duration)
 
-        if self._music_duration < 0.0:
+        if self._music_duration <= 0.0:
             self._play_music()
 
     def on_draw(self) -> None:
@@ -394,7 +396,7 @@ class MainMenu(BaseMenu):
     # :---------------:
 
     def _play_music(self) -> None:
-        self._music_duration = 66
+        self._music_duration = 70
         self.audio_manager.play_sound(
             'music_mainmenu', 0.2
         )
