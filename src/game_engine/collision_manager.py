@@ -6,20 +6,20 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:31:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 14:57:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 import arcade
-from src import game_config
 
-from src.entity import Entity, Player, Movable, EnemyState
 from .gamestate_manager import GameStateManager
 from .game_settings import LevelState
+from src.entity import Entity, Player, Movable, EnemyState
 from src.utils import print_log, SuperCalculator
 from src.audio import AudioManager
+from src import game_config
 
 
 class CollisionManager():
@@ -33,7 +33,7 @@ class CollisionManager():
         maze_bitmap: dict[tuple[int, int], str],
         calculator: SuperCalculator,
         state_manager: GameStateManager,
-        audio_manager: AudioManager
+        audio_manager: AudioManager,
     ) -> None:
 
         self.player_reference = player_reference
@@ -75,6 +75,7 @@ class CollisionManager():
         for enemy in enemy_colliding:
             if enemy.parent.is_edible and not enemy.parent.died:
                 self._kill_enemy(enemy.parent, delta_time)
+                return LevelState.ENEMY_DIED
 
         # Debug force player to died
         if self.debug_force_death:

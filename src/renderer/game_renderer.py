@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:11:02 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 15:13:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -178,6 +178,7 @@ class GameRenderer():
             )
 
     def update_ui(self, score: str, time: str, live: int, level: int) -> None:
+        self.ui_screen.update(score, time, live, level)
+
         if self.next_ui:
-            self.ui_screen.update(score, time, live, level)
             self.next_ui = False

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:14:39 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 15:28:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,8 @@ ennemy_speed_reduction: float = 20.0
 #  TIMER
 # :-----:
 
-player_revive_time: float = 5.0
+player_revive_time: float = 10
+enemy_check_res_timer: float = 20
 
 # :--------:
 #  POWER-UP
