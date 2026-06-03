@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 09:38:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 12:30:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,100 +65,34 @@ class CollisionManager():
             self._check_collisions_with_enemy()
         )
 
-        # Debug force died
-        if self.debug_force_death:
-            self.audio_manager.play_sound('dead1', 1.3)
-            self.debug_force_death = False
-            self.state_manager.live -= 1
-
-            if game_config.debug_mode:
-                print_log(
-                    f"Player died! Life remaining: {self.state_manager.live}")
-            return True
-
-        # If player is invincible, check if enemy can be eaten
-        elif (self.player_reference.invincible or
-                self.state_manager.parent_view.is_cheat_invincible_active):
-            for enemy in enemy_colliding:
-                if enemy.parent.is_edible and not enemy.parent.died:
-
-                    self.audio_manager.play_random_sound(
-                        ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 5.0
-                    )
-
-                    enemy.parent.die(delta_time)
-                    self.state_manager.score += (
-                        self.state_manager.config.ghost_points)
-
-                    if game_config.debug_mode:
-                        print_log(f"{enemy.parent} died!")
-
-        # Check if player have encountered an enemy
-        elif len(enemy_colliding) > 0:
-            for enemy in enemy_colliding:
-                if not enemy.parent._died:
-
-                    self.audio_manager.play_sound('dead1', 1.3)
-                    self.debug_force_death = False
-                    self.state_manager.live -= 1
-
-                    if game_config.debug_mode:
-                        print_log(
-                            "Player died! Life remaining: "
-                            f"{self.state_manager.live}"
-                        )
-
-                    return True
-
         # Check for collision between player/collectibles
         list_colliding: list[arcade.SpriteType] = (
             self._check_collision_with_collectibles()
         )
+
+        # Check state of enemies
+        for enemy in enemy_colliding:
+            if enemy.parent.is_edible and not enemy.parent.died:
+                self._kill_enemy(enemy.parent, delta_time)
+
+        # Debug force player to died
+        if self.debug_force_death:
+            self._kill_player()
+            return True
+
+        # Kill player if an enemy is colliding with him
+        if len(enemy_colliding) > 0:
+            for enemy in enemy_colliding:
+                if not enemy.parent._died:
+                    self._kill_player()
+                    return True
+
+        # Get the collectible if it collides with the player
         if len(list_colliding) > 0:
             for obj in list_colliding:
-                # Play the audio
-                self.audio_manager.play_random_sound(
-                    ['eat1', 'eat2', 'eat3'], 3.3
-                )
+                self._collect_collectible(obj.parent)
 
-                # Increase score
-                self.state_manager.score += obj.parent.score
-
-                if game_config.debug_mode:
-                    print_log(f"+{obj.parent.score} points.")
-
-                # Activate power
-                if hasattr(obj.parent, 'is_activate'):
-                    if game_config.debug_mode:
-                        print_log("Activate SUPERPACGUM")
-
-                    self.player_reference.invincible = True
-
-                    self.state_manager.parent_view._pacgum_timer = (
-                        game_config.time_power_up
-                    )
-
-                    for enemy in self.enemies_reference.values():
-                        if enemy.mode in [EnemyState.RESPAWN, EnemyState.WAIT]:
-                            continue
-
-                        if enemy.mode != EnemyState.RUNAWAY:
-                            enemy.mode = EnemyState.RUNAWAY
-                        enemy.is_edible = True
-                        enemy.sprite.color = (64, 99, 193)
-                        enemy.speed = (
-                            (enemy.base_speed -
-                                (enemy.base_speed//10))
-                        )
-
-                        # Turn the enemy
-                        x: float = enemy.current_direction[0] * -1.0
-                        y: float = enemy.current_direction[1] * -1.0
-                        enemy.current_direction = (x, y)
-
-                # Remove the sprite
-                obj.kill()
-
+        # Check if all pacgums are eaten
         if len(self.pacgums_sprite_list) == 0:
             for sprite in self.super_pacgums_sprite_list:
                 sprite.remove_from_sprite_lists()
@@ -169,6 +103,71 @@ class CollisionManager():
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
+
+    def _kill_player(self) -> None:
+        if self.debug_force_death:
+            self.debug_force_death = False
+
+        self.audio_manager.play_sound('dead1', 1.3)
+        self.state_manager.live -= 1
+
+        if game_config.debug_mode:
+            print_log(
+                f"Player died! Life remaining: {self.state_manager.live}"
+            )
+
+    def _kill_enemy(self, enemy: Any, delta_time: float) -> None:
+        self.audio_manager.play_random_sound(
+            ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 5.0
+        )
+        enemy.die(delta_time)
+        self.state_manager.score += self.state_manager.config.ghost_points
+
+        if game_config.debug_mode:
+            print_log(f"{enemy} died!")
+
+    def _collect_collectible(self, collectible: Any) -> None:
+        self.audio_manager.play_random_sound(
+            ['eat1', 'eat2', 'eat3'], 3.3
+        )
+
+        self.state_manager.score += collectible.score
+
+        if game_config.debug_mode:
+            print_log(f"+{collectible.score} points.")
+
+        # Activate power if it's a superpacgum
+        if hasattr(collectible, 'is_activate'):
+            self._activate_superpacgum()
+
+                # Remove the sprite
+        collectible.sprite.kill()
+
+    def _activate_superpacgum(self) -> None:
+        if game_config.debug_mode:
+            print_log("Activate SUPERPACGUM")
+
+        self.player_reference.invincible = True
+
+        self.state_manager.parent_view._pacgum_timer = (
+            game_config.time_power_up
+        )
+
+        for enemy in self.enemies_reference.values():
+            if enemy.mode in [EnemyState.RESPAWN, EnemyState.WAIT]:
+                continue
+
+            if enemy.mode != EnemyState.RUNAWAY:
+                enemy.mode = EnemyState.RUNAWAY
+
+            enemy.is_edible = True
+            enemy.sprite.color = (64, 99, 193)
+            enemy.speed = ((enemy.base_speed - (enemy.base_speed//10)))
+
+            # Turn the enemy
+            x: float = enemy.current_direction[0] * -1.0
+            y: float = enemy.current_direction[1] * -1.0
+            enemy.current_direction = (x, y)
 
     def _entity_collisions_logic(self, entity: Movable) -> None:
         # Get the exact center of the current tile
