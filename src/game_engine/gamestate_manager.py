@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 18:06:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 09:35:47 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -118,9 +118,9 @@ class GameStateManager():
 
         # TRIGGER VICTORY SCREEN
         self.audio_manager.stop_all_sounds()
-        self.audio_manager.play_sound('victory', 0.05)
+        self.audio_manager.play_sound('victory', 0.2)
         self.audio_manager.play_random_sound(
-            ['gg1', 'gg2', 'gg3', 'gg4'], 10
+            ['gg1', 'gg2', 'gg3', 'gg4'], 15
         )
 
         if self.game_data["current_level_index"] >= len(self.config.level):

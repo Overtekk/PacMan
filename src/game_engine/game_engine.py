@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 18:07:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 09:36:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -379,18 +379,18 @@ class GameEngine(arcade.View):
 
         if current_second != previous_second and current_second > 0:
             if current_second == 3:
-                self.audio_manager.play_sound('start_three', 1.0)
+                self.audio_manager.play_sound('start_three', 1.5)
             elif current_second == 2:
-                self.audio_manager.play_sound('start_two', 1.0)
+                self.audio_manager.play_sound('start_two', 1.5)
             elif current_second == 1:
-                self.audio_manager.play_sound('start_one', 1.0)
+                self.audio_manager.play_sound('start_one', 1.5)
 
             if game_config.debug_mode:
                 print(f"Game starting in: {current_second}")
             self.game_renderer.trigger_time_text(str(current_second))
 
         if self._current_timer_start <= 0.0:
-            self.audio_manager.play_sound('start_go', 1.0)
+            self.audio_manager.play_sound('start_go', 1.5)
             if game_config.debug_mode:
                 print_log("Game started")
             self.game_renderer.trigger_time_text("GO!", True)
