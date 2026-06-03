@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 14:59:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 15:12:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,6 +25,7 @@ from src.config import GameConfig
 from src.entity import EnemyState
 from src.renderer.screen_settings import CollectiblesType
 from src.audio import AudioManager
+from src.renderer.screen_settings import ScreenSettings
 
 
 # Number of seconds before the level start (player and enemies movement) or
@@ -62,6 +63,7 @@ class GameEngine(arcade.View):
         self._enemy_died: bool = False
         self._floating_texts: list[dict[str, arcade.Text]] = {}
         self._text_score_showed: bool = False
+        self._dying_screen_fading: int = 0
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -124,6 +126,12 @@ class GameEngine(arcade.View):
 
         # Render the game
         self.game_renderer.draw()
+
+        # Render the enemy dying screen
+        arcade.draw_lrbt_rectangle_filled(
+            0.0, ScreenSettings.WIDTH, 0.0, ScreenSettings.HEIGHT,
+            (35,68, 176, self._dying_screen_fading)
+        )
 
         # Render texts
         for text in self._floating_texts.values():
@@ -270,11 +278,13 @@ class GameEngine(arcade.View):
             self.player.sprite.visible = False
 
             if not self._text_score_showed:
+                self._dying_screen_fading = 20
                 self._show_score_text(self.player.x, self.player.y, 'score')
                 self._text_score_showed = True
 
             if self._timer_pause < 0.0:
                 del self._floating_texts['score']
+                self._dying_screen_fading = 0
                 self.player.sprite.visible = True
                 self._text_score_showed = False
                 self._timer_pause = 2.0
