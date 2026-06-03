@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 11:53:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 13:11:02 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -70,6 +70,7 @@ class GameRenderer():
         self.next_ui = False
 
         self.gui_camera = arcade.camera.Camera2D()
+        self.gui_zoom = self.gui_camera.zoom
 
     def draw(self) -> None:
         self.gui_camera.use()
@@ -107,7 +108,6 @@ class GameRenderer():
 
     def update(self, delta_time: float) -> None:
         REDUCE_SIZE_PIXELS: float = 150.0
-
         if self.timer_size > 0:
             if self.instant_text:
                 self.timer_size -= (REDUCE_SIZE_PIXELS * delta_time) * 4
@@ -165,9 +165,17 @@ class GameRenderer():
         self.gui_camera.position = (x, y)
         self.gui_camera.zoom += 0.010
 
+    def replace(self, player_obj: arcade.Sprite) -> None:
+        self.gui_camera.position = (ScreenSettings.WIDTH // 2, ScreenSettings.HEIGHT // 2)
+
     def dezoom(self) -> None:
-        self.gui_camera.position = (ScreenSettings.WIDTH//2, ScreenSettings.HEIGHT//2)
-        self.gui_camera.zoom = 1.0
+        if self.gui_camera.zoom > 1.0:
+            self.gui_camera.zoom -= 0.03
+        else:
+            self.gui_camera.zoom = 1.0
+            self.gui_camera.position = (
+                ScreenSettings.WIDTH // 2, ScreenSettings.HEIGHT // 2
+            )
 
     def update_ui(self, score: str, time: str, live: int, level: int) -> None:
         if self.next_ui:

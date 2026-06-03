@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 12:04:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 13:08:52 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -104,6 +104,8 @@ class GameEngine(arcade.View):
 
         # ---------- START OF THE GAME ----------
         elif self.game_state == GameState.STARTING:
+            self.game_renderer.replace(self.player.sprite)
+            self.game_renderer.dezoom()
             self._timer_start(delta_time)
 
         # ---------- GAME PAUSED ----------
@@ -116,7 +118,6 @@ class GameEngine(arcade.View):
                 self.game_renderer.zoom(self.player.sprite)
 
                 if self._timer_pause < 0.0:
-                    self.game_renderer.dezoom()
                     self._timer_pause = 2.0
                     self._next_level = False
                     self.setup(False)

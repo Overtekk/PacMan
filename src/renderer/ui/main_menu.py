@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 11:23:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 12:48:37 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -242,11 +242,13 @@ class MainMenu(BaseMenu):
         )
         self.menu_time: float = 0.0
         self.audio_manager = AudioManager(self.window)
+        self._music_duration: float = 68.0
 
         self._play_music()
 
     def build_ui(self) -> None:
         # Create buttons
+
         logo_button = LogoButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=self.window.asset_manager.textures["logo"],
@@ -371,8 +373,9 @@ class MainMenu(BaseMenu):
                 sprite.on_update(delta_time)
 
         self._music_duration -= delta_time
+        print(self._music_duration)
 
-        if self._music_duration < 0.0:
+        if self._music_duration <= 0.0:
             self._play_music()
 
     def on_draw(self) -> None:
@@ -388,7 +391,7 @@ class MainMenu(BaseMenu):
         self.button_list.draw()
 
     def _play_music(self) -> None:
-        self._music_duration = 66
+        self._music_duration = 70
         self.audio_manager.play_sound(
             'music_mainmenu', 0.2
         )
