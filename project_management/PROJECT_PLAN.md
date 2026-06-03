@@ -7,6 +7,11 @@
 - roandrie
 	- add the logo screen at the start of the game
 	- add music to the main menu
+	- Refactor the collision_manager.py and game_engine.py, on_update method
+
+	- Fix: Bugs with the audio: duplicating, not stopping etc... (AudioManager is instantiate only once know)
+	- Fix: Audiomanager can't stock a None player
+	- Fix: Highscore screen now goes back to the main menu and do not create another one
 
 ### 02/06/2026
 - anacharp
