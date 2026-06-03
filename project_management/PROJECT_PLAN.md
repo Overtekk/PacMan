@@ -8,6 +8,9 @@
 	- add the logo screen at the start of the game
 	- add music to the main menu
 	- Refactor the collision_manager.py and game_engine.py, on_update method
+	- Animation when eating anime: pause, score showed, blue screen
+	- Enemy now respawn after a certain time if they are stuck during the respawn state
+	- Opacity of the enemy increase for the duration of the respawn state (10 seconds)
 
 	- Fix: Bugs with the audio: duplicating, not stopping etc... (AudioManager is instantiate only once know)
 	- Fix: Audiomanager can't stock a None player
