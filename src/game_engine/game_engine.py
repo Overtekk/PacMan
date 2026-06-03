@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:31:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:13:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -289,6 +289,7 @@ class GameEngine(arcade.View):
                 self._text_score_showed = False
                 self._timer_pause = 2.0
                 self._enemy_died = False
+                self.audio_manager.play_sound('enemydied', 0.3)
                 self.game_state = GameState.PLAYING
                 self._change_entities_movement(True)
 

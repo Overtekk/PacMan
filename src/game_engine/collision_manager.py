@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 14:57:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:12:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -121,7 +121,7 @@ class CollisionManager():
 
     def _kill_enemy(self, enemy: Any, delta_time: float) -> None:
         self.audio_manager.play_random_sound(
-            ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 1.0
+            ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 2.0
         )
         enemy.die(delta_time)
         self.state_manager.score += self.state_manager.config.ghost_points
@@ -131,7 +131,7 @@ class CollisionManager():
 
     def _collect_collectible(self, collectible: Any) -> None:
         self.audio_manager.play_random_sound(
-            ['eat1', 'eat2', 'eat3'], 1.0
+            ['eat1', 'eat2', 'eat3'], 2.0
         )
 
         self.state_manager.score += collectible.score
