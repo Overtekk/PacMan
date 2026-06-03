@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 11:23:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:17:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -241,7 +241,7 @@ class MainMenu(BaseMenu):
             self.window.asset_manager.textures["ocean"]
         )
         self.menu_time: float = 0.0
-        self.audio_manager = AudioManager(self.window)
+        self.audio_manager: AudioManager = self.window.audio_player
 
         self._play_music()
 

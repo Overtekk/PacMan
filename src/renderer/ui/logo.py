@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/03 09:48:39 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 11:23:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:17:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -101,7 +101,7 @@ class LogoScreen(BaseMenu):
 
     def _create_elements(self) -> None:
         # Init the audios elements
-        self.audio_manager: AudioManager = AudioManager(self.window)
+        self.audio_manager: AudioManager = self.window.audio_player
 
         # Create texts
         team_name = arcade.Text(

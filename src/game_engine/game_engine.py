@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:07:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:18:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,7 +47,7 @@ class GameEngine(arcade.View):
         # Instanciate class instance
         self.game_renderer: GameRenderer = GameRenderer(self.window)
         self.game_state: GameState = GameState.SETUP
-        self.audio_manager: AudioManager = AudioManager(self.window)
+        self.audio_manager: AudioManager = self.window.audio_player
         self.state_manager: GameStateManager = (
             GameStateManager(self.window, self, self.audio_manager)
         )
