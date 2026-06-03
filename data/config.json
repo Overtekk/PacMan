@@ -11,6 +11,11 @@
 			"name": "Level 1",
 			"width": 5,
 			"height": 5
+		},
+		{
+			"name": "Level 1",
+			"width": 10,
+			"height": 10
 		}
 	]
 }
