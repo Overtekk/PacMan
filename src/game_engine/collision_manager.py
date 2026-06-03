@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 09:37:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 09:38:23 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -118,7 +118,7 @@ class CollisionManager():
             for obj in list_colliding:
                 # Play the audio
                 self.audio_manager.play_random_sound(
-                    ['eat1', 'eat2', 'eat3'], 3.0
+                    ['eat1', 'eat2', 'eat3'], 100.0
                 )
 
                 # Increase score
