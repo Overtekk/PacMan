@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/03 09:48:39 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 10:32:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 10:36:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -128,4 +128,4 @@ class LogoScreen(BaseMenu):
         self.button_list.append(logo)
 
     def _play_sound(self) -> None:
-        self.audio_manager.play_sound('starting', 2.0)
+        self.audio_manager.play_sound('starting', 1.0)
