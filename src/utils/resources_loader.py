@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:24:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 16:30:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -215,6 +215,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "enemydied": {
         "path": "enemy/died.mp3",
+        "streaming": False
+    },
+    "enemyrespawn": {
+        "path": "enemy/respawn.mp3",
         "streaming": False
     },
     "music_invincible": {
