@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 17:37:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 10:18:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -86,6 +86,8 @@ REQUIERED_SPRITES: dict[str, str] = {
     "return_button": "pause/return.png",
 
     "player": "player/player.png",
+
+    "background": "background.png"
 }
 
 REQUIERED_FONTS: dict[str, str] = {
@@ -113,7 +115,7 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "starting": {
         "path": "starting.mp3",
-        "streaming": False
+        "streaming": True
     },
     "gameover": {
         "path": "gameover/game_over.ogg",
