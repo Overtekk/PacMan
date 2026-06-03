@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 10:18:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 10:42:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -200,6 +200,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     "levelcompleted": {
         "path": "victory/level_completed.mp3",
         "streaming": False
+    },
+    "music_mainmenu": {
+        "path": "music/main_menu.mp3",
+        "streaming": True
     },
 }
 

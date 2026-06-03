@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/03 09:48:39 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 10:36:13 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 11:23:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -90,6 +90,10 @@ class LogoScreen(BaseMenu):
             0.0, ScreenSettings.WIDTH, 0.0, ScreenSettings.HEIGHT,
             (0,0,0, self._fading)
         )
+
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        if symbol == arcade.key.SPACE:
+            self._timer = 0.0
 
     # :---------------:
     #  PRIVATE METHODS
