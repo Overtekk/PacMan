@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 09:35:47 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 09:39:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -120,7 +120,7 @@ class GameStateManager():
         self.audio_manager.stop_all_sounds()
         self.audio_manager.play_sound('victory', 0.2)
         self.audio_manager.play_random_sound(
-            ['gg1', 'gg2', 'gg3', 'gg4'], 15
+            ['gg1', 'gg2', 'gg3', 'gg4'], 150
         )
 
         if self.game_data["current_level_index"] >= len(self.config.level):
