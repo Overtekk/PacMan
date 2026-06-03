@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:17:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/03 13:22:01 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -208,7 +208,9 @@ class HighscoresButton(BaseButton):
     def on_click(self) -> None:
         # Go on highscores menu
         if self.parent_view.window:
-            self.parent_view.window.show_view(HighscoresScreen())
+            self.parent_view.window.show_view(
+                HighscoresScreen(previous_view=self.parent_view)
+            )
 
 
 class PlayButton(BaseButton):
@@ -386,6 +388,10 @@ class MainMenu(BaseMenu):
 
         # Draw all the sprites
         self.button_list.draw()
+
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
 
     def _play_music(self) -> None:
         self._music_duration = 66

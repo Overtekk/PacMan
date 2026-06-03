@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/02 16:53:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/03 13:23:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,15 +38,15 @@ class HighscoresButton(BaseButton):
         anchor_x = anchor_x
 
     def on_click(self) -> None:
-        # Return to main menu
-        from src.renderer.ui.main_menu import MainMenu
         if self.parent_view.window:
-            self.parent_view.window.show_view(MainMenu())
+            self.parent_view.window.show_view(self.parent_view.previous_view)
 
 
 class HighscoresScreen(BaseMenu):
-    def __init__(self) -> None:
+    def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
+        self.previous_view = previous_view
+
         # Initialise the beach background
         self.background = arcade.load_texture(
             self.window.asset_manager.textures["ocean"]
@@ -81,11 +81,10 @@ class HighscoresScreen(BaseMenu):
             self.text_lst.append(text)
             y -= 50
 
-    def on_key_press(self, symbol: int, modifiers: int) -> None:
+    def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
-            from src.renderer.ui.main_menu import MainMenu
             if self.window:
-                self.window.show_view(MainMenu())
+                self.window.show_view(self.previous_view)
 
     def on_draw(self) -> None:
         self.clear()
