@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:26:53 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 10:48:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -83,12 +83,13 @@ class CollisionManager():
             return LevelState.PLAYER_DIED
 
         # Kill player if an enemy is colliding with him
-        if not self.player_reference.invincible:
+        if not self.player_reference.cheat_invincible:
             if len(enemy_colliding) > 0:
                 for enemy in enemy_colliding:
-                    if not enemy.parent._died:
-                        self._kill_player()
-                        return LevelState.PLAYER_DIED
+                    if not enemy.parent.died:
+                        if not self.player_reference.invincible or enemy.parent.have_respawned:
+                            self._kill_player()
+                            return LevelState.PLAYER_DIED
 
         # Get the collectible if it collides with the player
         if len(list_colliding) > 0:
@@ -165,6 +166,7 @@ class CollisionManager():
 
             if enemy.mode != EnemyState.RUNAWAY:
                 enemy.mode = EnemyState.RUNAWAY
+                enemy.have_respawned = False
 
             enemy.is_edible = True
             enemy.sprite.color = (64, 99, 193)

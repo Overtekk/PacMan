@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 17:52:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:44:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from .entity import Movable
 from src.utils import SuperCalculator
+from src import game_config
 
 
 class Player(Movable):
@@ -34,13 +35,30 @@ class Player(Movable):
         )
 
         self.invincible: bool = False
+        self.cheat_invincible: bool = False
+        self.cheat_speed: float = 0
 
     def update(self, delta_time: float) -> None:
         self._update_sprite_facing()
+
         super().update(delta_time)
 
     def die(self, _delta_time) -> None:
         self.respawn()
+
+    def increase_cheat_speed(self, value: float) -> None:
+        self.speed += value
+
+        if self.speed > 400:
+            self.speed = 400
+
+        print(self.speed)
+
+    def decrease_cheat_speed(self, value: float) -> None:
+        self.speed -= value
+
+        if self.speed < game_config.player_speed:
+            self.speed = game_config.player_speed
 
     def _update_animation(self, delta_time: float) -> None:
         # Verify that the sprite is moving

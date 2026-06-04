@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:27:50 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 10:46:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -156,6 +156,7 @@ class Enemy(Movable):
         self._is_edible = is_edible
         self._mode = enemy_state
         self._timer_check_respawn: float = game_config.enemy_check_res_timer
+        self._have_respawned: bool = False
 
         # Internal AI components
         self.brain = EnemyBrain(self)
@@ -185,6 +186,14 @@ class Enemy(Movable):
     @property
     def died(self) -> bool:
         return self._died
+
+    @property
+    def have_respawned(self) -> bool:
+        return self._have_respawned
+
+    @have_respawned.setter
+    def have_respawned(self, new_value: bool) -> None:
+        self._have_respawned = new_value
 
     def update(self, delta_time: float) -> None:
         # Delegate logic execution to the brain
