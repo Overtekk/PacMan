@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:40:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 15:33:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -510,9 +510,6 @@ class GameEngine(arcade.View):
         # Keep cheats value between levels
         if self.is_cheat_invincible_active:
             self.player.cheat_invincible = True
-        if self.is_cheat_freeze_active:
-            for enemy in self.level_manager.enemies_list:
-                enemy.can_move = False
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
@@ -538,6 +535,10 @@ class GameEngine(arcade.View):
         if self.state_manager.current_level_index != self._level_index:
             self._play_level_music(self.state_manager.current_level_index)
             self._level_index = self.state_manager.current_level_index
+
+        if self.is_cheat_freeze_active:
+            for enemy in self.level_manager.enemies_list.values():
+                enemy.can_move = False
 
         for enemy_obj in self.level_manager.enemies_list.values():
             enemy_obj.mode = EnemyState.WANDER
