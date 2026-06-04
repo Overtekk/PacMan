@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:30:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 13:58:03 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -225,6 +225,34 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
         "path": "music/invincible.mp3",
         "streaming": False
     },
+    "music_joy": {
+        "path": "music/joy_song.mp3",
+        "streaming": False
+    },
+    "music_cave": {
+        "path": "music/cave_song.mp3",
+        "streaming": False
+    },
+    "music_suspens": {
+        "path": "music/suspens_song.mp3",
+        "streaming": False
+    },
+    "music_suspens2": {
+        "path": "music/suspens2_song.mp3",
+        "streaming": False
+    },
+    "music_strange": {
+        "path": "music/strange_song.mp3",
+        "streaming": False
+    },
+    "music_jungle": {
+        "path": "music/jungle_song.mp3",
+        "streaming": False
+    },
+    "music_pacman": {
+        "path": "music/bad_pacman_song.mp3",
+        "streaming": False
+    }
 }
 
 
