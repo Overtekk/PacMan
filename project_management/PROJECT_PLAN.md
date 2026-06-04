@@ -11,6 +11,8 @@
 		- dezoom for finish screen
 	- fix pacman disappearance so that he doesn't reappear in the same place before being teleported to the center
 	- make a nice logo
+	- menus navigable with the keyboard arrows
+	- Change the menu music by clicking on the Pac-Man logo
 - roandrie
 	fix: cheats stay between levels
 	fix: invincibility prevent ghosts to be eaten when they respawn
