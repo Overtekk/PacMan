@@ -3,6 +3,16 @@
 
 ---
 
+### 04/06/2026
+- anacharp
+	- working on win level animation
+		- become more smooth
+		- press SPACE key on starter time dezoom
+		- dezoom for finish screen
+	- fix pacman disappearance so that he doesn't reappear in the same place before being teleported to the center
+	- make a nice logo
+
+
 ### 03/06/2026
 - roandrie
 	- add the logo screen at the start of the game
