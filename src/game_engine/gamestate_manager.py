@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:31:44 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:30:03 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,7 @@ import arcade
 from src import game_config
 from src.utils import print_log
 from src.audio import AudioManager
+from src.renderer.screen_settings import ScreenSettings
 
 
 class GameStateManager():
@@ -124,6 +125,15 @@ class GameStateManager():
         )
 
         if self.game_data["current_level_index"] >= len(self.config.level):
+            from src.game_engine.game_engine import GameEngine
+            if isinstance(self.parent_view, GameEngine):
+                if hasattr(self.parent_view, 'game_renderer'):
+                    self.parent_view.game_renderer.gui_camera.position = (
+                        ScreenSettings.WIDTH//2,
+                        ScreenSettings.HEIGHT//2)
+                    self.parent_view.game_renderer.gui_camera.zoom = 1.0
+                    self.parent_view.game_renderer.draw()
+
             from src.renderer.ui.finish_screen import FinishScreen
             self.window.show_view(FinishScreen(
                 score=self.score,
@@ -133,5 +143,5 @@ class GameStateManager():
     def pause_game(self) -> None:
         if self.window:
             from src.renderer.ui.pause_menu import PauseMenu
-
             self.window.show_view(PauseMenu(previous_view=self.parent_view))
+
