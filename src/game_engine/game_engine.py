@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 10:47:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:05:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -481,6 +481,13 @@ class GameEngine(arcade.View):
         self.fox_enemy = self.level_manager.enemies_list["fox_enemy"]
         self.rat_enemy = self.level_manager.enemies_list["rat_enemy"]
         self.dog_enemy = self.level_manager.enemies_list["dog_enemy"]
+
+        # Keep cheats value between levels
+        if self.is_cheat_invincible_active:
+            self.player.cheat_invincible = True
+        if self.is_cheat_freeze_active:
+            for enemy in self.level_manager.enemies_list:
+                enemy.can_move = False
 
         # List containing all enemies sprites
         self.enemies_sprite_list: arcade.SpriteList[Any] = arcade.SpriteList()
