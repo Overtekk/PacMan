@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 13:58:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/04 14:18:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -134,11 +134,11 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
         "streaming": False
     },
     "eat2": {
-        "path": "player/eat_2.ogg",
+        "path": "player/eat_2.mp3",
         "streaming": False
     },
     "eat3": {
-        "path": "player/eat_3.ogg",
+        "path": "player/eat_3.mp3",
         "streaming": False
     },
     "slurp1": {
@@ -223,7 +223,51 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "music_invincible": {
         "path": "music/invincible.mp3",
-        "streaming": False
+        "streaming": True
+    },
+    "music_intro": {
+        "path": "music/intro.mp3",
+        "streaming": True
+    },
+    "music_level1": {
+        "path": "music/levels/level1.mp3",
+        "streaming": True
+    },
+    "music_level2": {
+        "path": "music/levels/level2.mp3",
+        "streaming": True
+    },
+    "music_level3": {
+        "path": "music/levels/level3.mp3",
+        "streaming": True
+    },
+    "music_level4": {
+        "path": "music/levels/level4.mp3",
+        "streaming": True
+    },
+    "music_level5": {
+        "path": "music/levels/level5.mp3",
+        "streaming": True
+    },
+    "music_level6": {
+        "path": "music/levels/level6.mp3",
+        "streaming": True
+    },
+    "music_level7": {
+        "path": "music/levels/level7.mp3",
+        "streaming": True
+    },
+    "music_level8": {
+        "path": "music/levels/level8.mp3",
+        "streaming": True
+    },
+    "music_level9": {
+        "path": "music/levels/level9.mp3",
+        "streaming": True
+    },
+    "music_level10": {
+        "path": "music/levels/level10.mp3",
+        "streaming": True
     },
     "music_joy": {
         "path": "music/joy_song.mp3",
