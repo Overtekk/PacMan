@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 10:48:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 14:28:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -131,9 +131,10 @@ class CollisionManager():
             print_log(f"{enemy} died!")
 
     def _collect_collectible(self, collectible: Any) -> None:
-        self.audio_manager.play_random_sound(
-            ['eat1', 'eat2', 'eat3'], 2.0
-        )
+        # self.audio_manager.play_random_sound(
+        #     ['eat1', 'eat2', 'eat3'], 2.0
+        # )
+        self.audio_manager.play_sound('eat1')
 
         self.state_manager.score += collectible.score
 

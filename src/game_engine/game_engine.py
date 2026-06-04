@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:56:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 14:27:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -64,6 +64,7 @@ class GameEngine(arcade.View):
         self._floating_texts: list[dict[str, arcade.Text]] = {}
         self._text_score_showed: bool = False
         self._dying_screen_fading: int = 0
+        self._level_index: int = -1
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -182,7 +183,11 @@ class GameEngine(arcade.View):
                         print("🫦")
 
             # Gameplay
-            if symbol == arcade.key.UP or symbol == arcade.key.W:
+            if symbol == arcade.key.ESCAPE:
+                self.audio_manager.pause_sound(self.level_sound)
+                self.state_manager.pause_game()
+
+            elif symbol == arcade.key.UP or symbol == arcade.key.W:
                 self.player._next_direction = (0, 1)
 
             elif symbol == arcade.key.DOWN or symbol == arcade.key.S:
@@ -225,9 +230,6 @@ class GameEngine(arcade.View):
                     print_log(
                         f"Debug: change player speed to: {self.player.speed}"
                     )
-
-            elif symbol == arcade.key.ESCAPE:
-                self.state_manager.pause_game()
 
     def setup(self, first_instance: bool = False) -> None:
         if first_instance:
@@ -273,10 +275,10 @@ class GameEngine(arcade.View):
     def cheat_skip_current_level(self) -> None:
         self.cheat_skip_level = False
 
+        self.audio_manager.stop_all_sounds()
         self.audio_manager.play_sound(
             'levelcompleted', 0.2
         )
-        self.audio_manager.stop_sound('music_invincible')
 
         self.state_manager.current_level_index += 1
         self._next_level = True
@@ -324,6 +326,7 @@ class GameEngine(arcade.View):
                 self._next_level = False
                 self.setup(False)
 
+
         # Animation for dying
         else:
             sc_x, sc_y = self.player.sprite.scale
@@ -354,6 +357,8 @@ class GameEngine(arcade.View):
             # Start the timer
             self._pacgum_timer -= delta_time
 
+            self.audio_manager.pause_sound(self.level_sound)
+
             self._enemies_blinking()
 
             # Check for the timer ending
@@ -365,6 +370,7 @@ class GameEngine(arcade.View):
                     print_log("DISABLE SUPERPACGUM")
 
                 self.audio_manager.stop_sound('music_invincible')
+                self.audio_manager.resume_sound(self.level_sound)
 
                 for enemy_obj in self.level_manager.enemies_list.values():
                     if enemy_obj.mode == EnemyState.RUNAWAY:
@@ -402,7 +408,7 @@ class GameEngine(arcade.View):
     ) -> None:
         # Player have completed the level
         if collision_result == LevelState.LEVEL_COMPLETED:
-            self.audio_manager.stop_sound('music_invincible')
+            self.audio_manager.stop_all_sounds()
             self.audio_manager.play_random_sound(
                 ['gg1', 'gg2', 'gg3', 'gg4'], 1.0
             )
@@ -411,7 +417,7 @@ class GameEngine(arcade.View):
             )
             self.state_manager.current_level_index += 1
             self._next_level = True
-            self._timer_pause = 4.0
+            self._timer_pause = 3.5
 
             self._change_entities_movement(False)
 
@@ -427,7 +433,7 @@ class GameEngine(arcade.View):
             self._change_entities_movement(False)
             self._enemy_died = True
             self.game_state = GameState.PAUSE
-            self._timer_pause = 4.0
+            self._timer_pause = 3.0
 
         # Continue the game
         else:
@@ -529,6 +535,9 @@ class GameEngine(arcade.View):
         self.game_state = GameState.PLAYING
 
         self._change_entities_movement(True)
+        if self.state_manager.current_level_index != self._level_index:
+            self._play_level_music(self.state_manager.current_level_index)
+            self._level_index = self.state_manager.current_level_index
 
         for enemy_obj in self.level_manager.enemies_list.values():
             enemy_obj.mode = EnemyState.WANDER
@@ -598,3 +607,11 @@ class GameEngine(arcade.View):
             anchor_x='center', anchor_y='center'
         )
         self._floating_texts[txt_name] = score_text
+
+    def _play_level_music(self, level_index: int) -> None:
+        # +1 because we start at the index 0
+        self.level_sound: str = f'music_level{level_index + 1}'
+
+        self.audio_manager.play_sound(
+            self.level_sound, 0.03, True
+        )
