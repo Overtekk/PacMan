@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/02 14:56:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/04 15:51:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -78,6 +78,7 @@ class Instructions(BaseButton):
 
         super().__init__(center_x=center_x, center_y=center_y,
                          sprite_path=sprite_path, parent_view=parent_view)
+        self.y = 0
 
     def on_click(self) -> None:
         if self.parent_view.window:
@@ -93,10 +94,11 @@ class InstructionsScreen(BaseMenu):
         self.background = arcade.load_texture(
             self.window.asset_manager.textures["ocean"]
         )
+        self.y = 0
 
     def build_ui(self) -> None:
         # Create all sprites and texts
-        instructions = Instructions(
+        self.instructions = Instructions(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=600,
             sprite_path=(
@@ -104,7 +106,7 @@ class InstructionsScreen(BaseMenu):
             ),
             parent_view=self.previous_view
         )
-        self.button_list.append(instructions)
+        self.button_list.append(self.instructions)
 
         self.write_commands()
         self.write_rules()
@@ -117,6 +119,22 @@ class InstructionsScreen(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             if self.window:
                 self.window.show_view(self.previous_view)
+
+        if symbol == arcade.key.DOWN:
+            self.y += 1
+        if symbol == arcade.key.UP:
+            self.y += 1
+
+        if self.y > 1:
+            self.y = 0
+        if self.y == 1:
+            self.instructions.check_hover(self.instructions.center_x,
+                                          self.instructions.center_y)
+        else:
+            self.instructions.color = arcade.color.WHITE
+        if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+            if self.y == 1:
+                self.instructions.on_click()
 
     def write_ghosts(self) -> None:
 

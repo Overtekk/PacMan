@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:04:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 16:12:47 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -112,6 +112,8 @@ class PauseMenu(BaseMenu):
         # Init the audios elements
         self.audio_manager: AudioManager = self.window.audio_player
 
+        self.y = 2
+
     def build_ui(self) -> None:
         # Create buttons
 
@@ -153,6 +155,76 @@ class PauseMenu(BaseMenu):
                 )
                 self.window.show_view(self.previous_view)
 
+        if symbol == arcade.key.DOWN:
+            self.y += 1
+        if symbol == arcade.key.UP:
+            self.y -= 1
+
+        if not self.previous_view.code_found:
+
+            if self.y < 0:
+                self.y = 3
+            if self.y == 4:
+                self.y = 1
+            if self.y == 1:
+                self.resume.check_hover(self.resume.center_x,
+                                            self.resume.center_y)
+            else:
+                self.resume.color = arcade.color.WHITE
+            if self.y == 2:
+                self.instructions_button.check_hover(self.instructions_button.center_x,
+                                                self.instructions_button.center_y)
+            else:
+                self.instructions_button.color = arcade.color.WHITE
+            if self.y == 3:
+                self.go_back.check_hover(self.go_back.center_x,
+                                                    self.go_back.center_y)
+            else:
+                self.go_back.color = arcade.color.WHITE
+
+
+            if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+                if self.y == 1:
+                    self.resume.on_click()
+                if self.y == 2:
+                    self.instructions_button.on_click()
+                if self.y == 3:
+                    self.go_back.on_click()
+        else:
+            if self.y < 0:
+                self.y = 4
+            if self.y == 5:
+                self.y = 1
+            if self.y == 1:
+                self.cheat.check_hover(self.cheat.center_x,
+                                       self.cheat.center_y)
+            else:
+                self.cheat.color = arcade.color.WHITE
+            if self.y == 2:
+                self.resume.check_hover(self.resume.center_x,
+                                        self.resume.center_y)
+            else:
+                self.resume.color = arcade.color.WHITE
+            if self.y == 3:
+                self.instructions_button.check_hover(self.instructions_button.center_x,
+                                                     self.instructions_button.center_y)
+            else:
+                self.instructions_button.color = arcade.color.WHITE
+            if self.y == 4:
+                self.go_back.check_hover(self.go_back.center_x, self.go_back.center_y)
+            else:
+                self.go_back.color = arcade.color.WHITE
+
+            if symbol == arcade.key.SPACE or symbol == arcade.key.ENTER:
+                if self.y == 1:
+                    self.cheat.on_click()
+                if self.y == 2:
+                    self.resume.on_click()
+                if self.y == 3:
+                    self.instructions_button.on_click()
+                if self.y == 4:
+                    self.go_back.on_click()
+
     def on_draw(self) -> None:
         self.clear()
 
@@ -189,9 +261,9 @@ class PauseMenu(BaseMenu):
                 break
 
     def create_cheat_button(self) -> None:
-        cheat = Cheat(
+        self.cheat = Cheat(
             center_x=ScreenSettings.WIDTH // 2, center_y=500,
             sprite_path=self.window.asset_manager.textures["cheat_button"],
             parent_view=self, background=self.background
         )
-        self.button_list.append(cheat)
+        self.button_list.append(self.cheat)

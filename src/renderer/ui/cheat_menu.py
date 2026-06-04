@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 12:50:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 16:25:48 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -380,10 +380,11 @@ class CheatMenu(BaseMenu):
 
         self.previous_view = previous_view
         self.background = background
+        self.y = 0
 
     def build_ui(self) -> None:
         # Create all the cheat mode buttons
-        invincibility = InvincibilityButton(
+        self.invincibility = InvincibilityButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=600,
             sprite_path=(
@@ -395,7 +396,7 @@ class CheatMenu(BaseMenu):
             )
         )
 
-        extra_lives = ExtraLivesButton(
+        self.extra_lives = ExtraLivesButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=500,
             sprite_path=(
@@ -407,7 +408,7 @@ class CheatMenu(BaseMenu):
             )
         )
 
-        freeze_ghost = FreezeGhostButton(
+        self.freeze_ghost = FreezeGhostButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=400,
             sprite_path=(
@@ -419,7 +420,7 @@ class CheatMenu(BaseMenu):
             )
         )
 
-        next_level = NextLevelButton(
+        self.next_level = NextLevelButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=300,
             sprite_path=(
@@ -431,7 +432,7 @@ class CheatMenu(BaseMenu):
             )
         )
 
-        extra_time = ExtraTime(
+        self.extra_time = ExtraTime(
             center_x=(ScreenSettings.WIDTH // 2) + 200,
             center_y=200,
             sprite_path=(
@@ -442,9 +443,9 @@ class CheatMenu(BaseMenu):
             self.window.asset_manager.textures["extra_time_on"]
         )
         )
-        self.button_list.append(extra_time)
+        self.button_list.append(self.extra_time)
 
-        speed_up = SpeedUpButton(
+        self.speed_up = SpeedUpButton(
             center_x=(ScreenSettings.WIDTH // 2) - 200,
             center_y=200,
             sprite_path=(
@@ -455,9 +456,9 @@ class CheatMenu(BaseMenu):
             self.window.asset_manager.textures["speed_up_on"]
         )
         )
-        self.button_list.append(speed_up)
+        self.button_list.append(self.speed_up)
 
-        back = BackButton(
+        self.back = BackButton(
             center_x=ScreenSettings.WIDTH // 2,
             center_y=100,
             sprite_path=(
@@ -466,16 +467,76 @@ class CheatMenu(BaseMenu):
             parent_view=self.previous_view,
         )
         # Add all buttons on a button list
-        self.button_list.append(invincibility)
-        self.button_list.append(extra_lives)
-        self.button_list.append(freeze_ghost)
-        self.button_list.append(next_level)
-        self.button_list.append(back)
+        self.button_list.append(self.invincibility)
+        self.button_list.append(self.extra_lives)
+        self.button_list.append(self.freeze_ghost)
+        self.button_list.append(self.next_level)
+        self.button_list.append(self.back)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.ESCAPE:
             if self.previous_view:
                 self.window.show_view(self.previous_view)
+
+        if symbol == arcade.key.DOWN:
+            self.y += 1
+        if symbol == arcade.key.UP:
+            self.y -= 1
+
+        if self.y < 0:
+            self.y = 7
+        if self.y == 8:
+            self.y = 1
+        if self.y == 1:
+            self.invincibility.check_hover(self.invincibility.center_x,
+                                         self.invincibility.center_y)
+        else:
+            self.invincibility.color = arcade.color.WHITE
+        if self.y == 2:
+            self.extra_lives.check_hover(self.extra_lives.center_x,
+                                               self.extra_lives.center_y)
+        else:
+            self.extra_lives.color = arcade.color.WHITE
+        if self.y == 3:
+            self.freeze_ghost.check_hover(self.freeze_ghost.center_x,
+                                                 self.freeze_ghost.center_y)
+        else:
+            self.freeze_ghost.color = arcade.color.WHITE
+        if self.y == 4:
+            self.next_level.check_hover(self.next_level.center_x,
+                                         self.next_level.center_y)
+        else:
+            self.next_level.color = arcade.color.WHITE
+        if self.y == 5:
+            self.speed_up.check_hover(self.speed_up.center_x,
+                                      self.speed_up.center_y)
+        else:
+            self.speed_up.color = arcade.color.WHITE
+        if self.y == 6:
+            self.extra_time.check_hover(self.extra_time.center_x,
+                                        self.extra_time.center_y)
+        else:
+            self.extra_time.color = arcade.color.WHITE
+        if self.y == 7:
+            self.back.check_hover(self.back.center_x, self.back.center_y)
+        else:
+            self.back.color = arcade.color.WHITE
+
+        if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+            if self.y == 1:
+                self.invincibility.on_click()
+            if self.y == 2:
+                self.extra_lives.on_click()
+            if self.y == 3:
+                self.freeze_ghost.on_click()
+            if self.y == 4:
+                self.next_level.on_click()
+            if self.y == 5:
+                self.speed_up.on_click()
+            if self.y == 6:
+                self.extra_time.on_click()
+            if self.y == 7:
+                self.back.on_click()
 
     def on_draw(self) -> None:
         self.clear()
