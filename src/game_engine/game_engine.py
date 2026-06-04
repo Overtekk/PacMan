@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:27:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 14:40:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -613,5 +613,5 @@ class GameEngine(arcade.View):
         self.level_sound: str = f'music_level{level_index + 1}'
 
         self.audio_manager.play_sound(
-            self.level_sound, 0.03, True
+            self.level_sound, 0.4, True
         )
