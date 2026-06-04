@@ -15,6 +15,11 @@
 	- Fix: Bugs with the audio: duplicating, not stopping etc... (AudioManager is instantiate only once know)
 	- Fix: Audiomanager can't stock a None player
 	- Fix: Highscore screen now goes back to the main menu and do not create another one
+- anacharp
+	- Fix : bugs with ui screen switching on next level before next level creation
+	- create a loop with the music from the main menu
+	- Animate the level change
+
 
 ### 02/06/2026
 - anacharp
