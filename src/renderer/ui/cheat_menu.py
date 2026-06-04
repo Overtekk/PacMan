@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:52:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 12:50:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -204,6 +204,8 @@ class NextLevelButton(BaseButton):
             print_log("Cheat mode: Skipping level")
 
         self.parent_view.previous_view.cheat_skip_current_level()
+        if self.parent_view.window:
+            self.parent_view.window.show_view(self.parent_view.previous_view)
 
 
 class FreezeGhostButton(BaseButton):

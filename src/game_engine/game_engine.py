@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:51:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:56:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -275,6 +275,7 @@ class GameEngine(arcade.View):
         self.audio_manager.play_sound(
             'levelcompleted', 0.2
         )
+        self.audio_manager.stop_sound('music_invincible')
 
         self.state_manager.current_level_index += 1
         self._next_level = True
@@ -401,6 +402,7 @@ class GameEngine(arcade.View):
     ) -> None:
         # Player have completed the level
         if collision_result == LevelState.LEVEL_COMPLETED:
+            self.audio_manager.stop_sound('music_invincible')
             self.audio_manager.play_random_sound(
                 ['gg1', 'gg2', 'gg3', 'gg4'], 1.0
             )
