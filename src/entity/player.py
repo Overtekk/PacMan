@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:44:13 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 13:06:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -51,8 +51,6 @@ class Player(Movable):
 
         if self.speed > 400:
             self.speed = 400
-
-        print(self.speed)
 
     def decrease_cheat_speed(self, value: float) -> None:
         self.speed -= value
