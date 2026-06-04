@@ -257,29 +257,30 @@ class MainMenu(BaseMenu):
                        'music_jungle', 'music_pacman']
         self.time_musics = [66, 38, 52, 52, 52, 52, 52, 52, 33]
         self.i = 0
+        self.y = 2
 
         self._play_music()
 
     def build_ui(self) -> None:
         # Create buttons
 
-        logo_button = LogoButton(
+        self.logo_button = LogoButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=self.window.asset_manager.textures["logo"],
             parent_view=self)
 
-        play_button = PlayButton(
+        self.play_button = PlayButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=475,
             sprite_path=self.window.asset_manager.textures["start_button"],
             parent_view=self)
 
-        highscores_button = HighscoresButton(
+        self.highscores_button = HighscoresButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=375,
             sprite_path=(
                 self.window.asset_manager.textures["highscores_button"]),
             parent_view=self)
 
-        instructions_button = InstructionsButton(
+        self.instructions_button = InstructionsButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=275,
             sprite_path=(
                 self.window.asset_manager.textures["instructions_button"]),
@@ -294,13 +295,13 @@ class MainMenu(BaseMenu):
                 center_x=ScreenSettings.WIDTH // 2, center_y=175,
                 sprite_path=self.window.asset_manager.textures["cheat_button"],
                 parent_view=self)
-            exit_button = ExitButton(
+            self.exit_button = ExitButton(
                 center_x=ScreenSettings.WIDTH // 2, center_y=75,
                 sprite_path=self.window.asset_manager.textures["exit_button"],
                 parent_view=self)
             self.button_list.append(cheat_button)
         else:
-            exit_button = ExitButton(
+            self.exit_button = ExitButton(
                 center_x=ScreenSettings.WIDTH // 2, center_y=175,
                 sprite_path=self.window.asset_manager.textures["exit_button"],
                 parent_view=self)
@@ -309,11 +310,11 @@ class MainMenu(BaseMenu):
         self.animation()
 
         # Add all buttons on a button list
-        self.button_list.append(logo_button)
-        self.button_list.append(play_button)
-        self.button_list.append(highscores_button)
-        self.button_list.append(instructions_button)
-        self.button_list.append(exit_button)
+        self.button_list.append(self.logo_button)
+        self.button_list.append(self.play_button)
+        self.button_list.append(self.highscores_button)
+        self.button_list.append(self.instructions_button)
+        self.button_list.append(self.exit_button)
 
     def animation(self) -> None:
         # Animate Pacman
@@ -377,6 +378,48 @@ class MainMenu(BaseMenu):
             MainMenu.count_touch_A += 1
             if MainMenu.count_touch_A == 3:
                 self.build_ui()
+
+        if symbol == arcade.key.DOWN:
+            self.y += 1
+        if symbol == arcade.key.UP:
+            self.y -= 1
+
+        if self.y < 0:
+            self.y = 4
+        if self.y == 5:
+            self.y = 0
+        if self.y == 1:
+            self.play_button.check_hover(self.play_button.center_x,
+                                         self.play_button.center_y)
+        else:
+            self.play_button.color = arcade.color.WHITE
+        if self.y == 2:
+            self.highscores_button.check_hover(self.highscores_button.center_x,
+                                               self.highscores_button.center_y)
+        else:
+            self.highscores_button.color = arcade.color.WHITE
+        if self.y == 3:
+            self.instructions_button.check_hover(self.instructions_button.center_x,
+                                                 self.instructions_button.center_y)
+        else:
+            self.instructions_button.color = arcade.color.WHITE
+        if self.y == 4:
+            self.exit_button.check_hover(self.exit_button.center_x,
+                                         self.exit_button.center_y)
+        else:
+            self.exit_button.color = arcade.color.WHITE
+
+        if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+            if self.y == 0:
+                self.logo_button.on_click()
+            if self.y == 1:
+                self.play_button.on_click()
+            if self.y == 2:
+                self.highscores_button.on_click()
+            if self.y == 3:
+                self.instructions_button.on_click()
+            if self.y == 4:
+                self.exit_button.on_click()
 
     def on_update(self, delta_time: float) -> None:
         # Update for animation

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/03 13:23:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 15:52:40 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -52,14 +52,16 @@ class HighscoresScreen(BaseMenu):
             self.window.asset_manager.textures["ocean"]
         )
 
+        self.y = 0
+
     def build_ui(self) -> None:
         # Create highscore button to go back on main menu
-        highscores = HighscoresButton(
+        self.highscores = HighscoresButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=600,
             sprite_path=(
                 self.window.asset_manager.textures["highscores_button"]),
             parent_view=self)
-        self.button_list.append(highscores)
+        self.button_list.append(self.highscores)
 
         # Put the leaderboard content on a text list
         file_content = extract_leaderboard(
@@ -85,6 +87,22 @@ class HighscoresScreen(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             if self.window:
                 self.window.show_view(self.previous_view)
+
+        if symbol == arcade.key.DOWN:
+            self.y += 1
+        if symbol == arcade.key.UP:
+            self.y += 1
+
+        if self.y > 1:
+            self.y = 0
+        if self.y == 1:
+            self.highscores.check_hover(self.highscores.center_x,
+                                          self.highscores.center_y)
+        else:
+            self.highscores.color = arcade.color.WHITE
+        if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+            if self.y == 1:
+                self.highscores.on_click()
 
     def on_draw(self) -> None:
         self.clear()
