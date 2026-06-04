@@ -16,6 +16,10 @@
 	fix: invincibility prevent ghosts to be eaten when they respawn
 	fix: missings cheats (next level, increase time, increase speed)
 	fix: increase base speed of player
+	fix: crash when player active the cheat freeze ghosts
+
+	- add musics to all levels
+	- finish implementing all the cheats
 
 ### 03/06/2026
 - roandrie
