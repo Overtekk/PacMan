@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:36:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 13:52:04 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,12 +31,15 @@ class AudioManager():
         self.active_players: dict[str, media.Player] = {}
         self._init_audio()
 
-    def play_sound(self, audio_name: str, volume: float = 1.0) -> None:
+    def play_sound(
+        self, audio_name: str, volume: float = 1.0, loop: bool = False
+    ) -> None:
         if audio_name in self.audio_dict:
 
             player: media.Player = arcade.play_sound(
                 sound=self.audio_dict[audio_name],
                 volume=volume,
+                loop=loop
             )
             if player is not None:
                 self.active_players[audio_name] = player
@@ -65,6 +68,32 @@ class AudioManager():
         )
 
         self.active_players[audio_name] = player
+
+    def pause_sound(self, audio_name: str) -> None:
+        if audio_name in self.active_players:
+            player = self.active_players[audio_name]
+
+            if player is not None:
+                arcade.stop_sound(player)
+
+            player.pause()
+
+        else:
+            if game_config.debug_mode:
+                self._sound_not_found_error(audio_name)
+
+    def resume_sound(self, audio_name: str) -> None:
+        if audio_name in self.active_players:
+            player = self.active_players[audio_name]
+
+            if player is not None:
+                arcade.stop_sound(player)
+
+            player.play()
+
+        else:
+            if game_config.debug_mode:
+                self._sound_not_found_error(audio_name)
 
     def stop_sound(self, audio_name: str) -> None:
         if audio_name in self.active_players:

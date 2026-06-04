@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 15:23:36 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/04 14:04:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from .base_button import BaseButton
 from src.renderer.ui.instructions_screen import InstructionsScreen
 from src.renderer.screen_settings import ScreenSettings
 from src.renderer.ui.cheat_menu import CheatMenu
+from src.audio import AudioManager
 
 
 class GoBack(BaseButton):
@@ -69,6 +70,9 @@ class Resume(BaseButton):
     def on_click(self) -> None:
         # Go back on the game
         if self.parent_view.window:
+            self.parent_view.audio_manager.resume_sound(
+                self.parent_view.level_sound
+            )
             self.parent_view.window.show_view(self.parent_view)
 
 
@@ -104,6 +108,9 @@ class PauseMenu(BaseMenu):
         self.previous_view = previous_view
         image: PIL.Image.Image = arcade.get_image()
         self.background = arcade.Texture(image)
+
+        # Init the audios elements
+        self.audio_manager: AudioManager = self.window.audio_player
 
     def build_ui(self) -> None:
         # Create buttons
@@ -141,6 +148,9 @@ class PauseMenu(BaseMenu):
         # Go back on the game
         if symbol == arcade.key.ESCAPE:
             if self.window:
+                self.audio_manager.resume_sound(
+                    self.previous_view.level_sound
+                )
                 self.window.show_view(self.previous_view)
 
     def on_draw(self) -> None:
