@@ -57,7 +57,7 @@ class GameEngine(arcade.View):
         # -- Private variable --
         self._first_launch: bool = True
         self._pacgum_timer: float = 0.0
-        self._timer_pause: float = 2.0
+        self._timer_pause: float = 4.0
         self._next_level: bool = False
         self._finish: bool = False
         self._enemy_died: bool = False
@@ -102,7 +102,7 @@ class GameEngine(arcade.View):
 
         # ---------- GAME START ----------
         elif self.game_state == GameState.STARTING:
-            self.game_renderer.replace(self.player.sprite)
+            self.game_renderer.replace()
             self.game_renderer.dezoom()
             self._timer_start(delta_time)
 
@@ -155,6 +155,7 @@ class GameEngine(arcade.View):
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if self.game_state == GameState.STARTING:
             if symbol == arcade.key.SPACE:
+                self.game_renderer.gui_camera.zoom = 1.0
                 self._current_timer_start = 0.0
 
         elif self.game_state == GameState.PLAYING:
@@ -307,7 +308,7 @@ class GameEngine(arcade.View):
                 self._dying_screen_fading = 0
                 self.player.sprite.visible = True
                 self._text_score_showed = False
-                self._timer_pause = 2.0
+                self._timer_pause = 4.0
                 self._enemy_died = False
                 self.audio_manager.play_sound('enemydied', 0.3)
                 self.game_state = GameState.PLAYING
@@ -315,13 +316,11 @@ class GameEngine(arcade.View):
 
         # Animation for next level
         elif self._next_level:
-            if self._timer_pause < 0.3:
-                self.player.sprite.visible = False
-            else:
-                self.player.sprite.angle += 100 * delta_time
+            self.player.sprite.angle += 100 * delta_time
+            self.game_renderer.zoom(self.player.sprite)
 
             if self._timer_pause < 0.0:
-                self._timer_pause = 2.0
+                self._timer_pause = 4.0
                 self._next_level = False
                 self.setup(False)
 
@@ -329,11 +328,12 @@ class GameEngine(arcade.View):
         else:
             sc_x, sc_y = self.player.sprite.scale
             reduction = 0.5 * delta_time
-            self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
+            if sc_x - reduction > 0.0 or sc_y - reduction > 0.0:
+                self.player.sprite.scale = (sc_x - reduction, sc_y - reduction)
 
             if self._timer_pause < 0.0:
                 self.player.die(delta_time)
-                self._timer_pause = 2.0
+                self._timer_pause = 4.0
                 self.player.sprite.scale = self._player_scale
                 self.game_state = GameState.RESPAWN
 
@@ -409,10 +409,9 @@ class GameEngine(arcade.View):
             self.audio_manager.play_sound(
                 'levelcompleted', 0.2
             )
-
             self.state_manager.current_level_index += 1
             self._next_level = True
-            self._timer_pause = 3
+            self._timer_pause = 4.0
 
             self._change_entities_movement(False)
 
@@ -428,7 +427,7 @@ class GameEngine(arcade.View):
             self._change_entities_movement(False)
             self._enemy_died = True
             self.game_state = GameState.PAUSE
-            self._timer_pause = 2
+            self._timer_pause = 4.0
 
         # Continue the game
         else:

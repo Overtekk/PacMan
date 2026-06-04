@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 17:41:18 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/04 11:27:48 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -96,6 +96,7 @@ class FinishScreen(BaseMenu):
         self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
+
         # Set the 'Victory' sprite
         victory = Victory(
             center_x=ScreenSettings.WIDTH // 2,

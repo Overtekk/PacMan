@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:13:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:13:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -165,7 +165,7 @@ class GameRenderer():
         self.gui_camera.position = (x, y)
         self.gui_camera.zoom += 0.010
 
-    def replace(self, player_obj: arcade.Sprite) -> None:
+    def replace(self) -> None:
         self.gui_camera.position = (ScreenSettings.WIDTH // 2, ScreenSettings.HEIGHT // 2)
 
     def dezoom(self) -> None:
