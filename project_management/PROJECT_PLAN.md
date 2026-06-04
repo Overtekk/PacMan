@@ -11,7 +11,11 @@
 		- dezoom for finish screen
 	- fix pacman disappearance so that he doesn't reappear in the same place before being teleported to the center
 	- make a nice logo
-
+- roandrie
+	fix: cheats stay between levels
+	fix: invincibility prevent ghosts to be eaten when they respawn
+	fix: missings cheats (next level, increase time, increase speed)
+	fix: increase base speed of player
 
 ### 03/06/2026
 - roandrie
