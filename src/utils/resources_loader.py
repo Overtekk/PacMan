@@ -269,6 +269,34 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
         "path": "music/levels/level10.mp3",
         "streaming": True
     },
+    "music_joy": {
+        "path": "music/joy_song.mp3",
+        "streaming": False
+    },
+    "music_cave": {
+        "path": "music/cave_song.mp3",
+        "streaming": False
+    },
+    "music_suspens": {
+        "path": "music/suspens_song.mp3",
+        "streaming": False
+    },
+    "music_suspens2": {
+        "path": "music/suspens2_song.mp3",
+        "streaming": False
+    },
+    "music_strange": {
+        "path": "music/strange_song.mp3",
+        "streaming": False
+    },
+    "music_jungle": {
+        "path": "music/jungle_song.mp3",
+        "streaming": False
+    },
+    "music_pacman": {
+        "path": "music/bad_pacman_song.mp3",
+        "streaming": False
+    }
 }
 
 

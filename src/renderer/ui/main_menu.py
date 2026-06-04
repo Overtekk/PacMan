@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:37:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 13:57:57 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -129,6 +129,13 @@ class LogoButton(BaseButton):
             path = self.parent_view.window.asset_manager.textures["logo"]
         self.texture = arcade.load_texture(path)
         self.gullman = not self.gullman
+        song = self.parent_view.musics[self.parent_view.i]
+        self.parent_view.audio_manager.stop_sound(song)
+        if self.parent_view.i + 1 >= len(self.parent_view.musics):
+            self.parent_view.i = 0
+        else:
+            self.parent_view.i += 1
+        self.parent_view._play_music()
 
     def check_hover(self, x: float, y: float) -> None:
         # Cancel the light gray color when the mouse is on the sprite to hide
@@ -227,7 +234,8 @@ class PlayButton(BaseButton):
 
     def on_click(self) -> None:
         # Start the game
-        self.parent_view.audio_manager.stop_sound('music_mainmenu')
+        song = self.parent_view.musics[self.parent_view.i]
+        self.parent_view.audio_manager.stop_sound(song)
         self.parent_view.window.game_session = GameEngine()
         self.parent_view.window.show_view(self.parent_view.window.game_session)
 
@@ -244,6 +252,12 @@ class MainMenu(BaseMenu):
         )
         self.menu_time: float = 0.0
         self.audio_manager: AudioManager = self.window.audio_player
+
+        self.musics = ['music_mainmenu', 'music_joy', 'music_cave',
+                       'music_suspens', 'music_suspens2', 'music_strange',
+                       'music_jungle', 'music_pacman']
+        self.time_musics = [66, 38, 52, 52, 52, 52, 52, 52, 33]
+        self.i = 0
 
         self._play_music()
 
@@ -395,7 +409,7 @@ class MainMenu(BaseMenu):
     # :---------------:
 
     def _play_music(self) -> None:
-        self._music_duration = 70
+        self._music_duration = self.time_musics[self.i]
         self.audio_manager.play_sound(
-            'music_mainmenu', 0.2
+            str(self.musics[self.i]), 0.2
         )
