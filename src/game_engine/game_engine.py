@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:26:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 10:47:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -200,12 +200,12 @@ class GameEngine(arcade.View):
                     enemy_obj.mode = EnemyState.CHASE
 
             elif symbol == arcade.key.N and game_config.debug_mode:
-                if self.player.invincible:
+                if self.player.cheat_invincible:
                     print_log("Debug: disable invincibility!")
-                    self.player.invincible = False
+                    self.player.cheat_invincible = False
                 else:
                     print_log("Debug: activate invincibility!")
-                    self.player.invincible = True
+                    self.player.cheat_invincible = True
 
             elif symbol == arcade.key.EQUAL and game_config.debug_mode:
                 self.player.speed += 10
@@ -350,6 +350,7 @@ class GameEngine(arcade.View):
                 for enemy_obj in self.level_manager.enemies_list.values():
                     if enemy_obj.mode == EnemyState.RUNAWAY:
                         enemy_obj.mode = EnemyState.WANDER
+                        enemy_obj.have_respawned = False
 
                     enemy_obj.is_edible = False
                     enemy_obj.sprite.color = (255, 255, 255)

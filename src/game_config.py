@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:28:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 10:51:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,4 +33,4 @@ enemy_check_res_timer: float = 20
 #  POWER-UP
 # :--------:
 
-time_power_up: float = 8.0
+time_power_up: float = 20.0

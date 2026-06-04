@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 15:36:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 10:46:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -299,6 +299,7 @@ class EnemyBrain():
             self.enemy._died = False
             self.enemy._revive_timer = 0.0
             self.enemy.sprite.alpha = 255
+            self.enemy.have_respawned = True
 
             if game_config.debug_mode:
                 print_log(f"Changed state for {self.enemy} to WANDER")
