@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 16:14:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/04 15:11:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,6 @@ from src.renderer.ui.instructions_screen import InstructionsScreen
 import math
 from src.renderer.screen_settings import ScreenSettings
 from src.utils import load_sprite_sheet
-# from src.game_engine.level_manager import LevelManager
 
 
 class Pursuit(arcade.Sprite):
@@ -454,5 +453,5 @@ class MainMenu(BaseMenu):
     def _play_music(self) -> None:
         self._music_duration = self.time_musics[self.i]
         self.audio_manager.play_sound(
-            str(self.musics[self.i]), 0.2
+            str(self.musics[self.i]), 0.8
         )
