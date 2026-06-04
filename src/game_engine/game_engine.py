@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:05:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/04 11:51:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -75,6 +75,9 @@ class GameEngine(arcade.View):
         self.is_cheat_invincible_active: bool = False
         self.is_cheat_freeze_active: bool = False
         self.extra_life_activate: bool = False
+        self.extra_time_activate: bool = False
+        self.speed_up_activate: bool = False
+        self.cheat_skip_level: bool = False
 
     @property
     def code_found(self) -> bool:
@@ -265,6 +268,21 @@ class GameEngine(arcade.View):
 
         self._current_timer_start: float = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
+
+    def cheat_skip_current_level(self) -> None:
+        self.cheat_skip_level = False
+
+        self.audio_manager.play_sound(
+            'levelcompleted', 0.2
+        )
+
+        self.state_manager.current_level_index += 1
+        self._next_level = True
+        self._timer_pause = 3
+
+        self._change_entities_movement(False)
+
+        self.game_state = GameState.PAUSE
 
     # :---------------:
     #  PRIVATE METHODS
