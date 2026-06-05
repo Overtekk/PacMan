@@ -7,6 +7,7 @@
 - anacharp
 	- standardization
 	- max 10 levels
+	- report bug
 
 ### 04/06/2026
 - anacharp
