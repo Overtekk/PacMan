@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:07:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 17:16:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -124,7 +124,7 @@ class AudioManager():
             'start_one', 'start_two', 'start_three', "start_go", 'click1',
             'gg1', 'gg2', 'gg3', 'gg4', 'oh_oh', 'victory', 'levelcompleted',
             'points', 'enemydied', 'enemyrespawn', 'calling', 'leave_call',
-            'join_call'
+            'join_call', 'dialogue_sound_child'
         ]
 
         for audio_name in audios_to_init:

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:07:18 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 17:16:44 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -313,6 +313,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "dialogue_sound": {
         "path": "intro/dialogue.mp3",
+        "streaming": False
+    },
+    "dialogue_sound_child": {
+        "path": "intro/dialogue_child.mp3",
         "streaming": False
     }
 }

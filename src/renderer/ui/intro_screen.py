@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:09:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 17:32:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -100,6 +100,9 @@ class IntroScreen(BaseMenu):
             'Ok thanks you daddy! Byyyye!!',
             'Wait!',
             '...',
+            '...',
+            '...',
+            'Damn!',
             'Well... I will go find fishes for them.'
         ]
         self.speaker_map: list[str] = [
@@ -118,6 +121,9 @@ class IntroScreen(BaseMenu):
             'childs',
             'daddy',
             'daddy',
+            'daddy',
+            'daddy',
+            'daddy',
             'daddy'
         ]
 
@@ -129,10 +135,11 @@ class IntroScreen(BaseMenu):
         self._timer: float = 0.0
         self._txt_show_speed: float = 0.00
 
-        # New Control variables
+        # Control variables
         self._is_typing: bool = False
         self._pause_timer: float = 0.0
         self._pending_next_dialogue: bool = False
+        self._auto_skip_timer: float = 0.0
 
     def build_ui(self) -> None:
         # Create the background screen
@@ -195,6 +202,7 @@ class IntroScreen(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             self.audio_manager.stop_sound('music_intro')
             self.audio_manager.stop_sound('dialogue_sound')
+            self.audio_manager.stop_sound('dialogue_sound_child')
             self.audio_manager.stop_sound('calling')
 
             from src.game_engine.game_engine import GameEngine
@@ -267,7 +275,16 @@ class IntroScreen(BaseMenu):
         self._auto_skip_timer = 0.0
 
         if dialogue_index > 0:
-            self.audio_manager.play_sound('dialogue_sound', loop=True)
+            speaker = self.speaker_map[dialogue_index]
+            if speaker == 'daddy':
+                self.audio_manager.play_sound(
+                    'dialogue_sound', loop=True
+                )
+            elif speaker == 'childs':
+                self.audio_manager.play_sound(
+                    'dialogue_sound_child', loop=True
+                )
+
         if dialogue_index == 1:
             self.audio_manager.play_sound('music_intro', 0.2, True)
 
@@ -279,9 +296,11 @@ class IntroScreen(BaseMenu):
         self._auto_skip_timer = 0.0
 
         self.audio_manager.stop_sound('dialogue_sound')
+        self.audio_manager.stop_sound('dialogue_sound_child')
 
         if self.dialogue_index == 11:
             self._next_dialogue()
+        if self.dialogue_index == 13:
             self.child1.visible = False
             self.child2.visible = False
             self.child3.visible = False
