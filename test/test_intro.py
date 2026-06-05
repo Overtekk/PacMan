@@ -1,27 +1,63 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  pac-man.py                                        :+:      :+:    :+:    #
+#  test_intro.py                                     :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
-#  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 11:39:14 by roandrie        ###   ########.fr        #
+#  Created: 2026/06/05 11:36:40 by roandrie        #+#    #+#               #
+#  Updated: 2026/06/05 11:43:19 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from argparse import Namespace
-
-import sys
 import arcade
-import src.game_config
 
-from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
-from src.parser import load_arguments
+from src.renderer import ScreenSettings, ScreenState, GameWindow, IntroScreen
 from src.config import GameConfig
+from src.utils import SpritesLoader, AudioLoader, FontLoader, print_error
+from src.renderer import MainMenu
+from src.audio import AudioManager
+from argparse import Namespace
+import src.game_config
+from src.parser import load_arguments
 from src.maze import load_mazegenerator
-from src.renderer import GameWindow
 from src.leaderboard import leaderboard_loader
+
+
+class GameWindow(arcade.Window):  # noqa: F811
+    def __init__(
+        self,
+        config: GameConfig,
+        sprites_list: SpritesLoader,
+        audio_list: AudioLoader
+    ) -> None:
+
+        super().__init__(
+            width=ScreenSettings.WIDTH,
+            height=ScreenSettings.HEIGHT,
+            title="Pac-Man",
+            vsync=True,
+            center_window=True
+        )
+
+        self.game_config = config
+        self.asset_manager = sprites_list
+        self.audio_manager = audio_list
+        self.audio_player = AudioManager(self)
+
+        self._screen_state = ScreenState.MENU
+        self.show_view(IntroScreen(self))
+
+    @property
+    def screen_state(self) -> str:
+        return self._screen_state
+
+    @screen_state.setter
+    def screen_state(self, new_state: ScreenState) -> None:
+        self._screen_state = new_state
+
+    def show_main_menu(self) -> None:
+        self.show_view(MainMenu())
 
 
 def main() -> int:
@@ -62,15 +98,9 @@ def main() -> int:
         print_error(e)
         return 1
 
-    # except Exception as e:
-    #     print_error(f"Critical error: {e}")
-    #     return 1
-
 
 if __name__ == "__main__":
-    try:
-        sys.exit(main())
+    main()
 
-    except KeyboardInterrupt:
-        print_error("\nProgram interrupted by user.")
-        sys.exit(130)
+
+
