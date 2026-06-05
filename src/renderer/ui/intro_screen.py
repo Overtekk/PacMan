@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:37:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 16:57:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,6 +53,22 @@ class SeagullSprite(arcade.Sprite):
         self.center_y = center_y
         self.color = (44, 156, 44)
 
+        self.animation_timer: float = 0.0
+        self.current_texture_index: int = 0
+
+    def update_animation(self, delta_time: float, is_speaking: bool) -> None:
+        if is_speaking:
+            self.animation_timer += delta_time
+            if self.animation_timer > 0.1:
+                self.animation_timer -= 0.1
+                self.current_texture_index = (
+                    (self.current_texture_index + 1) % len(self.textures)
+                )
+                self.texture = self.textures[self.current_texture_index]
+        else:
+            self.current_texture_index = 0
+            self.texture = self.textures[0]
+
 
 class IntroScreen(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
@@ -84,6 +100,24 @@ class IntroScreen(BaseMenu):
             '...',
             'Well... I will go find fishes for them.'
         ]
+        self.speaker_map: list[str] = [
+            'none',
+            'daddy',
+            'childs',
+            'daddy',
+            'childs',
+            'daddy',
+            'childs',
+            'daddy',
+            'childs',
+            'daddy',
+            'childs',
+            'daddy',
+            'childs',
+            'daddy',
+            'daddy',
+            'daddy'
+        ]
 
         self.dialogue_index: int = 0
 
@@ -92,9 +126,11 @@ class IntroScreen(BaseMenu):
         self._index: int = 0
         self._timer: float = 0.0
         self._txt_show_speed: float = 0.00
-        self._pause: bool = False
+
+        # New Control variables
+        self._is_typing: bool = False
         self._pause_timer: float = 0.0
-        self._continue_auto: bool = False
+        self._pending_next_dialogue: bool = False
 
     def build_ui(self) -> None:
         # Create the background screen
@@ -109,57 +145,65 @@ class IntroScreen(BaseMenu):
         )
 
         self.audio_manager.play_sound('calling', loop=True)
-
-        self._pause = True
-        self._pause_timer = 3.0
         self._load_dialogue(self.dialogue_index)
 
+        self._pause_timer = 3.0
+
     def on_update(self, delta_time) -> None:
-        self._timer += delta_time
+        if self._pause_timer > 0.0:
+            self._pause_timer -= delta_time
+            if self._pause_timer <= 0.0:
+                self._pause_timer = 0.0
+                self._on_pause_finished()
 
-        if self._continue_auto and not self._pause:
-            if self._timer > 2.0:
-                self.dialogue_index += 1
-                self._continue_auto = False
-                self._timer = 0
-                self._load_dialogue(self.dialogue_index)
+        if self._is_typing:
+            self._timer += delta_time
+            if self._timer > self._txt_show_speed:
+                chars_to_add = int(self._timer // self._txt_show_speed)
+                self._timer -= chars_to_add * self._txt_show_speed
+                self._index += chars_to_add
 
-        if (self._timer > self._txt_show_speed and
-                self._index < len(self._dialogue_text)):
-            self._index += 1
-            self._timer -= self._txt_show_speed
-            self.text.text = self._dialogue_text[0:self._index]
+                if self._index >= len(self._dialogue_text):
+                    self._finish_typing()
+                else:
+                    self.text.text = self._dialogue_text[0:self._index]
+        else:
+            if self._pause_timer <= 0.0:
+                self._auto_skip_timer += delta_time
+                if self._auto_skip_timer >= 2.0:
+                    self._next_dialogue()
 
-        if self._index >= len(self._dialogue_text) and not self._continue_auto:
-            print('t')
-            self.audio_manager.stop_sound('dialogue_sound')
-            self._continue_auto = True
-            self._timer = 0
+        daddy_speaking = False
+        childs_speaking = False
 
-        if self._pause:
-            if self._timer > self._pause_timer:
-                self._pause = False
+        if self._is_typing and self.dialogue_index < len(self.speaker_map):
+            speaker = self.speaker_map[self.dialogue_index]
+            if speaker == 'daddy':
+                daddy_speaking = True
+            elif speaker == 'childs':
+                childs_speaking = True
 
-                self._event(self.dialogue_index)
+        if hasattr(self, 'daddy'):
+            self.daddy.update_animation(delta_time, daddy_speaking)
+            self.child1.update_animation(delta_time, childs_speaking)
+            self.child2.update_animation(delta_time, childs_speaking)
+            self.child3.update_animation(delta_time, childs_speaking)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
-        if symbol == arcade.key.SPACE and not self._pause:
-            if self._index < len(self._dialogue_text):
-                self._index = len(self._dialogue_text)
-                self.text.text = self._dialogue_text
+        if self._pause_timer > 0.0:
+            return
+
+        if symbol == arcade.key.SPACE:
+            if self._is_typing:
+                self._finish_typing()
             else:
-                self.dialogue_index += 1
-                if len(self.dialogue_list) > self.dialogue_index:
-                    self._load_dialogue(self.dialogue_index)
-                else:
-                    pass # leave
+                self._next_dialogue()
 
     def on_draw(self) -> None:
         self.clear()
 
         # Draw background
         self.fixed_sprites.draw()
-
         self.sprites_lst.draw()
 
         self.text.draw()
@@ -167,6 +211,32 @@ class IntroScreen(BaseMenu):
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
+
+    def _on_pause_finished(self) -> None:
+        if self.dialogue_index == 0 and not self._pending_next_dialogue:
+            self.audio_manager.stop_sound('calling')
+            self.audio_manager.play_sound('join_call')
+
+            self.text.text = ""
+            self._is_typing = False
+            self._pause_timer = 0.8
+            self._pending_next_dialogue = True
+
+        elif self._pending_next_dialogue:
+            self._pending_next_dialogue = False
+            self.dialogue_index += 1
+            self.daddy.visible = True
+            self._load_dialogue(self.dialogue_index)
+
+    def _next_dialogue(self) -> None:
+        self.dialogue_index += 1
+        if self.dialogue_index < len(self.dialogue_list):
+            self._load_dialogue(self.dialogue_index)
+        else:
+            from src.game_engine.game_engine import GameEngine
+
+            self.window.game_session = GameEngine()
+            self.window.show_view(self.window.game_session)
 
     def _load_dialogue(
         self, dialogue_index: int, text_speed: float = 0.06
@@ -177,10 +247,20 @@ class IntroScreen(BaseMenu):
         self._index = 0
         self._timer = 0
         self._txt_show_speed = text_speed
+        self._is_typing = True
 
-        if not self.dialogue_index == 0:
-            self.audio_manager.stop_sound('dialogue_sound')
+        if dialogue_index > 0:
             self.audio_manager.play_sound('dialogue_sound', loop=True)
+
+    def _finish_typing(self) -> None:
+        self._is_typing = False
+        self._index = len(self._dialogue_text)
+        self.text.text = self._dialogue_text
+
+        self.audio_manager.stop_sound('dialogue_sound')
+
+        if self.dialogue_index == 11:
+            self._next_dialogue()
 
     def _create_ui_elements(self) -> None:
         background = CallBackground(
@@ -239,11 +319,3 @@ class IntroScreen(BaseMenu):
         self.sprites_lst.append(self.child2)
         self.sprites_lst.append(self.child3)
 
-    def _event(self, index: int) -> None:
-        match index:
-            case 0:
-                self.audio_manager.stop_sound('calling')
-                self.audio_manager.play_sound('join_call')
-                self.daddy.visible = True
-                self.dialogue_index += 1
-                self._load_dialogue(self.dialogue_index)

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:04:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 16:57:15 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,7 +16,7 @@ from pathlib import Path
 
 from .base_menu import BaseMenu
 from .base_button import BaseButton
-from src.game_engine import GameEngine
+from .intro_screen import IntroScreen
 from src.audio import AudioManager
 from src.renderer.ui.highscores_screen import HighscoresScreen
 from src.renderer.ui.instructions_screen import InstructionsScreen
@@ -232,11 +232,13 @@ class PlayButton(BaseButton):
                          parent_view=parent_view)
 
     def on_click(self) -> None:
-        # Start the game
+        # Stop the menu music
         song = self.parent_view.musics[self.parent_view.i]
         self.parent_view.audio_manager.stop_sound(song)
-        self.parent_view.window.game_session = GameEngine()
-        self.parent_view.window.show_view(self.parent_view.window.game_session)
+
+        # Start the Intro screen instead of the game
+        intro = IntroScreen(previous_view=self.parent_view)
+        self.parent_view.window.show_view(intro)
 
 
 class MainMenu(BaseMenu):
