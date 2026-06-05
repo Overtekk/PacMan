@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 11:20:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:21:37 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,5 +85,6 @@ class GameConfig(BaseModel):
     level: list[LevelConfig] = Field(
         default_factory=lambda: DEFAULT_LEVELS.copy(),
         min_length=1,
+        max_length=10,
         description="List of all levels"
     )
