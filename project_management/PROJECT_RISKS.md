@@ -30,3 +30,4 @@ bugs :
 - les ennemis tournent en rond et se bloquent (aussi lorsqu'ils sont morts et essaient de retourner a leur spawn point)
 - des fois des fantomes ne me tuent pas alors qu'ils sont dans leur skin de tueur, souvent quand jai mange plusieurs burgers et/ou qu'ils sont deja morts -> jarrive pas a identifier si le probleme est le fait de manger plusieurs burgers, ou si c'est parce qu'ils ont ete tues, ou les 2 en meme temps
 -  cheat next level crash si le next level c'est finish screen
+- des fois ca lag quand je passe sur un fantome qui est invisible car je l'ai mage ou alors c'est quand les fantomes passent de mangeables a pas mangeables (en tout cas ca bug pas tout le temps quand je passe sur un fantome invisible donc c'est surement la deuxieme option, ce constat a ete fait apres avoir fait mypy donc a check si ya une diff entre la version avant mypy et celle apres mypy)
