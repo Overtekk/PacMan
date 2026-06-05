@@ -3,6 +3,11 @@
 
 ---
 
+### 05/06/2026
+- anacharp
+	- standardization
+	- max 10 levels
+
 ### 04/06/2026
 - anacharp
 	- working on win level animation
