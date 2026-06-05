@@ -8,6 +8,10 @@
 	- standardization
 	- max 10 levels
 	- report bug
+- roandrie
+	- Change the PlayButton > instead of launching the game, it will launch the introductio and then the game
+	- Add dialogue between the dad and his childs
+	- Add the option to skip the introduction
 
 ### 04/06/2026
 - anacharp
