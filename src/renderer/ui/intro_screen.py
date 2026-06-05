@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 15:17:40 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 15:53:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,6 +16,7 @@ from pathlib import Path
 
 from .base_menu import BaseMenu
 from src.renderer.screen_settings import ScreenSettings
+from src.utils import load_sprite_sheet
 
 
 class CallBackground(arcade.Sprite):
@@ -34,6 +35,24 @@ class CallBackground(arcade.Sprite):
         self.center_y = center_y
 
 
+class SeagullSprite(arcade.Sprite):
+    def __init__(
+        self, center_x: float, center_y: float,
+        texture_list: list[arcade.Texture],
+        scale: float = 1.5, anchor_x: str = 'left',
+        anchor_y: str = 'top'
+    ) -> None:
+
+        super().__init__(
+            path_or_texture=texture_list[0], scale=scale, anchor_x=anchor_x,
+            anchor_y=anchor_y
+        )
+
+        self.center_x = center_x
+        self.center_y = center_y
+        self.color = (44, 156, 44)
+
+
 class IntroScreen(BaseMenu):
     def __init__(self, previous_view: arcade.View) -> None:
         super().__init__()
@@ -42,7 +61,7 @@ class IntroScreen(BaseMenu):
 
         # Sprites list
         self.fixed_sprites: list[arcade.Sprite] = arcade.SpriteList()
-        self.sprites_lst: dict[str, arcade.Sprite] = {}
+        self.sprites_lst: list[arcade.Sprite] = arcade.SpriteList()
 
         # Dialogues
         self.dialogue_list: list[str] = [
@@ -100,6 +119,8 @@ class IntroScreen(BaseMenu):
         # Draw background
         self.fixed_sprites.draw()
 
+        self.sprites_lst.draw()
+
         self.text.draw()
 
     # :---------------:
@@ -123,3 +144,52 @@ class IntroScreen(BaseMenu):
         )
 
         self.fixed_sprites.append(background)
+
+        daddy = SeagullSprite(
+            (ScreenSettings.WIDTH // 2) - 250,
+            (ScreenSettings.HEIGHT // 2) + 240,
+            load_sprite_sheet(
+                self.window.asset_manager.textures['player'],
+                sprite_width=192/6, sprite_height=32,
+                sprites_columns=6, sprites_count=6
+            ), scale=4
+        )
+
+        daddy.visible = False
+        self.sprites_lst.append(daddy)
+
+        child1 = SeagullSprite(
+            (ScreenSettings.WIDTH // 2) + 231,
+            (ScreenSettings.HEIGHT // 2) + 318,
+            load_sprite_sheet(
+                self.window.asset_manager.textures['player'],
+                sprite_width=192/6, sprite_height=32,
+                sprites_columns=6, sprites_count=6
+            ), scale=2
+        )
+        child2 = SeagullSprite(
+            (ScreenSettings.WIDTH // 2) + 250,
+            (ScreenSettings.HEIGHT // 2) + 240,
+            load_sprite_sheet(
+                self.window.asset_manager.textures['player'],
+                sprite_width=192/6, sprite_height=32,
+                sprites_columns=6, sprites_count=6
+            ), scale=2
+        )
+        child3 = SeagullSprite(
+            (ScreenSettings.WIDTH // 2) + 296,
+            (ScreenSettings.HEIGHT // 2) + 180,
+            load_sprite_sheet(
+                self.window.asset_manager.textures['player'],
+                sprite_width=192/6, sprite_height=32,
+                sprites_columns=6, sprites_count=6
+            ), scale=2
+        )
+
+        child1.scale_x = -1
+        child2.scale_x = -1
+        child3.scale_x = -1
+
+        self.sprites_lst.append(child1)
+        self.sprites_lst.append(child2)
+        self.sprites_lst.append(child3)
