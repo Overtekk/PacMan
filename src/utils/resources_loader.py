@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:20:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 17:07:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -305,6 +305,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "join_call": {
         "path": "intro/join_call.mp3",
+        "streaming": False
+    },
+    "leave_call": {
+        "path": "intro/leave_call.mp3",
         "streaming": False
     },
     "dialogue_sound": {

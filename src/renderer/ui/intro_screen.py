@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:57:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 17:09:21 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -48,6 +48,8 @@ class SeagullSprite(arcade.Sprite):
             path_or_texture=texture_list[0], scale=scale, anchor_x=anchor_x,
             anchor_y=anchor_y
         )
+
+        self.textures = texture_list
 
         self.center_x = center_x
         self.center_y = center_y
@@ -134,7 +136,7 @@ class IntroScreen(BaseMenu):
 
     def build_ui(self) -> None:
         # Create the background screen
-        self._create_ui_elements(                                                 )
+        self._create_ui_elements()
 
         self.text: arcade.Text = arcade.Text(
             "",
@@ -190,6 +192,16 @@ class IntroScreen(BaseMenu):
             self.child3.update_animation(delta_time, childs_speaking)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        if symbol == arcade.key.ESCAPE:
+            self.audio_manager.stop_sound('music_intro')
+            self.audio_manager.stop_sound('dialogue_sound')
+            self.audio_manager.stop_sound('calling')
+
+            from src.game_engine.game_engine import GameEngine
+
+            self.window.game_session = GameEngine()
+            self.window.show_view(self.window.game_session)
+
         if self._pause_timer > 0.0:
             return
 
@@ -221,6 +233,7 @@ class IntroScreen(BaseMenu):
             self._is_typing = False
             self._pause_timer = 0.8
             self._pending_next_dialogue = True
+            self._auto_skip_timer: float = 0.0
 
         elif self._pending_next_dialogue:
             self._pending_next_dialogue = False
@@ -233,6 +246,8 @@ class IntroScreen(BaseMenu):
         if self.dialogue_index < len(self.dialogue_list):
             self._load_dialogue(self.dialogue_index)
         else:
+            self.audio_manager.stop_sound('music_intro')
+
             from src.game_engine.game_engine import GameEngine
 
             self.window.game_session = GameEngine()
@@ -249,18 +264,28 @@ class IntroScreen(BaseMenu):
         self._txt_show_speed = text_speed
         self._is_typing = True
 
+        self._auto_skip_timer = 0.0
+
         if dialogue_index > 0:
             self.audio_manager.play_sound('dialogue_sound', loop=True)
+        if dialogue_index == 1:
+            self.audio_manager.play_sound('music_intro', 0.2, True)
 
     def _finish_typing(self) -> None:
         self._is_typing = False
         self._index = len(self._dialogue_text)
         self.text.text = self._dialogue_text
 
+        self._auto_skip_timer = 0.0
+
         self.audio_manager.stop_sound('dialogue_sound')
 
         if self.dialogue_index == 11:
             self._next_dialogue()
+            self.child1.visible = False
+            self.child2.visible = False
+            self.child3.visible = False
+            self.audio_manager.play_sound('leave_call')
 
     def _create_ui_elements(self) -> None:
         background = CallBackground(
