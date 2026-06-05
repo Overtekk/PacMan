@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:54:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 16:20:38 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -273,30 +273,42 @@ REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
     },
     "music_joy": {
         "path": "music/joy_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_cave": {
         "path": "music/cave_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_suspens": {
         "path": "music/suspens_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_suspens2": {
         "path": "music/suspens2_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_strange": {
         "path": "music/strange_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_jungle": {
         "path": "music/jungle_song.mp3",
-        "streaming": False
+        "streaming": True
     },
     "music_pacman": {
         "path": "music/bad_pacman_song.mp3",
+        "streaming": True
+    },
+    "calling": {
+        "path": "intro/call.mp3",
+        "streaming": False
+    },
+    "join_call": {
+        "path": "intro/join_call.mp3",
+        "streaming": False
+    },
+    "dialogue_sound": {
+        "path": "intro/dialogue.mp3",
         "streaming": False
     }
 }

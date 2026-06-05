@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 15:53:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 16:37:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,6 +17,7 @@ from pathlib import Path
 from .base_menu import BaseMenu
 from src.renderer.screen_settings import ScreenSettings
 from src.utils import load_sprite_sheet
+from src.audio import AudioManager
 
 
 class CallBackground(arcade.Sprite):
@@ -58,6 +59,7 @@ class IntroScreen(BaseMenu):
         super().__init__()
 
         self.previous_view = previous_view
+        self.audio_manager: AudioManager = self.window.audio_player
 
         # Sprites list
         self.fixed_sprites: list[arcade.Sprite] = arcade.SpriteList()
@@ -65,8 +67,22 @@ class IntroScreen(BaseMenu):
 
         # Dialogues
         self.dialogue_list: list[str] = [
-            'Ceci est le premier test',
-            'ceci est le deuxieme test'
+            '...',
+            'Yes? What do you want?',
+            'We are hungry daddy!!',
+            'And what do you want me to do?',
+            'Go find some fishes please. We want to eat that.',
+            'And how much do you want?',
+            'Hum.... about a millions of it!!!',
+            'What!?',
+            'And watch out for the other animals.',
+            'Why?',
+            'They want to kidnappe you.',
+            'But I never say..',
+            'Ok thanks you daddy! Byyyye!!',
+            'Wait!',
+            '...',
+            'Well... I will go find fishes for them.'
         ]
 
         self.dialogue_index: int = 0
@@ -77,6 +93,8 @@ class IntroScreen(BaseMenu):
         self._timer: float = 0.0
         self._txt_show_speed: float = 0.00
         self._pause: bool = False
+        self._pause_timer: float = 0.0
+        self._continue_auto: bool = False
 
     def build_ui(self) -> None:
         # Create the background screen
@@ -90,16 +108,39 @@ class IntroScreen(BaseMenu):
             anchor_y='center'
         )
 
-        self._load_dialogue(0)
+        self.audio_manager.play_sound('calling', loop=True)
+
+        self._pause = True
+        self._pause_timer = 3.0
+        self._load_dialogue(self.dialogue_index)
 
     def on_update(self, delta_time) -> None:
         self._timer += delta_time
+
+        if self._continue_auto and not self._pause:
+            if self._timer > 2.0:
+                self.dialogue_index += 1
+                self._continue_auto = False
+                self._timer = 0
+                self._load_dialogue(self.dialogue_index)
 
         if (self._timer > self._txt_show_speed and
                 self._index < len(self._dialogue_text)):
             self._index += 1
             self._timer -= self._txt_show_speed
             self.text.text = self._dialogue_text[0:self._index]
+
+        if self._index >= len(self._dialogue_text) and not self._continue_auto:
+            print('t')
+            self.audio_manager.stop_sound('dialogue_sound')
+            self._continue_auto = True
+            self._timer = 0
+
+        if self._pause:
+            if self._timer > self._pause_timer:
+                self._pause = False
+
+                self._event(self.dialogue_index)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         if symbol == arcade.key.SPACE and not self._pause:
@@ -137,6 +178,10 @@ class IntroScreen(BaseMenu):
         self._timer = 0
         self._txt_show_speed = text_speed
 
+        if not self.dialogue_index == 0:
+            self.audio_manager.stop_sound('dialogue_sound')
+            self.audio_manager.play_sound('dialogue_sound', loop=True)
+
     def _create_ui_elements(self) -> None:
         background = CallBackground(
             ScreenSettings.WIDTH // 2, (ScreenSettings.HEIGHT // 2) + 200,
@@ -145,7 +190,7 @@ class IntroScreen(BaseMenu):
 
         self.fixed_sprites.append(background)
 
-        daddy = SeagullSprite(
+        self.daddy = SeagullSprite(
             (ScreenSettings.WIDTH // 2) - 250,
             (ScreenSettings.HEIGHT // 2) + 240,
             load_sprite_sheet(
@@ -155,10 +200,10 @@ class IntroScreen(BaseMenu):
             ), scale=4
         )
 
-        daddy.visible = False
-        self.sprites_lst.append(daddy)
+        self.daddy.visible = False
+        self.sprites_lst.append(self.daddy)
 
-        child1 = SeagullSprite(
+        self.child1 = SeagullSprite(
             (ScreenSettings.WIDTH // 2) + 231,
             (ScreenSettings.HEIGHT // 2) + 318,
             load_sprite_sheet(
@@ -167,7 +212,7 @@ class IntroScreen(BaseMenu):
                 sprites_columns=6, sprites_count=6
             ), scale=2
         )
-        child2 = SeagullSprite(
+        self.child2 = SeagullSprite(
             (ScreenSettings.WIDTH // 2) + 250,
             (ScreenSettings.HEIGHT // 2) + 240,
             load_sprite_sheet(
@@ -176,7 +221,7 @@ class IntroScreen(BaseMenu):
                 sprites_columns=6, sprites_count=6
             ), scale=2
         )
-        child3 = SeagullSprite(
+        self.child3 = SeagullSprite(
             (ScreenSettings.WIDTH // 2) + 296,
             (ScreenSettings.HEIGHT // 2) + 180,
             load_sprite_sheet(
@@ -186,10 +231,19 @@ class IntroScreen(BaseMenu):
             ), scale=2
         )
 
-        child1.scale_x = -1
-        child2.scale_x = -1
-        child3.scale_x = -1
+        self.child1.scale_x = -1
+        self.child2.scale_x = -1
+        self.child3.scale_x = -1
 
-        self.sprites_lst.append(child1)
-        self.sprites_lst.append(child2)
-        self.sprites_lst.append(child3)
+        self.sprites_lst.append(self.child1)
+        self.sprites_lst.append(self.child2)
+        self.sprites_lst.append(self.child3)
+
+    def _event(self, index: int) -> None:
+        match index:
+            case 0:
+                self.audio_manager.stop_sound('calling')
+                self.audio_manager.play_sound('join_call')
+                self.daddy.visible = True
+                self.dialogue_index += 1
+                self._load_dialogue(self.dialogue_index)

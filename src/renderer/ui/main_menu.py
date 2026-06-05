@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 15:11:09 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 16:04:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -453,5 +453,5 @@ class MainMenu(BaseMenu):
     def _play_music(self) -> None:
         self._music_duration = self.time_musics[self.i]
         self.audio_manager.play_sound(
-            str(self.musics[self.i]), 0.8
+            str(self.musics[self.i]), 0.8, True
         )
