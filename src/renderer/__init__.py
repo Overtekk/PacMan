@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:19:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 10:05:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 11:41:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,7 @@ from .ui.ui_screen import UIScreen
 from .ui.highscores_screen import HighscoresScreen
 from .ui.instructions_screen import InstructionsScreen
 from .ui.logo import LogoScreen
+from .ui.intro_screen import IntroScreen
 from .game_window import GameWindow
 from .screen_settings import ScreenSettings, ScreenState, CollectiblesType
 
@@ -43,5 +44,6 @@ __all__ = [
     "HighscoresScreen",
     "InstructionsScreen",
     "LogoScreen",
+    "IntroScreen",
     "CollectiblesType"
 ]

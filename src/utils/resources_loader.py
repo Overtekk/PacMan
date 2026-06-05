@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:18:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 13:54:04 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,7 +87,9 @@ REQUIERED_SPRITES: dict[str, str] = {
 
     "player": "player/player.png",
 
-    "background": "background.png"
+    "background": "background.png",
+
+    "call_background": "intro/call_background.png"
 }
 
 REQUIERED_FONTS: dict[str, str] = {
