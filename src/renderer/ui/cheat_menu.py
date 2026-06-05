@@ -6,13 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 14:24:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:24:42 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
-import PIL.Image
 import arcade
 
 from pathlib import Path
@@ -250,11 +249,12 @@ class FreezeGhostButton(BaseButton):
                 self.parent_view.previous_view.is_cheat_freeze_active = False
                 self._disable_cheat()
 
-        else:
-            self.texture = self.texture_on
-            if hasattr(self.parent_view, 'previous_view'):
-                self.parent_view.previous_view.is_cheat_freeze_active = True
-                self._activate_cheat()
+            else:
+                self.texture = self.texture_on
+                if hasattr(self.parent_view, 'previous_view'):
+                    parent = self.parent_view.previous_view
+                    parent.is_cheat_freeze_active = True
+                    self._activate_cheat()
 
     def _activate_cheat(self) -> None:
         if game_config.debug_mode:
@@ -377,12 +377,13 @@ class InvincibilityButton(BaseButton):
                     False)
                 self._disable_cheat()
 
-        else:
-            self.texture = self.texture_on
-            if hasattr(self.parent_view, 'previous_view'):
-                self.parent_view.previous_view.is_cheat_invincible_active = (
-                    True)
-                self._activate_cheat()
+            else:
+                self.texture = self.texture_on
+                if hasattr(self.parent_view, 'previous_view'):
+                    parent = self.parent_view.previous_view
+                    parent.is_cheat_invincible_active = (
+                        True)
+                    self._activate_cheat()
 
     def _activate_cheat(self) -> None:
         if game_config.debug_mode:
@@ -401,7 +402,7 @@ class InvincibilityButton(BaseButton):
 
 class CheatMenu(BaseMenu):
     def __init__(
-        self, previous_view: arcade.View, background: PIL.Image.Image
+        self, previous_view: arcade.View, background: arcade.Texture
     ) -> None:
         super().__init__()
 

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 10:44:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 15:09:09 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,7 +53,7 @@ class MazeFactory:
         self, width: int, height: int, textures: dict[str, Any],
         screen_width: int, screen_height: int, seed: str = ""
 
-    ) -> list[list[int]]:
+    ) -> list[tuple[str, float, float, float, float]]:
         screen_height -= 100
         self.width = width
         self.height = height

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 14:09:32 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:22:52 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -165,7 +165,7 @@ class CheatButton(BaseButton):
         from src.renderer.ui.cheat_menu import CheatMenu
         if hasattr(self.parent_view, 'background'):
             cheat = CheatMenu(previous_view=self.parent_view,
-                            background=self.parent_view.background)
+                              background=self.parent_view.background)
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat)
 
@@ -247,7 +247,8 @@ class PlayButton(BaseButton):
             song = self.parent_view.musics[self.parent_view.i]
             self.parent_view.audio_manager.stop_sound(song)
             self.parent_view.window.game_session = GameEngine()
-            self.parent_view.window.show_view(self.parent_view.window.game_session)
+            self.parent_view.window.show_view(
+                self.parent_view.window.game_session)
 
 
 class MainMenu(BaseMenu):
@@ -257,9 +258,8 @@ class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
         # Set a beach background
-        self.background = arcade.load_texture(
-            self.window.asset_manager.textures["ocean"]
-        )
+        self.background: arcade.Texture = arcade.load_texture(
+            self.window.asset_manager.textures["ocean"])
         self.menu_time: float = 0.0
         self.audio_manager: AudioManager = self.window.audio_player
 

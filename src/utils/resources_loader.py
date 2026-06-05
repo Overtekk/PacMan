@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:33:04 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:25:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,8 +14,9 @@ import arcade
 import pathlib
 from pathlib import Path
 
+from src.utils.check_path import check_path
 from ..utils import (
-    check_path, check_folder, print_error, check_file_extension
+    check_folder, print_error, check_file_extension
 )
 
 DEFAULT_SPRITES_PATH: str = "assets/sprites/"
@@ -385,7 +386,8 @@ class AudioLoader():
         for audio_name, audio_data in REQUIERED_SOUNDS.items():
 
             relative_path = audio_data["path"]
-            full_path: Path = self.default_path / relative_path
+            if not isinstance(relative_path, bool):
+                full_path: Path = self.default_path / relative_path
 
             verified_path: Path = check_path(str(full_path))
 

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:42:39 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 15:20:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -42,7 +42,7 @@ class GameStateManager():
         }
 
     @property
-    def live(self) -> int:
+    def live(self) -> Any:
         return self.game_data["live"]
 
     @live.setter
@@ -63,11 +63,11 @@ class GameStateManager():
 
                 self.window.show_view(GameOverScreen(
                     score=self.score, filename=self.config.highscore_filename,
-                    previous_view=self
+                    previous_view=self.parent_view
                 ))
 
     @property
-    def score(self) -> float:
+    def score(self) -> Any:
         return self.game_data["score"]
 
     @score.setter
@@ -84,7 +84,7 @@ class GameStateManager():
             )
 
     @property
-    def time_left(self) -> float:
+    def time_left(self) -> Any:
         return self.game_data["time_left"]
 
     @time_left.setter
@@ -104,7 +104,7 @@ class GameStateManager():
             self.live -= 1
 
     @property
-    def current_level_index(self) -> int:
+    def current_level_index(self) -> Any:
         return self.game_data["current_level_index"]
 
     @current_level_index.setter
@@ -138,7 +138,7 @@ class GameStateManager():
             self.window.show_view(FinishScreen(
                 score=self.score,
                 filename=self.config.highscore_filename,
-                previous_view=self))
+                previous_view=self.parent_view))
 
     def pause_game(self) -> None:
         if self.window:

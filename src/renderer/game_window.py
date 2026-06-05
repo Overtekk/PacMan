@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:09:11 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 13:14:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 14:59:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,7 @@ class GameWindow(arcade.Window):
         self.show_view(LogoScreen(self))
 
     @property
-    def screen_state(self) -> str:
+    def screen_state(self) -> ScreenState:
         return self._screen_state
 
     @screen_state.setter

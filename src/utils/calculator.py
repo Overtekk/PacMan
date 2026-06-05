@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:16:43 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:11:28 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -55,7 +55,7 @@ class SuperCalculator():
 
         return (convert_x, convert_y)
 
-    def get_grid_to_pixel(self, x: int, y: int) -> tuple[float, float]:
+    def get_grid_to_pixel(self, x: int, y: int) -> tuple[int, int]:
 
         new_x: float = (
             (x * self.maze_tile_size) +

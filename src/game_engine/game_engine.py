@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:42:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:21:32 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -276,9 +276,7 @@ class GameEngine(arcade.View):
         self.cheat_skip_level = False
 
         self.audio_manager.stop_all_sounds()
-        self.audio_manager.play_sound(
-            'levelcompleted', 0.2
-        )
+        self.audio_manager.play_sound('levelcompleted', 0.2)
 
         self.state_manager.current_level_index += 1
         self._next_level = True

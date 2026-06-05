@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:50:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:22:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,7 +85,7 @@ class Cheat(BaseButton):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        background: PIL.Image.Image
+        background: arcade.Texture
     ) -> None:
 
         super().__init__(
@@ -184,7 +184,7 @@ class PauseMenu(BaseMenu):
                     self.instructions_button.color = arcade.color.WHITE
                 if self.y == 3:
                     self.go_back.check_hover(self.go_back.center_x,
-                                            self.go_back.center_y)
+                                             self.go_back.center_y)
                 else:
                     self.go_back.color = arcade.color.WHITE
 
@@ -202,7 +202,7 @@ class PauseMenu(BaseMenu):
                     self.y = 1
                 if self.y == 1:
                     self.cheat.check_hover(self.cheat.center_x,
-                                        self.cheat.center_y)
+                                           self.cheat.center_y)
                 else:
                     self.cheat.color = arcade.color.WHITE
                 if self.y == 2:
@@ -218,7 +218,7 @@ class PauseMenu(BaseMenu):
                     self.instructions_button.color = arcade.color.WHITE
                 if self.y == 4:
                     self.go_back.check_hover(self.go_back.center_x,
-                                            self.go_back.center_y)
+                                             self.go_back.center_y)
                 else:
                     self.go_back.color = arcade.color.WHITE
 
