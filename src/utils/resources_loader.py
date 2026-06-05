@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:18:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 13:33:04 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -96,7 +96,7 @@ REQUIERED_FONTS: dict[str, str] = {
     "Kaph": "Kaph-Regular.ttf"
 }
 
-REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
+REQUIERED_SOUNDS: dict[str, dict[str, str | bool]] = {
     "fah": {
         "path": "fah.mp3",
         "streaming": False
@@ -400,7 +400,6 @@ class AudioLoader():
                 verified_path,
                 streaming=audio_data["streaming"]
             )
-
 
 
 def load_sprite_sheet(textures: dict[str, Path],

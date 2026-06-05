@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/03 09:48:39 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/03 16:21:43 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 14:12:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,12 +49,12 @@ class LogoScreen(BaseMenu):
         self._FADING_SPEED: float = 100
         self._sound_played: bool = False
 
-    def on_update(self, delta_time) -> None:
+    def on_update(self, delta_time: float) -> None:
         self._timer -= delta_time
 
         # Remove opacity based on time
         if self._timer > 3.0:
-            self._fading -= self._FADING_SPEED * delta_time
+            self._fading -= int(self._FADING_SPEED * delta_time)
             if self._fading < 0:
                 self._fading = 0
 
@@ -68,13 +68,14 @@ class LogoScreen(BaseMenu):
 
         # Re-add opacity
         if self._timer > 0.0 and self._timer <= 1.0:
-            self._fading += self._FADING_SPEED * delta_time
+            self._fading += int(self._FADING_SPEED * delta_time)
             if self._fading > 255:
                 self._fading = 255
 
         if self._timer < 0.0:
             self._fading = 255
-            self.previous_view.show_main_menu()
+            if hasattr(self.previous_view, 'show_main_menu'):
+                self.previous_view.show_main_menu()
 
     def build_ui(self) -> None:
         self._create_elements()
@@ -88,7 +89,7 @@ class LogoScreen(BaseMenu):
         # Draw the black rectangle
         arcade.draw_lrbt_rectangle_filled(
             0.0, ScreenSettings.WIDTH, 0.0, ScreenSettings.HEIGHT,
-            (0,0,0, self._fading)
+            (0, 0, 0, self._fading)
         )
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:

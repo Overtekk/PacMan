@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 15:33:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 13:42:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -134,7 +134,7 @@ class GameEngine(arcade.View):
         # Render the enemy dying screen
         arcade.draw_lrbt_rectangle_filled(
             0.0, ScreenSettings.WIDTH, 0.0, ScreenSettings.HEIGHT,
-            (35,68, 176, self._dying_screen_fading)
+            (35, 68, 176, self._dying_screen_fading)
         )
 
         # Render texts
@@ -326,7 +326,6 @@ class GameEngine(arcade.View):
                 self._next_level = False
                 self.setup(False)
 
-
         # Animation for dying
         else:
             sc_x, sc_y = self.player.sprite.scale
@@ -386,7 +385,7 @@ class GameEngine(arcade.View):
 
         if 0.0 < self._pacgum_timer <= 3.0:
             is_blinking: bool = ((self._pacgum_timer %
-                                    (BLINK_SPEED * 2)) < BLINK_SPEED)
+                                  (BLINK_SPEED * 2)) < BLINK_SPEED)
 
             for enemy_obj in self.level_manager.enemies_list.values():
                 if enemy_obj.mode == EnemyState.RUNAWAY:

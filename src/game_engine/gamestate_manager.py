@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:30:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:42:39 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -144,4 +144,3 @@ class GameStateManager():
         if self.window:
             from src.renderer.ui.pause_menu import PauseMenu
             self.window.show_view(PauseMenu(previous_view=self.parent_view))
-

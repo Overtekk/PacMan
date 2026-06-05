@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:06:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:43:10 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -124,7 +124,8 @@ class LevelManager():
             ),
             calculator=self.calculator,
             scale=(self.factory.tile_size * PLAYER_SCALE) / 32,
-            speed=self.PLAYER_SPEED * ((self.factory.tile_size * PLAYER_SCALE) / 32)
+            speed=self.PLAYER_SPEED * (
+                (self.factory.tile_size * PLAYER_SCALE) / 32)
         )
 
         # Create enemies
@@ -149,7 +150,8 @@ class LevelManager():
             calculator=self.calculator,
             player_ref=self.player,
             scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+            speed=self.ENEMY_SPEED * (
+                (self.factory.tile_size * ENEMIES_SCALE) / 32)
         )
         self.enemies_list["cat_enemy"] = self.cat_enemy
 
@@ -174,7 +176,8 @@ class LevelManager():
             calculator=self.calculator,
             player_ref=self.player,
             scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+            speed=self.ENEMY_SPEED * (
+                (self.factory.tile_size * ENEMIES_SCALE) / 32)
         )
         self.enemies_list["dog_enemy"] = self.dog_enemy
 
@@ -199,7 +202,8 @@ class LevelManager():
             calculator=self.calculator,
             player_ref=self.player,
             scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+            speed=self.ENEMY_SPEED * (
+                (self.factory.tile_size * ENEMIES_SCALE) / 32)
         )
         self.enemies_list["fox_enemy"] = self.fox_enemy
 
@@ -224,11 +228,13 @@ class LevelManager():
             calculator=self.calculator,
             player_ref=self.player,
             scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+            speed=self.ENEMY_SPEED * (
+                (self.factory.tile_size * ENEMIES_SCALE) / 32)
         )
         self.enemies_list["rat_enemy"] = self.rat_enemy
 
-        self.enemy_speed = self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+        self.enemy_speed = self.ENEMY_SPEED * (
+            (self.factory.tile_size * ENEMIES_SCALE) / 32)
 
     def _create_collectibles(self) -> None:
         self._create_super_pacgum()

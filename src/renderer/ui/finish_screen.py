@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:27:48 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:52:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -166,9 +166,11 @@ class FinishScreen(BaseMenu):
                 from src.renderer.ui.main_menu import MainMenu
                 if self.window:
                     self.window.show_view(MainMenu())
-                save_score_to_leaderboard(self.filename, self.player_name,
-                                          float(self.score),
-                                          self.previous_view.parent_view.code_found)
+                if hasattr(self.previous_view, 'parent_view'):
+                    save_score_to_leaderboard(
+                        self.filename, self.player_name,
+                        float(self.score),
+                        self.previous_view.parent_view.code_found)
 
     def on_draw(self) -> None:
         self.clear()

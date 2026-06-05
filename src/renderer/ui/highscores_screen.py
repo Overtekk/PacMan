@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/04 15:52:40 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:55:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -39,7 +39,9 @@ class HighscoresButton(BaseButton):
 
     def on_click(self) -> None:
         if self.parent_view.window:
-            self.parent_view.window.show_view(self.parent_view.previous_view)
+            if hasattr(self.parent_view, 'previous_view'):
+                self.parent_view.window.show_view(
+                    self.parent_view.previous_view)
 
 
 class HighscoresScreen(BaseMenu):
@@ -97,7 +99,7 @@ class HighscoresScreen(BaseMenu):
             self.y = 0
         if self.y == 1:
             self.highscores.check_hover(self.highscores.center_x,
-                                          self.highscores.center_y)
+                                        self.highscores.center_y)
         else:
             self.highscores.color = arcade.color.WHITE
         if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:

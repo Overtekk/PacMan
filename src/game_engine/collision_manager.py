@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:28:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 13:41:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -87,7 +87,8 @@ class CollisionManager():
             if len(enemy_colliding) > 0:
                 for enemy in enemy_colliding:
                     if not enemy.parent.died:
-                        if not self.player_reference.invincible or enemy.parent.have_respawned:
+                        if (not self.player_reference.invincible
+                           or enemy.parent.have_respawned):
                             self._kill_player()
                             return LevelState.PLAYER_DIED
 
@@ -145,7 +146,7 @@ class CollisionManager():
         if hasattr(collectible, 'is_activate'):
             self._activate_superpacgum()
 
-                # Remove the sprite
+        # Remove the sprite
         collectible.sprite.kill()
 
     def _activate_superpacgum(self) -> None:

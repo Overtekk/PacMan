@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 10:46:25 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 13:43:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -183,7 +183,8 @@ class EnemyBrain():
             if self.enemy._timer_chase > MAX_TIME_TO_FORGET:
 
                 if random.random() <= self.enemy._loose_chance:
-                    self.enemy.speed = self.enemy.base_speed - (self.enemy.base_speed//10)
+                    self.enemy.speed = (
+                        self.enemy.base_speed - (self.enemy.base_speed//10))
 
                     self.enemy.mode = EnemyState.WANDER
                     self.enemy._timer_chase = 0.0
