@@ -26,11 +26,11 @@ class CollisionManager():
     def __init__(
         self,
         player_reference: Player,
-        enemies_reference: list[str, Any],
-        enemies_sprite_list: arcade.SpriteList,
-        pacgums_sprite_list: arcade.SpriteList,
-        super_pacgums_sprite_list: arcade.SpriteList,
-        maze_bitmap: dict[tuple[int, int], str],
+        enemies_reference: dict[str, Any],
+        enemies_sprite_list: arcade.SpriteList[Any],
+        pacgums_sprite_list: arcade.SpriteList[Any],
+        super_pacgums_sprite_list: arcade.SpriteList[Any],
+        maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         state_manager: GameStateManager,
         audio_manager: AudioManager,
@@ -87,7 +87,8 @@ class CollisionManager():
             if len(enemy_colliding) > 0:
                 for enemy in enemy_colliding:
                     if not enemy.parent.died:
-                        if not self.player_reference.invincible or enemy.parent.have_respawned:
+                        if (not self.player_reference.invincible
+                           or enemy.parent.have_respawned):
                             self._kill_player()
                             return LevelState.PLAYER_DIED
 
@@ -145,7 +146,7 @@ class CollisionManager():
         if hasattr(collectible, 'is_activate'):
             self._activate_superpacgum()
 
-                # Remove the sprite
+        # Remove the sprite
         collectible.sprite.kill()
 
     def _activate_superpacgum(self) -> None:
@@ -160,9 +161,10 @@ class CollisionManager():
 
         self.player_reference.invincible = True
 
-        self.state_manager.parent_view._pacgum_timer = (
-            game_config.time_power_up
-        )
+        if hasattr(self.state_manager.parent_view, '_pacgum_timer'):
+            self.state_manager.parent_view._pacgum_timer = (
+                game_config.time_power_up
+            )
 
         for enemy in self.enemies_reference.values():
             if enemy.mode in [EnemyState.RESPAWN, EnemyState.WAIT]:
@@ -264,8 +266,8 @@ class CollisionManager():
         conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(entity)
 
         # Inverted Y (because Arcade Y=0 is bottom right)
-        wall_x: int = conv_x + direction[0]
-        wall_y: int = conv_y - direction[1]
+        wall_x: int = int(conv_x + direction[0])
+        wall_y: int = int(conv_y - direction[1])
 
         # Check if the destination is open
         if self.maze_bitmap.get((wall_x, wall_y), 1) == 0:
@@ -276,16 +278,18 @@ class CollisionManager():
         self, entity: Entity, direction: tuple[float, float]
     ) -> None:
         # Calculate the exact center of the current tile
-        center_x: int = (((entity.x - self.offset_x) // self.tile_size) *
-                         self.tile_size + (self.tile_size / 2) + self.offset_x)
-        center_y: int = (((entity.y - self.offset_y) // self.tile_size) *
-                         self.tile_size + (self.tile_size / 2) + self.offset_y)
+        center_x: int = int((
+            ((entity.x - self.offset_x) // self.tile_size)
+            * self.tile_size + (self.tile_size / 2) + self.offset_x))
+        center_y: int = int((
+            ((entity.y - self.offset_y) // self.tile_size)
+            * self.tile_size + (self.tile_size / 2) + self.offset_y))
 
         # Lock the perpendicular axis
-        if direction == 0.0 and direction != 0.0:
+        if direction[0] == 0.0 and direction[1] != 0.0:
             # Vertical movement: lock X to the center of the column
             entity.x = center_x
-        elif direction == 0.0 and direction != 0.0:
+        elif direction[0] == 0.0 and direction[1] != 0.0:
             # Horizontal movement: lock Y to the center of the row
             entity.y = center_y
 

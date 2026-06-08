@@ -128,13 +128,19 @@ class LogoButton(BaseButton):
             path = self.parent_view.window.asset_manager.textures["logo"]
         self.texture = arcade.load_texture(path)
         self.gullman = not self.gullman
-        song = self.parent_view.musics[self.parent_view.i]
-        self.parent_view.audio_manager.stop_sound(song)
-        if self.parent_view.i + 1 >= len(self.parent_view.musics):
-            self.parent_view.i = 0
-        else:
-            self.parent_view.i += 1
-        self.parent_view._play_music()
+        if (hasattr(self.parent_view, 'musics')
+           and hasattr(self.parent_view, 'i')):
+            song = self.parent_view.musics[self.parent_view.i]
+        if hasattr(self.parent_view, 'audio_manager'):
+            self.parent_view.audio_manager.stop_sound(song)
+        if (hasattr(self.parent_view, 'musics')
+           and hasattr(self.parent_view, 'i')):
+            if self.parent_view.i + 1 >= len(self.parent_view.musics):
+                self.parent_view.i = 0
+            else:
+                self.parent_view.i += 1
+        if hasattr(self.parent_view, '_play_music'):
+            self.parent_view._play_music()
 
     def check_hover(self, x: float, y: float) -> None:
         # Cancel the light gray color when the mouse is on the sprite to hide
@@ -157,7 +163,9 @@ class CheatButton(BaseButton):
     def on_click(self) -> None:
         # Go on cheat menu
         from src.renderer.ui.cheat_menu import CheatMenu
-        cheat = CheatMenu(previous_view=self.parent_view)
+        if hasattr(self.parent_view, 'background'):
+            cheat = CheatMenu(previous_view=self.parent_view,
+                              background=self.parent_view.background)
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat)
 
@@ -248,9 +256,8 @@ class MainMenu(BaseMenu):
     def __init__(self) -> None:
         super().__init__()
         # Set a beach background
-        self.background = arcade.load_texture(
-            self.window.asset_manager.textures["ocean"]
-        )
+        self.background: arcade.Texture = arcade.load_texture(
+            self.window.asset_manager.textures["ocean"])
         self.menu_time: float = 0.0
         self.audio_manager: AudioManager = self.window.audio_player
 
@@ -401,8 +408,9 @@ class MainMenu(BaseMenu):
         else:
             self.highscores_button.color = arcade.color.WHITE
         if self.y == 3:
-            self.instructions_button.check_hover(self.instructions_button.center_x,
-                                                 self.instructions_button.center_y)
+            self.instructions_button.check_hover(
+                self.instructions_button.center_x,
+                self.instructions_button.center_y)
         else:
             self.instructions_button.color = arcade.color.WHITE
         if self.y == 4:
@@ -431,7 +439,7 @@ class MainMenu(BaseMenu):
             if hasattr(sprite, "on_update"):
                 sprite.on_update(delta_time)
 
-        self._music_duration -= delta_time
+        self._music_duration -= int(delta_time)
 
         if self._music_duration <= 0.0:
             self._play_music()

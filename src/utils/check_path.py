@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 11:25:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/15 13:05:21 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/05 15:05:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,7 +35,7 @@ def check_path(path_str: str) -> Path:
     return filepath
 
 
-def check_folder(path_str: Path) -> None:
+def check_folder(path_str: Path | str) -> None:
     folderpath: Path = pathlib.Path(path_str)
 
     if not is_folder_exist(folderpath):

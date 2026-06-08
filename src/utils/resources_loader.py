@@ -14,8 +14,9 @@ import arcade
 import pathlib
 from pathlib import Path
 
+from src.utils.check_path import check_path
 from ..utils import (
-    check_path, check_folder, print_error, check_file_extension
+    check_folder, print_error, check_file_extension
 )
 
 DEFAULT_SPRITES_PATH: str = "assets/sprites/"
@@ -98,7 +99,7 @@ REQUIERED_FONTS: dict[str, str] = {
     "Kaph": "Kaph-Regular.ttf"
 }
 
-REQUIERED_SOUNDS: dict[str, dict[str, str]] = {
+REQUIERED_SOUNDS: dict[str, dict[str, str | bool]] = {
     "fah": {
         "path": "fah.mp3",
         "streaming": False
@@ -407,7 +408,8 @@ class AudioLoader():
         for audio_name, audio_data in REQUIERED_SOUNDS.items():
 
             relative_path = audio_data["path"]
-            full_path: Path = self.default_path / relative_path
+            if not isinstance(relative_path, bool):
+                full_path: Path = self.default_path / relative_path
 
             verified_path: Path = check_path(str(full_path))
 
@@ -422,7 +424,6 @@ class AudioLoader():
                 verified_path,
                 streaming=audio_data["streaming"]
             )
-
 
 
 def load_sprite_sheet(textures: dict[str, Path],

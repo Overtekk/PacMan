@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 15:29:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 10:14:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,7 +35,7 @@ mandatory_keys: list[str] = [
 
 def load_config(filepath: Path) -> GameConfig:
     # SECURITY: create the Path object
-    filepath: Path = Path(filepath)
+    filepath = Path(filepath)
 
     # Check 'data' folder
     if not is_folder_exist(filepath.parent):

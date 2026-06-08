@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:06:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:46:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -38,7 +38,7 @@ class LevelManager():
         self.config: GameConfig = game_window.game_config
         self.asset_manager: dict[str, Path] = game_window.asset_manager
 
-        self.enemies_list: list[str, Any] = {}
+        self.enemies_list: dict[str, Any] = {}
         self.pacgums_list: list[Pacgum] = []
         self.super_pacgums_list: list[SuperPacgum] = []
 
@@ -49,16 +49,17 @@ class LevelManager():
 
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
-    ) -> list[list[int]]:
+    ) -> list[tuple[str, float, float, float, float]]:
 
         # Store the maze width & height in the class
         self.maze_width = maze_width
         self.maze_height = maze_height
 
         # Create the level
-        generated_level: list[list[int]] = self._create_maze_level(
-            first_instance
-        )
+        generated_level: list[tuple[str, float, float, float, float]] = (
+            self._create_maze_level(
+                first_instance
+                ))
 
         # Create the calculator
         self.calculator = SuperCalculator(
@@ -82,23 +83,27 @@ class LevelManager():
 
     def _create_maze_level(
         self, first_instance: bool = False
-    ) -> list[list[int]]:
+    ) -> list[tuple[str, float, float, float, float]]:
         # Instanciate the MazeFactory object
         self.factory = MazeFactory()
 
         # Create the Maze
         if first_instance:
-            wall_data: list[list[int]] = self.factory.generate_maze(
-                self.maze_width, self.maze_height,
-                self.asset_manager.textures,
-                ScreenSettings.WIDTH, ScreenSettings.HEIGHT, self.config.seed
-            )
+            if hasattr(self.asset_manager, 'textures'):
+                wall_data: list[tuple[str, float, float, float, float]] = (
+                    self.factory.generate_maze(
+                        self.maze_width, self.maze_height,
+                        self.asset_manager.textures,
+                        ScreenSettings.WIDTH, ScreenSettings.HEIGHT,
+                        self.config.seed
+                        ))
         else:
-            wall_data: list[list[int]] = self.factory.generate_maze(
-                self.maze_width, self.maze_height,
-                self.asset_manager.textures,
-                ScreenSettings.WIDTH, ScreenSettings.HEIGHT
-            )
+            if hasattr(self.asset_manager, 'textures'):
+                wall_data = self.factory.generate_maze(
+                    self.maze_width, self.maze_height,
+                    self.asset_manager.textures,
+                    ScreenSettings.WIDTH, ScreenSettings.HEIGHT
+                )
         # Store the maze in bytes for later calculations
         self.maze_bitmap: dict[tuple[int, int], int] = generate_bytes_maze(
             self.factory.grid_data,
@@ -115,120 +120,129 @@ class LevelManager():
 
         # Create the player
 
-        self.player: Player = Player(
-            spawn_point=spawn_positions["player"],
-            sprite_sheet=load_sprite_sheet(
-                textures=self.asset_manager.textures["player"],
-                sprite_width=192/6, sprite_height=32,
-                sprites_columns=6, sprites_count=6
-            ),
-            calculator=self.calculator,
-            scale=(self.factory.tile_size * PLAYER_SCALE) / 32,
-            speed=self.PLAYER_SPEED * ((self.factory.tile_size * PLAYER_SCALE) / 32)
-        )
+        if hasattr(self.asset_manager, 'textures'):
+            self.player: Player = Player(
+                spawn_point=spawn_positions["player"],
+                sprite_sheet=load_sprite_sheet(
+                    textures=self.asset_manager.textures["player"],
+                    sprite_width=int(192/6), sprite_height=32,
+                    sprites_columns=6, sprites_count=6
+                ),
+                calculator=self.calculator,
+                scale=(self.factory.tile_size * PLAYER_SCALE) / 32,
+                speed=self.PLAYER_SPEED * (
+                    (self.factory.tile_size * PLAYER_SCALE) / 32)
+            )
 
         # Create enemies
-        self.cat_enemy: CatEnemy = CatEnemy(
-            spawn_point=spawn_positions["cat_enemy"],
-            sprite_sheet_move=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_cat_move"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_eatable=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_cat_eatable"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_died=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_cat_died"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            maze_bitmap=self.maze_bitmap,
-            calculator=self.calculator,
-            player_ref=self.player,
-            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
-        )
-        self.enemies_list["cat_enemy"] = self.cat_enemy
+        if hasattr(self.asset_manager, 'textures'):
+            self.cat_enemy: CatEnemy = CatEnemy(
+                spawn_point=spawn_positions["cat_enemy"],
+                sprite_sheet_move=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_cat_move"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_eatable=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_cat_eatable"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_died=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_cat_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                maze_bitmap=self.maze_bitmap,
+                calculator=self.calculator,
+                player_ref=self.player,
+                scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
+                speed=self.ENEMY_SPEED * (
+                    (self.factory.tile_size * ENEMIES_SCALE) / 32)
+            )
+            self.enemies_list["cat_enemy"] = self.cat_enemy
+            print(self.enemies_list)
 
-        self.dog_enemy: DogEnemy = DogEnemy(
-            spawn_point=spawn_positions["dog_enemy"],
-            sprite_sheet_move=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_dog_move"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_eatable=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_dog_eatable"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_died=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_dog_died"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            maze_bitmap=self.maze_bitmap,
-            calculator=self.calculator,
-            player_ref=self.player,
-            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
-        )
-        self.enemies_list["dog_enemy"] = self.dog_enemy
+            self.dog_enemy: DogEnemy = DogEnemy(
+                spawn_point=spawn_positions["dog_enemy"],
+                sprite_sheet_move=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_dog_move"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_eatable=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_dog_eatable"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_died=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_dog_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                maze_bitmap=self.maze_bitmap,
+                calculator=self.calculator,
+                player_ref=self.player,
+                scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
+                speed=self.ENEMY_SPEED * (
+                    (self.factory.tile_size * ENEMIES_SCALE) / 32)
+            )
+            self.enemies_list["dog_enemy"] = self.dog_enemy
 
-        self.fox_enemy: FoxEnemy = FoxEnemy(
-            spawn_point=spawn_positions["fox_enemy"],
-            sprite_sheet_move=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_fox_move"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_eatable=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_fox_eatable"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_died=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_fox_died"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            maze_bitmap=self.maze_bitmap,
-            calculator=self.calculator,
-            player_ref=self.player,
-            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
-        )
-        self.enemies_list["fox_enemy"] = self.fox_enemy
+            self.fox_enemy: FoxEnemy = FoxEnemy(
+                spawn_point=spawn_positions["fox_enemy"],
+                sprite_sheet_move=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_fox_move"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_eatable=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_fox_eatable"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_died=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_fox_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                maze_bitmap=self.maze_bitmap,
+                calculator=self.calculator,
+                player_ref=self.player,
+                scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
+                speed=self.ENEMY_SPEED * (
+                    (self.factory.tile_size * ENEMIES_SCALE) / 32)
+            )
+            self.enemies_list["fox_enemy"] = self.fox_enemy
 
-        self.rat_enemy: RatEnemy = RatEnemy(
-            spawn_point=spawn_positions["rat_enemy"],
-            sprite_sheet_move=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_rat_move"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_eatable=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_rat_eatable"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            sprite_sheet_died=load_sprite_sheet(
-                textures=self.asset_manager.textures["enemy_rat_died"],
-                sprite_width=128/4, sprite_height=32,
-                sprites_columns=4, sprites_count=4
-            ),
-            maze_bitmap=self.maze_bitmap,
-            calculator=self.calculator,
-            player_ref=self.player,
-            scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
-            speed=self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
-        )
-        self.enemies_list["rat_enemy"] = self.rat_enemy
+            self.rat_enemy: RatEnemy = RatEnemy(
+                spawn_point=spawn_positions["rat_enemy"],
+                sprite_sheet_move=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_rat_move"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_eatable=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_rat_eatable"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_died=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_rat_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                maze_bitmap=self.maze_bitmap,
+                calculator=self.calculator,
+                player_ref=self.player,
+                scale=(self.factory.tile_size * ENEMIES_SCALE) / 32,
+                speed=self.ENEMY_SPEED * (
+                    (self.factory.tile_size * ENEMIES_SCALE) / 32)
+            )
+            self.enemies_list["rat_enemy"] = self.rat_enemy
 
-        self.enemy_speed = self.ENEMY_SPEED * ((self.factory.tile_size * ENEMIES_SCALE) / 32)
+            self.enemy_speed = self.ENEMY_SPEED * (
+                (self.factory.tile_size * ENEMIES_SCALE) / 32)
 
     def _create_collectibles(self) -> None:
         self._create_super_pacgum()
@@ -276,15 +290,16 @@ class LevelManager():
             # Create the collectible and add it to the list with a chance %
             if random() <= self._pacgum_chance_spawning or first:
 
-                collectible: Pacgum = Pacgum(
-                    spawn_point=conv_coords,
-                    sprite_path=self.asset_manager.textures["pacgum"],
-                    calculator=self.calculator,
-                    scale=(self.factory.tile_size * PACGUM_SCALE) / 40,
-                    score=self.config.pacgum_points
-                )
-                self.pacgums_list.append(collectible)
-                first = False
+                if hasattr(self.asset_manager, 'textures'):
+                    collectible: Pacgum = Pacgum(
+                        spawn_point=conv_coords,
+                        sprite_path=self.asset_manager.textures["pacgum"],
+                        calculator=self.calculator,
+                        scale=(self.factory.tile_size * PACGUM_SCALE) / 40,
+                        score=int(self.config.pacgum_points)
+                    )
+                    self.pacgums_list.append(collectible)
+                    first = False
 
     def _create_super_pacgum(self) -> None:
         self.super_pacgums_list.clear()
@@ -295,15 +310,16 @@ class LevelManager():
         )
 
         # Create a super_pacgum for each corners
-        for coords in corners_coords_list.values():
-            collectible: SuperPacgum = SuperPacgum(
-                spawn_point=coords,
-                sprite=self.asset_manager.textures["super_pacgum"],
-                calculator=self.calculator,
-                scale=(self.factory.tile_size * SUPERPACGUM_SCALE) / 40,
-                score=self.config.super_pacgum_points
-            )
-            self.super_pacgums_list.append(collectible)
+        if hasattr(self.asset_manager, 'textures'):
+            for coords in corners_coords_list.values():
+                collectible: SuperPacgum = SuperPacgum(
+                    spawn_point=coords,
+                    sprite=self.asset_manager.textures["super_pacgum"],
+                    calculator=self.calculator,
+                    scale=(self.factory.tile_size * SUPERPACGUM_SCALE) / 40,
+                    score=int(self.config.super_pacgum_points)
+                )
+                self.super_pacgums_list.append(collectible)
 
     def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
         spawn_dict: dict[str, tuple[int, int]] = {}

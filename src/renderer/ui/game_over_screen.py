@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 17:39:12 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 13:51:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -171,9 +171,10 @@ class GameOverScreen(BaseMenu):
                 if self.window:
                     self.window.show_view(MainMenu())
 
-                save_score_to_leaderboard(
-                    self.filename, self.player_name, float(self.score),
-                    self.previous_view.parent_view.code_found)
+                if hasattr(self.previous_view, 'parent_view'):
+                    save_score_to_leaderboard(
+                        self.filename, self.player_name, float(self.score),
+                        self.previous_view.parent_view.code_found)
 
     def on_draw(self) -> None:
         self.clear()

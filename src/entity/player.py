@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 13:06:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 10:14:14 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -43,7 +43,7 @@ class Player(Movable):
 
         super().update(delta_time)
 
-    def die(self, _delta_time) -> None:
+    def die(self, _delta_time: float) -> None:
         self.respawn()
 
     def increase_cheat_speed(self, value: float) -> None:
