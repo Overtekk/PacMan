@@ -2,6 +2,112 @@
 ### *anacharp + roandrie*
 
 ---
+### 08/06/2026
+- roandrie
+	- Cap the delta_time is the main loop to avoid bug if the game is freezing
+	- Fix the freeze when invincibility goes off
+
+### 05/06/2026
+- anacharp
+	- standardization
+	- max 10 levels
+	- report bug
+- roandrie
+	- Change the PlayButton > instead of launching the game, it will launch the introductio and then the game
+	- Add dialogue between the dad and his childs
+	- Add the option to skip the introduction
+
+### 04/06/2026
+- anacharp
+	- working on win level animation
+		- become more smooth
+		- press SPACE key on starter time dezoom
+		- dezoom for finish screen
+	- fix pacman disappearance so that he doesn't reappear in the same place before being teleported to the center
+	- make a nice logo
+	- menus navigable with the keyboard arrows
+	- Change the menu music by clicking on the Pac-Man logo
+- roandrie
+	fix: cheats stay between levels
+	fix: invincibility prevent ghosts to be eaten when they respawn
+	fix: missings cheats (next level, increase time, increase speed)
+	fix: increase base speed of player
+	fix: crash when player active the cheat freeze ghosts
+
+	- add musics to all levels
+	- finish implementing all the cheats
+
+### 03/06/2026
+- roandrie
+	- add the logo screen at the start of the game
+	- add music to the main menu
+	- Refactor the collision_manager.py and game_engine.py, on_update method
+	- Animation when eating anime: pause, score showed, blue screen
+	- Enemy now respawn after a certain time if they are stuck during the respawn state
+	- Opacity of the enemy increase for the duration of the respawn state (10 seconds)
+
+	- Fix: Bugs with the audio: duplicating, not stopping etc... (AudioManager is instantiate only once know)
+	- Fix: Audiomanager can't stock a None player
+	- Fix: Highscore screen now goes back to the main menu and do not create another one
+- anacharp
+	- Fix : bugs with ui screen switching on next level before next level creation
+	- create a loop with the music from the main menu
+	- Animate the level change
+
+
+### 02/06/2026
+- anacharp
+	- according speed of the player and enemies to the size of the maze
+	- according chase speed and runaway speed to the sprites speed
+	- making some songs
+	- changing scales
+	- changing sprites
+	- changing pause menu and cheat mode apparition
+	- find bugs and report them
+	- starting with level 1 and not level 0
+	- cheater in red on leaderboard
+- roandrie
+	- add sounds effects in the game including:
+		- eating pacgums and enemies, death, click, victory, game over, cheat menu found, starting
+	- add new methods to the AudioLoader class (stop a specific sound, stop all sounds)
+	- add animation for dying and for winning a level
+
+### 01/06/2026
+- roandrie
+	fix: pressing escape in the 'cheat menu' in game returned to main menu
+	fix: add the asset loader instead of the path for rendering the background
+	fix: instructions button in game return ton main menu (TODO: go back in game)
+
+	add:
+	- in game screen in the cheat menu
+	- the cheat button will appear only if the konami code is activated
+	- add UI rendering (green/red button) to see if a cheat is active
+	- add cheats:
+		- invincible
+		- extra-life
+		- freeze ghosts
+		- add speed
+		- add time
+	- move the logic of the superpacgum (timer, blinking effect) from the superpacgum class to the game engine time (fixing bugs with time)
+	- add more reset values for entities so they are not stuck
+	- add the AudioManager, the AudioLoader and some sounds in the game
+
+- anacharp
+	- adjust the size of the mazes and sprites correctly
+	- Parsing correction to prevent errors when creating a maze larger than 42 by 42
+	- Implementation of the progression to the next level upon completion of the current level; if all levels are completed, the victory overlay is displayed.
+	- crash fix
+	- sound effects creation
+
+### 30/05/2026
+- anacharp
+	- create songs
+	- put all renderer's sprites with screen width
+	- find and report bugs
+	- activate the cheat mode and the return on the previous view
+	- standardization
+	- creating a new sprite for cheat menu
+	- implementation of extra lives, extra time and speed up cheats
 
 ### 29/05/2026
 - anacharp
@@ -10,6 +116,7 @@
 	- standardization of renderer/ui/ files
 	- modify timer easter egg on main menu
 	- timer
+	- display the level on the game
 - roandrie
 	- Refactor the enemy and entity class
 	- Create a new class: EnemyBrain. It have all the logic for the enemies movement logic

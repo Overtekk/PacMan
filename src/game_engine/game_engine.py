@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:47:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 11:11:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,6 +85,10 @@ class GameEngine(arcade.View):
         return self._code_found
 
     def on_update(self, delta_time: float) -> None:
+        # Cap the delta time to avoid crash, teleportation if game is frozen
+        if delta_time > game_config.delta_time_cap:
+            delta_time = game_config.delta_time_cap
+
         # Update the renderer
         self.game_renderer.update(delta_time)
         self.game_renderer.update_ui(
@@ -354,8 +358,6 @@ class GameEngine(arcade.View):
         if self._pacgum_timer > 0.0:
             # Start the timer
             self._pacgum_timer -= delta_time
-
-            self.audio_manager.pause_sound(self.level_sound)
 
             self._enemies_blinking()
 
