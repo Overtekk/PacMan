@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:52:28 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 11:11:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -360,8 +360,6 @@ class GameEngine(arcade.View):
         if self._pacgum_timer > 0.0:
             # Start the timer
             self._pacgum_timer -= delta_time
-
-            self.audio_manager.pause_sound(self.level_sound)
 
             self._enemies_blinking()
 
