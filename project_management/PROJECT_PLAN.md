@@ -6,6 +6,8 @@
 - roandrie
 	- Cap the delta_time is the main loop to avoid bug if the game is freezing
 	- Fix the freeze when invincibility goes off
+- anacharp
+	- standardization
 
 ### 05/06/2026
 - anacharp
