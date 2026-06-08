@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 11:13:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 15:22:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -129,7 +129,7 @@ class GameRenderer():
         self.super_pacgums.clear()
         self.entities.clear()
         for sprite_path, angle, x, y, tile_size in wall_data:
-            wall = Wall(sprite_path, angle, x, y, tile_size)
+            wall = Wall(sprite_path, angle, x, y, int(tile_size))
             self.walls.append(wall)
         self.next_ui = True
 
@@ -166,7 +166,8 @@ class GameRenderer():
         self.gui_camera.zoom += 0.010
 
     def replace(self) -> None:
-        self.gui_camera.position = (ScreenSettings.WIDTH // 2, ScreenSettings.HEIGHT // 2)
+        self.gui_camera.position = (ScreenSettings.WIDTH // 2,
+                                    ScreenSettings.HEIGHT // 2)
 
     def dezoom(self) -> None:
         if self.gui_camera.zoom > 1.0:

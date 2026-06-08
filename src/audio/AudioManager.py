@@ -36,7 +36,7 @@ class AudioManager():
     ) -> None:
         if audio_name in self.audio_dict:
 
-            player: media.Player = arcade.play_sound(
+            player: media.Player | None = arcade.play_sound(
                 sound=self.audio_dict[audio_name],
                 volume=volume,
                 loop=loop

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 16:12:47 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/05 16:22:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -70,10 +70,12 @@ class Resume(BaseButton):
     def on_click(self) -> None:
         # Go back on the game
         if self.parent_view.window:
-            self.parent_view.audio_manager.resume_sound(
-                self.parent_view.level_sound
-            )
-            self.parent_view.window.show_view(self.parent_view)
+            if (hasattr(self.parent_view, 'audio_manager')
+               and hasattr(self.parent_view, 'level_sound')):
+                self.parent_view.audio_manager.resume_sound(
+                    self.parent_view.level_sound
+                )
+                self.parent_view.window.show_view(self.parent_view)
 
 
 class Cheat(BaseButton):
@@ -83,7 +85,7 @@ class Cheat(BaseButton):
         center_y: float,
         sprite_path: Path,
         parent_view: arcade.View,
-        background: PIL.Image.Image
+        background: arcade.Texture
     ) -> None:
 
         super().__init__(
@@ -96,7 +98,7 @@ class Cheat(BaseButton):
     def on_click(self) -> None:
         # Go on cheat menu
         cheat = CheatMenu(
-            previous_view=self.parent_view, background =self.background
+            previous_view=self.parent_view, background=self.background
         )
         if self.parent_view.window:
             self.parent_view.window.show_view(cheat)
@@ -143,16 +145,18 @@ class PauseMenu(BaseMenu):
         self.button_list.append(self.go_back)
 
         # Create the cheat button if KONAMI code have been entered
-        if self.previous_view.code_found:
-            self.create_cheat_button()
+        if hasattr(self.previous_view, 'code_found'):
+            if self.previous_view.code_found:
+                self.create_cheat_button()
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         # Go back on the game
         if symbol == arcade.key.ESCAPE:
             if self.window:
-                self.audio_manager.resume_sound(
-                    self.previous_view.level_sound
-                )
+                if hasattr(self.previous_view, 'level_sound'):
+                    self.audio_manager.resume_sound(
+                        self.previous_view.level_sound
+                    )
                 self.window.show_view(self.previous_view)
 
         if symbol == arcade.key.DOWN:
@@ -160,70 +164,73 @@ class PauseMenu(BaseMenu):
         if symbol == arcade.key.UP:
             self.y -= 1
 
-        if not self.previous_view.code_found:
+        if hasattr(self.previous_view, 'code_found'):
+            if not self.previous_view.code_found:
 
-            if self.y < 0:
-                self.y = 3
-            if self.y == 4:
-                self.y = 1
-            if self.y == 1:
-                self.resume.check_hover(self.resume.center_x,
-                                            self.resume.center_y)
-            else:
-                self.resume.color = arcade.color.WHITE
-            if self.y == 2:
-                self.instructions_button.check_hover(self.instructions_button.center_x,
-                                                self.instructions_button.center_y)
-            else:
-                self.instructions_button.color = arcade.color.WHITE
-            if self.y == 3:
-                self.go_back.check_hover(self.go_back.center_x,
-                                                    self.go_back.center_y)
-            else:
-                self.go_back.color = arcade.color.WHITE
-
-
-            if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
-                if self.y == 1:
-                    self.resume.on_click()
-                if self.y == 2:
-                    self.instructions_button.on_click()
-                if self.y == 3:
-                    self.go_back.on_click()
-        else:
-            if self.y < 0:
-                self.y = 4
-            if self.y == 5:
-                self.y = 1
-            if self.y == 1:
-                self.cheat.check_hover(self.cheat.center_x,
-                                       self.cheat.center_y)
-            else:
-                self.cheat.color = arcade.color.WHITE
-            if self.y == 2:
-                self.resume.check_hover(self.resume.center_x,
-                                        self.resume.center_y)
-            else:
-                self.resume.color = arcade.color.WHITE
-            if self.y == 3:
-                self.instructions_button.check_hover(self.instructions_button.center_x,
-                                                     self.instructions_button.center_y)
-            else:
-                self.instructions_button.color = arcade.color.WHITE
-            if self.y == 4:
-                self.go_back.check_hover(self.go_back.center_x, self.go_back.center_y)
-            else:
-                self.go_back.color = arcade.color.WHITE
-
-            if symbol == arcade.key.SPACE or symbol == arcade.key.ENTER:
-                if self.y == 1:
-                    self.cheat.on_click()
-                if self.y == 2:
-                    self.resume.on_click()
-                if self.y == 3:
-                    self.instructions_button.on_click()
+                if self.y < 0:
+                    self.y = 3
                 if self.y == 4:
-                    self.go_back.on_click()
+                    self.y = 1
+                if self.y == 1:
+                    self.resume.check_hover(self.resume.center_x,
+                                            self.resume.center_y)
+                else:
+                    self.resume.color = arcade.color.WHITE
+                if self.y == 2:
+                    self.instructions_button.check_hover(
+                        self.instructions_button.center_x,
+                        self.instructions_button.center_y)
+                else:
+                    self.instructions_button.color = arcade.color.WHITE
+                if self.y == 3:
+                    self.go_back.check_hover(self.go_back.center_x,
+                                             self.go_back.center_y)
+                else:
+                    self.go_back.color = arcade.color.WHITE
+
+                if symbol == arcade.key.ENTER or symbol == arcade.key.SPACE:
+                    if self.y == 1:
+                        self.resume.on_click()
+                    if self.y == 2:
+                        self.instructions_button.on_click()
+                    if self.y == 3:
+                        self.go_back.on_click()
+            else:
+                if self.y < 0:
+                    self.y = 4
+                if self.y == 5:
+                    self.y = 1
+                if self.y == 1:
+                    self.cheat.check_hover(self.cheat.center_x,
+                                           self.cheat.center_y)
+                else:
+                    self.cheat.color = arcade.color.WHITE
+                if self.y == 2:
+                    self.resume.check_hover(self.resume.center_x,
+                                            self.resume.center_y)
+                else:
+                    self.resume.color = arcade.color.WHITE
+                if self.y == 3:
+                    self.instructions_button.check_hover(
+                        self.instructions_button.center_x,
+                        self.instructions_button.center_y)
+                else:
+                    self.instructions_button.color = arcade.color.WHITE
+                if self.y == 4:
+                    self.go_back.check_hover(self.go_back.center_x,
+                                             self.go_back.center_y)
+                else:
+                    self.go_back.color = arcade.color.WHITE
+
+                if symbol == arcade.key.SPACE or symbol == arcade.key.ENTER:
+                    if self.y == 1:
+                        self.cheat.on_click()
+                    if self.y == 2:
+                        self.resume.on_click()
+                    if self.y == 3:
+                        self.instructions_button.on_click()
+                    if self.y == 4:
+                        self.go_back.on_click()
 
     def on_draw(self) -> None:
         self.clear()
