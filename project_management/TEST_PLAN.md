@@ -9,9 +9,9 @@
 
 | Scenario | Indent | Expected result | Status |
 | -------- | ------ | --------------- | ------ |
-| Normal launch | `python3 pac-man.py config.json` | Game starts, main menu displayed | ❌ |
+| Normal launch | `python3 pac-man.py data/config.json` | Game starts, main menu displayed | ❌ |
 | Missing argument | `python3 pac-man.py` | Clear error message | ❌ |
-| Too many arguments | `python3 pac-man.py a.jsob b.json` | Clear error message | ❌ |
+| Too many arguments | `python3 pac-man.py a.json b.json` | Clear error message | ❌ |
 | Missing file | `python3 pac-man.py missing.json` | Clear error message | ❌ |
 | not a json file | `python3 pac-man.py README.md` | Clear error message | ❌ |
 
