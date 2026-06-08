@@ -6,11 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 14:27:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 10:51:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 debug_mode: bool = False
+delta_time_cap: float = 0.05
 
 # :-----:
 #  SPEED
