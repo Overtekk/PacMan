@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/04 13:52:04 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 10:23:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -36,7 +36,7 @@ class AudioManager():
     ) -> None:
         if audio_name in self.audio_dict:
 
-            player: media.Player = arcade.play_sound(
+            player: media.Player | None = arcade.play_sound(
                 sound=self.audio_dict[audio_name],
                 volume=volume,
                 loop=loop

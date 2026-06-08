@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:43:43 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:12:45 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -85,9 +85,9 @@ class EnemyBrain():
         self.enemy.last_movement = (conv_x, conv_y)
 
         # Check all available walls
-        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+        open_walls: dict[tuple[float, float], tuple[int, int]] = (
             self.enemy.calculator.check_open_wall(
-                conv_x, conv_y, self.enemy.maze_bitmap))
+                int(conv_x), int(conv_y), self.enemy.maze_bitmap))
 
         # Dead end handling: Move to the only wall available
         if len(open_walls) == 1:

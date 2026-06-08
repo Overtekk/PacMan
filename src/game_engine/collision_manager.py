@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:26:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:42:15 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,7 @@ class CollisionManager():
         enemies_sprite_list: arcade.SpriteList[Any],
         pacgums_sprite_list: arcade.SpriteList[Any],
         super_pacgums_sprite_list: arcade.SpriteList[Any],
-        maze_bitmap: dict[tuple[int, int], str],
+        maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         state_manager: GameStateManager,
         audio_manager: AudioManager,

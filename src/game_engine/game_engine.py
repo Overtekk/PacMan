@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:21:32 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:47:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -61,7 +61,7 @@ class GameEngine(arcade.View):
         self._next_level: bool = False
         self._finish: bool = False
         self._enemy_died: bool = False
-        self._floating_texts: list[dict[str, arcade.Text]] = {}
+        self._floating_texts: dict[str, arcade.Text] = {}
         self._text_score_showed: bool = False
         self._dying_screen_fading: int = 0
         self._level_index: int = -1
@@ -244,11 +244,12 @@ class GameEngine(arcade.View):
         level_index: int = self.state_manager.current_level_index
 
         try:
-            level: list[list[int]] = self.level_manager.create_level(
-                maze_width=self.config.level[level_index].width,
-                maze_height=self.config.level[level_index].height,
-                first_instance=first_instance
-            )
+            level: list[tuple[str, float, float, float, float]] = (
+                self.level_manager.create_level(
+                    maze_width=self.config.level[level_index].width,
+                    maze_height=self.config.level[level_index].height,
+                    first_instance=first_instance
+                    ))
         except IndexError:
             self._finish = True
             self.game_state = GameState.FINISH
@@ -269,7 +270,7 @@ class GameEngine(arcade.View):
             self.state_manager, self.audio_manager
         )
 
-        self._current_timer_start: float = TIMER_LEVEL_START
+        self._current_timer_start = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
 
     def cheat_skip_current_level(self) -> None:

@@ -6,11 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/01 15:21:19 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 10:37:49 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
-from pathlib import Path
+import arcade
 
 from ..entity import Collectible
 from src.utils import SuperCalculator
@@ -19,7 +19,7 @@ from src.utils import SuperCalculator
 class SuperPacgum(Collectible):
     def __init__(
         self, spawn_point: tuple[int, int],
-        sprite: str | Path,
+        sprite: str | arcade.Texture,
         calculator: SuperCalculator,
         scale: float = 1.0,
         score: int = 0

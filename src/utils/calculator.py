@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/25 18:21:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:11:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:13:43 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -55,7 +55,7 @@ class SuperCalculator():
 
         return (convert_x, convert_y)
 
-    def get_grid_to_pixel(self, x: int, y: int) -> tuple[int, int]:
+    def get_grid_to_pixel(self, x: float, y: float) -> tuple[int, int]:
 
         new_x: float = (
             (x * self.maze_tile_size) +
@@ -66,7 +66,7 @@ class SuperCalculator():
             self.maze_tile_size + self.maze_tile_size / 2 + self.maze_offset_y
         )
 
-        return (new_x, new_y)
+        return (int(new_x), int(new_y))
 
     def get_euclidean_distance(
         self, point1: tuple[float, float], point2: tuple[float, float]
@@ -79,8 +79,8 @@ class SuperCalculator():
 
     def check_open_wall(
         self, x: int, y: int, maze_bitemap: dict[tuple[int, int], int],
-    ) -> dict[tuple[int, int], tuple[int, int]]:
-        open_wall: dict[tuple[int, int], tuple[int, int]] = {}
+    ) -> dict[tuple[float, float], tuple[int, int]]:
+        open_wall: dict[tuple[float, float], tuple[int, int]] = {}
 
         # West
         if maze_bitemap[(x + 1, y)] == 0:

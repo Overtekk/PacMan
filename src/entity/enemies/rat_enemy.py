@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 10:58:19 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:34:48 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,7 +23,7 @@ class RatEnemy(Enemy):
         sprite_sheet_move: list[arcade.Texture],
         sprite_sheet_eatable: list[arcade.Texture],
         sprite_sheet_died: list[arcade.Texture],
-        maze_bitmap: dict[tuple[int, int], str],
+        maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         player_ref: Player,
         scale: float,

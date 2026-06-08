@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:25:01 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 10:46:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,16 +49,17 @@ class LevelManager():
 
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
-    ) -> list[list[int]]:
+    ) -> list[tuple[str, float, float, float, float]]:
 
         # Store the maze width & height in the class
         self.maze_width = maze_width
         self.maze_height = maze_height
 
         # Create the level
-        generated_level: list[list[int]] = self._create_maze_level(
-            first_instance
-        )
+        generated_level: list[tuple[str, float, float, float, float]] = (
+            self._create_maze_level(
+                first_instance
+                ))
 
         # Create the calculator
         self.calculator = SuperCalculator(
@@ -82,19 +83,20 @@ class LevelManager():
 
     def _create_maze_level(
         self, first_instance: bool = False
-    ) -> list[list[int]]:
+    ) -> list[tuple[str, float, float, float, float]]:
         # Instanciate the MazeFactory object
         self.factory = MazeFactory()
 
         # Create the Maze
         if first_instance:
             if hasattr(self.asset_manager, 'textures'):
-                wall_data: list[list[int]] = self.factory.generate_maze(
-                    self.maze_width, self.maze_height,
-                    self.asset_manager.textures,
-                    ScreenSettings.WIDTH, ScreenSettings.HEIGHT,
-                    self.config.seed
-                )
+                wall_data: list[tuple[str, float, float, float, float]] = (
+                    self.factory.generate_maze(
+                        self.maze_width, self.maze_height,
+                        self.asset_manager.textures,
+                        ScreenSettings.WIDTH, ScreenSettings.HEIGHT,
+                        self.config.seed
+                        ))
         else:
             if hasattr(self.asset_manager, 'textures'):
                 wall_data = self.factory.generate_maze(
@@ -103,7 +105,7 @@ class LevelManager():
                     ScreenSettings.WIDTH, ScreenSettings.HEIGHT
                 )
         # Store the maze in bytes for later calculations
-        self.maze_bitmap: dict[tuple[int, int], str] = generate_bytes_maze(
+        self.maze_bitmap: dict[tuple[int, int], int] = generate_bytes_maze(
             self.factory.grid_data,
             self.maze_width, self.maze_height,
         )
