@@ -1,5 +1,5 @@
 # PROJECT_PLAN — rewind of all we did each days
-### *anacharp + roandrie*
+#### *anacharp + roandrie*
 
 ---
 ### 08/06/2026
@@ -8,6 +8,10 @@
 	- Fix the freeze when invincibility goes off
 - anacharp
 	- standardization
+	- project risks
+	- team organization
+	- update timeline
+	- test plan
 
 ### 05/06/2026
 - anacharp
@@ -97,7 +101,7 @@
 - anacharp
 	- adjust the size of the mazes and sprites correctly
 	- Parsing correction to prevent errors when creating a maze larger than 42 by 42
-	- Implementation of the progression to the next level upon completion of the current level; if all levels are completed, the victory overlay is displayed.
+	- Implementation of the progression to the next level up on completion of the current level; if all levels are completed, the victory overlay is displayed.
 	- crash fix
 	- sound effects creation
 
