@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:46:55 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 17:16:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -161,7 +161,6 @@ class LevelManager():
                     (self.factory.tile_size * ENEMIES_SCALE) / 32)
             )
             self.enemies_list["cat_enemy"] = self.cat_enemy
-            print(self.enemies_list)
 
             self.dog_enemy: DogEnemy = DogEnemy(
                 spawn_point=spawn_positions["dog_enemy"],

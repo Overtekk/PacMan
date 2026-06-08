@@ -12,6 +12,7 @@
 	- team organization
 	- update timeline
 	- test plan
+	- clear error message if user try to run the program without uv run or without being on a venv
 
 ### 05/06/2026
 - anacharp
