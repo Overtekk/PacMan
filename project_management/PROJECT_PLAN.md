@@ -2,6 +2,10 @@
 ### *anacharp + roandrie*
 
 ---
+### 08/06/2026
+- roandrie
+	- Cap the delta_time is the main loop to avoid bug if the game is freezing
+	- Fix the freeze when invincibility goes off
 
 ### 05/06/2026
 - anacharp
