@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:16:51 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 11:18:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -74,9 +74,7 @@ class AudioManager():
             player = self.active_players[audio_name]
 
             if player is not None:
-                arcade.stop_sound(player)
-
-            player.pause()
+                player.pause()
 
         else:
             if game_config.debug_mode:
@@ -87,9 +85,7 @@ class AudioManager():
             player = self.active_players[audio_name]
 
             if player is not None:
-                arcade.stop_sound(player)
-
-            player.play()
+                player.play()
 
         else:
             if game_config.debug_mode:
