@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:12:45 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 11:36:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,8 +19,6 @@ from src.utils import print_log
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.entity.entity import Enemy
-
-# CHASE_SPEED: float = game_config.chase_speed
 
 
 class EnemyBrain():
@@ -46,7 +44,7 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
-                self.enemy.base_speed + (self.enemy.base_speed//10)
+                self.enemy.base_speed + game_config.chase_speed
             )
             self._chase_player(delta_time)
 
@@ -183,11 +181,9 @@ class EnemyBrain():
             if self.enemy._timer_chase > MAX_TIME_TO_FORGET:
 
                 if random.random() <= self.enemy._loose_chance:
-                    self.enemy.speed = (
-                        self.enemy.base_speed - (self.enemy.base_speed//10))
-
                     self.enemy.mode = EnemyState.WANDER
                     self.enemy._timer_chase = 0.0
+                    self.enemy.speed = self.enemy.base_speed
 
                     if game_config.debug_mode:
                         print_log(f"Changed state for {self.enemy} to WANDER")
