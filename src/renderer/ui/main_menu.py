@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:57:15 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 11:11:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -241,8 +241,11 @@ class PlayButton(BaseButton):
 
     def on_click(self) -> None:
         # Stop the menu music
-        song = self.parent_view.musics[self.parent_view.i]
-        self.parent_view.audio_manager.stop_sound(song)
+        if (hasattr(self.parent_view, 'musics')
+           and hasattr(self.parent_view, 'i')
+           and hasattr(self.parent_view, 'audio_manager')):
+            song = self.parent_view.musics[self.parent_view.i]
+            self.parent_view.audio_manager.stop_sound(song)
 
         # Start the Intro screen instead of the game
         intro = IntroScreen(previous_view=self.parent_view)

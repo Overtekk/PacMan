@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:32:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 11:40:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,7 @@ from .base_menu import BaseMenu
 from src.renderer.screen_settings import ScreenSettings
 from src.utils import load_sprite_sheet
 from src.audio import AudioManager
+from typing import Any
 
 
 class CallBackground(arcade.Sprite):
@@ -58,7 +59,9 @@ class SeagullSprite(arcade.Sprite):
         self.animation_timer: float = 0.0
         self.current_texture_index: int = 0
 
-    def update_animation(self, delta_time: float, is_speaking: bool) -> None:
+    def update_animation(self, delta_time: float = 0.0,
+                         is_speaking: bool = False,
+                         *args: Any, **kwargs: Any) -> None:
         if is_speaking:
             self.animation_timer += delta_time
             if self.animation_timer > 0.1:
@@ -80,8 +83,10 @@ class IntroScreen(BaseMenu):
         self.audio_manager: AudioManager = self.window.audio_player
 
         # Sprites list
-        self.fixed_sprites: list[arcade.Sprite] = arcade.SpriteList()
-        self.sprites_lst: list[arcade.Sprite] = arcade.SpriteList()
+        self.fixed_sprites: arcade.SpriteList[arcade.Sprite] = (
+            arcade.SpriteList())
+        self.sprites_lst: arcade.SpriteList[arcade.Sprite] = (
+            arcade.SpriteList())
 
         # Dialogues
         self.dialogue_list: list[str] = [
@@ -158,7 +163,7 @@ class IntroScreen(BaseMenu):
 
         self._pause_timer = 3.0
 
-    def on_update(self, delta_time) -> None:
+    def on_update(self, delta_time: float) -> None:
         if self._pause_timer > 0.0:
             self._pause_timer -= delta_time
             if self._pause_timer <= 0.0:
@@ -241,7 +246,7 @@ class IntroScreen(BaseMenu):
             self._is_typing = False
             self._pause_timer = 0.8
             self._pending_next_dialogue = True
-            self._auto_skip_timer: float = 0.0
+            self._auto_skip_timer = 0.0
 
         elif self._pending_next_dialogue:
             self._pending_next_dialogue = False
@@ -319,7 +324,7 @@ class IntroScreen(BaseMenu):
             (ScreenSettings.HEIGHT // 2) + 240,
             load_sprite_sheet(
                 self.window.asset_manager.textures['player'],
-                sprite_width=192/6, sprite_height=32,
+                sprite_width=int(192/6), sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ), scale=4
         )
@@ -332,7 +337,7 @@ class IntroScreen(BaseMenu):
             (ScreenSettings.HEIGHT // 2) + 318,
             load_sprite_sheet(
                 self.window.asset_manager.textures['player'],
-                sprite_width=192/6, sprite_height=32,
+                sprite_width=int(192/6), sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ), scale=2
         )
@@ -341,7 +346,7 @@ class IntroScreen(BaseMenu):
             (ScreenSettings.HEIGHT // 2) + 240,
             load_sprite_sheet(
                 self.window.asset_manager.textures['player'],
-                sprite_width=192/6, sprite_height=32,
+                sprite_width=int(192/6), sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ), scale=2
         )
@@ -350,7 +355,7 @@ class IntroScreen(BaseMenu):
             (ScreenSettings.HEIGHT // 2) + 180,
             load_sprite_sheet(
                 self.window.asset_manager.textures['player'],
-                sprite_width=192/6, sprite_height=32,
+                sprite_width=int(192/6), sprite_height=32,
                 sprites_columns=6, sprites_count=6
             ), scale=2
         )
@@ -362,4 +367,3 @@ class IntroScreen(BaseMenu):
         self.sprites_lst.append(self.child1)
         self.sprites_lst.append(self.child2)
         self.sprites_lst.append(self.child3)
-
