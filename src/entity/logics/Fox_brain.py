@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 13:25:05 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 13:42:28 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,8 +24,7 @@ class FoxBrain(EnemyBrain):
     def __init__(self, enemy: 'FoxEnemy') -> None:
         super().__init__(enemy)
 
-        self.detection_radius: float = (game_config.fox_detection_radius *
-                                        self.enemy.calculator.maze_tile_size)
+        self._get_radius()
 
     def update(self, delta_time: float) -> None:
         if self.enemy.mode in [EnemyState.WANDER, EnemyState.CHASE]:
@@ -37,16 +36,18 @@ class FoxBrain(EnemyBrain):
                 )
 
             if radius_distance > self.detection_radius:
-                self.enemy.mode == EnemyState.CHASE
+                if self.enemy.mode != EnemyState.CHASE:
+                    self.enemy.mode = EnemyState.CHASE
 
-                if game_config.debug_mode:
-                    print_log(f"Changed state for {self.enemy} to CHASE")
+                    if game_config.debug_mode:
+                        print_log(f"Changed state for {self.enemy} to CHASE")
 
             else:
-                self.enemy.mode == EnemyState.WANDER
+                if self.enemy.mode != EnemyState.WANDER:
+                    self.enemy.mode = EnemyState.WANDER
 
-                if game_config.debug_mode:
-                    print_log(f"Changed state for {self.enemy} to WANDER")
+                    if game_config.debug_mode:
+                        print_log(f"Changed state for {self.enemy} to WANDER")
 
         super().update(delta_time)
 
@@ -69,3 +70,16 @@ class FoxBrain(EnemyBrain):
 
         return coords
 
+    def _get_radius(self) -> None:
+        highest_x: int = float('-inf')
+
+        for coords in self.enemy.maze_bitmap:
+            x: int = coords[0]
+
+            if highest_x < x:
+                highest_x = x
+
+        self.radius: float = highest_x * game_config.fox_detection_radius
+        self.detection_radius: float = (
+            self.radius * self.enemy.calculator.maze_tile_size
+        )

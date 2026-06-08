@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 12:03:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 13:39:06 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -37,6 +37,7 @@ class EnemyBrain():
                 self._revive(delta_time)
 
         elif self.enemy.mode == EnemyState.WANDER:
+            self.enemy.speed = self.enemy.base_speed
             self._move()
 
         elif self.enemy.mode == EnemyState.SEARCH:
@@ -183,7 +184,6 @@ class EnemyBrain():
                 if random.random() <= self.enemy._loose_chance:
                     self.enemy.mode = EnemyState.WANDER
                     self.enemy._timer_chase = 0.0
-                    self.enemy.speed = self.enemy.base_speed
 
                     if game_config.debug_mode:
                         print_log(f"Changed state for {self.enemy} to WANDER")
