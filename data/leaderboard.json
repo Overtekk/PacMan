@@ -17,6 +17,10 @@
             "player_score": 2240
         },
         {
+            "player_name": "GG",
+            "player_score": 2180
+        },
+        {
             "player_name": "lreboot",
             "player_score": 1880
         },
@@ -35,10 +39,6 @@
         {
             "player_name": "badoum",
             "player_score": 1600
-        },
-        {
-            "player_name": "nulle",
-            "player_score": 1580
         }
     ]
 }

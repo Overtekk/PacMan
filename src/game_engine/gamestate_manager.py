@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 15:20:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 11:19:09 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -115,7 +115,7 @@ class GameStateManager():
         # SECURITY
         if hasattr(self, "_win_triggered") and self._win_triggered:
             return
-        self._win_triggered = True
+        self._win_triggered: bool = True
 
         # TRIGGER VICTORY SCREEN
         self.audio_manager.stop_all_sounds()

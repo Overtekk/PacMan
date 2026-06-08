@@ -62,20 +62,21 @@ class CollisionManager():
             self._entity_collisions_logic(enemy)
 
         # Check for collision between player/enemy
-        enemy_colliding: list[arcade.SpriteType] = (
+        enemy_colliding: list[arcade.Sprite] = (
             self._check_collisions_with_enemy()
         )
 
         # Check for collision between player/collectibles
-        list_colliding: list[arcade.SpriteType] = (
+        list_colliding: list[arcade.Sprite] = (
             self._check_collision_with_collectibles()
         )
 
         # Check state of enemies
         for enemy in enemy_colliding:
-            if enemy.parent.is_edible and not enemy.parent.died:
-                self._kill_enemy(enemy.parent, delta_time)
-                return LevelState.ENEMY_DIED
+            if hasattr(enemy, 'parent'):
+                if enemy.parent.is_edible and not enemy.parent.died:
+                    self._kill_enemy(enemy.parent, delta_time)
+                    return LevelState.ENEMY_DIED
 
         # Debug force player to died
         if self.debug_force_death:
@@ -86,16 +87,18 @@ class CollisionManager():
         if not self.player_reference.cheat_invincible:
             if len(enemy_colliding) > 0:
                 for enemy in enemy_colliding:
-                    if not enemy.parent.died:
-                        if (not self.player_reference.invincible
-                           or enemy.parent.have_respawned):
-                            self._kill_player()
-                            return LevelState.PLAYER_DIED
+                    if hasattr(enemy, 'parent'):
+                        if not enemy.parent.died:
+                            if (not self.player_reference.invincible
+                               or enemy.parent.have_respawned):
+                                self._kill_player()
+                                return LevelState.PLAYER_DIED
 
         # Get the collectible if it collides with the player
         if len(list_colliding) > 0:
             for obj in list_colliding:
-                self._collect_collectible(obj.parent)
+                if hasattr(obj, 'parent'):
+                    self._collect_collectible(obj.parent)
 
         # Check if all pacgums are eaten
         if len(self.pacgums_sprite_list) == 0:
@@ -241,8 +244,8 @@ class CollisionManager():
             elif dx != 0 and dy == 0:
                 entity.y = center_y
 
-    def _check_collisions_with_enemy(self) -> list[arcade.SpriteType]:
-        colliding_sprite: list[arcade.SpriteType] = (
+    def _check_collisions_with_enemy(self) -> list[arcade.Sprite]:
+        colliding_sprite: list[arcade.Sprite] = (
             arcade.check_for_collision_with_list(
                 self.player_reference.sprite,
                 sprite_list=self.enemies_sprite_list
@@ -250,8 +253,8 @@ class CollisionManager():
 
         return colliding_sprite
 
-    def _check_collision_with_collectibles(self) -> list[arcade.SpriteType]:
-        colliding_sprite: list[arcade.SpriteType] = (
+    def _check_collision_with_collectibles(self) -> list[arcade.Sprite]:
+        colliding_sprite: list[arcade.Sprite] = (
             arcade.check_for_collision_with_lists(
                 sprite=self.player_reference.sprite,
                 sprite_lists=[self.pacgums_sprite_list,
