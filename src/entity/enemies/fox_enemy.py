@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:35:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/08 11:55:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from ..entity import Enemy
 from ..player import Player
+from ..logics.Fox_brain import FoxBrain
 from src.utils import SuperCalculator
 
 
@@ -45,3 +46,4 @@ class FoxEnemy(Enemy):
         )
 
         self.sprite.texture = self.textures[1]
+        self.brain = FoxBrain(self)

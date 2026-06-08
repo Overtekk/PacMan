@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:36:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 12:03:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -322,3 +322,4 @@ class EnemyBrain():
                 available_directions.remove(current_dir)
 
         return random.choice(available_directions)
+

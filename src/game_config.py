@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:35:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 13:21:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -35,3 +35,9 @@ enemy_check_res_timer: float = 20
 # :--------:
 
 time_power_up: float = 8.0
+
+# :-----:
+#  BRAIN
+# :-----:
+
+fox_detection_radius: float = 3
