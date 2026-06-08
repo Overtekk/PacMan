@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 13:49:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 13:53:09 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -83,4 +83,3 @@ class FoxBrain(EnemyBrain):
         self.detection_radius: float = (
             self.radius * self.enemy.calculator.maze_tile_size
         )
-        print(self.detection_radius)
