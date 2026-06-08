@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 13:41:07 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 13:49:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,4 +41,4 @@ time_power_up: float = 8.0
 # :-----:
 
 # Percentage
-fox_detection_radius: float = 0.1
+fox_detection_radius: float = 0.15
