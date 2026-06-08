@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 17:32:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 11:16:56 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -295,8 +295,11 @@ class IntroScreen(BaseMenu):
 
         self._auto_skip_timer = 0.0
 
-        self.audio_manager.stop_sound('dialogue_sound')
-        self.audio_manager.stop_sound('dialogue_sound_child')
+        speaker = self.speaker_map[self.dialogue_index]
+        if speaker == 'daddy':
+            self.audio_manager.stop_sound('dialogue_sound')
+        elif speaker == 'childs':
+            self.audio_manager.stop_sound('dialogue_sound_child')
 
         if self.dialogue_index == 11:
             self._next_dialogue()
