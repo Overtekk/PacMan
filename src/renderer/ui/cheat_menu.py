@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:24:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 11:07:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -277,6 +277,7 @@ class FreezeGhostButton(BaseButton):
 
         for enemy in enemy_list.values():
             enemy.can_move = True
+            enemy.brain.force_move()
 
 
 class ExtraLivesButton(BaseButton):
