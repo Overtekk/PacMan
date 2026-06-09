@@ -2,6 +2,11 @@
 #### *anacharp + roandrie*
 
 ---
+### 09/06/2026
+- anacharp
+	- can now write num and spaces on end screens
+	- ARCHITECTURE.md
+
 ### 08/06/2026
 - roandrie
 	- Cap the delta_time is the main loop to avoid bug if the game is freezing
