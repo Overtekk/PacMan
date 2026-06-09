@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:35:52 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 08:37:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,7 @@ chase_speed: float = 50
 
 enemy_speed: float = 115.0
 ennemy_speed_reduction: float = 20.0
+enemy_speed_respawn: float = 20.0
 
 # :-----:
 #  TIMER
@@ -35,3 +36,10 @@ enemy_check_res_timer: float = 20
 # :--------:
 
 time_power_up: float = 8.0
+
+# :-----:
+#  BRAIN
+# :-----:
+
+raycasting_max_distance: int = 2
+fox_detection_radius: float = 0.19 # Percentage
