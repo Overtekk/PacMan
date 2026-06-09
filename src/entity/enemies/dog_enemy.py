@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:35:04 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 11:40:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from ..entity import Enemy
 from ..player import Player
+from ..logics.Dog_brain import DogBrain
 from src.utils import SuperCalculator
 
 
@@ -43,3 +44,5 @@ class DogEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
+
+        self.brain = DogBrain(self)
