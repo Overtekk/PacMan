@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 12:00:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 12:18:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,7 +27,8 @@ class FoxBrain(EnemyBrain):
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
-        if self.enemy.angry and not self.enemy.is_edible and not self.enemy.died:
+        if (self.enemy.angry and not self.enemy.is_edible and
+                not self.enemy.died):
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
                 pass
 
