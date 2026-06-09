@@ -5,6 +5,7 @@
 ### 09/06/2026
 - anacharp
 	- can now write num and spaces on end screens
+	- ARCHITECTURE.md
 
 ### 08/06/2026
 - roandrie
