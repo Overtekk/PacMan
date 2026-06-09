@@ -59,9 +59,10 @@ S10 [░░░░░░░░░░░░] Corrections
 | Main menu | anacharp | 29/05/2026 | ✅ 04/06/2026 |
 | Game HUD | anacharp |30/05/2026 | ✅ 03/06/2026 |
 | Pause menu | anacharp | 29/05/2026 | ✅ 04/06/2026 |
-| Game over (defeat, victory) | anacharp | 31/05/2026 | ✅ 22/05/2026 |
+| Game over (defeat, victory) | anacharp | 31/05/2026 | ✅ 29/06/2026 |
 | Leaderboard | anacharp, roandrie | 10/06/2026 | ✅ 04/06/2026 |
 | Cheat mode | anacharp, roandrie | 15/06/2026 | ✅ 05/06/2026 |
+
 
 ### Bonus
 | Task | Team member | Expection date | Finished date |
