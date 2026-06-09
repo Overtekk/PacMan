@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:31:14 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 10:49:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -135,6 +135,7 @@ class Enemy(Movable):
         scale: float,
         speed: float,
         is_edible: bool = False,
+        angry: bool = False,
         enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
 
@@ -154,6 +155,7 @@ class Enemy(Movable):
         # - Private variables -
         self._died: bool = False
         self._is_edible = is_edible
+        self._angry = angry
         self._mode = enemy_state
         self._timer_check_respawn: float = game_config.enemy_check_res_timer
         self._have_respawned: bool = False
@@ -194,6 +196,14 @@ class Enemy(Movable):
     @have_respawned.setter
     def have_respawned(self, new_value: bool) -> None:
         self._have_respawned = new_value
+
+    @property
+    def angry(self) -> bool:
+        return self._angry
+
+    @angry.setter
+    def angry(self, new_value: bool) -> None:
+        self._angry = new_value
 
     def update(self, delta_time: float) -> None:
         # Delegate logic execution to the brain

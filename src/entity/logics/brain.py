@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 08:38:02 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 11:25:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -31,6 +31,26 @@ class EnemyBrain():
 
         self._state_machine(delta_time)
 
+    def force_move(self) -> None:
+        conv_x, conv_y = (
+            self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
+        )
+
+        open_walls: dict[tuple[float, float], tuple[int, int]] = (
+            self.enemy.calculator.check_open_wall(
+                int(conv_x), int(conv_y), self.enemy.maze_bitmap))
+
+        valid_coords: list[tuple[int, int]] = []
+        for coords in open_walls:
+            valid_coords.append(coords)
+
+        force_direction = random.choice(valid_coords)
+        self.enemy.current_direction = force_direction
+
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
+
     def _state_machine(self, delta_time: float) -> None:
         if self.enemy.mode == EnemyState.WAIT:
             if self.enemy._wait_revive:
@@ -49,9 +69,16 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
-                self.enemy.base_speed + game_config.chase_speed
+                self.enemy.base_speed + game_config.enemy_chase_speed
             )
             self._chase_player(delta_time)
+
+        elif self.enemy.mode == EnemyState.ANGRY:
+            self.enemy.speed = (
+                self.enemy.base_speed + game_config.enemy_angry_speed
+            )
+            self._go_to_position(self.enemy.player_ref.x,
+                                 self.enemy.player_ref.y)
 
         elif self.enemy.mode == EnemyState.RUNAWAY:
             self.enemy.speed = (
@@ -72,10 +99,6 @@ class EnemyBrain():
                 self.enemy._timer_check_respawn = (
                     game_config.enemy_check_res_timer
                 )
-
-    # :---------------:
-    #  PRIVATE METHODS
-    # :---------------:
 
     def _get_available_moves(
         self
