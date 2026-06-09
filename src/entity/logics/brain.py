@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 11:25:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 11:57:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,9 @@ class EnemyBrain():
         self.enemy: Enemy = enemy_ref
 
     def update(self, delta_time: float) -> None:
-        if self.enemy.mode not in [EnemyState.WAIT, EnemyState.CHASE]:
+        if self.enemy.mode not in [
+            EnemyState.WAIT, EnemyState.CHASE, EnemyState.ANGRY
+        ]:
             self._raycasting()
 
         self._state_machine(delta_time)

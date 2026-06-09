@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 11:31:23 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 11:56:48 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -280,7 +280,7 @@ class GameEngine(arcade.View):
         nb_pacgums: int = len(self.coll_manager.pacgums_sprite_list)
         if nb_pacgums >= 20:
             self._can_enemy_be_angry = True
-            self._collectible_percentage = nb_pacgums * 0.30
+            self._collectible_percentage = nb_pacgums * 100
 
         self._current_timer_start = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
