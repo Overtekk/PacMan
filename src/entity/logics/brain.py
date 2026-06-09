@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 15:15:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 15:28:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -369,27 +369,32 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
+        self_coords = (
+                int(self.enemy.calculator.get_pixel_to_grid_entity(self.enemy))
+            )
 
         # Check if targer have moved
         if self._old_target != target:
             self._old_target = target
 
-            self_coords = (
-                self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
-            )
-
             self._current_path: list[tuple[int, int]] = a_star_algo(
                 self.enemy.maze_bitmap, self_coords, target
             )
 
-        elif self._current_path:
-            dx = self._current_path[0][0] - self.enemy.x
-            dy = self._current_path[0][1] - self.enemy.y
-
-            self.enemy._next_direction = (dx, dy)
-
-            if (self.enemy.x, self.enemy.y) == (dx, dy):
+            # Pop the start position
+            if self._current_path:
                 self._current_path.pop(0)
+
+        # Move
+        if self._current_path:
+            if self_coords == self._current_path[0]:
+                self._current_path.pop(0)
+
+            if self._current_path:
+                dx = self._current_path[0][0] - self_coords[0]
+                dy = self._current_path[0][1] - self_coords[1]
+
+                self.enemy._next_direction = (dx, dy)
 
 # :------------:
 #  A* algorithm
@@ -449,6 +454,7 @@ def a_star_algo(
                     neighbor['cost'] = tentative_cost
                     neighbor['sum'] = tentative_cost + neighbor['estim_cost']
                     neighbor['parent'] = current_node
+                    heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
 
         return []
 
