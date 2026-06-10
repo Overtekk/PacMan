@@ -6,17 +6,23 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 11:39:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/08 16:24:50 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
+from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
+try:
+    import arcade
+except ModuleNotFoundError:
+    print_error("Can't start the program out of a venv" \
+    "\nPlease use: source .venv/bin/activate" \
+    "\nOr use: uv run python pac-man.py data/config.json")
+    exit()
 from argparse import Namespace
 
 import sys
-import arcade
 import src.game_config
 
-from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 from src.parser import load_arguments
 from src.config import GameConfig
 from src.maze import load_mazegenerator
