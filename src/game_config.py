@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:22:34 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 13:38:49 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,8 +22,6 @@ player_speed: float = 170.0
 enemy_speed: float = 115.0
 ennemy_speed_reduction: float = 20.0
 enemy_speed_respawn: float = 20.0
-enemy_chase_speed: float = 51
-enemy_angry_speed: float = 50
 
 # :-----:
 #  TIMER

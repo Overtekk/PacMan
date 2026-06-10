@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:40:42 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:14:14 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 13:42:33 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,7 @@ class Player(Movable):
             scale=scale,
             speed=speed
         )
-
+        self.base_speed = speed
         self.invincible: bool = False
         self.cheat_invincible: bool = False
         self.cheat_speed: float = 0
