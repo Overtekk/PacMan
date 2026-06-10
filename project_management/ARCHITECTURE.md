@@ -1040,7 +1040,6 @@ Initialize :
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_move.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_died.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_eatable.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_angry.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_move.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_eatable.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_died.png*\
