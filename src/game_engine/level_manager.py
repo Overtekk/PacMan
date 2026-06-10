@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:23:30 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/10 09:24:52 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -176,6 +176,11 @@ class LevelManager():
                 ),
                 sprite_sheet_died=load_sprite_sheet(
                     textures=self.asset_manager.textures["enemy_dog_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_angry=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_dog_angry"],
                     sprite_width=int(128/4), sprite_height=32,
                     sprites_columns=4, sprites_count=4
                 ),

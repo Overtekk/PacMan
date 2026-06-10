@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 09:53:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/10 09:32:05 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,14 +53,17 @@ REQUIERED_SPRITES: dict[str, str] = {
     "enemy_cat_move": "enemies/enemy_cat_move.png",
     "enemy_cat_eatable": "enemies/enemy_cat_eatable.png",
     "enemy_cat_died": "enemies/enemy_cat_died.png",
+    "enemy_cat_angry": "enemies/enemy_cat_angry.png",
 
     "enemy_rat_move": "enemies/enemy_rat_move.png",
     "enemy_rat_eatable": "enemies/enemy_rat_eatable.png",
     "enemy_rat_died": "enemies/enemy_rat_died.png",
+    "enemy_rat_angry": "enemies/enemy_rat_angry.png",
 
     "enemy_dog_move": "enemies/enemy_dog_move.png",
     "enemy_dog_eatable": "enemies/enemy_dog_eatable.png",
     "enemy_dog_died": "enemies/enemy_dog_died.png",
+    "enemy_dog_angry": "enemies/enemy_dog_angry.png",
 
     "enemy_fox_move": "enemies/enemy_fox_move.png",
     "enemy_fox_angry": "enemies/enemy_fox_angry.png",

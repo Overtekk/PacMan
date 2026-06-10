@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dog_brain.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: roandrie <roandrie@student.42.fr>          +#+  +:+       +#+         #
+#    By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 11:38:05 by roandrie          #+#    #+#              #
-#    Updated: 2026/06/09 11:39:04 by roandrie         ###   ########.fr        #
+#    Updated: 2026/06/10 09:23:21 by anacharp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,40 @@ class DogBrain(EnemyBrain):
     def __init__(self, enemy: 'DogEnemy') -> None:
         super().__init__(enemy)
 
+        self._get_radius()
+
     def update(self, delta_time: float) -> None:
-        pass
+        if self.enemy.angry and not self.enemy.is_edible and not self.enemy.died:
+            if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
+                pass
+
+            elif self.enemy.mode != EnemyState.ANGRY:
+                self.enemy.mode = EnemyState.ANGRY
+
+                if game_config.debug_mode:
+                    print_log(f"Changed state for {self.enemy} to ANGRY")
+
+        elif self.enemy.mode == EnemyState.WANDER:
+            updated_coords: list[tuple[float, float]] = self._update_coords()
+
+            radius_distance: float = (
+                self.enemy.calculator.get_euclidean_distance(updated_coords[0],
+                                                             updated_coords[1])
+                )
+
+            if radius_distance > self.detection_radius:
+                if self.enemy.mode != EnemyState.SEARCH:
+                    self.enemy.mode = EnemyState.SEARCH
+
+                    if game_config.debug_mode:
+                        print_log(f"Changed state for {self.enemy} to SEARCHs")
+
+            else:
+                if self.enemy.mode != EnemyState.WANDER:
+                    self.enemy.mode = EnemyState.WANDER
+
+                    if game_config.debug_mode:
+                        print_log(f"Changed state for {self.enemy} to WANDER")
 
         super().update(delta_time)
 
@@ -33,3 +65,34 @@ class DogBrain(EnemyBrain):
     #  PRIVATE METHODS
     # :---------------:
 
+    def _update_coords(self) -> list[tuple[float, float]]:
+        coords: list[tuple[float, float]] = []
+
+        self_pxl_coords: tuple[float, float] = (
+            self.enemy.x, self.enemy.y
+        )
+        coords.append(self_pxl_coords)
+
+        player_pxl_coords: tuple[float, float] = (
+            self.enemy.player_ref.x, self.enemy.player_ref.y
+        )
+        coords.append(player_pxl_coords)
+
+        return coords
+
+    def _get_radius(self) -> None:
+        highest_x: int = float('-inf')
+
+        for coords in self.enemy.maze_bitmap:
+            x: int = coords[0]
+
+            if highest_x < x:
+                highest_x = x
+
+        self.radius: float = highest_x * game_config.dog_detection_radius
+        self.detection_radius: float = (
+            self.radius * self.enemy.calculator.maze_tile_size
+        )
+
+# ALGO CHIEN :
+# 
