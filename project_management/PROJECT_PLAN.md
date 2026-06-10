@@ -2,6 +2,11 @@
 #### *anacharp + roandrie*
 
 ---
+### 10/06/2026
+- anacharp
+	- enemy dog algo
+	- sprite angry dog
+
 ### 09/06/2026
 - anacharp
 	- can now write num and spaces on end screens
