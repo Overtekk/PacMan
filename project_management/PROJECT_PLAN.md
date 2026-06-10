@@ -6,6 +6,8 @@
 - anacharp
 	- enemy dog algo
 	- standardization
+	- adapt chase and angry speed
+	- change zoom animation
 
 ### 09/06/2026
 - anacharp
