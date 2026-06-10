@@ -197,6 +197,10 @@ uv sync  # alternatively you can also use this
 
 todo
 
+### Highscore
+
+todo
+
 ### Maze Generation package
 
 todo
@@ -209,9 +213,9 @@ todo
 
 todo
 
-###
+### Project Management
 
-Project Management
+todo
 
 ---
 
