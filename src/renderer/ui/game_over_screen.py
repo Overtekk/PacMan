@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:42:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 11:46:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -152,86 +152,86 @@ class GameOverScreen(BaseMenu):
                 maj = modifiers & arcade.key.MOD_CAPSLOCK
                 self.player_name += chr(symbol).upper() if maj else chr(symbol)
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_0 or symbol == arcade.key.KEY_0:
                 self.player_name += "0"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_1 or symbol == arcade.key.KEY_1:
                 self.player_name += "1"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_2 or symbol == arcade.key.KEY_2:
                 self.player_name += "2"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_3 or symbol == arcade.key.KEY_3:
                 self.player_name += "3"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_4 or symbol == arcade.key.KEY_4:
                 self.player_name += "4"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_5 or symbol == arcade.key.KEY_5:
                 self.player_name += "5"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_6 or symbol == arcade.key.KEY_6:
                 self.player_name += "6"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_7 or symbol == arcade.key.KEY_7:
                 self.player_name += "7"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_8 or symbol == arcade.key.KEY_8:
                 self.player_name += "8"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.NUM_9 or symbol == arcade.key.KEY_9:
                 self.player_name += "9"
                 text = arcade.Text(text=self.player_name,
-                                x=ScreenSettings.WIDTH // 3, y=110,
-                                color=arcade.color.YELLOW, font_size=40,
-                                font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
             if symbol == arcade.key.SPACE:
                 self.player_name += " "
                 text = arcade.Text(text=self.player_name,
-                                    x=ScreenSettings.WIDTH // 3, y=110,
-                                    color=arcade.color.YELLOW, font_size=40,
-                                    font_name="Press Start 2P")
+                                   x=ScreenSettings.WIDTH // 3, y=110,
+                                   color=arcade.color.YELLOW, font_size=40,
+                                   font_name="Press Start 2P")
                 self.text_lst.append(text)
 
         if len(self.player_name) > 0:
