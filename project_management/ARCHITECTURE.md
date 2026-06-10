@@ -1030,10 +1030,20 @@ Initialize :
 ‎ ‎ ‎ ‎ ↳ **player**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *player.png*\
 ‎ ‎ ‎ ‎ ↳ **ennemies**\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog.png*\
-‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat_move.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat_eatable.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_rat_died.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_move.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_eatable.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_angry.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_fox_died.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_move.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_died.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_eatable.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_dog_angry.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_move.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_eatable.png*\
+‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *enemy_cat_died.png*\
 ‎ ‎ ‎ ‎ ↳ **collectibles**\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *pacgum.png*\
 ‎ ‎ ‎ ‎  ‎  ‎  ‎  ‎ ↳ *super_pacgum.png*\
