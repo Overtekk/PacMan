@@ -11,6 +11,8 @@
 - anacharp
 	- can now write num and spaces on end screens
 	- ARCHITECTURE.md
+	- change the AAA easter egg on main menu
+	- reduce the scale of the ghosts
 
 ### 08/06/2026
 - roandrie
