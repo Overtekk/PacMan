@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 15:22:36 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 12:58:05 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -154,16 +154,32 @@ class GameRenderer():
 
     def zoom(self, player_obj: arcade.Sprite) -> None:
         x, y = self.gui_camera.position
-        if x < player_obj.center_x:
-            x += 1
-        if x > player_obj.center_x:
-            x -= 1
-        if y < player_obj.center_y:
-            y += 1
-        if y > player_obj.center_y:
-            y -= 1
-        self.gui_camera.position = (x, y)
-        self.gui_camera.zoom += 0.010
+        # if (player_obj.center_x <= ScreenSettings.WIDTH // 2
+        #    and player_obj.center_y <= ScreenSettings.HEIGHT // 2):
+        #     if x > player_obj.center_x:
+        #         x -= 1
+        #     if y > player_obj.center_y:
+        #         y -= 1
+        # if (player_obj.center_x > ScreenSettings.WIDTH // 2
+        #    and player_obj.center_y > ScreenSettings.HEIGHT // 2):
+        #     if x < player_obj.center_x:
+        #         x += 1
+        #     if y < player_obj.center_y:
+        #         y += 1
+        # if (player_obj.center_x <= ScreenSettings.WIDTH // 2
+        #    and player_obj.center_y > ScreenSettings.HEIGHT // 2):
+        #     if x > player_obj.center_x:
+        #         x -= 1
+        #     if y < player_obj.center_y:
+        #         y += 1
+        # if (player_obj.center_x > ScreenSettings.WIDTH // 2
+        #    and player_obj.center_y <= ScreenSettings.HEIGHT // 2):
+        #     if x < player_obj.center_x:
+        #         x += 1
+        #     if y > player_obj.center_y:
+        #         y -= 1
+        self.gui_camera.position = (player_obj.center_x, player_obj.center_y)
+        self.gui_camera.zoom += 0.05
 
     def replace(self) -> None:
         self.gui_camera.position = (ScreenSettings.WIDTH // 2,
@@ -171,7 +187,7 @@ class GameRenderer():
 
     def dezoom(self) -> None:
         if self.gui_camera.zoom > 1.0:
-            self.gui_camera.zoom -= 0.03
+            self.gui_camera.zoom -= 0.10
         else:
             self.gui_camera.zoom = 1.0
             self.gui_camera.position = (
