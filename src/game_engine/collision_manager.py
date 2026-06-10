@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:44:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 10:33:59 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,6 +49,8 @@ class CollisionManager():
         self.offset_x: float = self.calculator.maze_offset_x
         self.offset_y: float = self.calculator.maze_offset_y
         self.tile_size: float = self.calculator.maze_tile_size
+
+        self.pacgums_sprite_list_total: int = len(self.pacgums_sprite_list)
 
         # DEBUG
         self.debug_force_death: bool = False
@@ -143,6 +145,10 @@ class CollisionManager():
         self.state_manager.score += collectible.score
 
         if game_config.debug_mode:
+            print_log(
+                f'{len(self.pacgums_sprite_list)}/'
+                f'{self.pacgums_sprite_list_total}'
+            )
             print_log(f"+{collectible.score} points.")
 
         # Activate power if it's a superpacgum

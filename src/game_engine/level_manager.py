@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:46:55 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 17:07:37 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,9 +27,9 @@ from src.entity import (Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy,
 
 
 PLAYER_SCALE: float = 0.5
-ENEMIES_SCALE: float = 0.5
+ENEMIES_SCALE: float = 0.45
 PACGUM_SCALE: float = 0.6
-SUPERPACGUM_SCALE: float = 0.6
+SUPERPACGUM_SCALE: float = 0.55
 
 
 class LevelManager():
@@ -161,7 +161,6 @@ class LevelManager():
                     (self.factory.tile_size * ENEMIES_SCALE) / 32)
             )
             self.enemies_list["cat_enemy"] = self.cat_enemy
-            print(self.enemies_list)
 
             self.dog_enemy: DogEnemy = DogEnemy(
                 spawn_point=spawn_positions["dog_enemy"],
@@ -203,6 +202,11 @@ class LevelManager():
                 ),
                 sprite_sheet_died=load_sprite_sheet(
                     textures=self.asset_manager.textures["enemy_fox_died"],
+                    sprite_width=int(128/4), sprite_height=32,
+                    sprites_columns=4, sprites_count=4
+                ),
+                sprite_sheet_angry=load_sprite_sheet(
+                    textures=self.asset_manager.textures["enemy_fox_angry"],
                     sprite_width=int(128/4), sprite_height=32,
                     sprites_columns=4, sprites_count=4
                 ),

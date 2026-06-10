@@ -1,4 +1,4 @@
-# GANT — Project Pacman
+# GANTT — Project Pacman
 ### *anacharp + roandrie*
 
 ### **Project started 12/05/2026**
@@ -31,48 +31,58 @@ S10 [░░░░░░░░░░░░] Corrections
 | Reading and subject comprehension | anacharp, roandrie | 12/05/2026 | ✅ 12/05/2026 |
 | Project management | anacharp, roandrie | 12/05/2026 | ⚠️ |
 | Git setup | roandrie | 12/05/2026 | ✅ 12/05/2026 |
-| Makefile | roandrie | 12/05/2026 | ❌ |
-| Config parsing | anacharp | 16/05/2026 | ❌ |
-| Creation of sprites | anarcharp | 18/05/2026 | ⚠️
-| Creation of the project architecture | roandrie | 12/05/2026 | ⚠️ |
-| Creation of Entity class, Player, Enemies | roandrie | 18/05/2026 | ❌ |
-| Creation of GameEngine | roandrie | 21/05/2026 | ❌ |
-| Creation of Maze | anacharp | 21/05/2026 | ❌ |
+| Makefile | roandrie | 12/05/2026 | ✅ 12/05/2026 |
+| Config parsing | anacharp | 16/05/2026 | ✅ 15/05/2026 |
+| Creation of sprites | anarcharp | 18/05/2026 | ✅ 02/06/2026 |
+| Creation of the project architecture | roandrie | 12/05/2026 | ✅ 14/05/2026 |
+| Creation of Entity class, Player, Enemies | roandrie | 18/05/2026 | ✅ 14/05/2026 |
+| Creation of GameEngine | roandrie | 21/05/2026 | ✅ 14/05/2026 |
+| Creation of Maze | anacharp | 21/05/2026 | ✅ 15/05/2026 |
 
 ### Gameplay
 
 | Task | Team member | Expection date | Finished date |
 | :--: | :---------: | :------------: | :-----------: |
-| Maze rendering | anacharp | 28/06/2026 | ❌ |
-| Player, Enemies logic | roandrie | 28/06/2026 | ❌ |
-| Enemies algorithms | anacharp, roandrie | 31/06/2026 | ❌ |
-| Collectibles | roandrie, anacharp | 25/06/2026 | ❌ |
-| Gameloop | anacharp, roandrie | 05/06/2026 | ❌ |
-| Levels | anacharp | 10/06/2026 | ❌ |
-| Game finalization | roandrie | 11/06/2026 | ❌ |
+| Maze rendering | anacharp | 28/06/2026 | ✅ 15/05/2026 |
+| Player, Enemies logic | roandrie | 28/06/2026 | ✅ 22/05/2026 |
+| Enemies algorithms | anacharp, roandrie | 31/06/2026 | ⚠️ |
+| Collectibles | roandrie, anacharp | 25/06/2026 | ✅ 26/05/2026 |
+| Gameloop | anacharp, roandrie | 05/06/2026 | ⚠️ |
+| Levels | anacharp | 10/06/2026 | ✅ 01/06/2026 |
+| Game finalization | roandrie | 11/06/2026 | ⚠️ |
 
 
 ### Functionnalities
 
 | Task | Team member | Expection date | Finished date |
 | :--: | :---------: | :------------: | :-----------: |
-| Main menu | roandrie | 29/05/2026 | ❌ |
-| Game HUD | anacharp |30/05/2026 | ❌ |
-| Pause menu | anacharp | 29/05/2026 | ❌ |
-| Game over (defeat, victory) | roandrie | 31/05/2026 | ❌ |
-| Leaderboard | anacharp, roandrie | 10/06/2026 | ❌ |
-| Cheat mode | anacharp, roandrie | 15/06/2026 | ❌ |
-| Bonus | roandrie | ??? | ❌ |
+| Main menu | anacharp | 29/05/2026 | ✅ 04/06/2026 |
+| Game HUD | anacharp |30/05/2026 | ✅ 03/06/2026 |
+| Pause menu | anacharp | 29/05/2026 | ✅ 04/06/2026 |
+| Game over (defeat, victory) | anacharp | 31/05/2026 | ✅ 29/06/2026 |
+| Leaderboard | anacharp, roandrie | 10/06/2026 | ✅ 04/06/2026 |
+| Cheat mode | anacharp, roandrie | 15/06/2026 | ✅ 05/06/2026 |
+
+
+### Bonus
+| Task | Team member | Expection date | Finished date |
+| :--: | :---------: | :------------: | :-----------: |
+| Audio & Musics | roandrie, anacharp | 24/06/2026 | ✅ 01/06/2026 |
+| Animations | anacharp, roandrie | 24/06/2026 | ✅ 04/06/2026 |
+| Easter eggs | anacharp, roandrie | 24/06/2026 | ✅ 04/06/2026 |
+| Introduction | roandrie | 24/06/2026 | ✅ 05/06/2026 |
+| Keyboard navigation | anacharp | 24/06/2026 | ✅ 04/06/2026 |
+
 
 ### Tests & debug
 
 | Task | Team member | Expection date | Finished date |
 | :--: | :---------: | :------------: | :-----------: |
-| Docstrings | anacharp | 22/06/2026 | ❌ |
-| Flake8 + mypy | roandrie | 22/06/2026 | ❌ |
-| Various tests | anacharp, roandrie | 23/06/2026 | ❌ |
-| Game test | anacharp, roandrie | 23/06/2026 | ❌ |
-| Debug | anacharp, roandrie | 24/06/2026 | ❌ |
+| Docstrings | anacharp | 22/06/2026 | ⚠️ |
+| Flake8 + mypy | anacharp | 22/06/2026 | ⚠️ |
+| Various tests | anacharp, roandrie | 23/06/2026 | ⚠️ |
+| Game test | anacharp, roandrie | 23/06/2026 | ⚠️ |
+| Debug | anacharp, roandrie | 24/06/2026 | ⚠️ |
 
 ### Corrections
 
@@ -86,4 +96,4 @@ S10 [░░░░░░░░░░░░] Corrections
 
 ---
 
-**Last update**: *12/05/2026*
+**Last update**: *08/06/2026*

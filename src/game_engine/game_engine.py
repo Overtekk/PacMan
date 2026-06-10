@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:11:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 12:19:03 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -65,6 +65,8 @@ class GameEngine(arcade.View):
         self._text_score_showed: bool = False
         self._dying_screen_fading: int = 0
         self._level_index: int = -1
+        self._can_enemy_be_angry: bool = False
+        self._collectible_percentage: float = 0.0
 
         # - Easter Egg -
         self._code: list[Any] = []
@@ -274,6 +276,12 @@ class GameEngine(arcade.View):
             self.state_manager, self.audio_manager
         )
 
+        # Calculate the percentage of pacgums
+        nb_pacgums: int = len(self.coll_manager.pacgums_sprite_list)
+        if nb_pacgums >= 20:
+            self._can_enemy_be_angry = True
+            self._collectible_percentage = nb_pacgums * 0.30
+
         self._current_timer_start = TIMER_LEVEL_START
         self.game_state = GameState.STARTING
 
@@ -352,6 +360,9 @@ class GameEngine(arcade.View):
         # - COLLISIONS CHECKER -
         collision_result: LevelState = self.coll_manager.update(delta_time)
         self._collision_manager(collision_result, delta_time)
+
+        # - CHECK COLLECTIBLES -
+        self._check_collectibles_left()
 
     def _super_pacgum_timer_manager(self, delta_time: float) -> None:
         # Check if a pacgum have been activate
@@ -445,6 +456,15 @@ class GameEngine(arcade.View):
             for s_pacgum in self.level_manager.super_pacgums_list:
                 if s_pacgum.is_activate:
                     s_pacgum.update(delta_time)
+
+    def _check_collectibles_left(self) -> None:
+        if self._can_enemy_be_angry:
+            nb_pacgum_left = len(self.coll_manager.pacgums_sprite_list)
+
+            if nb_pacgum_left <= self._collectible_percentage:
+                for enemy in self.level_manager.enemies_list.values():
+                    enemy.angry = True
+                self._can_enemy_be_angry = False
 
     def _state_respawn(self) -> None:
         # Reset the player

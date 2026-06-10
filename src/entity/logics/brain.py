@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:36:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/09 11:57:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,10 +26,32 @@ class EnemyBrain():
         self.enemy: Enemy = enemy_ref
 
     def update(self, delta_time: float) -> None:
-        if self.enemy.mode not in [EnemyState.WAIT, EnemyState.CHASE]:
+        if self.enemy.mode not in [
+            EnemyState.WAIT, EnemyState.CHASE, EnemyState.ANGRY
+        ]:
             self._raycasting()
 
         self._state_machine(delta_time)
+
+    def force_move(self) -> None:
+        conv_x, conv_y = (
+            self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
+        )
+
+        open_walls: dict[tuple[float, float], tuple[int, int]] = (
+            self.enemy.calculator.check_open_wall(
+                int(conv_x), int(conv_y), self.enemy.maze_bitmap))
+
+        valid_coords: list[tuple[int, int]] = []
+        for coords in open_walls:
+            valid_coords.append(coords)
+
+        force_direction = random.choice(valid_coords)
+        self.enemy.current_direction = force_direction
+
+    # :---------------:
+    #  PRIVATE METHODS
+    # :---------------:
 
     def _state_machine(self, delta_time: float) -> None:
         if self.enemy.mode == EnemyState.WAIT:
@@ -37,21 +59,39 @@ class EnemyBrain():
                 self._revive(delta_time)
 
         elif self.enemy.mode == EnemyState.WANDER:
+            self.enemy.speed = self.enemy.base_speed
             self._move()
 
         elif self.enemy.mode == EnemyState.SEARCH:
-            pass
+            self.enemy.speed = (
+                self.enemy.base_speed + 1
+            )
+            self._go_to_position(self.enemy.player_ref.x,
+                                 self.enemy.player_ref.y)
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
-                self.enemy.base_speed + game_config.chase_speed
+                self.enemy.base_speed + game_config.enemy_chase_speed
             )
             self._chase_player(delta_time)
 
+        elif self.enemy.mode == EnemyState.ANGRY:
+            self.enemy.speed = (
+                self.enemy.base_speed + game_config.enemy_angry_speed
+            )
+            self._go_to_position(self.enemy.player_ref.x,
+                                 self.enemy.player_ref.y)
+
         elif self.enemy.mode == EnemyState.RUNAWAY:
+            self.enemy.speed = (
+                self.enemy.base_speed - game_config.ennemy_speed_reduction
+            )
             self._runaway_from_player()
 
         elif self.enemy.mode == EnemyState.RESPAWN:
+            self.enemy.speed = (
+                self.enemy.base_speed + game_config.enemy_speed_respawn
+            )
             self._return_to_spawnpoint()
 
             self.enemy._timer_check_respawn -= delta_time
@@ -61,10 +101,6 @@ class EnemyBrain():
                 self.enemy._timer_check_respawn = (
                     game_config.enemy_check_res_timer
                 )
-
-    # :---------------:
-    #  PRIVATE METHODS
-    # :---------------:
 
     def _get_available_moves(
         self
@@ -113,8 +149,6 @@ class EnemyBrain():
         return open_walls
 
     def _raycasting(self) -> bool:
-        CHECK_DISTANCE: int = 4
-
         if self.enemy.mode in (
             EnemyState.WAIT, EnemyState.RUNAWAY, EnemyState.RESPAWN
         ):
@@ -138,7 +172,7 @@ class EnemyBrain():
 
         player_found: bool = False
 
-        for i in range(1, CHECK_DISTANCE + 1):
+        for i in range(1, game_config.raycasting_max_distance + 1):
             wall_x: int = int(ext_self[0] + dir_x * (2 * i - 1))
             wall_y: int = int(ext_self[1] + dir_y * -1 * (2 * i - 1))
 
@@ -183,43 +217,12 @@ class EnemyBrain():
                 if random.random() <= self.enemy._loose_chance:
                     self.enemy.mode = EnemyState.WANDER
                     self.enemy._timer_chase = 0.0
-                    self.enemy.speed = self.enemy.base_speed
 
                     if game_config.debug_mode:
                         print_log(f"Changed state for {self.enemy} to WANDER")
 
-        open_walls = self._get_available_moves()
-        if not open_walls:
-            return
-
-        # Pop single available move immediately to skip loop
-        if len(open_walls) == 1:
-            self.enemy._next_direction = list(open_walls.keys()).pop()
-            return
-
-        conv_player_pos: tuple[float, float] = (
-            self.enemy.calculator.get_pixel_to_grid_any(
-                self.enemy.player_ref.x, self.enemy.player_ref.y))
-
-        best_distance: float = float('inf')
-        direction: tuple[float, float] = (0.0, 0.0)
-        TURN_PENALTY: float = 0.2
-
-        for key, coords in open_walls.items():
-            distance: float = self.enemy.calculator.get_euclidean_distance(
-                coords, conv_player_pos
-            )
-
-            # Apply momentum penalty if the path forces a turn
-            if (key != self.enemy.current_direction and
-                    self.enemy.current_direction != (0.0, 0.0)):
-                distance += TURN_PENALTY
-
-            if distance < best_distance:
-                best_distance = distance
-                direction = key
-
-        self.enemy._next_direction = direction
+        # Chase the player
+        self._go_to_position(self.enemy.player_ref.x, self.enemy.player_ref.y)
 
     def _runaway_from_player(self) -> None:
         open_walls = self._get_available_moves()
@@ -322,3 +325,37 @@ class EnemyBrain():
                 available_directions.remove(current_dir)
 
         return random.choice(available_directions)
+
+    def _go_to_position(self, pos_x: float, pos_y: float) -> None:
+        open_walls = self._get_available_moves()
+        if not open_walls:
+            return
+
+        # Pop single available move immediately to skip loop
+        if len(open_walls) == 1:
+            self.enemy._next_direction = list(open_walls.keys()).pop()
+            return
+
+        conv_pos: tuple[float, float] = (
+            self.enemy.calculator.get_pixel_to_grid_any(pos_x, pos_y)
+        )
+
+        best_distance: float = float('inf')
+        direction: tuple[float, float] = (0.0, 0.0)
+        TURN_PENALTY: float = 0.2
+
+        for key, coords in open_walls.items():
+            distance: float = self.enemy.calculator.get_euclidean_distance(
+                coords, conv_pos
+            )
+
+            # Apply momentum penalty if the path forces a turn
+            if (key != self.enemy.current_direction and
+                    self.enemy.current_direction != (0.0, 0.0)):
+                distance += TURN_PENALTY
+
+            if distance < best_distance:
+                best_distance = distance
+                direction = key
+
+        self.enemy._next_direction = direction
