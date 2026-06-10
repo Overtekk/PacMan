@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 09:19:04 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 11:26:03 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -50,7 +50,7 @@ class FoxBrain(EnemyBrain):
                     self.enemy.mode = EnemyState.SEARCH
 
                     if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCHs")
+                        print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:

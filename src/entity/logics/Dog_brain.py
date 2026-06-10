@@ -6,7 +6,7 @@
 #    By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 11:38:05 by roandrie          #+#    #+#              #
-#    Updated: 2026/06/10 09:23:21 by anacharp         ###   ########.fr        #
+#    Updated: 2026/06/10 11:08:35 by anacharp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ class DogBrain(EnemyBrain):
                     self.enemy.mode = EnemyState.SEARCH
 
                     if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCHs")
+                        print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:
@@ -73,11 +73,30 @@ class DogBrain(EnemyBrain):
         )
         coords.append(self_pxl_coords)
 
-        player_pxl_coords: tuple[float, float] = (
-            self.enemy.player_ref.x, self.enemy.player_ref.y
-        )
-        coords.append(player_pxl_coords)
-
+        if (self.enemy.player_ref.sprite.angle == 0
+           and self.enemy.player_ref.sprite.scale_x >= 0):
+            player_pxl_coords: tuple[float, float] = (
+                self.enemy.player_ref.x + 2, self.enemy.player_ref.y
+            )
+            coords.append(player_pxl_coords)
+        elif (self.enemy.player_ref.sprite.angle == 0
+             and self.enemy.player_ref.sprite.scale_x <= 0):
+            player_pxl_coords: tuple[float, float] = (
+                self.enemy.player_ref.x - 2, self.enemy.player_ref.y
+            )
+            coords.append(player_pxl_coords)
+        elif (self.enemy.player_ref.sprite.angle == 90
+             and self.enemy.player_ref.sprite.scale_x >= 0):
+            player_pxl_coords: tuple[float, float] = (
+                self.enemy.player_ref.x, self.enemy.player_ref.y + 2
+            )
+            coords.append(player_pxl_coords)
+        elif (self.enemy.player_ref.sprite.angle == -90
+             and self.enemy.player_ref.sprite.scale_x >= 0):
+            player_pxl_coords: tuple[float, float] = (
+                self.enemy.player_ref.x, self.enemy.player_ref.y - 2
+            )
+            coords.append(player_pxl_coords)
         return coords
 
     def _get_radius(self) -> None:
@@ -93,6 +112,3 @@ class DogBrain(EnemyBrain):
         self.detection_radius: float = (
             self.radius * self.enemy.calculator.maze_tile_size
         )
-
-# ALGO CHIEN :
-# 

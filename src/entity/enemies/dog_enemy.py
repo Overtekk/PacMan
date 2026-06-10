@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 09:18:20 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 10:53:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,11 +44,11 @@ class DogEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
 
         self.sprite_sheet_angry=sprite_sheet_angry
-
+        self.enemy_type = "dog"
         self.brain = DogBrain(self)
 
     def _update_sprite(self) -> None:

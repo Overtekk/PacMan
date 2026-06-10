@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:34:48 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 10:53:29 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,6 +23,7 @@ class RatEnemy(Enemy):
         sprite_sheet_move: list[arcade.Texture],
         sprite_sheet_eatable: list[arcade.Texture],
         sprite_sheet_died: list[arcade.Texture],
+        sprite_sheet_angry: list[arcade.Texture],
         maze_bitmap: dict[tuple[int, int], int],
         calculator: SuperCalculator,
         player_ref: Player,
@@ -41,8 +42,11 @@ class RatEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
+
+        self.sprite_sheet_angry=sprite_sheet_angry
+        self.enemy_type = "rat"
 
         # Spawn right, facing right
         self.sprite.texture = self.textures[1]
