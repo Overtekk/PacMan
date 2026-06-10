@@ -5,7 +5,7 @@
 ### 10/06/2026
 - anacharp
 	- enemy dog algo
-	- sprite angry dog
+	- standardization
 
 ### 09/06/2026
 - anacharp
