@@ -1,14 +1,14 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Dog_brain.py                                       :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/06/09 11:38:05 by roandrie          #+#    #+#              #
-#    Updated: 2026/06/10 11:08:35 by anacharp         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# ************************************************************************* #
+#                                                                           #
+#                                                      :::      ::::::::    #
+#  Dog_brain.py                                      :+:      :+:    :+:    #
+#                                                  +:+ +:+         +:+      #
+#  By: anacharp, roandrie                        +#+  +:+       +#+         #
+#                                              +#+#+#+#+#+   +#+            #
+#  Created: 2026/06/10 11:49:59 by anacharp        #+#    #+#               #
+#  Updated: 2026/06/10 11:56:08 by anacharp        ###   ########.fr        #
+#                                                                           #
+# ************************************************************************* #
 
 from .brain import EnemyBrain
 from ..logics.StateMachine import EnemyState
@@ -27,15 +27,9 @@ class DogBrain(EnemyBrain):
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
-        if self.enemy.angry and not self.enemy.is_edible and not self.enemy.died:
+        if not self.enemy.is_edible and not self.enemy.died:
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
                 pass
-
-            elif self.enemy.mode != EnemyState.ANGRY:
-                self.enemy.mode = EnemyState.ANGRY
-
-                if game_config.debug_mode:
-                    print_log(f"Changed state for {self.enemy} to ANGRY")
 
         elif self.enemy.mode == EnemyState.WANDER:
             updated_coords: list[tuple[float, float]] = self._update_coords()
@@ -80,19 +74,19 @@ class DogBrain(EnemyBrain):
             )
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == 0
-             and self.enemy.player_ref.sprite.scale_x <= 0):
+              and self.enemy.player_ref.sprite.scale_x <= 0):
             player_pxl_coords: tuple[float, float] = (
                 self.enemy.player_ref.x - 2, self.enemy.player_ref.y
             )
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == 90
-             and self.enemy.player_ref.sprite.scale_x >= 0):
+              and self.enemy.player_ref.sprite.scale_x >= 0):
             player_pxl_coords: tuple[float, float] = (
                 self.enemy.player_ref.x, self.enemy.player_ref.y + 2
             )
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == -90
-             and self.enemy.player_ref.sprite.scale_x >= 0):
+              and self.enemy.player_ref.sprite.scale_x >= 0):
             player_pxl_coords: tuple[float, float] = (
                 self.enemy.player_ref.x, self.enemy.player_ref.y - 2
             )

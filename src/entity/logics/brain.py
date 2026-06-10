@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:20:53 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 11:56:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -353,8 +353,7 @@ class EnemyBrain():
         TURN_PENALTY: float = 0.2
 
         random_percent: float = 0.6
-        if (self.enemy.mode == EnemyState.ANGRY
-           or self.enemy.mode == EnemyState.CHASE):
+        if self.enemy.mode == EnemyState.CHASE:
             random_percent == 0.4
         if random.random() < random_percent and self.enemy.enemy_type == "dog":
             direction = random.choice(list(open_walls.keys()))
@@ -407,71 +406,73 @@ class EnemyBrain():
 #  A* algorithm
 # :------------:
 
+
 def a_star_algo(
-    grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
-    goal_pos: tuple[int, int]
-) -> list[tuple[int, int]]:
+        grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
+        goal_pos: tuple[int, int]
+        ) -> list[tuple[int, int]]:
 
-        # Initialize start node
-        start: dict[str, Any] = create_node(
-            start_pos, 0, calculate_heuristic(start_pos, goal_pos)
-        )
+    # Initialize start node
+    start: dict[str, Any] = create_node(
+        start_pos, 0, calculate_heuristic(start_pos, goal_pos)
+    )
 
-        # Initialize open and closed sets
-        open_list = [(start['sum'], start_pos)]  # Priority queue
-        open_dict = {start_pos: start}           # For quick node lookup
-        closed_set = set()                       # Explored nodes
+    # Initialize open and closed sets
+    open_list = [(start['sum'], start_pos)]  # Priority queue
+    open_dict = {start_pos: start}           # For quick node lookup
+    closed_set = set()                       # Explored nodes
 
-        while open_list:
-            # Find the lowest pos value
-            _, current_pos = heapq.heappop(open_list)
-            current_node = open_dict[current_pos]
+    while open_list:
+        # Find the lowest pos value
+        _, current_pos = heapq.heappop(open_list)
+        current_node = open_dict[current_pos]
 
-            # Check if we've reached the goal
-            if current_pos == goal_pos:
-                return reconstruct_path(current_node)
+        # Check if we've reached the goal
+        if current_pos == goal_pos:
+            return reconstruct_path(current_node)
 
-            closed_set.add(current_pos)
+        closed_set.add(current_pos)
 
-            # Explore neighbors
-            for neighbor_pos in get_valid_neighbors(grid, current_pos):
-                # Skip if already explored
-                if neighbor_pos in closed_set:
-                    continue
+        # Explore neighbors
+        for neighbor_pos in get_valid_neighbors(grid, current_pos):
+            # Skip if already explored
+            if neighbor_pos in closed_set:
+                continue
 
-                # Calculate new path cost
-                tentative_cost = (
-                    current_node['cost'] + calculate_heuristic(
-                        current_pos, neighbor_pos)
+            # Calculate new path cost
+            tentative_cost = (
+                current_node['cost'] + calculate_heuristic(
+                    current_pos, neighbor_pos)
+            )
+
+            # Create or update neighbor
+            if neighbor_pos not in open_dict:
+                neighbor = create_node(
+                    neighbor_pos, tentative_cost,
+                    calculate_heuristic(neighbor_pos, goal_pos),
+                    current_node
                 )
+                heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
+                open_dict[neighbor_pos] = neighbor
 
-                # Create or update neighbor
-                if neighbor_pos not in open_dict:
-                    neighbor = create_node(
-                        neighbor_pos, tentative_cost,
-                        calculate_heuristic(neighbor_pos, goal_pos),
-                        current_node
-                    )
-                    heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
-                    open_dict[neighbor_pos] = neighbor
+            elif tentative_cost < open_dict[neighbor_pos]['cost']:
+                # Found a better path to the neighbor
+                neighbor = open_dict[neighbor_pos]
+                neighbor['cost'] = tentative_cost
+                neighbor['sum'] = tentative_cost + neighbor['estim_cost']
+                neighbor['parent'] = current_node
+                heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
 
-                elif tentative_cost < open_dict[neighbor_pos]['cost']:
-                    # Found a better path to the neighbor
-                    neighbor = open_dict[neighbor_pos]
-                    neighbor['cost'] = tentative_cost
-                    neighbor['sum'] = tentative_cost + neighbor['estim_cost']
-                    neighbor['parent'] = current_node
-                    heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
-
-        return []
+    return []
 
 # :-----------------------------:
 #  HELPERS FUNCTIONS FOR A* ALGO
 # :-----------------------------:
 
+
 def create_node(
-    position: tuple[int, int], cost: float = float('inf'),
-    estimate_cost: float = 0.0, parent: dict = None) -> dict[str, Any]:
+        position: tuple[int, int], cost: float = float('inf'),
+        estimate_cost: float = 0.0, parent: dict = None) -> dict[str, Any]:
 
     return {
         'position': position,
@@ -489,8 +490,8 @@ def calculate_heuristic(pos1: tuple[int, int], pos2: tuple[int, int]) -> float:
 
 
 def get_valid_neighbors(
-    grid: dict[tuple[int, int], int], position: tuple[int, int]
-) -> list[tuple[int, int]]:
+        grid: dict[tuple[int, int], int], position: tuple[int, int]
+        ) -> list[tuple[int, int]]:
     valid_list: list[tuple[int, int]] = []
 
     x, y = position
@@ -504,6 +505,7 @@ def get_valid_neighbors(
             valid_list.append((nx, ny))
 
     return valid_list
+
 
 def reconstruct_path(goal: dict[str, Any]) -> list[tuple[int, int]]:
     path = []

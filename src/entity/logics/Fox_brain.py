@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:26:03 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/10 11:54:22 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,7 +27,8 @@ class FoxBrain(EnemyBrain):
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
-        if self.enemy.angry and not self.enemy.is_edible and not self.enemy.died:
+        if (self.enemy.angry and not self.enemy.is_edible
+           and not self.enemy.died):
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
                 pass
 
@@ -35,7 +36,7 @@ class FoxBrain(EnemyBrain):
                 self.enemy.mode = EnemyState.ANGRY
 
                 if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to ANGRY")
+                    print_log(f"Changed state for {self.enemy} to ANGRY")
 
         elif self.enemy.mode == EnemyState.WANDER:
             updated_coords: list[tuple[float, float]] = self._update_coords()
