@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 11:39:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:41:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -32,3 +32,6 @@ class CatBrain(EnemyBrain):
     # :---------------:
     #  PRIVATE METHODS
     # :---------------:
+
+    def _(self) -> None:
+        pass
