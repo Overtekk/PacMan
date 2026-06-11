@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/10 11:49:59 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/11 11:16:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:26:18 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+import random
 
 from .brain import EnemyBrain
 from ..logics.StateMachine import EnemyState
@@ -106,3 +108,43 @@ class DogBrain(EnemyBrain):
         self.detection_radius: float = (
             self.radius * self.enemy.calculator.maze_tile_size
         )
+
+    def _go_to_position(self, pos_x: float, pos_y: float) -> None:
+        open_walls = self._get_available_moves()
+        if not open_walls:
+            return
+
+        # Pop single available move immediately to skip loop
+        if len(open_walls) == 1:
+            self.enemy._next_direction = list(open_walls.keys()).pop()
+            return
+
+        conv_pos: tuple[float, float] = (
+            self.enemy.calculator.get_pixel_to_grid_any(pos_x, pos_y)
+        )
+
+        best_distance: float = float('inf')
+        direction: tuple[float, float] = (0.0, 0.0)
+        TURN_PENALTY: float = 0.2
+
+        random_percent: float = 0.6
+        if self.enemy.mode == EnemyState.CHASE:
+            random_percent == 0.4
+        if random.random() < random_percent and self.enemy.enemy_type == "dog":
+            direction = random.choice(list(open_walls.keys()))
+        else:
+            for key, coords in open_walls.items():
+                distance: float = self.enemy.calculator.get_euclidean_distance(
+                    coords, conv_pos
+                )
+
+                # Apply momentum penalty if the path forces a turn
+                if (key != self.enemy.current_direction and
+                        self.enemy.current_direction != (0.0, 0.0)):
+                    distance += TURN_PENALTY
+
+                if distance < best_distance:
+                    best_distance = distance
+                    direction = key
+
+        self.enemy._next_direction = direction
