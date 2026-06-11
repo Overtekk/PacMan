@@ -60,10 +60,10 @@
 | -------- | --------------- | ------ |
 | Move autonomous | 4 ghosts move | ✅ |
 | Can't go on walls | Can only move on corridors | ✅ |
-| Eatable after super-pacgum | Change of skin, run away the player | ✅ |
-| Eating and eatable ghost | ghost deasappear, score update, and ghost reappear after some time | ✅ |
+| Edible after super-pacgum | Change of skin, run away the player | ✅ |
+| Eating and edible ghost | ghost deasappear, score update, and ghost reappear after some time | ✅ |
 | Corner reappearation | ghosts reappear on his start corner after some time | ✅ |
-| End of eatable mode | ghosts regain their basic skin and behavior| ✅ |
+| End of edible mode | ghosts regain their basic skin and behavior| ✅ |
 
 ### 5. Pacgums and scoring
 
@@ -102,7 +102,7 @@
 | Game Over screen | Final score displayed, input for player name | ✅ |
 | Victory screen | Final score displayed, victory message and input for player name | ✅ |
 | Input player name | Can't write more than 10 characters | ✅ |
-| Alphanumeric characters | Only alphanumeric and spaces | ❌ |
+| Alphanumeric characters | Only alphanumeric and spaces | ✅ |
 
 ### 8. Highscores
 | Scenario | Expected result | Status |

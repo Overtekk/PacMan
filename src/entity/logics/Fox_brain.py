@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:54:22 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 12:18:57 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,7 +30,7 @@ class FoxBrain(EnemyBrain):
         if (self.enemy.angry and not self.enemy.is_edible
            and not self.enemy.died):
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
-                pass
+                return
 
             elif self.enemy.mode != EnemyState.ANGRY:
                 self.enemy.mode = EnemyState.ANGRY

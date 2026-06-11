@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:55:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 17:07:37 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -27,9 +27,9 @@ from src.entity import (Player, CatEnemy, FoxEnemy, RatEnemy, DogEnemy,
 
 
 PLAYER_SCALE: float = 0.5
-ENEMIES_SCALE: float = 0.5
+ENEMIES_SCALE: float = 0.45
 PACGUM_SCALE: float = 0.6
-SUPERPACGUM_SCALE: float = 0.6
+SUPERPACGUM_SCALE: float = 0.55
 
 
 class LevelManager():

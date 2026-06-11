@@ -2,6 +2,20 @@
 #### *anacharp + roandrie*
 
 ---
+### 10/06/2026
+- anacharp
+	- enemy dog algo
+	- standardization
+	- adapt chase and angry speed
+	- change zoom animation
+
+### 09/06/2026
+- anacharp
+	- can now write num and spaces on end screens
+	- ARCHITECTURE.md
+	- change the AAA easter egg on main menu
+	- reduce the scale of the ghosts
+
 ### 08/06/2026
 - roandrie
 	- Cap the delta_time is the main loop to avoid bug if the game is freezing

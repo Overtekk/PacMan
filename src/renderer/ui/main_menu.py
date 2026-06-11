@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:11:51 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/09 16:10:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -298,25 +298,10 @@ class MainMenu(BaseMenu):
                 self.window.asset_manager.textures["instructions_button"]),
             parent_view=self)
 
-        # Create the secret way to have the cheat mode
-        if MainMenu.count_touch_A >= 3:
-            self.audio_manager.play_sound('bruit')
-
-            self.button_list.clear()
-            cheat_button = CheatButton(
-                center_x=ScreenSettings.WIDTH // 2, center_y=175,
-                sprite_path=self.window.asset_manager.textures["cheat_button"],
-                parent_view=self)
-            self.exit_button = ExitButton(
-                center_x=ScreenSettings.WIDTH // 2, center_y=75,
-                sprite_path=self.window.asset_manager.textures["exit_button"],
-                parent_view=self)
-            self.button_list.append(cheat_button)
-        else:
-            self.exit_button = ExitButton(
-                center_x=ScreenSettings.WIDTH // 2, center_y=175,
-                sprite_path=self.window.asset_manager.textures["exit_button"],
-                parent_view=self)
+        self.exit_button = ExitButton(
+            center_x=ScreenSettings.WIDTH // 2, center_y=175,
+            sprite_path=self.window.asset_manager.textures["exit_button"],
+            parent_view=self)
 
         # Create an animation on the background
         self.animation()
@@ -388,8 +373,24 @@ class MainMenu(BaseMenu):
         if symbol == arcade.key.A:
             # With 3 A : activate cheat mode
             MainMenu.count_touch_A += 1
-            if MainMenu.count_touch_A == 3:
-                self.build_ui()
+            if MainMenu.count_touch_A >= 3:
+                self.audio_manager.play_sound('bruit')
+                self.button_list.clear()
+                text = arcade.Text(text="Click on OUTSTANDING please",
+                                   color=arcade.color.BLACK,
+                                   x=ScreenSettings.WIDTH // 2,
+                                   y=500, font_size=30,
+                                   font_name="Press Start 2P",
+                                   anchor_x="center")
+                subtext = arcade.Text(text="and stop spam 'A'",
+                                      color=arcade.color.BLACK,
+                                      x=ScreenSettings.WIDTH // 2,
+                                      y=200, font_size=30,
+                                      font_name="Press Start 2P",
+                                      anchor_x="center")
+
+                self.text_lst.append(text)
+                self.text_lst.append(subtext)
 
         if symbol == arcade.key.DOWN:
             self.y += 1
@@ -458,6 +459,9 @@ class MainMenu(BaseMenu):
 
         # Draw all the sprites
         self.button_list.draw()
+
+        for txt in self.text_lst:
+            txt.draw()
 
     # :---------------:
     #  PRIVATE METHODS
