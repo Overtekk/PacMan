@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:55:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:19:02 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,7 +14,6 @@ import arcade
 
 from ..entity import Enemy
 from ..player import Player
-from ..logics.Dog_brain import DogBrain
 from src.utils import SuperCalculator
 from ..logics.StateMachine import EnemyState
 
@@ -47,20 +46,4 @@ class DogEnemy(Enemy):
         )
 
         self.enemy_type = "dog"
-        self.brain = DogBrain(self)
 
-    def _update_sprite(self) -> None:
-        if self.mode == EnemyState.RESPAWN:
-            self.sprite.texture = self.sprite_sheet_died[
-                self.current_texture_index
-            ]
-        elif self.mode == EnemyState.RUNAWAY:
-            self.sprite.texture = self.sprite_sheet_eatable[
-                self.current_texture_index
-            ]
-        elif self.mode == EnemyState.ANGRY:
-            self.sprite.texture = self.sprite_sheet_angry[
-                self.current_texture_index
-            ]
-        elif not self._wait_revive:
-            self.sprite.texture = self.textures[self.current_texture_index]
