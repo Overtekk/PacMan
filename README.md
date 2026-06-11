@@ -242,6 +242,12 @@ Project Management
 | :------: | :---------: |
 | [Eitca (french)](https://fr.eitca.org/intelligence-artificielle/eitc-ai-mlp-machine-learning-avec-python/programmation-de-l%27apprentissage-automatique/programmation-de-l%27algorithme-des-k-plus-proches-voisins/examen-examen-programmation-propre-algorithme-des-k-voisins-les-plus-proches/comment-calculer-la-distance-euclidienne-entre-deux-points-de-donn%C3%A9es-%C3%A0-l%27aide-d%27op%C3%A9rations-Python-de-base/) | Help for calculating the distance between two points using the euclidean distance |
 
+### Algorithms
+| Resource | Description |
+| :------: | :---------: |
+| [Datacamp (french)](https://www.datacamp.com/fr/tutorial/a-star-algorithm?dc_referrer=https%3A%2F%2Fwww.google.com%2F) | How to implement the A* algorithm |
+| [geeksforgeeks](https://www.geeksforgeeks.org/python/a-search-algorithm-in-python/) | What is the A* algorithm and how to implement it |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |

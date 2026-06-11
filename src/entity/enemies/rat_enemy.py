@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:34:48 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,7 +41,7 @@ class RatEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
 
         # Spawn right, facing right

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:21:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,10 +44,10 @@ class FoxEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
 
-        self.sprite_sheet_angry=sprite_sheet_angry
+        self.sprite_sheet_angry = sprite_sheet_angry
 
         self.sprite.texture = self.textures[1]
         self.brain = FoxBrain(self)

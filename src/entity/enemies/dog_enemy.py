@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:35:04 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,5 +41,6 @@ class DogEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
+

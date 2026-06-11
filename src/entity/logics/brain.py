@@ -6,11 +6,15 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 11:57:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:24:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
+from typing import Any
+
 import random
+import math
+import heapq
 
 from .StateMachine import EnemyState
 from src import game_config
@@ -24,6 +28,10 @@ if TYPE_CHECKING:
 class EnemyBrain():
     def __init__(self, enemy_ref: "Enemy") -> None:
         self.enemy: Enemy = enemy_ref
+
+        # - Private attributes -
+        self._current_path: list[tuple[int, int]] = []
+        self._old_target: tuple[float, float] = (0, 0)
 
     def update(self, delta_time: float) -> None:
         if self.enemy.mode not in [
@@ -71,20 +79,20 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
-                self.enemy.base_speed + game_config.enemy_chase_speed
+                self.enemy.player_ref.base_speed + 2
             )
             self._chase_player(delta_time)
 
         elif self.enemy.mode == EnemyState.ANGRY:
             self.enemy.speed = (
-                self.enemy.base_speed + game_config.enemy_angry_speed
+                self.enemy.player_ref.base_speed + 1
             )
             self._go_to_position(self.enemy.player_ref.x,
                                  self.enemy.player_ref.y)
 
         elif self.enemy.mode == EnemyState.RUNAWAY:
             self.enemy.speed = (
-                self.enemy.base_speed - game_config.ennemy_speed_reduction
+                self.enemy.player_ref.base_speed - 2
             )
             self._runaway_from_player()
 
@@ -359,3 +367,146 @@ class EnemyBrain():
                 direction = key
 
         self.enemy._next_direction = direction
+
+    def _go_to_position_better(self, target: tuple[int, int]) -> None:
+        self_coords = (
+                int(self.enemy.calculator.get_pixel_to_grid_entity(self.enemy))
+            )
+
+        # Check if targer have moved
+        if self._old_target != target:
+            self._old_target = target
+
+            self._current_path: list[tuple[int, int]] = a_star_algo(
+                self.enemy.maze_bitmap, self_coords, target
+            )
+
+            # Pop the start position
+            if self._current_path:
+                self._current_path.pop(0)
+
+        # Move
+        if self._current_path:
+            if self_coords == self._current_path[0]:
+                self._current_path.pop(0)
+
+            if self._current_path:
+                dx = self._current_path[0][0] - self_coords[0]
+                dy = self._current_path[0][1] - self_coords[1]
+
+                self.enemy._next_direction = (dx, dy)
+
+# :------------:
+#  A* algorithm
+# :------------:
+
+
+def a_star_algo(
+        grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
+        goal_pos: tuple[int, int]
+        ) -> list[tuple[int, int]]:
+
+    # Initialize start node
+    start: dict[str, Any] = create_node(
+        start_pos, 0, calculate_heuristic(start_pos, goal_pos)
+    )
+
+    # Initialize open and closed sets
+    open_list = [(start['sum'], start_pos)]  # Priority queue
+    open_dict = {start_pos: start}           # For quick node lookup
+    closed_set = set()                       # Explored nodes
+
+    while open_list:
+        # Find the lowest pos value
+        _, current_pos = heapq.heappop(open_list)
+        current_node = open_dict[current_pos]
+
+        # Check if we've reached the goal
+        if current_pos == goal_pos:
+            return reconstruct_path(current_node)
+
+        closed_set.add(current_pos)
+
+        # Explore neighbors
+        for neighbor_pos in get_valid_neighbors(grid, current_pos):
+            # Skip if already explored
+            if neighbor_pos in closed_set:
+                continue
+
+            # Calculate new path cost
+            tentative_cost = (
+                current_node['cost'] + calculate_heuristic(
+                    current_pos, neighbor_pos)
+            )
+
+            # Create or update neighbor
+            if neighbor_pos not in open_dict:
+                neighbor = create_node(
+                    neighbor_pos, tentative_cost,
+                    calculate_heuristic(neighbor_pos, goal_pos),
+                    current_node
+                )
+                heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
+                open_dict[neighbor_pos] = neighbor
+
+            elif tentative_cost < open_dict[neighbor_pos]['cost']:
+                # Found a better path to the neighbor
+                neighbor = open_dict[neighbor_pos]
+                neighbor['cost'] = tentative_cost
+                neighbor['sum'] = tentative_cost + neighbor['estim_cost']
+                neighbor['parent'] = current_node
+                heapq.heappush(open_list, (neighbor['sum'], neighbor_pos))
+
+    return []
+
+# :-----------------------------:
+#  HELPERS FUNCTIONS FOR A* ALGO
+# :-----------------------------:
+
+
+def create_node(
+        position: tuple[int, int], cost: float = float('inf'),
+        estimate_cost: float = 0.0, parent: dict = None) -> dict[str, Any]:
+
+    return {
+        'position': position,
+        'cost': cost,
+        'estim_cost': estimate_cost,
+        'sum': cost + estimate_cost,
+        'parent': parent
+    }
+
+
+def calculate_heuristic(pos1: tuple[int, int], pos2: tuple[int, int]) -> float:
+    x1, y1 = pos1
+    x2, y2 = pos2
+    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+
+def get_valid_neighbors(
+        grid: dict[tuple[int, int], int], position: tuple[int, int]
+        ) -> list[tuple[int, int]]:
+    valid_list: list[tuple[int, int]] = []
+
+    x, y = position
+
+    possible_moves: list[tuple[int, int]] = [
+        (x+1, y), (x-1, y), (x, y+1), (x, y-1)
+    ]
+
+    for nx, ny in possible_moves:
+        if grid.get((nx, ny), 1) == 0:
+            valid_list.append((nx, ny))
+
+    return valid_list
+
+
+def reconstruct_path(goal: dict[str, Any]) -> list[tuple[int, int]]:
+    path = []
+    current = goal
+
+    while current is not None:
+        path.append(current['position'])
+        current = current['parent']
+
+    return path[::-1]

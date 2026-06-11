@@ -27,16 +27,16 @@ class FoxBrain(EnemyBrain):
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
-        if (self.enemy.angry and not self.enemy.is_edible and
-                not self.enemy.died):
+        if (self.enemy.angry and not self.enemy.is_edible
+           and not self.enemy.died):
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
-                pass
+                return
 
             elif self.enemy.mode != EnemyState.ANGRY:
                 self.enemy.mode = EnemyState.ANGRY
 
                 if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to ANGRY")
+                    print_log(f"Changed state for {self.enemy} to ANGRY")
 
         elif self.enemy.mode == EnemyState.WANDER:
             updated_coords: list[tuple[float, float]] = self._update_coords()
@@ -51,7 +51,7 @@ class FoxBrain(EnemyBrain):
                     self.enemy.mode = EnemyState.SEARCH
 
                     if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCHs")
+                        print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:

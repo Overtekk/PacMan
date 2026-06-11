@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:35:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,7 @@ import arcade
 
 from ..entity import Enemy
 from ..player import Player
+from ..logics.Cat_brain import CatBrain
 from src.utils import SuperCalculator
 
 
@@ -41,5 +42,7 @@ class CatEnemy(Enemy):
             player_reference=player_ref,
             scale=scale,
             speed=speed,
-            is_edible=is_edible
+            is_edible=is_edible,
         )
+
+        self.brain = CatBrain(self)
