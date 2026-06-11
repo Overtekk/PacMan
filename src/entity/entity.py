@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:49:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:39:50 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -149,7 +149,6 @@ class Enemy(Movable):
         self.player_ref = player_reference
 
         self.base_speed = speed
-
         self.sprite.parent = self
 
         # - Private variables -
@@ -162,12 +161,15 @@ class Enemy(Movable):
 
         # Internal AI components
         self.brain = EnemyBrain(self)
+        # - Private variables -
         self._timer_chase: float = 0.0
         self._loose_chance: float = 0.7
         self._wait_revive: bool = False
         self._revive_timer: float = 0.0
         self.last_movement: tuple[float, float] = (0.0, 0.0)
         self._debug_raycast: tuple[float, float] = (0.0, 0.0)
+        self._last_positions_list: list[tuple[float, float]] = []
+        self._positions_to_store: int = 20
 
     @property
     def is_edible(self) -> bool:

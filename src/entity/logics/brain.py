@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/11 11:24:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/11 11:37:52 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -395,6 +395,9 @@ class EnemyBrain():
                 dy = self._current_path[0][1] - self_coords[1]
 
                 self.enemy._next_direction = (dx, dy)
+
+    def _fallback(self) -> None:
+        pass
 
 # :------------:
 #  A* algorithm
