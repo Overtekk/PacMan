@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:48:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:26 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -43,8 +43,6 @@ class RatEnemy(Enemy):
             speed=speed,
             is_edible=is_edible,
         )
-
-        self.enemy_type = "rat"
 
         # Spawn right, facing right
         self.sprite.texture = self.textures[1]

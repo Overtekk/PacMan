@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 13:42:57 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:24:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -352,25 +352,19 @@ class EnemyBrain():
         direction: tuple[float, float] = (0.0, 0.0)
         TURN_PENALTY: float = 0.2
 
-        random_percent: float = 0.6
-        if self.enemy.mode == EnemyState.CHASE:
-            random_percent == 0.4
-        if random.random() < random_percent and self.enemy.enemy_type == "dog":
-            direction = random.choice(list(open_walls.keys()))
-        else:
-            for key, coords in open_walls.items():
-                distance: float = self.enemy.calculator.get_euclidean_distance(
-                    coords, conv_pos
-                )
+        for key, coords in open_walls.items():
+            distance: float = self.enemy.calculator.get_euclidean_distance(
+                coords, conv_pos
+            )
 
-                # Apply momentum penalty if the path forces a turn
-                if (key != self.enemy.current_direction and
-                        self.enemy.current_direction != (0.0, 0.0)):
-                    distance += TURN_PENALTY
+            # Apply momentum penalty if the path forces a turn
+            if (key != self.enemy.current_direction and
+                    self.enemy.current_direction != (0.0, 0.0)):
+                distance += TURN_PENALTY
 
-                if distance < best_distance:
-                    best_distance = distance
-                    direction = key
+            if distance < best_distance:
+                best_distance = distance
+                direction = key
 
         self.enemy._next_direction = direction
 

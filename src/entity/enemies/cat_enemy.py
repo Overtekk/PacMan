@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:48:40 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,7 +44,5 @@ class CatEnemy(Enemy):
             speed=speed,
             is_edible=is_edible,
         )
-
-        self.enemy_type = "cat"
 
         self.brain = CatBrain(self)

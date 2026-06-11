@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:48:29 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/11 11:22:25 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -48,7 +48,6 @@ class FoxEnemy(Enemy):
         )
 
         self.sprite_sheet_angry = sprite_sheet_angry
-        self.enemy_type = "fox"
 
         self.sprite.texture = self.textures[1]
         self.brain = FoxBrain(self)
