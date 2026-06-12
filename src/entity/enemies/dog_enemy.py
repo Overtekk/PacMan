@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:05:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 09:37:57 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 09:42:24 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -44,5 +44,4 @@ class DogEnemy(Enemy):
             speed=speed,
             is_edible=is_edible
         )
-        self.enemy_type = "dog"
         self.brain = DogBrain(self)

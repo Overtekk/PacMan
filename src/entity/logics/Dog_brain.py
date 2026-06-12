@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/10 11:49:59 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/12 09:39:35 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 09:42:32 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -130,7 +130,7 @@ class DogBrain(EnemyBrain):
         random_percent: float = 0.6
         if self.enemy.mode == EnemyState.CHASE:
             random_percent == 0.4
-        if random.random() < random_percent and self.enemy.enemy_type == "dog":
+        if random.random() < random_percent:
             direction = random.choice(list(open_walls.keys()))
         else:
             for key, coords in open_walls.items():
