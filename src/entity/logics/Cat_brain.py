@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 15:26:32 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 15:40:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,7 +25,6 @@ class CatBrain(EnemyBrain):
         super().__init__(enemy)
 
     def update(self, delta_time: float) -> None:
-        self.enemy.mode = EnemyState.SEARCH
         if self.enemy._is_edible and not self.enemy.died:
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
                 return
@@ -35,6 +34,13 @@ class CatBrain(EnemyBrain):
                 if self.enemy.mode != EnemyState.SEARCH:
                     if len(self.enemy._debug_pathfinding) > 0:
                         self.enemy._debug_pathfinding.clear()
+
+        if self.enemy.mode == EnemyState.WANDER:
+            if self.enemy.mode != EnemyState.SEARCH:
+                self.enemy.mode = EnemyState.SEARCH
+
+                if game_config.debug_mode:
+                        print_log(f"Changed state for {self.enemy} to SEARCH")
 
         super().update(delta_time)
 
@@ -67,16 +73,13 @@ class CatBrain(EnemyBrain):
         # - CHECK IF WALL EXIST BETWEEN PLAYER AND CELL +1
         res_1 = self._check_cell(player_pos, player_curr_dir, maze_bitmap, 1)
         if res_1 is None:
-            print('a')
             return (player_x, player_y)
 
         # - CHECK WITH MAX DISTANCE -
         res = self._check_cell(player_pos, player_curr_dir, maze_bitmap, 2)
         if res is not None:
-            print('b')
             return res
 
-        print('c')
         return res_1
 
     def _check_cell(
