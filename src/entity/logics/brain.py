@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 09:46:37 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 10:01:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -369,6 +369,14 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
+        open_walls = self._get_available_moves()
+        if not open_walls:
+            return
+
+        if len(open_walls) == 1:
+            self.enemy._next_direction = list(open_walls.keys()).pop()
+            return
+
         self_coords_raw = (
                 self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
             )
@@ -376,7 +384,7 @@ class EnemyBrain():
         self_coords: tuple[int, int] = int(self_coords_x), int(self_coords_y)
 
         # Check if targer have moved
-        if self._old_target != target:
+        if self._old_target != target or not self._current_path:
             self._old_target = target
 
             self._current_path: list[tuple[int, int]] = a_star_algo(
@@ -392,11 +400,12 @@ class EnemyBrain():
             if self_coords == self._current_path[0]:
                 self._current_path.pop(0)
 
-            if self._current_path:
-                dx = self._current_path[0][0] - self_coords[0]
-                dy = self._current_path[0][1] - self_coords[1]
+            for dir, available_move in open_walls.items():
+                if available_move == self._current_path[0]:
+                    self.enemy._next_direction = dir
+                    return
 
-                self.enemy._next_direction = (dx, dy)
+            self._apply_momentum_choice(open_walls)
 
 # :------------:
 #  A* algorithm
