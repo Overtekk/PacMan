@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/05 13:55:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:28:48 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,9 @@ from src.renderer.screen_settings import ScreenSettings
 
 
 class HighscoresButton(BaseButton):
+    """
+    Interactive title button allowing users to head back to the main menu.
+    """
     def __init__(
             self,
             center_x: float,
@@ -28,6 +31,15 @@ class HighscoresButton(BaseButton):
             parent_view: arcade.View,
             anchor_x: str = "center"
     ) -> None:
+        """Initializes the highscores menu control button.
+
+            Args:
+        center_x (float): Horizontal center coordinate.
+        center_y (float): Vertical center coordinate.
+        sprite_path (Path): Path to the sprite image file.
+        parent_view (arcade.View): The calling Arcade view.
+        anchor_x (str): Horizontal anchor alignment.
+        """
 
         super().__init__(
             sprite_path=sprite_path,
@@ -38,6 +50,7 @@ class HighscoresButton(BaseButton):
         anchor_x = anchor_x
 
     def on_click(self) -> None:
+        """Switches the active window view back to the stored parent view."""
         if self.parent_view.window:
             if hasattr(self.parent_view, 'previous_view'):
                 self.parent_view.window.show_view(
@@ -45,7 +58,15 @@ class HighscoresButton(BaseButton):
 
 
 class HighscoresScreen(BaseMenu):
+    """Menu view displaying names and records extracted from the leaderboard
+    file.
+
+    Highlights illegal or compromised score sheets in red to identify cheaters.
+    """
     def __init__(self, previous_view: arcade.View) -> None:
+        """
+        Initializes the highscores display view with an ocean asset theme.
+        """
         super().__init__()
         self.previous_view = previous_view
 
@@ -57,6 +78,9 @@ class HighscoresScreen(BaseMenu):
         self.y = 0
 
     def build_ui(self) -> None:
+        """
+        Extracts text lines from file storage and distributes layout items.
+        """
         # Create highscore button to go back on main menu
         self.highscores = HighscoresButton(
             center_x=ScreenSettings.WIDTH // 2, center_y=600,
@@ -86,6 +110,7 @@ class HighscoresScreen(BaseMenu):
             y -= 50
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """Handles keyboard navigation adjustments and ESC exits."""
         if symbol == arcade.key.ESCAPE:
             if self.window:
                 self.window.show_view(self.previous_view)
@@ -107,6 +132,9 @@ class HighscoresScreen(BaseMenu):
                 self.highscores.on_click()
 
     def on_draw(self) -> None:
+        """
+        Renders the ocean backdrop asset along with the text collection rows.
+        """
         self.clear()
         # Draw the beach background
         arcade.draw_texture_rect(
@@ -120,6 +148,7 @@ class HighscoresScreen(BaseMenu):
             txt.draw()
 
     def on_update(self, delta_time: float) -> None:
+        """Updates layout hover triggers and physics states for UI assets."""
         # Update the highscore sprite to check if user touch it or not
         self.button_list.update()
         for sprite in self.button_list:

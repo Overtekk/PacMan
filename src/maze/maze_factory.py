@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:44:15 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:31:21 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -46,7 +46,24 @@ W = [8, 9, 10, 11, 12, 13, 14, 15]
 
 
 class MazeFactory:
+    """Generates maze wall sprite data and computes layout parameters.
+
+    Wraps the external maze generator module to produce a flat list of
+    wall sprite tuples ready for the renderer, and exposes tile size and
+    offset values for use by the rest of the game.
+
+    Attributes:
+        width (int): Maze width in tiles.
+        height (int): Maze height in tiles.
+        tile_size (float): Computed tile size in pixels.
+        offset_x (float): Horizontal pixel offset to centre the maze.
+        offset_y (float): Vertical pixel offset to centre the maze.
+        grid_data (list[list[int]]): Raw cell values from the maze generator.
+        wall_sprites_list (list[str]): Flat list of sprite paths used for
+        walls.
+    """
     def __init__(self) -> None:
+        """Initialize MazeFactory and load the maze generator module."""
         self._maze_class: Any = load_mazegenerator()
 
     def generate_maze(
@@ -54,6 +71,27 @@ class MazeFactory:
         screen_width: int, screen_height: int, seed: str = ""
 
     ) -> list[tuple[str, float, float, float, float]]:
+        """Generate the maze and return wall sprite data for the renderer.
+
+        Computes tile size and offsets from the available screen space, then
+        maps each cell of the generated maze to one or more wall sprites
+        based on its open/closed neighbours.
+
+        Args:
+            width (int): Number of tiles horizontally.
+            height (int): Number of tiles vertically.
+            textures (dict[str, Any]): Texture path mapping from the asset
+                manager.
+            screen_width (int): Full screen width in pixels.
+            screen_height (int): Full screen height in pixels (100 px are
+                reserved for the HUD).
+            seed (str, optional): Seed string for deterministic generation.
+                Empty string means random. Defaults to "".
+
+        Returns:
+            list[tuple[str, float, float, float, float]]: Each tuple contains
+                (sprite_path, angle, center_x, center_y, tile_size).
+        """
         screen_height -= 100
         self.width = width
         self.height = height
@@ -148,6 +186,15 @@ class MazeFactory:
         return wall_data
 
     def get_pixel_coordinates(self, col: int, row: int) -> tuple[float, float]:
+        """Convert a maze grid cell index to its pixel centre coordinates.
+
+        Args:
+            col (int): Column index of the cell (0-based, left to right).
+            row (int): Row index of the cell (0-based, top to bottom).
+
+        Returns:
+            tuple[float, float]: Pixel (x, y) of the tile centre.
+        """
 
         x = col * self.tile_size + self.tile_size / 2 + self.offset_x
         y = ((self.height - 1 - row) *
@@ -159,6 +206,21 @@ class MazeFactory:
 def generate_bytes_maze(
     grid: list[list[int]], width: int, height: int
 ) -> dict[tuple[int, int], int]:
+    """Convert raw maze cell data into an extended walkability bitmap.
+
+    Builds a (2*height+1) x (2*width+1) grid where 0 means open and 1 means
+    wall. Isolated open cells (completely surrounded by walls) are also marked
+    as walls to block invalid spawn positions inside the 42 marker.
+
+    Args:
+        grid (list[list[int]]): Raw cell values from the maze generator.
+        width (int): Maze width in tiles.
+        height (int): Maze height in tiles.
+
+    Returns:
+        dict[tuple[int, int], int]: Mapping from (col, row) in the extended
+            grid to 0 (open) or 1 (wall).
+    """
     # Calculation of grid dimensions
     rows: int = 2 * height + 1
     cols: int = 2 * width + 1

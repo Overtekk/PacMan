@@ -129,6 +129,16 @@ class EnemyBrain():
 	- _go_to_position(self, pos_x, pos_y)
 ```
 
+#### Dog_brain.py
+```python
+class FoxBrain(EnemyBrain):
+	- update(self, delta_time):
+		- update the dog by checking its state and its coordinates
+	- _update_coords(self)
+	- _get_radius(self)
+	- _go_to_position(self, pos_x, pos_y)
+```
+
 #### Fox_brain.py
 ```python
 class FoxBrain(EnemyBrain):

@@ -2,6 +2,13 @@
 #### *anacharp + roandrie*
 
 ---
+### 12/06/2026
+- anacharp
+	- standardization
+	- fix dog algo
+	- project_management : project_plan, architecture and test_plan
+	- docstring
+
 ### 10/06/2026
 - anacharp
 	- enemy dog algo

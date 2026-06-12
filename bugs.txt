@@ -1,0 +1,4 @@
+- enemies trop rapide en mode chase (ils doivent pouvoir rattraper pacman difficilement, une ligne droite est mortel, un angle permet de gagner de la vitesse)
+- enemies trop rapide en mode eatable (ils doivent être super lent et pacman ne doit pas avoir de difficulté a les rattraper)
+- vitesse des ennemies globales trop rapides
+- bug respawn spawnpoint (romain en train de fix)

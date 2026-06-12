@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:53 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/11 11:22:26 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 11:47:46 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -30,6 +30,27 @@ class RatEnemy(Enemy):
         speed: float,
         is_edible: bool = False
     ) -> None:
+        """Initialize the Rat enemy entity with its specific AI behavior.
+
+        Args:
+            spawn_point (tuple[int, int]): Grid coordinates for spawning.
+            sprite_sheet_move (list[arcade.Texture]): Textures used during
+            regular movement.
+            sprite_sheet_eatable (list[arcade.Texture]): Textures used when
+            vulnerable.
+            sprite_sheet_died (list[arcade.Texture]): Textures used when
+            defeated.
+            maze_bitmap (dict[tuple[int, int], int]): Matrix representation of
+            the maze walls.
+            calculator (SuperCalculator): Utility instance for coordinates
+            calculations.
+            player_ref (Player): Reference to the player instance for
+            targeting.
+            scale (float): Visual scale factor.
+            speed (float): Movement speed of the entity.
+            is_edible (bool, optional): Initial vulnerability state. Defaults
+            to False.
+        """
 
         super().__init__(
             spawn_point=spawn_point,

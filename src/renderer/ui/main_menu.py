@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 16:10:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:57:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,12 +26,23 @@ from src.utils import load_sprite_sheet
 
 
 class Pursuit(arcade.Sprite):
+    """Animate enemy entities running across the background layout panel."""
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  parent_view: arcade.View,
                  textures_list: list[arcade.Texture],
                  scale: float = 1.8) -> None:
+        """Initializes the background pursuit enemy sprite.
+
+        Args:
+            center_x (float): Starting horizontal screen coordinate.
+            center_y (float): Starting vertical screen coordinate.
+            parent_view (arcade.View): The calling parent menu view.
+            textures_list (list[arcade.Texture]): Collection of sequential
+            animation textures.
+            scale (float): Geometric rendering resolution scale factor.
+        """
 
         super().__init__(path_or_texture=textures_list[0],
                          center_x=center_x,
@@ -42,6 +53,11 @@ class Pursuit(arcade.Sprite):
         self.textures_list = textures_list
 
     def on_update(self, delta_time: float) -> None:
+        """Moves ghosts horizontally, wrapping them around screen boundaries.
+
+        Args:
+            delta_time (float): Time step delta since last window refresh.
+        """
         # Move the ghosts, if they go out of the screen they come back on the
         # other side
         self.center_x += self.change_x
@@ -50,12 +66,17 @@ class Pursuit(arcade.Sprite):
 
 
 class Pacman(arcade.Sprite):
+    """
+    Decorative main hero sprite chasing or fleeing elements across the menu
+    panel.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  parent_view: arcade.View,
                  textures_list: list[arcade.Texture],
                  scale: float = 1.8) -> None:
+        """Initializes the menu decoration Pacman sprite."""
 
         super().__init__(path_or_texture=textures_list[0],
                          center_x=center_x,
@@ -69,6 +90,11 @@ class Pacman(arcade.Sprite):
         self.animation_speed = 0.1
 
     def on_update(self, delta_time: float) -> None:
+        """Advances positions and sequences frame sets for moving wings/beaks.
+
+        Args:
+            delta_time (float): Time step delta since last frame update.
+        """
         # Move the pacman, if he goes out of the screen he comes back on the
         # other side
         self.center_x += self.change_x
@@ -85,12 +111,16 @@ class Pacman(arcade.Sprite):
 
 
 class LogoButton(BaseButton):
+    """
+    Dynamic logo element handling sine wave scaling behaviors and Easter Eggs.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View,
                  scale: float = 1.3) -> None:
+        """Initializes the automated floating title component banner."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -108,6 +138,12 @@ class LogoButton(BaseButton):
         self.sprite_path = sprite_path
 
     def on_update(self, delta_time: float) -> None:
+        """Applies mathematical smooth float curves onto scaling values over
+        time.
+
+        Args:
+            delta_time (float): Time step delta since last update.
+        """
         # Animate logo
         self.total_time += delta_time
         if self.is_landing:
@@ -121,6 +157,10 @@ class LogoButton(BaseButton):
             self.scale_y = 1.0 + math.cos(t * 3) * 0.05
 
     def on_click(self) -> None:
+        """
+        Toggles alternative graphic skins and swaps menu soundtrack tracks on
+        click.
+        """
         # Easter egg : change logo clicking on it
         if self.gullman is False:
             path = self.parent_view.window.asset_manager.textures["gullman"]
@@ -143,17 +183,26 @@ class LogoButton(BaseButton):
             self.parent_view._play_music()
 
     def check_hover(self, x: float, y: float) -> None:
+        """
+        Overrides hover behaviors to prevent discoloration, hiding the Easter
+        egg.
+        """
         # Cancel the light gray color when the mouse is on the sprite to hide
         # the easter egg
         pass
 
 
 class CheatButton(BaseButton):
+    """
+    Button providing entrance accessibility into locked cheat configuration
+    modes.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes the developers cheat engine entrance node."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -161,6 +210,7 @@ class CheatButton(BaseButton):
                          parent_view=parent_view)
 
     def on_click(self) -> None:
+        """Directs screen flow into active developer panel overlays."""
         # Go on cheat menu
         from src.renderer.ui.cheat_menu import CheatMenu
         if hasattr(self.parent_view, 'background'):
@@ -171,11 +221,16 @@ class CheatButton(BaseButton):
 
 
 class ExitButton(BaseButton):
+    """
+    Button that shuts down context tasks and closes the game application
+    window.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes application shutdown control nodes."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -183,17 +238,22 @@ class ExitButton(BaseButton):
                          parent_view=parent_view)
 
     def on_click(self) -> None:
+        """Termines engine instances and kills system process environments."""
         # Close arcade
         arcade.exit()
         exit()
 
 
 class InstructionsButton(BaseButton):
+    """
+    Button redirection leading toward informational gameplay manual guides.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes control routes into manual information guides."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -201,6 +261,9 @@ class InstructionsButton(BaseButton):
                          parent_view=parent_view)
 
     def on_click(self) -> None:
+        """
+        Swaps display containers to initialize rule manual presentation views.
+        """
         # Go on instructions menu
         instructions = InstructionsScreen(previous_view=self.parent_view)
         if self.parent_view.window:
@@ -208,11 +271,16 @@ class InstructionsButton(BaseButton):
 
 
 class HighscoresButton(BaseButton):
+    """
+    Button redirection routing players into saved history leaderboard
+    scoreboards.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View,) -> None:
+        """Initializes highscore list navigation nodes."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -220,6 +288,10 @@ class HighscoresButton(BaseButton):
                          parent_view=parent_view,)
 
     def on_click(self) -> None:
+        """
+        Loads and swaps display contexts to view historical ranking
+        spreadsheets.
+        """
         # Go on highscores menu
         if self.parent_view.window:
             self.parent_view.window.show_view(
@@ -228,11 +300,16 @@ class HighscoresButton(BaseButton):
 
 
 class PlayButton(BaseButton):
+    """
+    Button initialization path routing users forward to trigger game intro
+    modules.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes target pathways to advance into narrative intros."""
 
         super().__init__(center_x=center_x,
                          center_y=center_y,
@@ -240,6 +317,10 @@ class PlayButton(BaseButton):
                          parent_view=parent_view)
 
     def on_click(self) -> None:
+        """
+        Cuts environmental menu tracks and shifts tracking into animated game
+        introduction logs.
+        """
         # Stop the menu music
         if (hasattr(self.parent_view, 'musics')
            and hasattr(self.parent_view, 'i')
@@ -253,10 +334,17 @@ class PlayButton(BaseButton):
 
 
 class MainMenu(BaseMenu):
+    """
+    Primary central menu interface grouping game parameters, animations, and
+    options lists.
+    """
     # Initialise a count of key A pressed
     count_touch_A: int = 0
 
     def __init__(self) -> None:
+        """
+        Initializes beach layouts, ambient audio loops, and tracking variables.
+        """
         super().__init__()
         # Set a beach background
         self.background: arcade.Texture = arcade.load_texture(
@@ -274,6 +362,10 @@ class MainMenu(BaseMenu):
         self._play_music()
 
     def build_ui(self) -> None:
+        """
+        Draws functional navigation components and triggers decorative layout
+        loops.
+        """
         # Create buttons
 
         self.logo_button = LogoButton(
@@ -314,6 +406,10 @@ class MainMenu(BaseMenu):
         self.button_list.append(self.exit_button)
 
     def animation(self) -> None:
+        """
+        Parses external character asset documents to assemble the running
+        pursuit sequence.
+        """
         # Animate Pacman
         textures_list = load_sprite_sheet(
             textures=self.window.asset_manager.textures["player"],
@@ -365,6 +461,10 @@ class MainMenu(BaseMenu):
         pacman.change_x = 1000 / 700
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """
+        Maps menu arrows navigation steps, confirmations, and captures 'A' key
+        spamming secrets.
+        """
         if symbol == arcade.key.ESCAPE:
             # Close arcade
             arcade.exit()
@@ -436,6 +536,12 @@ class MainMenu(BaseMenu):
                 self.exit_button.on_click()
 
     def on_update(self, delta_time: float) -> None:
+        """Ticks animation parameters forward and verifies looping soundtrack
+        durations.
+
+        Args:
+            delta_time (float): Time step delta since last window frame step.
+        """
         # Update for animation
         self.menu_time += delta_time
         self.button_list.update()
@@ -449,6 +555,10 @@ class MainMenu(BaseMenu):
             self._play_music()
 
     def on_draw(self) -> None:
+        """
+        Clears drawing layouts to render fresh backdrop screens and navigation
+        lists.
+        """
         self.clear()
 
         # Draw the beach background
@@ -468,6 +578,10 @@ class MainMenu(BaseMenu):
     # :---------------:
 
     def _play_music(self) -> None:
+        """
+        Loops menu audio selections by referencing specific sound timing
+        metrics.
+        """
         self._music_duration = self.time_musics[self.i]
         self.audio_manager.play_sound(
             str(self.musics[self.i]), 0.8, True

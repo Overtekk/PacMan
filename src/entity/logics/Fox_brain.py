@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 12:18:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 11:55:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,12 +21,28 @@ if TYPE_CHECKING:
 
 
 class FoxBrain(EnemyBrain):
+    """Brain implementation specialized for FoxEnemy entities.
+
+    Injects behavior branches handling specific enrage loops (`ANGRY` status)
+    alongside traditional distance range scanning.
+    """
     def __init__(self, enemy: 'FoxEnemy') -> None:
+        """Initialize fox profile requirements and distances.
+
+        Args:
+            enemy (FoxEnemy): Controlled enemy entity reference.
+        """
         super().__init__(enemy)
 
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
+        """Intercept typical update channels to force rage state check
+        parameters.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         if (self.enemy.angry and not self.enemy.is_edible
            and not self.enemy.died):
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
@@ -47,11 +63,10 @@ class FoxBrain(EnemyBrain):
                 )
 
             if radius_distance > self.detection_radius:
-                if self.enemy.mode != EnemyState.SEARCH:
-                    self.enemy.mode = EnemyState.SEARCH
+                self.enemy.mode = EnemyState.SEARCH
 
-                    if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCH")
+                if game_config.debug_mode:
+                    print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:
@@ -67,6 +82,13 @@ class FoxBrain(EnemyBrain):
     # :---------------:
 
     def _update_coords(self) -> list[tuple[float, float]]:
+        """Collect pure pixel coordinates matching both the entity and player
+        targets.
+
+        Returns:
+            list[tuple[float, float]]: List containing enemy and player
+            positional positions.
+        """
         coords: list[tuple[float, float]] = []
 
         self_pxl_coords: tuple[float, float] = (
@@ -82,7 +104,11 @@ class FoxBrain(EnemyBrain):
         return coords
 
     def _get_radius(self) -> None:
-        highest_x: int = float('-inf')
+        """
+        Establish visual sensor boundaries adjusted across total map scaling
+        limits.
+        """
+        highest_x: float = float('-inf')
 
         for coords in self.enemy.maze_bitmap:
             x: int = coords[0]

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 17:07:37 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:11:55 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,20 @@ SUPERPACGUM_SCALE: float = 0.55
 
 
 class LevelManager():
+    """Manages level creation, maze generation, and entity/collectible
+    placement.
+
+    Responsible for coordinating procedural map layout data structures and
+    converting logical grid arrays into absolute engine workspace pixel
+    metrics.
+    """
     def __init__(self, game_window: arcade.Window) -> None:
+        """Initializes the level manager sub-components.
+
+        Args:
+            game_window (arcade.Window): Core framework layout window
+            reference.
+        """
 
         self.config: GameConfig = game_window.game_config
         self.asset_manager: dict[str, Path] = game_window.asset_manager
@@ -50,6 +63,19 @@ class LevelManager():
     def create_level(
         self, maze_width: int, maze_height: int, first_instance: bool = False
     ) -> list[tuple[str, float, float, float, float]]:
+        """Orchestrates procedural layout generation and fills matrices with
+        entities.
+
+        Args:
+            maze_width (int): Grid tile dimensions defining horizontal length.
+            maze_height (int): Grid tile dimensions defining vertical depth.
+            first_instance (bool): True forces tracking of structural seed
+            configurations.
+
+        Returns:
+            list[tuple[str, float, float, float, float]]: Collection of
+            geometric wall components.
+        """
 
         # Store the maze width & height in the class
         self.maze_width = maze_width
@@ -84,6 +110,16 @@ class LevelManager():
     def _create_maze_level(
         self, first_instance: bool = False
     ) -> list[tuple[str, float, float, float, float]]:
+        """Calls layout builders to construct mathematical grid textures.
+
+        Args:
+            first_instance (bool): True applies localized structural custom
+            seeding variables.
+
+        Returns:
+            list[tuple[str, float, float, float, float]]: Constructed geometric
+            walls list.
+        """
         # Instanciate the MazeFactory object
         self.factory = MazeFactory()
 
@@ -113,6 +149,11 @@ class LevelManager():
         return wall_data
 
     def _create_entity(self) -> None:
+        """Instantiates the Player character and all Enemy tracking modules.
+
+        Extracts layout positioning nodes and binds matching texture slices
+        to individual animation states.
+        """
         # Get the spawn positions of all entities
         spawn_positions: dict[str, tuple[int, int]] = (
             self._get_spawn_positions()
@@ -249,10 +290,19 @@ class LevelManager():
                 (self.factory.tile_size * ENEMIES_SCALE) / 32)
 
     def _create_collectibles(self) -> None:
+        """
+        Centralized interface mapping to spawn standard items and power units.
+        """
         self._create_super_pacgum()
         self._create_pacgum()
 
     def _create_pacgum(self) -> None:
+        """Populates layout routes with standard Pacgums based on procedural
+        spawn rules.
+
+        Filters out wall bytes, coordinates containing structural entity hubs,
+        and outer corner tiles to prevent duplication.
+        """
         self.pacgums_list.clear()
 
         # List of coords where pacgums can't spawn on
@@ -306,6 +356,7 @@ class LevelManager():
                     first = False
 
     def _create_super_pacgum(self) -> None:
+        """Spawns Super Pacgums at the four outer navigation boundaries."""
         self.super_pacgums_list.clear()
 
         # Get the coordinates of each corners
@@ -326,6 +377,12 @@ class LevelManager():
                 self.super_pacgums_list.append(collectible)
 
     def _get_spawn_positions(self) -> dict[str, tuple[int, int]]:
+        """Calculates precise pixel coordinates for actor spawn anchors.
+
+        Returns:
+            dict[str, tuple[int, int]]: Mapping matching character names to
+            pixel coordinate pairs.
+        """
         spawn_dict: dict[str, tuple[int, int]] = {}
 
         # Placing the player
@@ -382,6 +439,23 @@ class LevelManager():
     def _find_valid_position(
         self, entity_name: str, start_coords: tuple[int, int]
     ) -> tuple[int, int]:
+        """Scans the neighboring node layout to find an open corridor tile.
+
+        Used as a fallback when a preferred spawn location is blocked by a
+        wall.
+
+        Args:
+            entity_name (str): Name identifier of the character being placed.
+            start_coords (tuple[int, int]): Initial blocked grid coordinates
+            (row, col).
+
+        Returns:
+            tuple[int, int]: The closest open grid coordinates available.
+
+        Raises:
+            ValueError: If no open tiles are found within a 5-step search
+            radius.
+        """
         row: int = start_coords[0]
         col: int = start_coords[1]
         case: int = 1
@@ -440,6 +514,13 @@ class LevelManager():
         return valid_coords
 
     def _get_corners_coords_pixels(self) -> dict[str, tuple[int, int]]:
+        """Calculates absolute pixel coordinates for the four corners of the
+        map.
+
+        Returns:
+            dict[str, tuple[int, int]]: Mapping of corner keys to absolute
+            pixel pairs.
+        """
         corners_coords_list: dict[str, tuple[int, int]] = {}
 
         raw_upper_left: tuple[int, int] = self._get_raw_coords(
@@ -480,6 +561,19 @@ class LevelManager():
     def _get_raw_coords(
         self, entity_name: str, coords: tuple[int, int]
     ) -> tuple[int, int]:
+        """Maps logical coordinates to expandable odd indices used by the
+        bitmap matrix.
+
+        Falls back to finding a valid neighboring tile if the target index
+        is blocked.
+
+        Args:
+            entity_name (str): Character or component key identifier string.
+            coords (tuple[int, int]): Ideal compressed coordinates pair.
+
+        Returns:
+            tuple[int, int]: Valid unblocked layout coordinates.
+        """
 
         x = coords[0]
         y = coords[1]

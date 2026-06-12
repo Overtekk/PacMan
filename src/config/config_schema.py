@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:33:19 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 13:21:37 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:45:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,6 +14,10 @@ from pydantic import BaseModel, Field
 
 
 class LevelConfig(BaseModel):
+    """Configuration schema for an individual game level.
+
+    Defines the structural boundaries and identification of a level.
+    """
     name: str = Field(
         min_length=1,
         default="level_name",
@@ -46,6 +50,11 @@ DEFAULT_LEVELS: list[LevelConfig] = [
 
 
 class GameConfig(BaseModel):
+    """Global configuration schema for the game.
+
+    Validates scoring systems, player parameters, and level sequences
+    using Pydantic features.
+    """
     highscore_filename: str = Field(
         min_length=6,
         pattern=r'^data/.+\.json$',

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 12:19:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:07:06 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -39,7 +39,18 @@ CODE_TIMER: float = 5.0
 
 
 class GameEngine(arcade.View):
+    """Core arcade gameplay engine orchestrating rendering, update updates,
+    and input.
+
+    Implements game loops, manages animations for entity deaths, level entry
+    routines,
+    and interprets hidden input strings like cheat configurations.
+    """
     def __init__(self) -> None:
+        """
+        Initializes game subsystems, configuration options, and internal
+        metrics.
+        """
         super().__init__()
 
         # Get the global config
@@ -84,9 +95,22 @@ class GameEngine(arcade.View):
 
     @property
     def code_found(self) -> bool:
+        """Retrieves whether the secret Easter Egg configuration sequence was
+        unlocked.
+
+        Returns:
+            bool: True if unlocked.
+        """
         return self._code_found
 
     def on_update(self, delta_time: float) -> None:
+        """Performs step calculations for physics, rendering UI components,
+        and state trees.
+
+        Args:
+            delta_time (float): Computational framing slice tracking
+            performance.
+        """
         # Cap the delta time to avoid crash, teleportation if game is frozen
         if delta_time > game_config.delta_time_cap:
             delta_time = game_config.delta_time_cap
@@ -131,6 +155,9 @@ class GameEngine(arcade.View):
                 self.state_manager.win()
 
     def on_draw(self) -> None:
+        """
+        Dispatches active scene asset rendering commands to the output device.
+        """
         # Clear the clear
         self.clear()
 
@@ -148,6 +175,9 @@ class GameEngine(arcade.View):
             text.draw()
 
     def on_show_view(self) -> None:
+        """
+        Prepares operational parameters upon context view entry activations.
+        """
         # Clear the screen
         self.clear()
 
@@ -160,6 +190,14 @@ class GameEngine(arcade.View):
             self.game_renderer.draw()
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """Processes raw key signatures into direction requests or debugging
+        events.
+
+        Args:
+            symbol (int): Specific code mapping representing the hardware key
+            pressed.
+            _modifiers (int): Context bitmask flags (Shift, Ctrl, Alt).
+        """
         if self.game_state == GameState.STARTING:
             if symbol == arcade.key.SPACE:
                 self.game_renderer.gui_camera.zoom = 1.0
@@ -238,6 +276,12 @@ class GameEngine(arcade.View):
                     )
 
     def setup(self, first_instance: bool = False) -> None:
+        """Initializes structures, resets scoreboard indices, and constructs
+        layout instances.
+
+        Args:
+            first_instance (bool): True resets permanent run data.
+        """
         if first_instance:
             self.state_manager.current_level_index = 0
             self.state_manager.score = 0
@@ -286,6 +330,10 @@ class GameEngine(arcade.View):
         self.game_state = GameState.STARTING
 
     def cheat_skip_current_level(self) -> None:
+        """
+        Forces immediate procedural step progression into subsequent layout
+        levels.
+        """
         self.cheat_skip_level = False
 
         self.audio_manager.stop_all_sounds()
@@ -304,6 +352,15 @@ class GameEngine(arcade.View):
     # :---------------:
 
     def _state_paused(self, delta_time: float) -> None:
+        """Executes animation loops and transition states while gameplay is
+        suspended.
+
+        Handles events like enemy death scoring popups, level transition spins,
+        and player death scaling animations.
+
+        Args:
+            delta_time (float): Computational slice scaling physics actions.
+        """
         self._timer_pause -= delta_time
 
         # Animation when enemy died
@@ -351,6 +408,11 @@ class GameEngine(arcade.View):
                 self.game_state = GameState.RESPAWN
 
     def _state_play(self, delta_time: float) -> None:
+        """Processes core active frame updates for input tracking and actors.
+
+        Args:
+            delta_time (float): Computational slice tracking updates.
+        """
         # - SUPER PACGUM MANAGING -
         self._super_pacgum_timer_manager(delta_time)
 
@@ -365,6 +427,12 @@ class GameEngine(arcade.View):
         self._check_collectibles_left()
 
     def _super_pacgum_timer_manager(self, delta_time: float) -> None:
+        """Updates power-up expiration states and restores enemy status upon
+        timeout.
+
+        Args:
+            delta_time (float): Performance timing tracking delta value.
+        """
         # Check if a pacgum have been activate
         if self._pacgum_timer > 0.0:
             # Start the timer
@@ -393,6 +461,10 @@ class GameEngine(arcade.View):
                     enemy_obj.speed = self.level_manager.enemy_speed
 
     def _enemies_blinking(self) -> None:
+        """
+        Cycles color properties on edible enemies to indicate power-up
+        expiration.
+        """
         BLINK_SPEED: float = 0.30
 
         if 0.0 < self._pacgum_timer <= 3.0:
@@ -407,6 +479,11 @@ class GameEngine(arcade.View):
                         enemy_obj.sprite.color = (64, 99, 193)
 
     def _main_timer_manager(self, delta_time: float) -> None:
+        """Decrements the stage round timer and triggers timeouts.
+
+        Args:
+            delta_time (float): Delta frame execution modifier.
+        """
         self.state_manager.time_left -= delta_time
 
         if int(self.state_manager.time_left) <= 0:
@@ -417,6 +494,13 @@ class GameEngine(arcade.View):
     def _collision_manager(
         self, collision_result: LevelState, delta_time: float
     ) -> None:
+        """Reacts to evaluated status changes generated by the
+        CollisionManager.
+
+        Args:
+            collision_result (LevelState): Context condition signal.
+            delta_time (float): System frame processing calculation step.
+        """
         # Player have completed the level
         if collision_result == LevelState.LEVEL_COMPLETED:
             self.audio_manager.stop_all_sounds()
@@ -458,6 +542,10 @@ class GameEngine(arcade.View):
                     s_pacgum.update(delta_time)
 
     def _check_collectibles_left(self) -> None:
+        """
+        Triggers ghost rage behavior parameters once item density drops below
+        30%.
+        """
         if self._can_enemy_be_angry:
             nb_pacgum_left = len(self.coll_manager.pacgums_sprite_list)
 
@@ -467,6 +555,10 @@ class GameEngine(arcade.View):
                 self._can_enemy_be_angry = False
 
     def _state_respawn(self) -> None:
+        """
+        Resets structural position attributes across all entities to target
+        defaults.
+        """
         # Reset the player
         self._reset_entities(self.player)
 
@@ -480,6 +572,12 @@ class GameEngine(arcade.View):
         self.game_state = GameState.STARTING
 
     def _timer_start(self, delta_time: float) -> None:
+        """Updates the introductory round countdown and dispatches sound
+        feedback cues.
+
+        Args:
+            delta_time (float): Delta frame scaling tracker.
+        """
         # Save the current second
         previous_second: int = int(self._current_timer_start) + 1
 
@@ -510,6 +608,12 @@ class GameEngine(arcade.View):
             self._setup_start()
 
     def _timer_konami_code(self, delta_time: float) -> None:
+        """Monitors entry elapsed limits before resetting tracked cheat key
+        arrays.
+
+        Args:
+            delta_time (float): Computational scale tracking slice.
+        """
         if self._index > 0 and not self._code_found:
             self._timer_code += delta_time
 
@@ -519,6 +623,13 @@ class GameEngine(arcade.View):
                 self._code.clear()
 
     def _setup_entities(self) -> None:
+        """Establishes tracking fields, handles initial AI modes, and groups
+        sprites.
+
+        Registers player and enemy entities inside the central renderer and
+          defaults
+        enemy states to initial waiting routines.
+        """
 
         # Create a reference of all movable entities
         self.player = self.level_manager.player
@@ -549,6 +660,12 @@ class GameEngine(arcade.View):
         self.game_renderer.setup_entities(self.player.sprite)
 
     def _setup_start(self) -> None:
+        """Transitions the engine state to live gameplay and initiates audio
+        streams.
+
+        Evaluates active modifier cheats such as frozen AI states and releases
+        enemies from waiting zones into layout wandering tracks.
+        """
         self.game_state = GameState.PLAYING
 
         self._change_entities_movement(True)
@@ -564,6 +681,13 @@ class GameEngine(arcade.View):
             enemy_obj.mode = EnemyState.WANDER
 
     def _setup_collectibles(self) -> None:
+        """Instantiates structural sprite lists for items and loads layout
+        coordinates.
+
+        Iterates through map lists to separate standard items from power
+        structures,
+        passing assets to the visual engine array.
+        """
         # List containing all super_pacgums sprites
         self.super_pacgum_sprite_list: arcade.SpriteList[Any] = (
             arcade.SpriteList()
@@ -591,6 +715,17 @@ class GameEngine(arcade.View):
             )
 
     def _reset_entities(self, entity: Any) -> None:
+        """Restores structural defaults on a single entity following a round
+        interruption.
+
+        Resets position paths, orientation vectors, speed alterations, and
+        custom
+        vulnerability status flags.
+
+        Args:
+            entity (Any): The movable character or engine instance requiring
+            resetting.
+        """
         # Block movement
         entity.can_move = False
 
@@ -616,11 +751,26 @@ class GameEngine(arcade.View):
             entity.is_edible = False
 
     def _change_entities_movement(self, movement: bool) -> None:
+        """Global flag modifier mapping that controls mobile activity fields.
+
+        Args:
+            movement (bool): Explicit state requested (True releases actors,
+            False locks them).
+        """
         self.player.can_move = movement
         for enemy in self.level_manager.enemies_list.values():
             enemy.can_move = movement
 
     def _show_score_text(self, x: float, y: float, txt_name: str) -> None:
+        """Generates dynamic scoreboard text objects in response to point
+        awards.
+
+        Args:
+            x (float): Target display coordinate matching horizontal space.
+            y (float): Target display coordinate matching vertical space.
+            txt_name (str): Key string identifier assigned within the
+            dictionary structure.
+        """
         score_text: arcade.Text = arcade.Text(
             text=f'{self.config.ghost_points}', x=x, y=y,
             color=arcade.color.BLEU_DE_FRANCE, font_size=20,
@@ -630,6 +780,12 @@ class GameEngine(arcade.View):
         self._floating_texts[txt_name] = score_text
 
     def _play_level_music(self, level_index: int) -> None:
+        """Starts looping background audio sequences tuned to the specific
+        level index.
+
+        Args:
+            level_index (int): Zero-indexed current map layout tracking value.
+        """
         # +1 because we start at the index 0
         self.level_sound: str = f'music_level{level_index + 1}'
 

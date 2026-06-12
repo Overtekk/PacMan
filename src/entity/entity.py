@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:49:03 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 11:26:47 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,12 +25,33 @@ if TYPE_CHECKING:
 
 
 class Entity(ABC):
+    """Abstract base class for all game entities.
+
+    Handles the logical position and the associated Arcade sprite.
+    Position properties keep the sprite in sync with the logical coordinates.
+
+    Attributes:
+        calculator (SuperCalculator): Coordinate conversion helper.
+        spawn_point (tuple[int, int]): Initial pixel position.
+        sprite (arcade.Sprite): The visual representation of the entity.
+    """
+
     def __init__(
         self, spawn_point: tuple[int, int],
         sprite_path_or_texture: str | arcade.Texture,
         calculator: SuperCalculator,
         scale: float = 1.0
     ) -> None:
+        """Initialize an Entity.
+
+        Args:
+            spawn_point (tuple[int, int]): Starting pixel coordinates (x, y).
+            sprite_path_or_texture (str | arcade.Texture): Path to the sprite
+                image or an already loaded Arcade Texture.
+            calculator (SuperCalculator): Helper for coordinate conversions.
+            scale (float, optional): Scale factor for the sprite. Defaults to
+            1.0.
+        """
 
         self.calculator = calculator
 
@@ -51,6 +72,7 @@ class Entity(ABC):
 
     @property
     def x(self) -> float:
+        """float: Logical x position, kept in sync with the sprite."""
         return self._x
 
     @x.setter
@@ -60,6 +82,7 @@ class Entity(ABC):
 
     @property
     def y(self) -> float:
+        """float: Logical y position, kept in sync with the sprite."""
         return self._y
 
     @y.setter
@@ -69,10 +92,28 @@ class Entity(ABC):
 
     @abstractmethod
     def update(self, delta_time: float) -> None:
+        """Update the entity state for the current frame.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         pass
 
 
 class Movable(Entity):
+    """Abstract entity that can move and be animated.
+
+    Extends Entity with a sprite sheet, speed, directional movement,
+    and an animation system.
+
+    Attributes:
+        textures (list[arcade.Texture]): Frames of the sprite sheet.
+        can_move (bool): Whether movement is currently allowed.
+        speed (float): Movement speed in pixels per second.
+        current_direction (tuple[float, float]): Active movement vector.
+        _next_direction (tuple[float, float]): Buffered next direction.
+    """
+
     def __init__(
         self,
         spawn_point: tuple[int, int],
@@ -81,6 +122,16 @@ class Movable(Entity):
         scale: float = 1.0,
         speed: float = 100.0
     ) -> None:
+        """Initialize a Movable entity.
+
+        Args:
+            spawn_point (tuple[int, int]): Starting pixel coordinates (x, y).
+            sprite_sheet (list[arcade.Texture]): Ordered list of animation
+            frames.
+            calculator (SuperCalculator): Helper for coordinate conversions.
+            scale (float, optional): Sprite scale factor. Defaults to 1.0.
+            speed (float, optional): Movement speed in px/s. Defaults to 100.0.
+        """
 
         self.textures: list[arcade.Texture] = sprite_sheet
         self.current_texture_index: int = 0
@@ -97,6 +148,11 @@ class Movable(Entity):
         self._animation_timer = 0.0
 
     def update(self, delta_time: float) -> None:
+        """Move the entity and update the animation.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         dx = self.current_direction[0] * self.speed * delta_time
         dy = self.current_direction[1] * self.speed * delta_time
         self.x += dx
@@ -105,9 +161,11 @@ class Movable(Entity):
         self._update_animation(delta_time)
 
     def respawn(self) -> None:
+        """Teleport the entity back to its spawn point."""
         self.x, self.y = self.spawn_point
 
     def reset_animation(self) -> None:
+        """Reset sprite orientation and texture to the initial state."""
         self.sprite.scale_x = self._base_facing
         self.sprite.angle = self._base_angle
         self.sprite.texture = self.textures[0]
@@ -115,14 +173,39 @@ class Movable(Entity):
 
     @abstractmethod
     def _update_animation(self, delta_time: float) -> None:
+        """Update the current animation frame.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         pass
 
     @abstractmethod
     def die(self, delta_time: float) -> None:
+        """Handle the death of this entity.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         pass
 
 
 class Enemy(Movable):
+    """Movable enemy entity with AI, state machine, and multiple sprite sheets.
+
+    Delegates movement logic to an EnemyBrain instance and switches between
+    three sprite sheets depending on the current state (normal, eatable, died).
+
+    Attributes:
+        sprite_sheet_eatable (list[arcade.Texture]): Frames for eatable state.
+        sprite_sheet_died (list[arcade.Texture]): Frames for died/respawn
+        state.
+        maze_bitmap (dict[tuple[int, int], int]): Walkability map of the maze.
+        player_ref (Player): Reference to the player entity.
+        base_speed (float): Default movement speed before modifiers.
+        brain (EnemyBrain): AI brain handling state transitions and movement.
+    """
+
     def __init__(
         self,
         spawn_point: tuple[int, int],
@@ -138,6 +221,26 @@ class Enemy(Movable):
         angry: bool = False,
         enemy_state: EnemyState = EnemyState.WAIT
     ) -> None:
+        """Initialize an Enemy.
+
+        Args:
+            spawn_point (tuple[int, int]): Starting pixel coordinates (x, y).
+            sprite_sheet_move (list[arcade.Texture]): Normal movement frames.
+            sprite_sheet_eatable (list[arcade.Texture]): Eatable state frames.
+            sprite_sheet_died (list[arcade.Texture]): Died/respawn state
+            frames.
+            maze_bitmap (dict[tuple[int, int], int]): Maze walkability map.
+            calculator (SuperCalculator): Helper for coordinate conversions.
+            player_reference (Player): Reference to the player entity.
+            scale (float): Sprite scale factor.
+            speed (float): Base movement speed in px/s.
+            is_edible (bool, optional): Whether the enemy can be eaten.
+                Defaults to False.
+            angry (bool, optional): Whether the enemy starts in angry mode.
+                Defaults to False.
+            enemy_state (EnemyState, optional): Initial AI state.
+                Defaults to EnemyState.WAIT.
+        """
 
         super().__init__(
             spawn_point, sprite_sheet_move, calculator, scale, speed
@@ -171,6 +274,7 @@ class Enemy(Movable):
 
     @property
     def is_edible(self) -> bool:
+        """bool: Whether the enemy can currently be eaten by the player."""
         return self._is_edible
 
     @is_edible.setter
@@ -179,6 +283,7 @@ class Enemy(Movable):
 
     @property
     def mode(self) -> EnemyState:
+        """EnemyState: Current AI state of the enemy."""
         return self._mode
 
     @mode.setter
@@ -187,10 +292,12 @@ class Enemy(Movable):
 
     @property
     def died(self) -> bool:
+        """bool: Whether the enemy has been eaten and is in its died state."""
         return self._died
 
     @property
     def have_respawned(self) -> bool:
+        """bool: Whether the enemy has completed a respawn cycle."""
         return self._have_respawned
 
     @have_respawned.setter
@@ -199,6 +306,7 @@ class Enemy(Movable):
 
     @property
     def angry(self) -> bool:
+        """bool: Whether the enemy is in angry mode."""
         return self._angry
 
     @angry.setter
@@ -206,6 +314,11 @@ class Enemy(Movable):
         self._angry = new_value
 
     def update(self, delta_time: float) -> None:
+        """Update the enemy: run AI brain, update sprite, apply movement.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         # Delegate logic execution to the brain
         if self.can_move:
             self.brain.update(delta_time)
@@ -219,6 +332,13 @@ class Enemy(Movable):
         super().update(delta_time)
 
     def die(self, delta_time: float) -> None:
+        """Trigger the enemy death sequence when eaten by the player.
+
+        Switches the enemy to the RESPAWN state and makes it semi-transparent.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame in seconds.
+        """
         if self._is_edible:
             self._died = True
             self._is_edible = False
@@ -232,6 +352,11 @@ class Enemy(Movable):
                 print_log(f"Changed state for {self} to RESPAWN")
 
     def _update_animation(self, _delta_time: float) -> None:
+        """Select the correct animation frame based on the current direction.
+
+        Args:
+            _delta_time (float): Unused, required by the abstract interface.
+        """
         match self.current_direction:
             case (1.0, 0.0):
                 self.current_texture_index = 0
@@ -243,6 +368,7 @@ class Enemy(Movable):
                 self.current_texture_index = 3
 
     def _update_sprite(self) -> None:
+        """Switch the active sprite sheet based on the current AI state."""
         if self.mode == EnemyState.RESPAWN:
             self.sprite.texture = self.sprite_sheet_died[
                 self.current_texture_index
@@ -256,6 +382,12 @@ class Enemy(Movable):
 
 
 class Collectible(Entity):
+    """Static collectible entity placed in the maze.
+
+    Attributes:
+        score (int): Points awarded to the player upon collection.
+    """
+
     def __init__(
         self,
         spawn_point: tuple[int, int],
@@ -264,6 +396,15 @@ class Collectible(Entity):
         scale: float = 1.0,
         score: int = 0
     ) -> None:
+        """Initialize a Collectible.
+
+        Args:
+            spawn_point (tuple[int, int]): Pixel position of the collectible.
+            sprite_data (str | arcade.Texture): Sprite path or texture.
+            calculator (SuperCalculator): Helper for coordinate conversions.
+            scale (float, optional): Sprite scale factor. Defaults to 1.0.
+            score (int, optional): Points awarded on collection. Defaults to 0.
+        """
 
         super().__init__(spawn_point, sprite_data, calculator, scale)
 
@@ -272,7 +413,13 @@ class Collectible(Entity):
 
     @property
     def score(self) -> int:
+        """int: Points awarded to the player upon collecting this item."""
         return self._score
 
     def update(self, delta_time: float) -> None:
+        """No-op update for static collectibles.
+
+        Args:
+            delta_time (float): Unused.
+        """
         pass
