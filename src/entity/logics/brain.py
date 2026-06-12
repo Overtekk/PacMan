@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:53:30 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 14:16:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -94,11 +94,8 @@ class EnemyBrain():
             self._move()
 
         elif self.enemy.mode == EnemyState.SEARCH:
-            self.enemy.speed = (
-                self.enemy.base_speed + 1
-            )
-            self._go_to_position(self.enemy.player_ref.x,
-                                 self.enemy.player_ref.y)
+            self.enemy.speed = self.enemy.base_speed + 1
+            self._execute_search_state()
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
@@ -132,6 +129,9 @@ class EnemyBrain():
                 self.enemy._timer_check_respawn = (
                     game_config.enemy_check_res_timer
                 )
+
+    def _execute_search_state(self) -> None:
+        self._go_to_position(self.enemy.player_ref.x, self.enemy.player_ref.y)
 
     def _get_available_moves(
         self
@@ -440,38 +440,77 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
-        """Compute an ideal path to a grid target using the A* pathfinding
-        algorithm.
+        open_walls = self._get_available_moves()
+        if not open_walls:
+            return
 
-        Args:
-            target (tuple[int, int]): Target grid coordinate mapping (x, y).
-        """
-        self_coords = (
-                int(self.enemy.calculator.get_pixel_to_grid_entity(self.enemy))
+        self_coords_raw = (
+                self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
             )
+        self_coords_x, self_coords_y = self_coords_raw
+        self_coords: tuple[int, int] = int(self_coords_x), int(self_coords_y)
 
-        # Check if targer have moved
-        if self._old_target != target:
+        # First step if path exist
+        if self._current_path and self_coords == self._current_path[0]:
+            self._current_path.pop(0)
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                self.enemy._debug_pathfinding.pop(0)
+
+        # Stop if destation is reached
+        if self_coords == target:
+            return
+
+        # Check if we need to recalculate the path
+        needs_recalc = False
+
+        # Check if target have moved or path is empty
+        if self._old_target != target or not self._current_path:
+            needs_recalc = True
+        elif self._current_path:
+            if self._current_path[0] not in open_walls.values():
+                needs_recalc = True
+
+        # Recalculate the path
+        if needs_recalc:
             self._old_target = target
 
-            self._current_path = a_star_algo(
-                self.enemy.maze_bitmap, self_coords, target
+            self._current_path: list[tuple[int, int]] = a_star_algo(
+                self.enemy.maze_bitmap, self_coords, target,
+                self.enemy.current_direction
             )
+
+            # - DEBUG ONLY -
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                self.enemy._debug_pathfinding.clear()
+                self._debug_store_pathfinding()
 
             # Pop the start position
             if self._current_path:
                 self._current_path.pop(0)
 
-        # Move
+        # Find the next direction
         if self._current_path:
-            if self_coords == self._current_path[0]:
-                self._current_path.pop(0)
+            for dir, available_move in open_walls.items():
+                if available_move == self._current_path[0]:
+                    self.enemy._next_direction = dir
+                    return
 
-            if self._current_path:
-                dx = self._current_path[0][0] - self_coords[0]
-                dy = self._current_path[0][1] - self_coords[1]
+        # Fallback, take a random path and clear the old pathfinding
+        self._current_path.clear()
+        if hasattr(self.enemy, '_debug_pathfinding'):
+            self.enemy._debug_pathfinding.clear()
+        self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
-                self.enemy._next_direction = (dx, dy)
+    def _debug_store_pathfinding(self) -> None:
+        for coords in self._current_path:
+            # Normalize the coords
+            raw_x, raw_y = coords
+            normal_x: float = (raw_x - 1) / 2.0
+            normal_y: float = (raw_y - 1) / 2.0
+
+            x, y = self.enemy.calculator.get_grid_to_pixel(
+                normal_x, normal_y)
+            self.enemy._debug_pathfinding.append((x, y))
 
 # :------------:
 #  A* algorithm
@@ -480,7 +519,7 @@ class EnemyBrain():
 
 def a_star_algo(
         grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
-        goal_pos: tuple[int, int]
+        goal_pos: tuple[int, int], current_dir: tuple[float, float]
         ) -> list[tuple[int, int]]:
     """Execute the A* pathfinding algorithm over the maze grid layout.
 
@@ -504,6 +543,7 @@ def a_star_algo(
     open_dict = {start_pos: start}           # For quick node lookup
     closed_set = set()                       # Explored nodes
 
+    forbidden_pos: tuple[int, int] = None
     while open_list:
         # Find the lowest pos value
         _, current_pos = heapq.heappop(open_list)
@@ -515,10 +555,19 @@ def a_star_algo(
 
         closed_set.add(current_pos)
 
+        # Avoid turn back
+        if current_pos == start_pos:
+            inverted_dir_x = current_pos[0] - int(current_dir[0])
+            inverted_dir_y = current_pos[1] - int(current_dir[1])
+            forbidden_pos = (inverted_dir_x, inverted_dir_y)
+
         # Explore neighbors
         for neighbor_pos in get_valid_neighbors(grid, current_pos):
             # Skip if already explored
             if neighbor_pos in closed_set:
+                continue
+            # Skip if it's forbidden
+            if neighbor_pos == forbidden_pos:
                 continue
 
             # Calculate new path cost

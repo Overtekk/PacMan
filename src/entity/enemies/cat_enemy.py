@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:04:41 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:46:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:12:04 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,3 +67,6 @@ class CatEnemy(Enemy):
         )
 
         self.brain = CatBrain(self)
+
+        # - Private variables -
+        self._debug_pathfinding: list[tuple[float, float]] = []
