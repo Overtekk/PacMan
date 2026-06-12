@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 14:09:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 15:26:32 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -56,6 +56,37 @@ class CatBrain(EnemyBrain):
         player_x, player_y = (
             int(player_coords_raw[0]), int(player_coords_raw[1])
         )
-        target_grid = (player_x, player_y)
+        player_pos = (player_x, player_y)
 
-        return target_grid
+        # Shorter variables
+        player_curr_dir_x = int(self.enemy.player_ref.current_direction[0])
+        player_curr_dir_y = int(self.enemy.player_ref.current_direction[1])
+        player_curr_dir = (player_curr_dir_x, player_curr_dir_y)
+        maze_bitmap = self.enemy.maze_bitmap
+
+        # - CHECK IF WALL EXIST BETWEEN PLAYER AND CELL +1
+        res_1 = self._check_cell(player_pos, player_curr_dir, maze_bitmap, 1)
+        if res_1 is None:
+            print('a')
+            return (player_x, player_y)
+
+        # - CHECK WITH MAX DISTANCE -
+        res = self._check_cell(player_pos, player_curr_dir, maze_bitmap, 2)
+        if res is not None:
+            print('b')
+            return res
+
+        print('c')
+        return res_1
+
+    def _check_cell(
+        self, player_pos: tuple[int, int], player_curr_dir: tuple[int, int],
+        maze_bitmap: dict[tuple[int, int], int], distance: int
+    ) -> tuple[int, int]:
+        player_dir_x = int(player_pos[0] + (player_curr_dir[0] * distance))
+        player_dir_y = int(player_pos[1] + (player_curr_dir[1] * distance))
+
+        if maze_bitmap.get((player_dir_x, player_dir_y), 1) == 0:
+            return (player_dir_x, player_dir_y)
+
+        return None
