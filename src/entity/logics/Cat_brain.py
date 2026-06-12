@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/11 11:41:05 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 09:47:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -25,7 +25,10 @@ class CatBrain(EnemyBrain):
         super().__init__(enemy)
 
     def update(self, delta_time: float) -> None:
-        pass
+        self.enemy.mode = EnemyState.SEARCH
+        if self.enemy._is_edible and not self.enemy.died:
+            if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
+                return
 
         super().update(delta_time)
 
@@ -33,5 +36,44 @@ class CatBrain(EnemyBrain):
     #  PRIVATE METHODS
     # :---------------:
 
-    def _(self) -> None:
-        pass
+    def _execute_search_state(self):
+        update_coords: list[tuple[float, float]] = self._update_coords()
+
+        self._go_to_position_better(update_coords)
+
+    def _update_coords(self) -> tuple[int, int]:
+        # Get the player grid coords
+        player_coords_raw: tuple[int, int] = (
+            self.enemy.calculator.get_pixel_to_grid_entity(
+                self.enemy.player_ref
+            ))
+        player_x, player_y = (
+            int(player_coords_raw[0]), int(player_coords_raw[1])
+        )
+        target_grid = (player_x, player_y)
+
+        if self.enemy.maze_bitmap.get((player_x + 1, player_y), 1) == 0:
+            target_grid = (player_x + 1, player_y)
+
+        elif self.enemy.maze_bitmap.get((player_x + 2, player_y), 1) == 0:
+            target_grid = (player_x + 2, player_y)
+
+        elif self.enemy.maze_bitmap.get((player_x - 1, player_y), 1) == 0:
+            target_grid = (player_x - 1, player_y)
+
+        elif self.enemy.maze_bitmap.get((player_x - 2, player_y), 1) == 0:
+            target_grid = (player_x - 2, player_y)
+
+        elif self.enemy.maze_bitmap.get((player_x, player_y + 1), 1) == 0:
+            target_grid = (player_x, player_y + 1)
+
+        elif self.enemy.maze_bitmap.get((player_x, player_y + 2), 1) == 0:
+            target_grid = (player_x, player_y + 2)
+
+        elif self.enemy.maze_bitmap.get((player_x, player_y - 1), 1) == 0:
+            target_grid = (player_x, player_y - 1)
+
+        elif self.enemy.maze_bitmap.get((player_x, player_y - 2), 1) == 0:
+            target_grid = (player_x, player_y - 2)
+
+        return target_grid

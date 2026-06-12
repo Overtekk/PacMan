@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/11 11:24:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 09:46:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -71,11 +71,8 @@ class EnemyBrain():
             self._move()
 
         elif self.enemy.mode == EnemyState.SEARCH:
-            self.enemy.speed = (
-                self.enemy.base_speed + 1
-            )
-            self._go_to_position(self.enemy.player_ref.x,
-                                 self.enemy.player_ref.y)
+            self.enemy.speed = self.enemy.base_speed + 1
+            self._execute_search_state()
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
@@ -109,6 +106,9 @@ class EnemyBrain():
                 self.enemy._timer_check_respawn = (
                     game_config.enemy_check_res_timer
                 )
+
+    def _execute_search_state(self) -> None:
+        self._go_to_position(self.enemy.player_ref.x, self.enemy.player_ref.y)
 
     def _get_available_moves(
         self
@@ -369,9 +369,11 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
-        self_coords = (
-                int(self.enemy.calculator.get_pixel_to_grid_entity(self.enemy))
+        self_coords_raw = (
+                self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
             )
+        self_coords_x, self_coords_y = self_coords_raw
+        self_coords: tuple[int, int] = int(self_coords_x), int(self_coords_y)
 
         # Check if targer have moved
         if self._old_target != target:
