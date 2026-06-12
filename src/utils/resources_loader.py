@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:57:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:28:53 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -14,9 +14,9 @@ from src.utils import print_error
 try:
     import arcade
 except ModuleNotFoundError:
-    print_error("Can't start the program out of a venv" \
-    "\nPlease use: source .venv/bin/activate" \
-    "\nOr use: uv run python pac-man.py data/config.json")
+    print_error("Can't start the program out of a venv"
+                "\nPlease use: source .venv/bin/activate"
+                "\nOr use: uv run python pac-man.py data/config.json")
     exit()
 import pathlib
 from pathlib import Path

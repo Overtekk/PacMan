@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/08 11:42:52 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 12:18:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 10:26:19 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -47,11 +47,10 @@ class FoxBrain(EnemyBrain):
                 )
 
             if radius_distance > self.detection_radius:
-                if self.enemy.mode != EnemyState.SEARCH:
-                    self.enemy.mode = EnemyState.SEARCH
+                self.enemy.mode = EnemyState.SEARCH
 
-                    if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCH")
+                if game_config.debug_mode:
+                    print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:
@@ -82,7 +81,7 @@ class FoxBrain(EnemyBrain):
         return coords
 
     def _get_radius(self) -> None:
-        highest_x: int = float('-inf')
+        highest_x: float = float('-inf')
 
         for coords in self.enemy.maze_bitmap:
             x: int = coords[0]

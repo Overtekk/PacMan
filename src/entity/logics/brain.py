@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 09:46:26 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:23:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -377,7 +377,7 @@ class EnemyBrain():
         if self._old_target != target:
             self._old_target = target
 
-            self._current_path: list[tuple[int, int]] = a_star_algo(
+            self._current_path = a_star_algo(
                 self.enemy.maze_bitmap, self_coords, target
             )
 
@@ -466,7 +466,8 @@ def a_star_algo(
 
 def create_node(
         position: tuple[int, int], cost: float = float('inf'),
-        estimate_cost: float = 0.0, parent: dict = None) -> dict[str, Any]:
+        estimate_cost: float = 0.0,
+        parent: dict[str, Any] | None = None) -> dict[str, Any]:
 
     return {
         'position': position,

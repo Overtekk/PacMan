@@ -38,11 +38,10 @@ class DogBrain(EnemyBrain):
                 )
 
             if radius_distance > self.detection_radius:
-                if self.enemy.mode != EnemyState.SEARCH:
-                    self.enemy.mode = EnemyState.SEARCH
+                self.enemy.mode = EnemyState.SEARCH
 
-                    if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCH")
+                if game_config.debug_mode:
+                    print_log(f"Changed state for {self.enemy} to SEARCH")
 
             else:
                 if self.enemy.mode != EnemyState.WANDER:
@@ -73,26 +72,26 @@ class DogBrain(EnemyBrain):
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == 0
               and self.enemy.player_ref.sprite.scale_x <= 0):
-            player_pxl_coords: tuple[float, float] = (
+            player_pxl_coords = (
                 self.enemy.player_ref.x - 2, self.enemy.player_ref.y
             )
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == 90
               and self.enemy.player_ref.sprite.scale_x >= 0):
-            player_pxl_coords: tuple[float, float] = (
+            player_pxl_coords = (
                 self.enemy.player_ref.x, self.enemy.player_ref.y + 2
             )
             coords.append(player_pxl_coords)
         elif (self.enemy.player_ref.sprite.angle == -90
               and self.enemy.player_ref.sprite.scale_x >= 0):
-            player_pxl_coords: tuple[float, float] = (
+            player_pxl_coords = (
                 self.enemy.player_ref.x, self.enemy.player_ref.y - 2
             )
             coords.append(player_pxl_coords)
         return coords
 
     def _get_radius(self) -> None:
-        highest_x: int = float('-inf')
+        highest_x: float = float('-inf')
 
         for coords in self.enemy.maze_bitmap:
             x: int = coords[0]
@@ -125,7 +124,7 @@ class DogBrain(EnemyBrain):
 
         random_percent: float = 0.6
         if self.enemy.mode == EnemyState.CHASE:
-            random_percent == 0.4
+            random_percent = 0.4
         if random.random() < random_percent:
             direction = random.choice(list(open_walls.keys()))
         else:
