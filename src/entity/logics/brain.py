@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:54:41 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 14:16:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -379,8 +379,28 @@ class EnemyBrain():
         self_coords_x, self_coords_y = self_coords_raw
         self_coords: tuple[int, int] = int(self_coords_x), int(self_coords_y)
 
-        # Check if targer have moved
+        # First step if path exist
+        if self._current_path and self_coords == self._current_path[0]:
+            self._current_path.pop(0)
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                self.enemy._debug_pathfinding.pop(0)
+
+        # Stop if destation is reached
+        if self_coords == target:
+            return
+
+        # Check if we need to recalculate the path
+        needs_recalc = False
+
+        # Check if target have moved or path is empty
         if self._old_target != target or not self._current_path:
+            needs_recalc = True
+        elif self._current_path:
+            if self._current_path[0] not in open_walls.values():
+                needs_recalc = True
+
+        # Recalculate the path
+        if needs_recalc:
             self._old_target = target
 
             self._current_path: list[tuple[int, int]] = a_star_algo(
@@ -388,6 +408,7 @@ class EnemyBrain():
                 self.enemy.current_direction
             )
 
+            # - DEBUG ONLY -
             if hasattr(self.enemy, '_debug_pathfinding'):
                 self.enemy._debug_pathfinding.clear()
                 self._debug_store_pathfinding()
@@ -396,24 +417,18 @@ class EnemyBrain():
             if self._current_path:
                 self._current_path.pop(0)
 
-        # Move
+        # Find the next direction
         if self._current_path:
-            if self_coords == self._current_path[0]:
-                self._current_path.pop(0)
-                if hasattr(self.enemy, '_debug_pathfinding'):
-                    self.enemy._debug_pathfinding.pop(0)
-
-            if self._current_path:
-                for dir, available_move in open_walls.items():
-                    if available_move == self._current_path[0]:
-                        self.enemy._next_direction = dir
-                        return
+            for dir, available_move in open_walls.items():
+                if available_move == self._current_path[0]:
+                    self.enemy._next_direction = dir
+                    return
 
         # Fallback, take a random path and clear the old pathfinding
         self._current_path.clear()
         if hasattr(self.enemy, '_debug_pathfinding'):
             self.enemy._debug_pathfinding.clear()
-        self._apply_momentum_choice(open_walls)
+        self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _debug_store_pathfinding(self) -> None:
         for coords in self._current_path:
