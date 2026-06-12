@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/10 11:49:59 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/12 10:25:53 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:14:42 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,11 +29,7 @@ class DogBrain(EnemyBrain):
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
-        if not self.enemy.is_edible and not self.enemy.died:
-            if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
-                pass
-
-        elif self.enemy.mode == EnemyState.WANDER:
+        if self.enemy.mode == EnemyState.WANDER:
             updated_coords: list[tuple[float, float]] = self._update_coords()
 
             radius_distance: float = (
