@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:21:11 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:57:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -343,7 +343,8 @@ class ExtraLivesButton(BaseButton):
 
     def on_click(self) -> None:
         """
-        Increments available engine life pools and triggers tracking indicators.
+        Increments available engine life pools and triggers tracking
+        indicators.
         """
         self.texture = self.texture_on
         if hasattr(self.parent_view, 'previous_view'):
@@ -461,7 +462,8 @@ class CheatMenu(BaseMenu):
 
     def build_ui(self) -> None:
         """
-        Assembles and positions all cheat options onto the active canvas layout.
+        Assembles and positions all cheat options onto the active canvas
+        layout.
         """
         # Create all the cheat mode buttons
         self.invincibility = InvincibilityButton(

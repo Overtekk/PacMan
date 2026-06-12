@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:36:12 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:57:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -328,7 +328,8 @@ class IntroScreen(BaseMenu):
         self, dialogue_index: int, text_speed: float = 0.06
     ) -> None:
         """
-        Binds tracking indices to begin processing incremental voice text animations.
+        Binds tracking indices to begin processing incremental voice text
+        animations.
         """
 
         self._dialogue_text = self.dialogue_list[dialogue_index]

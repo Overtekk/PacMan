@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:15:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:56:49 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,7 +19,8 @@ from pathlib import Path
 
 
 class BaseButton(arcade.Sprite, ABC):
-    """Abstract Base Class establishing common click, shake, and hover behaviors.
+    """Abstract Base Class establishing common click, shake, and hover
+    behaviors.
 
     Derived sprites manage state transitions when interacted with via the mouse
     or fallback keyboard arrays inside various system menu viewports.

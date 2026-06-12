@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:54:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:47:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:56:16 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -49,7 +49,8 @@ class FoxEnemy(Enemy):
             the maze walls.
             calculator (SuperCalculator): Utility instance for coordinates
             calculations.
-            player_ref (Player): Reference to the player instance for targeting.
+            player_ref (Player): Reference to the player instance for
+            targeting.
             scale (float): Visual scale factor.
             speed (float): Movement speed of the entity.
             is_edible (bool, optional): Initial vulnerability state. Defaults
