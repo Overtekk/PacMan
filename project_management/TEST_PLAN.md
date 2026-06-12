@@ -25,7 +25,7 @@
 | Wrong type `lives: three` | Clear error message, set defaults values and start the game | ✅ |
 | Unknown key | `"foo": "bar"` | Ignore this key and start the game | ✅ |
 | Empty json | {} | Clear error message, set defaults values and start the game | ✅ |
-| Comments | `# comment` | Ignore comments and start the game | ❌ |
+| Comments | `# comment` | Ignore comments and start the game | ✅ |
 | Negatives points | `"points_per_pacgum": -5` | Clear error message, set defaults values and start the game |  ✅ |
 | Invalid seed | `"seed": "abc"` | Clear error message, set defaults values and start the game | ❌ |
 | Timer to 0 | `"level_max_time": 0` | Clear error message, set defaults values and start the game | ✅ |
