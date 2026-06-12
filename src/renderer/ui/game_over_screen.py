@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:46:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:27:09 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,6 +20,7 @@ from .base_menu import BaseMenu
 
 
 class GhostsWin(arcade.Sprite):
+    """Decorative sprite displayed when the ghosts win the game."""
     def __init__(
         self,
         center_x: float,
@@ -29,6 +30,16 @@ class GhostsWin(arcade.Sprite):
         scale: float = 1.8,
         anchor_x: str = "center"
     ) -> None:
+        """Initializes the ghosts victory sprite.
+
+        Args:
+            center_x (float): Horizontal center coordinate.
+            center_y (float): Vertical center coordinate.
+            sprite_path (Path): Path to the sprite image file.
+            parent_view (arcade.View): The calling Arcade view.
+            scale (float): Rendering scale factor.
+            anchor_x (str): Horizontal anchor alignment.
+        """
 
         super().__init__(
             path_or_texture=sprite_path,
@@ -43,6 +54,7 @@ class GhostsWin(arcade.Sprite):
 
 
 class DeadPacman(arcade.Sprite):
+    """Sprite representing Pacman's defeated state on the Game Over screen"""
     def __init__(
         self,
         center_x: float,
@@ -52,6 +64,16 @@ class DeadPacman(arcade.Sprite):
         scale: float = 2.0,
         anchor_x: str = "center"
     ) -> None:
+        """Initializes the defeated Pacman sprite.
+
+        Args:
+            center_x (float): Horizontal center coordinate.
+            center_y (float): Vertical center coordinate.
+            sprite_path (Path): Path to the sprite image file.
+            parent_view (arcade.View): The calling Arcade view.
+            scale (float): Rendering scale factor.
+            anchor_x (str): Horizontal anchor alignment.
+        """
 
         super().__init__(
             path_or_texture=sprite_path,
@@ -66,6 +88,7 @@ class DeadPacman(arcade.Sprite):
 
 
 class GameOver(arcade.Sprite):
+    """Main banner displaying the graphical 'GAME OVER' title text."""
     def __init__(
         self,
         center_x: float,
@@ -75,6 +98,16 @@ class GameOver(arcade.Sprite):
         scale: float = 1.5,
         anchor_x: str = "center"
     ) -> None:
+        """Initializes the Game Over title banner sprite.
+
+        Args:
+            center_x (float): Horizontal center coordinate.
+            center_y (float): Vertical center coordinate.
+            sprite_path (Path): Path to the sprite image file.
+            parent_view (arcade.View): The calling Arcade view.
+            scale (float): Rendering scale factor.
+            anchor_x (str): Horizontal anchor alignment.
+        """
 
         super().__init__(
             path_or_texture=sprite_path,
@@ -89,8 +122,22 @@ class GameOver(arcade.Sprite):
 
 
 class GameOverScreen(BaseMenu):
+    """Game over view that captures the player's name for the highscores list.
+
+    Handles alphanumeric keyboard inputs to build the player's name and
+    interacts with the leaderboard persistence system upon pressing ENTER.
+    """
     def __init__(self, score: int, filename: str,
                  previous_view: arcade.View) -> None:
+        """Initializes the Game Over screen with a background screenshot
+        snapshot.
+
+        Args:
+            score (int): The final score achieved by the player.
+            filename (str): The path/name of the highscore leaderboard file.
+            previous_view (arcade.View): The previous gameplay view for
+            context.
+        """
         super().__init__()
         self.player_name = ""
         self.score = score
@@ -100,6 +147,7 @@ class GameOverScreen(BaseMenu):
         self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
+        """Instantiates and positions the graphic banners and score layouts."""
         # Set the 'game over' sprite
         game_over = GameOver(
             center_x=ScreenSettings.WIDTH // 2,
@@ -144,6 +192,13 @@ class GameOverScreen(BaseMenu):
         self.button_list.append(ghosts_win)
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
+        """Captures keyboard inputs to dynamically type and save the player
+        name.
+
+        Args:
+            symbol (int): Code of the pressed key.
+            modifiers (int): Active modifier keys (e.g., Shift, CapsLock).
+        """
         # Enter name to save the score in the highscores list
 
         if len(self.player_name) < 10:
@@ -254,6 +309,9 @@ class GameOverScreen(BaseMenu):
                         self.previous_view.parent_view.code_found)
 
     def on_draw(self) -> None:
+        """
+        Renders the dark semi-transparent overlay over the captured game state.
+        """
         self.clear()
 
         # Draw the game background image

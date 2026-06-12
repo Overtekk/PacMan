@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 10:33:59 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:00:01 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,6 +23,12 @@ from src import game_config
 
 
 class CollisionManager():
+    """Manages all 2D collision detection and resolution within the game grid
+
+    Handles spatial intractions including actor-vs-wall obstructions,
+    player-vs-enemy contact, and collectible item gathering.
+    """
+
     def __init__(
         self,
         player_reference: Player,
@@ -35,6 +41,26 @@ class CollisionManager():
         state_manager: GameStateManager,
         audio_manager: AudioManager,
     ) -> None:
+        """Initializes the collision manager with world and actor context.
+
+        Args:
+            player_reference (Player): Reference to the player object instance.
+            enemies_reference (dict[str, Any]): Dictionary mapping enemy
+            identifiers to instances.
+            enemies_sprite_list (arcade.SpriteList): Arcade engine list holding
+            enemy sprites.
+            pacgums_sprite_list (arcade.SpriteList): Arcade engine list holding
+            standard pacgums.
+            super_pacgums_sprite_list (arcade.SpriteList): Arcade engine list
+            holding power pacgums.
+            maze_bitmap (dict[tuple[int, int], int]): Structural matrix map
+            defining wall coordinates.
+            calculator (SuperCalculator): Spatial unit dimension translation
+            tool.
+            state_manager (GameStateManager): System interface handling scores,
+            status, and lives.
+            audio_manager (AudioManager): Central sound registry controller.
+        """
 
         self.player_reference = player_reference
         self.enemies_reference = enemies_reference
@@ -56,6 +82,20 @@ class CollisionManager():
         self.debug_force_death: bool = False
 
     def update(self, delta_time: float) -> LevelState:
+        """Evaluates ongoing collision criteria for all active scene objects.
+
+        Processes environment bounding restrictions, validates interaction
+        results
+        such as player casualties or ghost consumption, and computes overall
+        progression.
+
+        Args:
+            delta_time (float): Seconds elapsed since the last system tick.
+
+        Returns:
+            LevelState: Enum signal defining the resulting lifecycle state
+            modification.
+        """
         # Check collisions for the player with walls
         self._entity_collisions_logic(self.player_reference)
 
@@ -115,6 +155,10 @@ class CollisionManager():
     # :---------------:
 
     def _kill_player(self) -> None:
+        """
+        Processes player mortality events, updates audio assets, and subtracts
+        lives.
+        """
         if self.debug_force_death:
             self.debug_force_death = False
 
@@ -127,6 +171,13 @@ class CollisionManager():
             )
 
     def _kill_enemy(self, enemy: Any, delta_time: float) -> None:
+        """Dispatches an enemy lifecycle state change to defeated and awards
+        points.
+
+        Args:
+            enemy (Any): The enemy class instance being consumed.
+            delta_time (float): Delta timing tracker from the execution window.
+        """
         self.audio_manager.play_random_sound(
             ['slurp1', 'slurp2', 'slurp3', 'slurp4', 'slurp5'], 2.0
         )
@@ -137,6 +188,12 @@ class CollisionManager():
             print_log(f"{enemy} died!")
 
     def _collect_collectible(self, collectible: Any) -> None:
+        """Handles player acquisition of item pickups and increments the active
+          score index.
+
+        Args:
+            collectible (Any): The item object picked up by the player.
+        """
         # self.audio_manager.play_random_sound(
         #     ['eat1', 'eat2', 'eat3'], 2.0
         # )
@@ -159,6 +216,10 @@ class CollisionManager():
         collectible.sprite.kill()
 
     def _activate_superpacgum(self) -> None:
+        """
+        Triggers the invincibility power-up loop and shifts enemy AI to runaway
+          mode.
+        """
         if game_config.debug_mode:
             print_log("Activate SUPERPACGUM")
 
@@ -194,6 +255,16 @@ class CollisionManager():
             enemy.current_direction = (x, y)
 
     def _entity_collisions_logic(self, entity: Movable) -> None:
+        """Resolves structural navigation boundaries, grid snapping, and
+        direction buffers.
+
+        Locks perpendicular movement components to prevent tracking slippage
+        outside valid corridors.
+
+        Args:
+            entity (Movable): The entity instance requiring position
+            validation.
+        """
         # Get the exact center of the current tile
         center_x, center_y = self._get_tile_center(entity)
 
@@ -252,6 +323,11 @@ class CollisionManager():
                 entity.y = center_y
 
     def _check_collisions_with_enemy(self) -> list[arcade.Sprite]:
+        """Scans overlapping bounds between the player and the enemy layer.
+
+        Returns:
+            list[arcade.Sprite]: Overlapping target object sprites discovered.
+        """
         colliding_sprite: list[arcade.Sprite] = (
             arcade.check_for_collision_with_list(
                 self.player_reference.sprite,
@@ -261,6 +337,12 @@ class CollisionManager():
         return colliding_sprite
 
     def _check_collision_with_collectibles(self) -> list[arcade.Sprite]:
+        """Scans overlapping bounds between the player and all consumable
+        structures.
+
+        Returns:
+            list[arcade.Sprite]: Overlapping collection sprites discovered.
+        """
         colliding_sprite: list[arcade.Sprite] = (
             arcade.check_for_collision_with_lists(
                 sprite=self.player_reference.sprite,
@@ -273,6 +355,17 @@ class CollisionManager():
     def _check_for_collisions(
         self, entity: Entity, direction: tuple[float, float]
     ) -> bool:
+        """Determines if a prospective step intersects with a layout wall
+        coordinate.
+
+        Args:
+            entity (Entity): Testing entity instance.
+            direction (tuple[float, float]): Proposed directional movement
+            offset.
+
+        Returns:
+            bool: True if destination grid is open and unblocked.
+        """
         conv_x, conv_y = self.calculator.get_pixel_to_grid_entity(entity)
 
         # Inverted Y (because Arcade Y=0 is bottom right)
@@ -287,6 +380,13 @@ class CollisionManager():
     def _snap_to_grid(
         self, entity: Entity, direction: tuple[float, float]
     ) -> None:
+        """Forces an entity's coordinates onto the center axis of its path.
+
+        Args:
+            entity (Entity): Target actor object structure.
+            direction (tuple[float, float]): Dimensional vector tracking
+            heading.
+        """
         # Calculate the exact center of the current tile
         center_x: int = int((
             ((entity.x - self.offset_x) // self.tile_size)
@@ -304,6 +404,15 @@ class CollisionManager():
             entity.y = center_y
 
     def _get_tile_center(self, entity: Entity) -> tuple[float, float]:
+        """Calculates precise target grid center pixel coordinates for an
+        actor.
+
+        Args:
+            entity (Entity): Inspected target engine instance.
+
+        Returns:
+            tuple[float, float]: True geometric midpoints (X, Y).
+        """
         # Calculate X center
         logic_x = (entity.x - self.offset_x) // self.tile_size
         center_x = ((logic_x * self.tile_size) + (self.tile_size / 2) +

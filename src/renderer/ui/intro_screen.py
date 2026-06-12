@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/05 11:10:24 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:16:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:36:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,11 +22,25 @@ from typing import Any
 
 
 class CallBackground(arcade.Sprite):
+    """
+    Full-screen background image texture asset used for the introduction
+    cutscene.
+    """
     def __init__(
         self, center_x: float, center_y: float, sprite_path: Path,
         scale: float = 1.5, anchor_x: str = 'left',
         anchor_y: str = 'top'
     ) -> None:
+        """Initializes structural anchors for the cutscene wallpaper asset.
+
+        Args:
+            center_x (float): Initial horizontal center placement coordinate.
+            center_y (float): Initial vertical center placement coordinate.
+            sprite_path (Path): Image asset location tracking reference.
+            scale (float): Geometric rendering resolution sizing scale.
+            anchor_x (str): Horizontal boundary attachment coordinate.
+            anchor_y (str): Vertical boundary attachment coordinate.
+        """
 
         super().__init__(
             path_or_texture=sprite_path, scale=scale, anchor_x=anchor_x,
@@ -38,12 +52,26 @@ class CallBackground(arcade.Sprite):
 
 
 class SeagullSprite(arcade.Sprite):
+    """
+    Animated sprite representing a gliding seagull during the intro sequence.
+    """
     def __init__(
         self, center_x: float, center_y: float,
         texture_list: list[arcade.Texture],
         scale: float = 1.5, anchor_x: str = 'left',
         anchor_y: str = 'top'
     ) -> None:
+        """Maps animation frame collections onto the seagull tracking instance.
+
+        Args:
+            center_x (float): Initial horizontal positioning coordinate.
+            center_y (float): Initial vertical positioning coordinate.
+            texture_list (list[arcade.Texture]): Collection of animation frame
+            textures.
+            scale (float): Spatial structural scale sizing modifier.
+            anchor_x (str): Horizontal geometric clipping rule.
+            anchor_y (str): Vertical geometric clipping rule.
+        """
 
         super().__init__(
             path_or_texture=texture_list[0], scale=scale, anchor_x=anchor_x,
@@ -62,6 +90,12 @@ class SeagullSprite(arcade.Sprite):
     def update_animation(self, delta_time: float = 0.0,
                          is_speaking: bool = False,
                          *args: Any, **kwargs: Any) -> None:
+        """Updates the talking frames over time if the sprite is speaking.
+
+        Args:
+            delta_time (float): Time step increment since last window refresh.
+            is_speaking (bool): Toggles whether talk cycles should animate.
+        """
         if is_speaking:
             self.animation_timer += delta_time
             if self.animation_timer > 0.1:
@@ -76,7 +110,13 @@ class SeagullSprite(arcade.Sprite):
 
 
 class IntroScreen(BaseMenu):
+    """
+    Introduction cutscene handling typed dialogue interactions and animations.
+    """
     def __init__(self, previous_view: arcade.View) -> None:
+        """
+        Initializes arrays tracking story dialogues, voice states, and actors.
+        """
         super().__init__()
 
         self.previous_view = previous_view
@@ -147,6 +187,9 @@ class IntroScreen(BaseMenu):
         self._auto_skip_timer: float = 0.0
 
     def build_ui(self) -> None:
+        """
+        Sets up intro scene objects, font boxes, ringtones, and timing gaps.
+        """
         # Create the background screen
         self._create_ui_elements()
 
@@ -164,6 +207,9 @@ class IntroScreen(BaseMenu):
         self._pause_timer = 3.0
 
     def on_update(self, delta_time: float) -> None:
+        """
+        Ticks down dialogue timers, steps text characters, and updates loops.
+        """
         if self._pause_timer > 0.0:
             self._pause_timer -= delta_time
             if self._pause_timer <= 0.0:
@@ -204,6 +250,7 @@ class IntroScreen(BaseMenu):
             self.child3.update_animation(delta_time, childs_speaking)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """Processes spacebar confirmations and escape skip behaviors."""
         if symbol == arcade.key.ESCAPE:
             self.audio_manager.stop_sound('music_intro')
             self.audio_manager.stop_sound('dialogue_sound')
@@ -225,6 +272,10 @@ class IntroScreen(BaseMenu):
                 self._next_dialogue()
 
     def on_draw(self) -> None:
+        """
+        Renders character layouts and text elements sequentially onto the
+        display canvas.
+        """
         self.clear()
 
         # Draw background
@@ -238,6 +289,10 @@ class IntroScreen(BaseMenu):
     # :---------------:
 
     def _on_pause_finished(self) -> None:
+        """
+        Acts as a trigger point processing connection sound hooks after a
+        phone call.
+        """
         if self.dialogue_index == 0 and not self._pending_next_dialogue:
             self.audio_manager.stop_sound('calling')
             self.audio_manager.play_sound('join_call')
@@ -255,6 +310,9 @@ class IntroScreen(BaseMenu):
             self._load_dialogue(self.dialogue_index)
 
     def _next_dialogue(self) -> None:
+        """
+        Pushes dialogue lines forward or boots the main core gameplay loops.
+        """
         self.dialogue_index += 1
         if self.dialogue_index < len(self.dialogue_list):
             self._load_dialogue(self.dialogue_index)
@@ -269,6 +327,9 @@ class IntroScreen(BaseMenu):
     def _load_dialogue(
         self, dialogue_index: int, text_speed: float = 0.06
     ) -> None:
+        """
+        Binds tracking indices to begin processing incremental voice text animations.
+        """
 
         self._dialogue_text = self.dialogue_list[dialogue_index]
         self.text.text = ""
@@ -294,6 +355,10 @@ class IntroScreen(BaseMenu):
             self.audio_manager.play_sound('music_intro', 0.2, True)
 
     def _finish_typing(self) -> None:
+        """
+        Completes typing fields instantly and drops hanging vocal effects
+        tracks.
+        """
         self._is_typing = False
         self._index = len(self._dialogue_text)
         self.text.text = self._dialogue_text
@@ -315,6 +380,10 @@ class IntroScreen(BaseMenu):
             self.audio_manager.play_sound('leave_call')
 
     def _create_ui_elements(self) -> None:
+        """
+        Initializes graphic interfaces, maps locations, and initializes seagull
+          family sizes.
+        """
         background = CallBackground(
             ScreenSettings.WIDTH // 2, (ScreenSettings.HEIGHT // 2) + 200,
             self.window.asset_manager.textures['call_background'], scale=0.3

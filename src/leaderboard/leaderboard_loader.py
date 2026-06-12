@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:49:50 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/27 14:28:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:12:59 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,23 @@ from src.utils.display import print_error, print_success
 
 
 def leaderboard_loader(filepath_str: str) -> None:
+    """Verifies layout safety permissions, structural presence, and schema
+    integrity.
+
+    Ensures target directories are present, directory permissions allow
+    read/write
+    operations, and validates existing files against the Pydantic structural
+    model.
+    Recreates corruption artifacts safely when formatting exceptions occur.
+
+    Args:
+        filepath_str (str): System absolute or relative string path to target
+        JSON asset.
+
+    Raises:
+        ValueError: If directory permissions prevent reading/writing, or if the
+            target path lacks a valid '.json' extension framework.
+    """
     filepath: Path = Path(filepath_str)
     filepath_parent: Path = filepath.parent
 
@@ -47,6 +64,13 @@ def leaderboard_loader(filepath_str: str) -> None:
 
 
 def create_leaderboard_file(filepath: Path) -> None:
+    """Safely initializes an empty persistent data layer file on disk
+    workspace.
+
+    Args:
+        filepath (Path): Explicit Path framework reference targeting
+        destination.
+    """
     with open(filepath, "w") as f:
         f.write("")
     print_success(f"{filepath} created with success!")

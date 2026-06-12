@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:41:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 16:22:30 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:47:51 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,16 +24,25 @@ from src.audio import AudioManager
 
 
 class GoBack(BaseButton):
+    """
+    Button action handling active core scene exit tasks to drop back to main
+    menus.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes the main menu navigation escape button."""
 
         super().__init__(center_x=center_x, center_y=center_y,
                          sprite_path=sprite_path, parent_view=parent_view)
 
     def on_click(self) -> None:
+        """
+        Exits active parameters to load clean instance setups of the main
+        menus.
+        """
         # Go back on menu
         from src.renderer.ui.main_menu import MainMenu
         if self.parent_view.window:
@@ -41,16 +50,24 @@ class GoBack(BaseButton):
 
 
 class InstructionsButton(BaseButton):
+    """
+    Button swapping view fields into active player instructions manual boards.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes help manual display route button selectors."""
 
         super().__init__(center_x=center_x, center_y=center_y,
                          sprite_path=sprite_path, parent_view=parent_view)
 
     def on_click(self) -> None:
+        """
+        Pushes help manuals onto visual layouts without dropping gameplay
+        parameters.
+        """
         # Go on instructions menu
         instructions = InstructionsScreen(previous_view=self.parent_view)
         if self.parent_view.window:
@@ -58,16 +75,22 @@ class InstructionsButton(BaseButton):
 
 
 class Resume(BaseButton):
+    """
+    Button triggering immediate context restorations to jump back into running
+    gaming modules.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Path,
                  parent_view: arcade.View) -> None:
+        """Initializes active session confirmation buttons."""
 
         super().__init__(center_x=center_x, center_y=center_y,
                          sprite_path=sprite_path, parent_view=parent_view)
 
     def on_click(self) -> None:
+        """Resumes active matching sound loops and drops menu focus layers."""
         # Go back on the game
         if self.parent_view.window:
             if (hasattr(self.parent_view, 'audio_manager')
@@ -79,6 +102,10 @@ class Resume(BaseButton):
 
 
 class Cheat(BaseButton):
+    """
+    Hidden button opening developer modes if validation key inputs verify
+    successfully.
+    """
     def __init__(
         self,
         center_x: float,
@@ -87,6 +114,16 @@ class Cheat(BaseButton):
         parent_view: arcade.View,
         background: arcade.Texture
     ) -> None:
+        """Initializes developers configuration menu parameters.
+
+        Args:
+            center_x (float): Horizontal element anchor coordinate.
+            center_y (float): Vertical element anchor coordinate.
+            sprite_path (Path): Asset file track routing location.
+            parent_view (arcade.View): Stored target parent panel views.
+            background (arcade.Texture): Frozen screenshot wallpaper asset
+            snapshot.
+        """
 
         super().__init__(
             center_x=center_x, center_y=center_y, sprite_path=sprite_path,
@@ -96,6 +133,10 @@ class Cheat(BaseButton):
         self.background = background
 
     def on_click(self) -> None:
+        """
+        Loads and swaps contexts into visual debugging panels on click
+        verification.
+        """
         # Go on cheat menu
         cheat = CheatMenu(
             previous_view=self.parent_view, background=self.background
@@ -105,7 +146,15 @@ class Cheat(BaseButton):
 
 
 class PauseMenu(BaseMenu):
+    """
+    Overlay interface locking update loops while executing menu options
+    selections.
+    """
     def __init__(self, previous_view: arcade.View) -> None:
+        """
+        Captures running screen snapshots to lock gameplay displays behind
+        dark overlays.
+        """
         super().__init__()
         self.previous_view = previous_view
         image: PIL.Image.Image = arcade.get_image()
@@ -117,6 +166,10 @@ class PauseMenu(BaseMenu):
         self.y = 2
 
     def build_ui(self) -> None:
+        """
+        Draws functional navigation routes and hooks extra fields if Easter
+        eggs are found.
+        """
         # Create buttons
 
         self.resume = Resume(
@@ -150,6 +203,9 @@ class PauseMenu(BaseMenu):
                 self.create_cheat_button()
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """
+        Manages indexing positions across option structures via arrow keys.
+        """
         # Go back on the game
         if symbol == arcade.key.ESCAPE:
             if self.window:
@@ -233,6 +289,10 @@ class PauseMenu(BaseMenu):
                         self.go_back.on_click()
 
     def on_draw(self) -> None:
+        """
+        Blurs background elements using semi-transparent dark blocks before
+        rendering control paths.
+        """
         self.clear()
 
         # Draw the game background image
@@ -255,6 +315,7 @@ class PauseMenu(BaseMenu):
         self.button_list.draw()
 
     def on_update(self, delta_time: float) -> None:
+        """Handles structural update routines for child menu components."""
         # Update the sprites to check if user touch it or not
         self.button_list.update()
         for sprite in self.button_list:
@@ -268,6 +329,12 @@ class PauseMenu(BaseMenu):
                 break
 
     def create_cheat_button(self) -> None:
+        """Instantiates and registers the cheat button option into the menu
+        layout.
+
+        This method is dynamically invoked if the player successfully triggers
+        the Konami code condition from the parent gameplay view.
+        """
         self.cheat = Cheat(
             center_x=ScreenSettings.WIDTH // 2, center_y=500,
             sprite_path=self.window.asset_manager.textures["cheat_button"],

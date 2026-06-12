@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/04 15:51:31 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:31:08 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -22,6 +22,7 @@ from typing import Union
 
 
 class Ghosts(arcade.Sprite):
+    """Sprite acting as a visual index illustration for an enemy entity."""
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -38,6 +39,7 @@ class Ghosts(arcade.Sprite):
 
 
 class Pacman(arcade.Sprite):
+    """Sprite showcase representing the main player hero entity profile."""
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -54,6 +56,7 @@ class Pacman(arcade.Sprite):
 
 
 class Assets(arcade.Sprite):
+    """Sprite acting as a visual icon for consumable points (Pacgums)."""
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -70,6 +73,9 @@ class Assets(arcade.Sprite):
 
 
 class Instructions(BaseButton):
+    """
+    Interactive top instruction label acting as a back navigation trigger.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -81,12 +87,20 @@ class Instructions(BaseButton):
         self.y = 0
 
     def on_click(self) -> None:
+        """Returns focus back to the parent interface view model."""
         if self.parent_view.window:
             self.parent_view.window.show_view(self.parent_view)
 
 
 class InstructionsScreen(BaseMenu):
+    """Informational panel illustrating keyboard layouts, game rules, and
+    asset maps.
+
+    Slices multi-frame sprite sheets down into singular profile icons for
+    display.
+    """
     def __init__(self, previous_view: arcade.View) -> None:
+        """Initializes the instruction manual help deck overlay view."""
         super().__init__()
         self.previous_view = previous_view
 
@@ -97,6 +111,7 @@ class InstructionsScreen(BaseMenu):
         self.y = 0
 
     def build_ui(self) -> None:
+        """Constructs text labels, controls, and pulls index graphics."""
         # Create all sprites and texts
         self.instructions = Instructions(
             center_x=ScreenSettings.WIDTH // 2,
@@ -115,6 +130,7 @@ class InstructionsScreen(BaseMenu):
         self.write_ghosts()
 
     def on_key_press(self, symbol: int, modifiers: int) -> None:
+        """Redirects users out of the tutorial stack if ESC is triggered."""
         # Return to main menu
         if symbol == arcade.key.ESCAPE:
             if self.window:
@@ -137,6 +153,7 @@ class InstructionsScreen(BaseMenu):
                 self.instructions.on_click()
 
     def write_ghosts(self) -> None:
+        """Slices sprite sheet documents to render distinct enemy profiles."""
 
         # Create cat sprite and write it's name
         cat_ghost_txt = arcade.Text(text="ST GLORIUS RICTUS IV =",
@@ -197,6 +214,7 @@ class InstructionsScreen(BaseMenu):
         self.button_list.append(dog_ghost)
 
     def write_pacgums(self) -> None:
+        """Sets up index illustrations for consumable board drops."""
         # Create pacgum sprite and write it's name
         fish_txt = arcade.Text(text="PACGUMS =", x=ScreenSettings.WIDTH - 280,
                                y=425,
@@ -225,6 +243,7 @@ class InstructionsScreen(BaseMenu):
         self.button_list.append(burger)
 
     def write_player(self) -> None:
+        """Sets up visual guides mapping the main hero character profile."""
         # Create pacman sprite and write it's name
         pacman_txt = arcade.Text(text="PACMAN =", x=ScreenSettings.WIDTH - 260,
                                  y=505,
@@ -242,6 +261,9 @@ class InstructionsScreen(BaseMenu):
         self.button_list.append(pacman)
 
     def write_commands(self) -> None:
+        """
+        Outlines specific input layouts configured for execution (WASD/Arrows).
+        """
         # Write commands text
         commands = arcade.Text(text="COMMANDS:", x=15, y=520,
                                color=arcade.color.BABY_BLUE, font_size=20,
@@ -263,6 +285,7 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(exit)
 
     def write_rules(self) -> None:
+        """Outlines gameplay interactions, win states, and score mechanics."""
         # Write rules text
         rules = arcade.Text(text="RULES:", x=15, y=300,
                             color=arcade.color.RED, font_size=20,
@@ -293,6 +316,7 @@ class InstructionsScreen(BaseMenu):
         self.text_lst.append(rule5)
 
     def on_draw(self) -> None:
+        """Clears buffers and draws background assets alongside text maps."""
         self.clear()
 
         # Draw the beach background
@@ -307,6 +331,7 @@ class InstructionsScreen(BaseMenu):
             txt.draw()
 
     def on_update(self, delta_time: float) -> None:
+        """Updates control tracking loops for button instances."""
         # Update the instruction sprite to check if user touch it or not
         self.button_list.update()
         for sprite in self.button_list:

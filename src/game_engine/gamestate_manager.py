@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:03:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:19:09 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:29:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -21,12 +21,33 @@ from src.renderer.screen_settings import ScreenSettings
 
 
 class GameStateManager():
+    """Manages persistent game state and triggers screen transitions.
+
+    Stores score, lives, time, and level index. Property setters handle
+    boundary checks and automatically trigger game-over or victory screens
+    when thresholds are reached.
+
+    Attributes:
+        window (arcade.Window): The main game window.
+        config: The loaded game configuration.
+        parent_view (arcade.View): The game engine view that owns this manager.
+        audio_manager (AudioManager): Shared audio manager.
+        game_data (dict[str, Any]): Internal storage for all game state values.
+    """
     def __init__(
         self,
         game_window: arcade.Window,
         parent_view: arcade.View,
         audio_manager: AudioManager
     ) -> None:
+        """Initialize the GameStateManager.
+
+        Args:
+            game_window (arcade.Window): The main game window.
+            parent_view (arcade.View): The game engine view that owns this
+            manager.
+            audio_manager (AudioManager): Shared audio manager instance.
+        """
 
         self.window = game_window
         self.config = game_window.game_config
@@ -43,6 +64,9 @@ class GameStateManager():
 
     @property
     def live(self) -> Any:
+        """
+        int: Current number of lives. Triggers game over when it reaches 0.
+        """
         return self.game_data["live"]
 
     @live.setter
@@ -68,6 +92,7 @@ class GameStateManager():
 
     @property
     def score(self) -> Any:
+        """int: Current player score. Negative values are clamped to 0."""
         return self.game_data["score"]
 
     @score.setter
@@ -85,6 +110,7 @@ class GameStateManager():
 
     @property
     def time_left(self) -> Any:
+        """float: Remaining time in seconds. Triggers a life loss at 0."""
         return self.game_data["time_left"]
 
     @time_left.setter
@@ -105,6 +131,7 @@ class GameStateManager():
 
     @property
     def current_level_index(self) -> Any:
+        """int: Index of the current level in the config level list."""
         return self.game_data["current_level_index"]
 
     @current_level_index.setter
@@ -112,6 +139,11 @@ class GameStateManager():
         self.game_data["current_level_index"] = new_index
 
     def win(self) -> None:
+        """Trigger the victory sequence when all levels are completed.
+
+        Resets the camera, stops all sounds, plays victory audio, and
+        navigates to the FinishScreen. Protected against double-triggering.
+        """
         # SECURITY
         if hasattr(self, "_win_triggered") and self._win_triggered:
             return
@@ -141,6 +173,7 @@ class GameStateManager():
                 previous_view=self.parent_view))
 
     def pause_game(self) -> None:
+        """Pause the game and show the pause menu overlay."""
         if self.window:
             from src.renderer.ui.pause_menu import PauseMenu
             self.window.show_view(PauseMenu(previous_view=self.parent_view))

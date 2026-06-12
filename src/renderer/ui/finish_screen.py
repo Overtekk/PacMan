@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/10 11:46:59 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:23:07 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,12 +19,26 @@ from .base_menu import BaseMenu
 
 
 class Glasses(arcade.Sprite):
+    """
+    Animated accessory sprite that slides toward Pac-Man's eyes during victory loops.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  parent_view: arcade.View,
                  sprite_path: arcade.Texture,
                  scale: float = 1.8) -> None:
+        """Initializes target position paths and configures the sprite scale
+        factor.
+
+        Args:
+            center_x (float): Initial horizontal screen position.
+            center_y (float): Initial vertical screen position.
+            parent_view (arcade.View): View structure managing this asset.
+            sprite_path (arcade.Texture): Texture resource reference for the
+            glasses.
+            scale (float): Bounding box scale multiplier.
+        """
 
         super().__init__(path_or_texture=sprite_path,
                          center_x=center_x,
@@ -35,6 +49,11 @@ class Glasses(arcade.Sprite):
         self.sprite_path = sprite_path
 
     def on_update(self, delta_time: float) -> None:
+        """Lerps position values toward Pac-Man's eye coordinates.
+
+        Args:
+            delta_time (float): Delta frame phase step value.
+        """
         # Move the glasses into pacman eyes
         target_x = ScreenSettings.WIDTH // 2 - 292
         target_y = 407
@@ -49,6 +68,9 @@ class Glasses(arcade.Sprite):
 
 
 class PacmanVictory(arcade.Sprite):
+    """
+    Victory screen illustration component showcasing the Pac-Man character.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -56,6 +78,16 @@ class PacmanVictory(arcade.Sprite):
                  parent_view: arcade.View,
                  scale: float = 2.2,
                  anchor_x: str = "center") -> None:
+        """Registers anchor points and sizes the victory illustration asset.
+
+        Args:
+            center_x (float): Center horizontal pixel coordinate.
+            center_y (float): Center vertical pixel coordinate.
+            sprite_path (Path): System directory address targeting image files.
+            parent_view (arcade.View): View configuration context wrapper.
+            scale (float): Geometric rendering resolution factor.
+            anchor_x (str): Horizontal boundary anchor lock mode.
+        """
 
         super().__init__(path_or_texture=sprite_path,
                          scale=scale, anchor_x=anchor_x)
@@ -67,6 +99,10 @@ class PacmanVictory(arcade.Sprite):
 
 
 class Victory(arcade.Sprite):
+    """
+    Overlay title banner text sprite displaying the main 'VICTORY' graphic
+    message.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -74,6 +110,17 @@ class Victory(arcade.Sprite):
                  parent_view: arcade.View,
                  scale: float = 1.5,
                  anchor_x: str = "center") -> None:
+        """Initializes positioning fields for the text graphic asset.
+
+        Args:
+            center_x (float): Center horizontal pixel coordinate.
+            center_y (float): Center vertical pixel coordinate.
+            sprite_path (Path): System path targeting structural title
+            graphics.
+            parent_view (arcade.View): Active window rendering layout phase.
+            scale (float): Aspect ratio resolution scaling factor.
+            anchor_x (str): Text horizontal bounds lock definition.
+        """
 
         super().__init__(path_or_texture=sprite_path,
                          scale=scale, anchor_x=anchor_x)
@@ -85,8 +132,24 @@ class Victory(arcade.Sprite):
 
 
 class FinishScreen(BaseMenu):
+    """Endgame scoreboard view that logs rankings and captures final player
+    names.
+
+    Inherits from BaseMenu to handle data validation pipelines and player
+    scoring profiles.
+    """
     def __init__(self, score: str, filename: str,
                  previous_view: arcade.View) -> None:
+        """Saves player scores and takes an application screen capture to use
+        as a background.
+
+        Args:
+            score (str): Number tracking total match points converted to
+            string format.
+            filename (str): Target system database path destination.
+            previous_view (arcade.View): The active gameplay loop state
+            container.
+        """
         super().__init__()
         self.player_name = ""
         self.score = score
@@ -96,6 +159,10 @@ class FinishScreen(BaseMenu):
         self.background = arcade.Texture(image)
 
     def build_ui(self) -> None:
+        """
+        Populates the layout engine with Victory banners and text graphic
+        instances.
+        """
 
         # Set the 'Victory' sprite
         victory = Victory(

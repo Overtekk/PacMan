@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:44:37 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:10:02 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:49:31 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,6 +19,10 @@ from src.renderer.screen_settings import ScreenSettings
 
 
 class DisplayLives(arcade.Sprite):
+    """
+    UI element sprite designated for drawing player inventory health
+    indicators (hearts).
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
@@ -27,6 +31,18 @@ class DisplayLives(arcade.Sprite):
                  scale: float = 1.5,
                  anchor_x: str = "left",
                  anchor_y: str = "top") -> None:
+        """Initializes a life display heart tracking indicator.
+
+        Args:
+            center_x (float): Initial horizontal screen position.
+            center_y (float): Initial vertical screen position.
+            sprite_path (Path): Path referencing the heart image asset.
+            parent_view (arcade.View): The active parent UI layout container
+            view.
+            scale (float): Geometric rendering scale modifier.
+            anchor_x (str): Horizontal boundary clipping orientation anchor.
+            anchor_y (str): Vertical boundary clipping orientation anchor.
+        """
 
         super().__init__(path_or_texture=sprite_path,
                          scale=scale,
@@ -40,8 +56,22 @@ class DisplayLives(arcade.Sprite):
 
 
 class UIScreen(BaseMenu):
+    """
+    Head-Up Display layer updating scores, game timers, levels, and structural
+    health metrics.
+    """
     def __init__(self, score: str, time: str, nb_lives: int,
                  level: int) -> None:
+        """Initializes the heads-up status bars and maps label text positioning
+        data.
+
+        Args:
+            score (str): Initial string representation of game session score
+            points.
+            time (str): Initial string representation of the match timer.
+            nb_lives (int): Current count of operational player retry tokens.
+            level (int): Zero-indexed index representing active level stages.
+        """
         super().__init__()
         self.score: str = score
         self.time: str = time
@@ -82,9 +112,14 @@ class UIScreen(BaseMenu):
         self.text_lst.append(self.display_level)
 
     def build_ui(self) -> None:
+        """Constructs and draws health-specific configuration elements."""
         self.regenerate_lives()
 
     def regenerate_lives(self) -> None:
+        """
+        Dynamically builds heart sprite stacks up to a cap of 5, writing text
+        overflow extensions beyond.
+        """
         # Check the number of lifes and display it
         self.button_list.clear()
         x = 30
@@ -113,6 +148,10 @@ class UIScreen(BaseMenu):
             self.more_lives.text = ""
 
     def on_draw(self) -> None:
+        """
+        Dispatches draw calls onto structural target components and textual
+          displays.
+        """
         # Draw sprites and texts
         self.button_list.draw()
         for txt in self.text_lst:
@@ -120,6 +159,16 @@ class UIScreen(BaseMenu):
 
     def update(self, score: str, time: str, live: int,
                level: int) -> None:
+        """Modifies running text fields and dynamically updates live sprites
+        during runtime adjustments.
+
+        Args:
+            score (str): String format tracking values of active match totals.
+            time (str): Raw tracking numerical strings of clock conditions.
+            live (int): Numeric representation of active player health
+            statuses.
+            level (int): Stage iteration tracker parameter.
+        """
         # Update the time, the score, and the number of lives
         self.score = str(int(score))
         self.time = str(int(time))

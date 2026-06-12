@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:31:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/02 16:31:06 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:15:49 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -19,12 +19,30 @@ from pathlib import Path
 
 
 class BaseButton(arcade.Sprite, ABC):
+    """Abstract Base Class establishing common click, shake, and hover behaviors.
+
+    Derived sprites manage state transitions when interacted with via the mouse
+    or fallback keyboard arrays inside various system menu viewports.
+    """
     def __init__(self,
                  center_x: float,
                  center_y: float,
                  sprite_path: Union[arcade.Texture, Path],
                  parent_view: arcade.View,
                  scale: float = 1.5) -> None:
+        """Initializes foundational placement tracking data and spatial
+        anchors.
+
+        Args:
+            center_x (float): Horizontal operational midpoint index.
+            center_y (float): Vertical operational midpoint index.
+            sprite_path (Union[arcade.Texture, Path]): Visual source asset
+            matrix wrapper.
+            parent_view (arcade.View): Active display scope context holding
+            this button.
+            scale (float): Multiplier controlling target rendering bounding
+            dimensions.
+        """
 
         super().__init__(path_or_texture=sprite_path, scale=scale)
 
@@ -38,10 +56,22 @@ class BaseButton(arcade.Sprite, ABC):
         self.shaking = False
 
     def start_shake(self, duration: float) -> None:
+        """Triggers a local structural layout shake routine.
+
+        Args:
+            duration (float): Lifetime sequence allocation measured in seconds.
+        """
         self.shake_timer = duration
         self.shaking = True
 
     def on_update(self, delta_time: float) -> None:
+        """Computes structural offset vectors if displacement routines are
+        running.
+
+        Args:
+            delta_time (float): High-precision interval tracking elapsed frame
+            phases.
+        """
         if self.shaking:
             self.shake_timer -= delta_time
             if self.shake_timer <= 0:
@@ -56,6 +86,17 @@ class BaseButton(arcade.Sprite, ABC):
                 self.center_y = self.origin_y + random.uniform(-amp, amp)
 
     def check_hover(self, x: float, y: float) -> None:
+        """Tracks intersections against pointer vectors to apply visual
+        highlights.
+
+        Triggers dynamic procedural joke drifting if idle metrics exceed
+        predefined
+        limits, or defaults to small vibration tracking animations.
+
+        Args:
+            x (float): Tracked horizontal absolute layout pointer address.
+            y (float): Tracked vertical absolute layout pointer address.
+        """
         # check if the mouse is over the sprite and color it in light gray
         if self.collides_with_point((x, y)):
             self.color = arcade.color.LIGHT_GRAY
@@ -73,4 +114,7 @@ class BaseButton(arcade.Sprite, ABC):
 
     @abstractmethod
     def on_click(self) -> None:
+        """
+        Abstract execution block handling structural execution upon activation.
+        """
         pass

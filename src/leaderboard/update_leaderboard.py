@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:53:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/05 15:12:46 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:30:28 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,18 @@ import json
 def save_score_to_leaderboard(
     file: str, player_name: str, score: float, cheater_or_not: bool
 ) -> None:
+    """Save a player score to the leaderboard JSON file.
+
+    Sanitises the name and score, updates an existing entry or appends a new
+    one, removes the lowest score when there are more than 10 entries, and
+    re-sorts the file by descending score.
+
+    Args:
+        file (str): Path to the leaderboard JSON file.
+        player_name (str): Player name, truncated to 10 characters if needed.
+        score (float): Raw score value; negative values are clamped to 0.
+        cheater_or_not (bool): If True, the name is prefixed with "CHEATER ".
+    """
 
     # If player_name is too long, cut the characters
     if len(player_name) > 10:
@@ -71,6 +83,14 @@ def save_score_to_leaderboard(
 
 
 def open_leaderboard(file: str) -> Any:
+    """Load and return the full leaderboard data from a JSON file.
+
+    Args:
+        file (str): Path to the leaderboard JSON file.
+
+    Returns:
+        Any: Parsed JSON content, typically a dict with a "scores" list.
+    """
 
     with open(file, 'r', encoding='utf-8') as f:
         data: Any = json.load(f)
@@ -79,6 +99,14 @@ def open_leaderboard(file: str) -> Any:
 
 
 def _find_lowest_score(data: dict[dict[str, Any], Any]) -> dict[str, Any]:
+    """Find and return the entry with the lowest score in the leaderboard.
+
+    Args:
+        data (dict): List of player entry dicts with "player_score" keys.
+
+    Returns:
+        dict[str, Any]: The entry dict with the smallest "player_score".
+    """
     weakest_player: dict[str, Any] = {
         "player_name": "",
         "player_score": float('+inf')
@@ -95,6 +123,14 @@ def _find_lowest_score(data: dict[dict[str, Any], Any]) -> dict[str, Any]:
 def _sort_leaderboard(
     data: dict[str, list[dict[str, Any]]]
 ) -> dict[str, list[dict[str, Any]]]:
+    """Sort the leaderboard entries by score in descending order.
+
+    Args:
+        data (dict[str, list[dict[str, Any]]]): Full leaderboard data dict.
+
+    Returns:
+        dict[str, list[dict[str, Any]]]: The same dict with "scores" sorted.
+    """
 
     data["scores"].sort(
         key=lambda player: player["player_score"], reverse=True
@@ -105,6 +141,15 @@ def _sort_leaderboard(
 def _verify_score(
     data: dict[str, list[dict[str, Any]]]
 ) -> dict[str, list[dict[str, Any]]]:
+    """Remove any entries with a negative score from the leaderboard.
+
+    Args:
+        data (dict[str, list[dict[str, Any]]]): Full leaderboard data dict.
+
+    Returns:
+        dict[str, list[dict[str, Any]]]: The same dict with invalid entries
+            removed.
+    """
 
     data["scores"] = [player for player in data["scores"]
                       if player["player_score"] >= 0]
