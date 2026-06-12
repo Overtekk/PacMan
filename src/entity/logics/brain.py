@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 14:16:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 16:18:34 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -99,7 +99,7 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.CHASE:
             self.enemy.speed = (
-                self.enemy.player_ref.base_speed + 2
+                self.enemy.player_ref.base_speed + 1.2
             )
             self._chase_player(delta_time)
 
@@ -112,7 +112,7 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.RUNAWAY:
             self.enemy.speed = (
-                self.enemy.base_speed - 2
+                self.enemy.base_speed - 5
             )
             self._runaway_from_player()
 
