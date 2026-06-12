@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:23:36 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:44:40 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -92,7 +92,7 @@ class EnemyBrain():
 
         elif self.enemy.mode == EnemyState.RUNAWAY:
             self.enemy.speed = (
-                self.enemy.player_ref.base_speed - 2
+                self.enemy.base_speed - 2
             )
             self._runaway_from_player()
 
