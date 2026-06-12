@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:44:40 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:53:30 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,19 @@ if TYPE_CHECKING:
 
 
 class EnemyBrain():
+    """Base brain class managing enemy AI state machine, navigation, and
+    raycasting.
+
+    Handles common behaviors such as wandering, chasing, returning to spawn,
+    and fallback anti-stuck mechanics
+    """
     def __init__(self, enemy_ref: "Enemy") -> None:
+        """Initialize the enemy brain.
+
+        Args:
+            enemy_ref (Enemy): Reference to the enemy entity controlling this
+            brain.
+        """
         self.enemy: Enemy = enemy_ref
 
         # - Private attributes -
@@ -34,6 +46,11 @@ class EnemyBrain():
         self._old_target: tuple[float, float] = (0, 0)
 
     def update(self, delta_time: float) -> None:
+        """Update the AI state machine logic and vision sensing.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         if self.enemy.mode not in [
             EnemyState.WAIT, EnemyState.CHASE, EnemyState.ANGRY
         ]:
@@ -42,6 +59,7 @@ class EnemyBrain():
         self._state_machine(delta_time)
 
     def force_move(self) -> None:
+        """Force the enemy to immediately pick a random valid direction."""
         conv_x, conv_y = (
             self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
         )
@@ -62,6 +80,11 @@ class EnemyBrain():
     # :---------------:
 
     def _state_machine(self, delta_time: float) -> None:
+        """Execute movement logic corresponding to the current state mode.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         if self.enemy.mode == EnemyState.WAIT:
             if self.enemy._wait_revive:
                 self._revive(delta_time)
@@ -113,6 +136,16 @@ class EnemyBrain():
     def _get_available_moves(
         self
     ) -> dict[tuple[float, float], tuple[int, int]]:
+        """Filter and retrieve unblocked neighboring tiles.
+
+        Prevents 180-degree turns unless trapped in a dead end, and triggers
+        anti-stuck fallbacks.
+
+        Returns:
+            dict[tuple[float, float], tuple[int, int]]: Maps valid direction
+            vectors
+                to their corresponding grid target coordinates.
+        """
 
         # Convert position from pixels to grid
         conv_x, conv_y = (
@@ -157,6 +190,13 @@ class EnemyBrain():
         return open_walls
 
     def _raycasting(self) -> bool:
+        """Cast a straight sensory ray along the moving direction to detect
+        the player.
+
+        Returns:
+            bool: True if the player is in direct line of sight without wall
+            obstructions.
+        """
         if self.enemy.mode in (
             EnemyState.WAIT, EnemyState.RUNAWAY, EnemyState.RESPAWN
         ):
@@ -214,6 +254,12 @@ class EnemyBrain():
         return player_found
 
     def _chase_player(self, delta_time: float) -> None:
+        """Pursue the player actively and handle state forgetting when losing
+        line of sight.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         MAX_TIME_TO_FORGET: float = 7.0
         player_found: bool = self._raycasting()
 
@@ -233,6 +279,7 @@ class EnemyBrain():
         self._go_to_position(self.enemy.player_ref.x, self.enemy.player_ref.y)
 
     def _runaway_from_player(self) -> None:
+        """Select a safe direction to flee from the player."""
         open_walls = self._get_available_moves()
         if not open_walls:
             return
@@ -240,6 +287,7 @@ class EnemyBrain():
         self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _return_to_spawnpoint(self) -> None:
+        """Route the defeated entity back to its starting spawn point."""
         conv_spawn_point: tuple[float, float] = (
             self.enemy.calculator.get_pixel_to_grid_any(
                 self.enemy.spawn_point[0], self.enemy.spawn_point[1]))
@@ -287,6 +335,7 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _move(self) -> None:
+        """Calculate and submit the next direction during wandering."""
         open_walls = self._get_available_moves()
         if not open_walls:
             return
@@ -294,6 +343,11 @@ class EnemyBrain():
         self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _revive(self, delta_time: float) -> None:
+        """Handle alpha restoration and reset states during revival countdown.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         self.enemy._revive_timer += delta_time
 
         ratio = self.enemy._revive_timer / game_config.player_revive_time
@@ -315,6 +369,16 @@ class EnemyBrain():
     def _apply_momentum_choice(
         self, open_walls: dict[tuple[float, float], tuple[int, int]]
     ) -> tuple[float, float]:
+        """Apply a probability modifier to keep going straight instead of
+        turning.
+
+        Args:
+            open_walls (dict[tuple[float, float], tuple[int, int]]): Available
+            directions.
+
+        Returns:
+            tuple[float, float]: Chosen direction vector.
+        """
 
         available_directions: list[tuple[float, float]] = (
             list(open_walls.keys())
@@ -335,6 +399,13 @@ class EnemyBrain():
         return random.choice(available_directions)
 
     def _go_to_position(self, pos_x: float, pos_y: float) -> None:
+        """Route towards a raw pixel coordinate using distance heuristics per
+        tile.
+
+        Args:
+            pos_x (float): Target X pixel coordinate.
+            pos_y (float): Target Y pixel coordinate.
+        """
         open_walls = self._get_available_moves()
         if not open_walls:
             return
@@ -369,6 +440,12 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
+        """Compute an ideal path to a grid target using the A* pathfinding
+        algorithm.
+
+        Args:
+            target (tuple[int, int]): Target grid coordinate mapping (x, y).
+        """
         self_coords = (
                 int(self.enemy.calculator.get_pixel_to_grid_entity(self.enemy))
             )
@@ -405,6 +482,17 @@ def a_star_algo(
         grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
         goal_pos: tuple[int, int]
         ) -> list[tuple[int, int]]:
+    """Execute the A* pathfinding algorithm over the maze grid layout.
+
+    Args:
+        grid (dict[tuple[int, int], int]): The maze bitmap dictionary.
+        start_pos (tuple[int, int]): Initial grid coordinates.
+        goal_pos (tuple[int, int]): Destination grid coordinates.
+
+    Returns:
+        list[tuple[int, int]]: Chronological sequence of nodes from start to
+        goal.
+    """
 
     # Initialize start node
     start: dict[str, Any] = create_node(
@@ -468,6 +556,20 @@ def create_node(
         position: tuple[int, int], cost: float = float('inf'),
         estimate_cost: float = 0.0,
         parent: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Helper formatting dictionary structures representing nodes in A*.
+
+    Args:
+        position (tuple[int, int]): Spatial coordinates.
+        cost (float): $g(n)$ cost accumulated to reach this node. Defaults to
+        infinity.
+        estimate_cost (float): $h(n)$ heuristic cost to destination. Defaults
+        to 0.0.
+        parent (dict[str, Any] | None): Node leading directly to this one.
+        Defaults to None.
+
+    Returns:
+        dict[str, Any]: Generated node model.
+    """
 
     return {
         'position': position,
@@ -479,6 +581,15 @@ def create_node(
 
 
 def calculate_heuristic(pos1: tuple[int, int], pos2: tuple[int, int]) -> float:
+    """Calculate Euclidean distance metric serving as the A* heuristic.
+
+    Args:
+        pos1 (tuple[int, int]): Point A coordinates.
+        pos2 (tuple[int, int]): Point B coordinates.
+
+    Returns:
+        float: Calculated distance.
+    """
     x1, y1 = pos1
     x2, y2 = pos2
     return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
@@ -487,6 +598,15 @@ def calculate_heuristic(pos1: tuple[int, int], pos2: tuple[int, int]) -> float:
 def get_valid_neighbors(
         grid: dict[tuple[int, int], int], position: tuple[int, int]
         ) -> list[tuple[int, int]]:
+    """Scan cardinally adjacent spaces to find passable tiles.
+
+    Args:
+        grid (dict[tuple[int, int], int]): The maze bitmap structure.
+        position (tuple[int, int]): Evaluated tile grid origin.
+
+    Returns:
+        list[tuple[int, int]]: Collection of valid adjacent tile paths.
+    """
     valid_list: list[tuple[int, int]] = []
 
     x, y = position
@@ -503,6 +623,15 @@ def get_valid_neighbors(
 
 
 def reconstruct_path(goal: dict[str, Any]) -> list[tuple[int, int]]:
+    """Unroll tracking relationships from a goal node backwards to create a
+    path.
+
+    Args:
+        goal (dict[str, Any]): Solved target node containing parent lineage.
+
+    Returns:
+        list[tuple[int, int]]: Sequential tracking path from start to target.
+    """
     path = []
     current = goal
 

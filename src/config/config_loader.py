@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:14:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:07:35 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -34,6 +34,23 @@ mandatory_keys: list[str] = [
 
 
 def load_config(filepath: Path) -> GameConfig:
+    """Load and validate the game configuration from a JSON file.
+
+    Performs a series of file-system and content checks before parsing.
+    Falls back to the default configuration if any check fails so the
+    game can always start.
+
+    Args:
+        filepath (Path): Path to the JSON configuration file.
+
+    Returns:
+        GameConfig: A validated configuration object, or the default config
+            if the file is missing, unreadable, or invalid.
+
+    Raises:
+        ValueError: If the parent directory exists but lacks read/write
+            permissions.
+    """
     # SECURITY: create the Path object
     filepath = Path(filepath)
 
@@ -88,10 +105,20 @@ def load_config(filepath: Path) -> GameConfig:
 
 
 def _create_default_config() -> GameConfig:
+    """Create and return a GameConfig with all default values.
+
+    Returns:
+        GameConfig: Default game configuration.
+    """
     return GameConfig()
 
 
 def _print_default_error_message(error: str) -> None:
+    """Print a formatted error message and notify the user that defaults apply.
+
+    Args:
+        error (str): Description of the configuration error.
+    """
     error += "\nLet's play with the default config ! 🐨"
 
     print_error(error)

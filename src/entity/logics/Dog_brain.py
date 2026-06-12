@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/10 11:49:59 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/12 10:14:42 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:54:36 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -23,12 +23,29 @@ if TYPE_CHECKING:
 
 
 class DogBrain(EnemyBrain):
+    """Brain implementation specialized for DogEnemy entities.
+
+    Features proximity-based tracking toggles (SEARCH vs WANDER) and partial
+    randomization inside targeting navigation to simulate unpredictable animal
+    paths.
+    """
     def __init__(self, enemy: 'DogEnemy') -> None:
+        """Initialize the dog brain and calculate its search thresholds.
+
+        Args:
+            enemy (DogEnemy): Controlled enemy entity reference.
+        """
         super().__init__(enemy)
 
         self._get_radius()
 
     def update(self, delta_time: float) -> None:
+        """Monitor distance constraints to alter search profiles before
+        updating defaults.
+
+        Args:
+            delta_time (float): Time elapsed since the last frame update.
+        """
         if self.enemy.mode == EnemyState.WANDER:
             updated_coords: list[tuple[float, float]] = self._update_coords()
 
@@ -57,6 +74,14 @@ class DogBrain(EnemyBrain):
     # :---------------:
 
     def _update_coords(self) -> list[tuple[float, float]]:
+        """Collect current player and entity pixel coordinates adjusted by
+        orientation.
+
+        Returns:
+            list[tuple[float, float]]: Formatted list containing entity
+            position
+                and scaled offset target positions.
+        """
         coords: list[tuple[float, float]] = []
 
         self_pxl_coords: tuple[float, float] = (
@@ -91,6 +116,10 @@ class DogBrain(EnemyBrain):
         return coords
 
     def _get_radius(self) -> None:
+        """
+        Establish internal detection ranges scaled against total grid layout
+        dimensions.
+        """
         highest_x: float = float('-inf')
 
         for coords in self.enemy.maze_bitmap:
@@ -105,6 +134,13 @@ class DogBrain(EnemyBrain):
         )
 
     def _go_to_position(self, pos_x: float, pos_y: float) -> None:
+        """Execute movement navigation targeting incorporating randomized path
+        steps.
+
+        Args:
+            pos_x (float): Target X pixel coordinate.
+            pos_y (float): Target Y pixel coordinate.
+        """
         open_walls = self._get_available_moves()
         if not open_walls:
             return

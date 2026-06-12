@@ -6,9 +6,15 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:28:53 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:42:00 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+"""Resource loading module for managing game assets.
+
+Handles the verification, extension checking, and loading of all textures,
+fonts, and audio files required for the game via Arcade.
+"""
 
 from src.utils import print_error
 try:
@@ -332,6 +338,10 @@ REQUIERED_SOUNDS: dict[str, dict[str, str | bool]] = {
 
 
 def check_assets_folder() -> None:
+    """Verify the existence of the main assets and sprites directories.
+
+    Prints an error message if the required folders do not exist.
+    """
     try:
         check_folder(Path("assets"))
         check_folder(Path("assets/sprites"))
@@ -340,10 +350,26 @@ def check_assets_folder() -> None:
 
 
 class SpritesLoader():
+    """Loader utility for game sprite and texture assets.
+
+    Validates and paths all essential sprite textures from the assets folder.
+
+    Attributes:
+        default_path (Path): Path to the root directory where sprites are
+        stored.
+        textures (dict[str, Path]): Mapping of sprite identifier names to their
+            validated absolute paths.
+    """
     def __init__(
         self,
         default_path: str = DEFAULT_SPRITES_PATH
     ) -> None:
+        """Initialize the SpritesLoader with a default path and load all
+        sprites.
+
+        Args:
+            default_path (str): Base directory path for sprite files.
+        """
 
         self.default_path: Path = pathlib.Path(default_path)
 
@@ -354,6 +380,13 @@ class SpritesLoader():
         self.load_sprites()
 
     def load_sprites(self) -> None:
+        """Load and validate all game sprites defined in REQUIRED_SPRITES.
+
+        Raises:
+            ValueError: If a sprite asset does not have a valid '.png'
+            extension
+                or fails the general path checks.
+        """
         for sprite_name, relative_path in REQUIERED_SPRITES.items():
 
             full_path: Path = self.default_path / relative_path
@@ -370,10 +403,22 @@ class SpritesLoader():
 
 
 class FontLoader():
+    """Loader utility for registration of custom TrueType fonts.
+
+    Loads and registers required TTF typography into Arcade's font engine.
+
+    Attributes:
+        default_path (Path): Path to the directory where fonts are stored.
+    """
     def __init__(
         self,
         default_path: str = DEFAULT_FONT_PATH
     ) -> None:
+        """Initialize the FontLoader and load all system fonts.
+
+        Args:
+            default_path (str): Base directory path for font files.
+        """
 
         self.default_path: Path = pathlib.Path(default_path)
 
@@ -383,6 +428,12 @@ class FontLoader():
         self.load_fonts()
 
     def load_fonts(self) -> None:
+        """Load and register all font files specified in REQUIRED_FONTS.
+
+        Raises:
+            ValueError: If a font asset does not have a valid '.ttf' extension
+                or fails path verification.
+        """
         for relative_path in REQUIERED_FONTS.values():
 
             full_path: Path = self.default_path / relative_path
@@ -399,10 +450,27 @@ class FontLoader():
 
 
 class AudioLoader():
+    """Loader utility for handling background music and sound effect assets.
+
+    Verifies paths, extensions, and instantiates sound objects for game
+    playback.
+
+    Attributes:
+        default_path (Path): Path to the directory where audio files are
+         stored.
+        audio (dict[str, arcade.Sound]): Mapping of sound names to Arcade
+        Sound instances.
+    """
     def __init__(
         self,
         default_path: str = DEFAULT_AUDIO_PATH
     ) -> None:
+        """Initialize the AudioLoader and load all game sound effects and
+        tracks.
+
+        Args:
+            default_path (str): Base directory path for audio files.
+        """
 
         self.default_path: Path = pathlib.Path(default_path)
 
@@ -413,6 +481,16 @@ class AudioLoader():
         self.load_audio()
 
     def load_audio(self) -> None:
+        """Load, validate, and instantiate all sounds from REQUIRED_SOUNDS.
+
+        Determines whether audio should be initialized with streaming support
+        based on configuration.
+
+        Raises:
+            ValueError: If an audio asset lacks a valid '.mp3' or '.ogg'
+            extension,
+                or fails path checks.
+        """
         for audio_name, audio_data in REQUIERED_SOUNDS.items():
 
             relative_path = audio_data["path"]
@@ -439,6 +517,22 @@ def load_sprite_sheet(textures: dict[str, Path],
                       sprite_height: int,
                       sprites_columns: int,
                       sprites_count: int) -> list[arcade.Texture]:
+    """Slice and extract individual texture grids from a main sprite sheet.
+
+    Args:
+        textures (dict[str, Path]): Dictionary containing path to the sprite
+        sheet.
+        sprite_width (int): Width of an individual sprite cell in pixels.
+        sprite_height (int): Height of an individual sprite cell in pixels.
+        sprites_columns (int): Number of sprite columns inside the sheet
+        layout.
+        sprites_count (int): Total number of sub-textures to extract from the
+        grid.
+
+    Returns:
+        list[arcade.Texture]: A collection of sub-textures extracted from the
+        grid.
+    """
 
     sheet = arcade.SpriteSheet(textures)
 

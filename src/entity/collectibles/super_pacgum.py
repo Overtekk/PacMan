@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:09:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 10:37:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 11:46:12 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,6 +24,17 @@ class SuperPacgum(Collectible):
         scale: float = 1.0,
         score: int = 0
     ) -> None:
+        """Initialize a Super Pacgum item capable of triggering state changes.
+
+        Args:
+            spawn_point (tuple[int, int]): Grid coordinates for spawning.
+            sprite (str | arcade.Texture): Path to texture or Texture object.
+            calculator (SuperCalculator): Utility instance for coordinates
+            calculations.
+            scale (float, optional): Visual scale factor. Defaults to 1.0.
+            score (int, optional): Score rewarded upon collection. Defaults to
+            0.
+        """
 
         super().__init__(
             spawn_point=spawn_point,
@@ -37,4 +48,9 @@ class SuperPacgum(Collectible):
 
     @property
     def is_activate(self) -> bool:
+        """Check if the super pacgum effects are currently activated.
+
+        Returns:
+            bool: True if activated, False otherwise.
+        """
         return self._is_activate

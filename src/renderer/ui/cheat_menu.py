@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:51 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/09 11:07:11 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 12:21:11 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -24,6 +24,10 @@ from src.utils import print_log
 
 
 class BackButton(BaseButton):
+    """
+    Button subclass managing transitions out of submenus back into previous
+    states.
+    """
     def __init__(
             self,
             center_x: float,
@@ -40,11 +44,15 @@ class BackButton(BaseButton):
         )
 
     def on_click(self) -> None:
+        """Restores focus to the parent view object container layer."""
         if self.parent_view.window:
             self.parent_view.window.show_view(self.parent_view)
 
 
 class ExtraTime(BaseButton):
+    """
+    Modifier shortcut component injecting duration steps into round clocks.
+    """
     def __init__(
             self,
             center_x: float,
@@ -72,6 +80,9 @@ class ExtraTime(BaseButton):
         self.floating_texts: list[dict[str, Any]] = []
 
     def on_click(self) -> None:
+        """
+        Injects time metrics and constructs floating text score components.
+        """
         self.texture = self.texture_on
         if hasattr(self.parent_view, 'previous_view'):
             self.parent_view.previous_view.extra_time_activate = True
@@ -90,6 +101,9 @@ class ExtraTime(BaseButton):
         self._activate_cheat()
 
     def on_update(self, delta_time: float) -> None:
+        """
+        Updates font positioning parameters and alpha fading steps over time.
+        """
         for item in reversed(self.floating_texts):
             item["timer"] -= delta_time
 
@@ -102,6 +116,7 @@ class ExtraTime(BaseButton):
                 item["text_obj"].color = (255, 255, 255, alpha)
 
     def _activate_cheat(self) -> None:
+        """Adjusts engine level timers directly."""
         if game_config.debug_mode:
             print_log("Cheat mode: +50 seconds")
 
@@ -110,6 +125,7 @@ class ExtraTime(BaseButton):
 
 
 class SpeedUpButton(BaseButton):
+    """Button item updating mobile character scalar velocity fields."""
     def __init__(
             self,
             center_x: float,
@@ -137,6 +153,9 @@ class SpeedUpButton(BaseButton):
         self.floating_texts: list[dict[str, Any]] = []
 
     def on_click(self) -> None:
+        """
+        Applies velocity modifications and schedules dynamic tracking overlays.
+        """
         self.texture = self.texture_on
         if hasattr(self.parent_view, 'previous_view'):
             self.parent_view.previous_view.speed_up_activate = True
@@ -155,6 +174,10 @@ class SpeedUpButton(BaseButton):
         self._activate_cheat()
 
     def on_update(self, delta_time: float) -> None:
+        """
+        Controls displacement physics vectors for visual floating tracking
+        indicators.
+        """
         for item in reversed(self.floating_texts):
             item["timer"] -= delta_time
 
@@ -167,6 +190,7 @@ class SpeedUpButton(BaseButton):
                 item["text_obj"].color = (255, 255, 255, alpha)
 
     def _activate_cheat(self) -> None:
+        """Modifies core actor step dimensions directly."""
         if game_config.debug_mode:
             print_log("Cheat mode: +10 speed")
 
@@ -175,6 +199,7 @@ class SpeedUpButton(BaseButton):
 
 
 class NextLevelButton(BaseButton):
+    """Interactive button designed to force map layout phase transitions."""
     def __init__(
             self,
             center_x: float,
@@ -200,6 +225,7 @@ class NextLevelButton(BaseButton):
                 self.texture = self.texture_on
 
     def on_click(self) -> None:
+        """Aborts standard layout processing loops to clear maps instantly."""
         if hasattr(self.parent_view, 'previous_view'):
             if not self.parent_view.previous_view.cheat_skip_level:
                 self.texture = self.texture_on
@@ -207,6 +233,7 @@ class NextLevelButton(BaseButton):
                 self._activate_cheat()
 
     def _activate_cheat(self) -> None:
+        """Forces level skip actions and refreshes active views."""
         if game_config.debug_mode:
             print_log("Cheat mode: Skipping level")
 
@@ -218,6 +245,7 @@ class NextLevelButton(BaseButton):
 
 
 class FreezeGhostButton(BaseButton):
+    """Button controlling flags that lock enemy pathfinding routines."""
     def __init__(
             self,
             center_x: float,
@@ -243,6 +271,7 @@ class FreezeGhostButton(BaseButton):
                 self.texture = self.texture_on
 
     def on_click(self) -> None:
+        """Toggles AI state parameters across active tracking dictionaries."""
         if hasattr(self.parent_view, 'previous_view'):
             if self.parent_view.previous_view.is_cheat_freeze_active:
                 self.texture = self.texture_off
@@ -257,6 +286,7 @@ class FreezeGhostButton(BaseButton):
                     self._activate_cheat()
 
     def _activate_cheat(self) -> None:
+        """Locks all enemy movement fields."""
         if game_config.debug_mode:
             print_log("Cheat mode: FREEZE on")
 
@@ -268,6 +298,7 @@ class FreezeGhostButton(BaseButton):
             enemy.can_move = False
 
     def _disable_cheat(self) -> None:
+        """Unlocks ghost actors, forcing them to re-evaluate pathing grids."""
         if game_config.debug_mode:
             print_log("Cheat mode: FREEZE off")
 
@@ -281,6 +312,9 @@ class FreezeGhostButton(BaseButton):
 
 
 class ExtraLivesButton(BaseButton):
+    """
+    Cheat interface component managing the user's remaining lives counter.
+    """
     def __init__(
             self,
             center_x: float,
@@ -308,6 +342,9 @@ class ExtraLivesButton(BaseButton):
         self.floating_texts: list[dict[str, Any]] = []
 
     def on_click(self) -> None:
+        """
+        Increments available engine life pools and triggers tracking indicators.
+        """
         self.texture = self.texture_on
         if hasattr(self.parent_view, 'previous_view'):
             self.parent_view.previous_view.extra_life_activate = True
@@ -326,6 +363,7 @@ class ExtraLivesButton(BaseButton):
         self._activate_cheat()
 
     def on_update(self, delta_time: float) -> None:
+        """Manages vertical trajectory and transparency tracking formulas."""
         for item in reversed(self.floating_texts):
             item["timer"] -= delta_time
 
@@ -338,6 +376,7 @@ class ExtraLivesButton(BaseButton):
                 item["text_obj"].color = (255, 255, 255, alpha)
 
     def _activate_cheat(self) -> None:
+        """Increments player life pools inside the core state manager."""
         if game_config.debug_mode:
             print_log("Cheat mode: +1 life")
 
@@ -346,6 +385,7 @@ class ExtraLivesButton(BaseButton):
 
 
 class InvincibilityButton(BaseButton):
+    """Bypasses collision vulnerability checks to prevent player damage."""
     def __init__(
             self,
             center_x: float,
@@ -371,6 +411,7 @@ class InvincibilityButton(BaseButton):
                 self.texture = self.texture_on
 
     def on_click(self) -> None:
+        """Toggles invincibility states inside active player objects."""
         if hasattr(self.parent_view, 'previous_view'):
             if self.parent_view.previous_view.is_cheat_invincible_active:
                 self.texture = self.texture_off
@@ -387,6 +428,7 @@ class InvincibilityButton(BaseButton):
                     self._activate_cheat()
 
     def _activate_cheat(self) -> None:
+        """Sets the player invincibility flag to True."""
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY on")
 
@@ -394,6 +436,7 @@ class InvincibilityButton(BaseButton):
             self.parent_view.previous_view.player.cheat_invincible = True
 
     def _disable_cheat(self) -> None:
+        """Sets the player invincibility flag to False."""
         if game_config.debug_mode:
             print_log("Cheat mode: INVINCIBILITY off")
 
@@ -402,6 +445,11 @@ class InvincibilityButton(BaseButton):
 
 
 class CheatMenu(BaseMenu):
+    """Control dashboard view mapping modifier hotkeys and toggle buttons.
+
+    Inherits from BaseMenu and handles keyboard navigation sequences alongside
+    standard mouse clicks.
+    """
     def __init__(
         self, previous_view: arcade.View, background: arcade.Texture
     ) -> None:
@@ -412,6 +460,9 @@ class CheatMenu(BaseMenu):
         self.y = 0
 
     def build_ui(self) -> None:
+        """
+        Assembles and positions all cheat options onto the active canvas layout.
+        """
         # Create all the cheat mode buttons
         self.invincibility = InvincibilityButton(
             center_x=ScreenSettings.WIDTH // 2,
@@ -499,6 +550,12 @@ class CheatMenu(BaseMenu):
         self.button_list.append(self.back)
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
+        """Processes directional keyboard inputs to navigate menu options.
+
+        Args:
+            symbol (int): Code representing the pressed key.
+            _modifiers (int): Active modifier keys (unused).
+        """
         if symbol == arcade.key.ESCAPE:
             if self.previous_view:
                 self.window.show_view(self.previous_view)
@@ -564,6 +621,7 @@ class CheatMenu(BaseMenu):
                 self.back.on_click()
 
     def on_draw(self) -> None:
+        """Renders the blurred background texture and buttons on screen."""
         self.clear()
 
         # Draw the game background image
@@ -592,6 +650,12 @@ class CheatMenu(BaseMenu):
                     item["text_obj"].draw()
 
     def on_update(self, delta_time: float) -> None:
+        """Dispatches game logic updates across all registered sprites.
+
+        Args:
+            delta_time (float): High-precision interval tracking elapsed frame
+            phases.
+        """
         self.button_list.update()
 
         for sprite in self.button_list:
