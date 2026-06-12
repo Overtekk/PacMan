@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:06:57 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 10:34:55 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -29,6 +29,12 @@ class CatBrain(EnemyBrain):
         if self.enemy._is_edible and not self.enemy.died:
             if self.enemy.mode in [EnemyState.RESPAWN, EnemyState.RUNAWAY]:
                 return
+
+        if game_config.debug_mode:
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                if self.enemy.mode != EnemyState.SEARCH:
+                    if len(self.enemy._debug_pathfinding) > 0:
+                        self.enemy._debug_pathfinding.clear()
 
         super().update(delta_time)
 

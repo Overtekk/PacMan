@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:01:49 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 10:30:14 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -391,6 +391,10 @@ class EnemyBrain():
                 self.enemy.maze_bitmap, self_coords, target
             )
 
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                self.enemy._debug_pathfinding.clear()
+                self._debug_store_pathfinding()
+
             # Pop the start position
             if self._current_path:
                 self._current_path.pop(0)
@@ -399,6 +403,8 @@ class EnemyBrain():
         if self._current_path:
             if self_coords == self._current_path[0]:
                 self._current_path.pop(0)
+                if hasattr(self.enemy, '_debug_pathfinding'):
+                    self.enemy._debug_pathfinding.pop(0)
 
             for dir, available_move in open_walls.items():
                 if available_move == self._current_path[0]:
@@ -406,6 +412,12 @@ class EnemyBrain():
                     return
 
             self._apply_momentum_choice(open_walls)
+
+    def _debug_store_pathfinding(self) -> None:
+        for coords in self._current_path:
+            x, y = self.enemy.calculator.get_grid_to_pixel(
+                coords[0], coords[1])
+            self.enemy._debug_pathfinding.append((x, y))
 
 # :------------:
 #  A* algorithm
