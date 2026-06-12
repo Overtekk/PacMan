@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:23:07 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:57:24 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,7 +20,8 @@ from .base_menu import BaseMenu
 
 class Glasses(arcade.Sprite):
     """
-    Animated accessory sprite that slides toward Pac-Man's eyes during victory loops.
+    Animated accessory sprite that slides toward Pac-Man's eyes during victory
+    loops.
     """
     def __init__(self,
                  center_x: float,

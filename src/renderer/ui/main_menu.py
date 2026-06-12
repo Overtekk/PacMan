@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:44:08 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:57:56 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -194,7 +194,8 @@ class LogoButton(BaseButton):
 
 class CheatButton(BaseButton):
     """
-    Button providing entrance accessibility into locked cheat configuration modes.
+    Button providing entrance accessibility into locked cheat configuration
+    modes.
     """
     def __init__(self,
                  center_x: float,
@@ -271,7 +272,8 @@ class InstructionsButton(BaseButton):
 
 class HighscoresButton(BaseButton):
     """
-    Button redirection routing players into saved history leaderboard scoreboards.
+    Button redirection routing players into saved history leaderboard
+    scoreboards.
     """
     def __init__(self,
                  center_x: float,

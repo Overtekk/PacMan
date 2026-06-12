@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:33:30 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 12:56:34 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -195,7 +195,8 @@ class GameRenderer():
         """Add an entity sprite to the entities render list.
 
         Args:
-            entity_sprite (arcade.Sprite): The sprite to register for rendering.
+            entity_sprite (arcade.Sprite): The sprite to register for
+            rendering.
         """
         self.entities.append(entity_sprite)
 
