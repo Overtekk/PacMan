@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 09:45:49 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/12 10:29:27 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -41,5 +41,5 @@ time_power_up: float = 8.0
 # :-----:
 
 raycasting_max_distance: int = 2
-fox_detection_radius: float = 0.19 # Percentage
-dog_detection_radius: float = 0.25 # Percentage
+fox_detection_radius: float = 0.19  # Percentage
+dog_detection_radius: float = 0.25  # Percentage

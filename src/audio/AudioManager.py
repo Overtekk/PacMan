@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/01 15:30:02 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/08 11:18:56 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 10:30:52 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -67,7 +67,8 @@ class AudioManager():
             volume=volume
         )
 
-        self.active_players[audio_name] = player
+        if player is not None:
+            self.active_players[audio_name] = player
 
     def pause_sound(self, audio_name: str) -> None:
         if audio_name in self.active_players:
