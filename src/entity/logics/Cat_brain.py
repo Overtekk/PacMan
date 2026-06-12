@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:34:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 11:22:49 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -58,29 +58,4 @@ class CatBrain(EnemyBrain):
         )
         target_grid = (player_x, player_y)
 
-        if self.enemy.maze_bitmap.get((player_x + 1, player_y), 1) == 0:
-            target_grid = (player_x + 1, player_y)
-
-        elif self.enemy.maze_bitmap.get((player_x + 2, player_y), 1) == 0:
-            target_grid = (player_x + 2, player_y)
-
-        elif self.enemy.maze_bitmap.get((player_x - 1, player_y), 1) == 0:
-            target_grid = (player_x - 1, player_y)
-
-        elif self.enemy.maze_bitmap.get((player_x - 2, player_y), 1) == 0:
-            target_grid = (player_x - 2, player_y)
-
-        elif self.enemy.maze_bitmap.get((player_x, player_y + 1), 1) == 0:
-            target_grid = (player_x, player_y + 1)
-
-        elif self.enemy.maze_bitmap.get((player_x, player_y + 2), 1) == 0:
-            target_grid = (player_x, player_y + 2)
-
-        elif self.enemy.maze_bitmap.get((player_x, player_y - 1), 1) == 0:
-            target_grid = (player_x, player_y - 1)
-
-        elif self.enemy.maze_bitmap.get((player_x, player_y - 2), 1) == 0:
-            target_grid = (player_x, player_y - 2)
-
-        print(f'player pos={self.enemy.calculator.get_pixel_to_grid_entity(self.enemy.player_ref)} | target grid={target_grid}')
         return target_grid

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:30:14 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/12 11:54:41 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -373,10 +373,6 @@ class EnemyBrain():
         if not open_walls:
             return
 
-        if len(open_walls) == 1:
-            self.enemy._next_direction = list(open_walls.keys()).pop()
-            return
-
         self_coords_raw = (
                 self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
             )
@@ -388,7 +384,8 @@ class EnemyBrain():
             self._old_target = target
 
             self._current_path: list[tuple[int, int]] = a_star_algo(
-                self.enemy.maze_bitmap, self_coords, target
+                self.enemy.maze_bitmap, self_coords, target,
+                self.enemy.current_direction
             )
 
             if hasattr(self.enemy, '_debug_pathfinding'):
@@ -406,17 +403,27 @@ class EnemyBrain():
                 if hasattr(self.enemy, '_debug_pathfinding'):
                     self.enemy._debug_pathfinding.pop(0)
 
-            for dir, available_move in open_walls.items():
-                if available_move == self._current_path[0]:
-                    self.enemy._next_direction = dir
-                    return
+            if self._current_path:
+                for dir, available_move in open_walls.items():
+                    if available_move == self._current_path[0]:
+                        self.enemy._next_direction = dir
+                        return
 
-            self._apply_momentum_choice(open_walls)
+        # Fallback, take a random path and clear the old pathfinding
+        self._current_path.clear()
+        if hasattr(self.enemy, '_debug_pathfinding'):
+            self.enemy._debug_pathfinding.clear()
+        self._apply_momentum_choice(open_walls)
 
     def _debug_store_pathfinding(self) -> None:
         for coords in self._current_path:
+            # Normalize the coords
+            raw_x, raw_y = coords
+            normal_x: float = (raw_x - 1) / 2.0
+            normal_y: float = (raw_y - 1) / 2.0
+
             x, y = self.enemy.calculator.get_grid_to_pixel(
-                coords[0], coords[1])
+                normal_x, normal_y)
             self.enemy._debug_pathfinding.append((x, y))
 
 # :------------:
@@ -426,7 +433,7 @@ class EnemyBrain():
 
 def a_star_algo(
         grid: dict[tuple[int, int], int], start_pos: tuple[int, int],
-        goal_pos: tuple[int, int]
+        goal_pos: tuple[int, int], current_dir: tuple[float, float]
         ) -> list[tuple[int, int]]:
 
     # Initialize start node
@@ -439,6 +446,7 @@ def a_star_algo(
     open_dict = {start_pos: start}           # For quick node lookup
     closed_set = set()                       # Explored nodes
 
+    forbidden_pos: tuple[int, int] = None
     while open_list:
         # Find the lowest pos value
         _, current_pos = heapq.heappop(open_list)
@@ -450,10 +458,19 @@ def a_star_algo(
 
         closed_set.add(current_pos)
 
+        # Avoid turn back
+        if current_pos == start_pos:
+            inverted_dir_x = current_pos[0] - int(current_dir[0])
+            inverted_dir_y = current_pos[1] - int(current_dir[1])
+            forbidden_pos = (inverted_dir_x, inverted_dir_y)
+
         # Explore neighbors
         for neighbor_pos in get_valid_neighbors(grid, current_pos):
             # Skip if already explored
             if neighbor_pos in closed_set:
+                continue
+            # Skip if it's forbidden
+            if neighbor_pos == forbidden_pos:
                 continue
 
             # Calculate new path cost
