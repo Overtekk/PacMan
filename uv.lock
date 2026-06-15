@@ -271,14 +271,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mazegenerator"
-version = "2.0.2"
-source = { path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" }
-wheels = [
-    { filename = "mazegenerator-2.0.2-py3-none-any.whl", hash = "sha256:88b5b212ae1a90faa8aa6f8518abe6968a30be071cddbdd02f8c52c6936c209e" },
-]
-
-[[package]]
 name = "mccabe"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -370,7 +362,6 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "arcade" },
-    { name = "mazegenerator" },
     { name = "pydantic" },
     { name = "rich" },
 ]
@@ -384,7 +375,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "arcade", specifier = ">=3.3.3" },
-    { name = "mazegenerator", path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" },
     { name = "pydantic", specifier = ">=2.13.4" },
     { name = "rich", specifier = ">=15.0.0" },
 ]

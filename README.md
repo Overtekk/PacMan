@@ -101,13 +101,27 @@ python3 pac-man.py config.json
 
 ---
 
+## 🧩 Other Commands
+
+| Commands | Description |
+| :------: | :---------: |
+| `make run-debug` or `uv run python pac-man.py *config.json* --debug | launch the game using the **debug** mode (see raycast, logs infos) |
+| `make build` | build the package of the game |
+| `make lint` | check for the norm *(flake8 & mypy)* |
+| `make lint-strict` | check for the norm with more rules *(flake8 & mypy)* |
+| `make clean` | clean pythons, mypy caches |
+| `make fclean` | delete uv and dist folders |
+| `make delete-uv` | delete uv from computer |
+
+---
+
 ## ⚙️ How it works?
 
 ### Configuration
 
 The configuration file is verified throught a strict schema. If any of the key is missing, invalid or if the value is incorrect *(e.g.: lives: -1)* the default config will be instancied instead.
 
-| Key | Information | Default value |
+| Key | Description | Default value |
 | :-: | :---------: | :-----------: |
 | `highscore_filename` | file where the highscore file (in json) will be stored | *data/leaderboard.json* |
 | `lives` | number of lives of the player | *3* |
@@ -126,7 +140,7 @@ The configuration file is verified throught a strict schema. If any of the key i
 
 This section detail how a level, in the `level` section, works:
 
-| Key | Information |
+| Key | Description |
 | :-: | :---------: |
 | `name` | name of the level |
 | `width` | width of the maze |
@@ -255,7 +269,7 @@ This folder also contains the 'brain logic' for enemies and the different algori
 
 Each enemies have a different algorithm trought a state machine.\
 
-| State Name | Meaning |
+| State Name | Description |
 | :--------: | :-----: |
 | **WAIT** | Wait and do not move |
 | **WANDER** | Wander randomly around the maze |
