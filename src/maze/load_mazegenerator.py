@@ -6,13 +6,15 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 13:18:36 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:30:17 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
 from src.utils import (check_folder, check_path)
+
+MazeGenerator: Any = None
 
 
 def _check_mazegenerator_file() -> None:
@@ -69,3 +71,9 @@ def load_mazegenerator() -> Any | None:
             "Please ensure it is installed via your dependencies.\n"
             "🫤"
         )
+
+
+def get_maze_class() -> Any:
+    """Returns the loaded MazeGenerator class."""
+    global MazeGenerator
+    return MazeGenerator

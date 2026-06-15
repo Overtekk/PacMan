@@ -6,13 +6,13 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 14:30:14 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:31:21 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 13:30:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
 from typing import Any
 
-from src.maze.load_mazegenerator import load_mazegenerator
+from src.maze.load_mazegenerator import get_maze_class
 
 
 WALL_SPRITES: dict[str, tuple[str, float]] = {
@@ -64,7 +64,7 @@ class MazeFactory:
     """
     def __init__(self) -> None:
         """Initialize MazeFactory and load the maze generator module."""
-        self._maze_class: Any = load_mazegenerator()
+        self._maze_class: Any = get_maze_class()
 
     def generate_maze(
         self, width: int, height: int, textures: dict[str, Any],
