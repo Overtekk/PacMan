@@ -105,7 +105,7 @@ python3 pac-man.py config.json
 
 | Commands | Description |
 | :------: | :---------: |
-| `make run-debug` or `uv run python pac-man.py *config.json* --debug | launch the game using the **debug** mode (see raycast, logs infos) |
+| `make run-debug` or `uv run python pac-man.py *config.json* --debug` | launch the game using the **debug** mode (see raycast, logs infos) |
 | `make build` | build the package of the game |
 | `make lint` | check for the norm *(flake8 & mypy)* |
 | `make lint-strict` | check for the norm with more rules *(flake8 & mypy)* |
@@ -292,6 +292,8 @@ Each enemy have a raycast of **2 cases** in front of it. If the player is found 
 
 **Chase State**:\
 When in chase state. The enemy will move faster and will follow the player using the **Euclidian Distance**. When the player is not seen in the **raycast vision** of the enemy, enemy will have a certain chance of lose it. When the player is outside the **raycast vision** for a certain time, the enemy will switch to the **wander/search state**.
+
+---
 
 ### Project Management
 
