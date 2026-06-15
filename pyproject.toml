@@ -24,12 +24,20 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
+artifacts = [
+    "assets/",
+    "data/"
+]
 
 [project.scripts]
-pacman-game = "src.main:main"
+pacman = "src.auto_main:main"
 
 [tool.uv.sources]
 mazegenerator = { path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" }
+
+[tool.hatch.build.targets.wheel.force-include]
+"assets" = "assets"
+"data" = "data"
 
 [build-system]
 requires = ["hatchling >= 1.26"]

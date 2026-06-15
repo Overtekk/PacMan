@@ -1,14 +1,15 @@
 # ************************************************************************* #
 #                                                                           #
 #                                                      :::      ::::::::    #
-#  main.py                                           :+:      :+:    :+:    #
+#  auto_main.py                                      :+:      :+:    :+:    #
 #                                                  +:+ +:+         +:+      #
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/15 11:27:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 11:27:58 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 11:55:39 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+"""Used for automatically launch the game using 'run-pacman"""
 
 from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 try:
@@ -32,6 +33,9 @@ from src.leaderboard import leaderboard_loader
 
 def main() -> int:
     try:
+        if len(sys.argv) == 1:
+            sys.argv.append("data/config.json")
+
         # Check the argument, load and check the config
         args: Namespace = load_arguments()
         game_config: GameConfig = args.config_file
