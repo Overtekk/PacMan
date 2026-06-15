@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/05/29 16:18:33 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 11:32:24 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,7 @@ CONFIG			=	data/config.json
 # =		RULES		=
 # ===================
 
-.PHONY:		all install run run-debug debug clean fclean lint lint-strict delete-uv
+.PHONY:		all install run run-debug debug build clean fclean lint lint-strict delete-uv
 .SILENT:
 
 all:		install run
@@ -56,8 +56,11 @@ debug:		install
 			@echo "$(BGREEN)Running the main script in debug mode...$(RESET)"
 			$(PDB) pac-man.py
 
+build:
+			uv build
+
 clean:
-			@echo "$(YELLOW)Cleaning temporary files and caches... 🗑️$(RESET)"
+			@echo "$(YELLOW)Cleaning temporary files, and caches... 🗑️$(RESET)"
 			find . -type d -name "__pycache__" -exec rm -rf {} +
 			find . -type f -name "*.pyc" -delete
 			find . -type f -name "*.pyo" -delete
@@ -65,7 +68,9 @@ clean:
 			rm -rf .pytest_cache
 
 fclean:		clean
+			@echo "$(YELLOW)Cleaning .venv, and dist folder... 🗑️$(RESET)"
 			rm -rf .venv
+			rm -rf dist
 
 lint:
 			@clear

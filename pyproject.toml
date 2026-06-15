@@ -25,6 +25,9 @@ dev = [
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
+[project.scripts]
+pacman-game = "src.main:main"
+
 [tool.uv.sources]
 mazegenerator = { path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" }
 
