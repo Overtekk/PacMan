@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 09:58:17 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:16:58 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -68,9 +68,9 @@ def main() -> int:
         print_error(e)
         return 1
 
-    except Exception as e:
-        print_error(f"Critical error: {e}")
-        return 1
+    # except Exception as e:
+    #     print_error(f"Critical error: {e}")
+    #     return 1
 
 
 if __name__ == "__main__":

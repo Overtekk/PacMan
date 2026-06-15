@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/15 11:27:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 11:55:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:17:33 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 """Used for automatically launch the game using 'run-pacman"""
@@ -24,6 +24,7 @@ from argparse import Namespace
 import sys
 import src.game_config
 
+from pathlib import Path
 from src.parser import load_arguments
 from src.config import GameConfig
 from src.maze import load_mazegenerator
@@ -33,8 +34,11 @@ from src.leaderboard import leaderboard_loader
 
 def main() -> int:
     try:
+        root_dir = Path(__file__).resolve().parent.parent
+
         if len(sys.argv) == 1:
-            sys.argv.append("data/config.json")
+            default_config = root_dir / "data" / "config.json"
+            sys.argv.append(str(default_config))
 
         # Check the argument, load and check the config
         args: Namespace = load_arguments()

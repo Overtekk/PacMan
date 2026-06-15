@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 09:15:12 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:18:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -52,13 +52,20 @@ def load_mazegenerator() -> Any | None:
     _check_mazegenerator_file()
 
     # Check if installed in python files
+    global MazeGenerator
     try:
-        from mazegenerator import MazeGenerator  # type: ignore
-        return MazeGenerator
+        import mazegenerator
+
+        if hasattr(mazegenerator, "MazeGenerator"):
+            MazeGenerator = mazegenerator.MazeGenerator
+        else:
+            raise ValueError(
+                "Module 'mazegenerator' has no attribute 'MazeGenerator'"
+            )
+
     except ImportError:
         raise ValueError(
-            "Module 'mazegenerator' not installed. Please, install it first by"
-            " using:\n"
-            "'make' or 'uv sync'.\n"
-            "🤫"
+            "Maze Generator package not found in the current environment.\n"
+            "Please ensure it is installed via your dependencies.\n"
+            "🫤"
         )

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 09:11:05 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:06:08 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -26,7 +26,6 @@ except ModuleNotFoundError:
                 "\nPlease use: source .venv/bin/activate"
                 "\nOr use: uv run python pac-man.py data/config.json")
     exit()
-import pathlib
 from pathlib import Path
 
 from src.utils.check_path import check_path
@@ -34,6 +33,7 @@ from ..utils import (
     check_folder, print_error, check_file_extension
 )
 
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 DEFAULT_SPRITES_PATH: str = "assets/sprites/"
 DEFAULT_FONT_PATH: str = "assets/fonts/"
 DEFAULT_AUDIO_PATH: str = "assets/audio/"
@@ -356,8 +356,8 @@ def check_assets_folder() -> None:
     Prints an error message if the required folders do not exist.
     """
     try:
-        check_folder(Path("assets"))
-        check_folder(Path("assets/sprites"))
+        check_folder(ROOT_DIR / "assets")
+        check_folder(ROOT_DIR / "assets/sprites")
     except ValueError as e:
         print_error(str(e))
 
@@ -384,7 +384,7 @@ class SpritesLoader():
             default_path (str): Base directory path for sprite files.
         """
 
-        self.default_path: Path = pathlib.Path(default_path)
+        self.default_path: Path = ROOT_DIR / default_path
 
         # Check 'assets' folder
         check_assets_folder()
@@ -433,7 +433,7 @@ class FontLoader():
             default_path (str): Base directory path for font files.
         """
 
-        self.default_path: Path = pathlib.Path(default_path)
+        self.default_path: Path = ROOT_DIR / default_path
 
         # check 'assets' folder
         check_assets_folder()
@@ -485,7 +485,7 @@ class AudioLoader():
             default_path (str): Base directory path for audio files.
         """
 
-        self.default_path: Path = pathlib.Path(default_path)
+        self.default_path: Path = ROOT_DIR / default_path
 
         # check 'assets' folder
         check_assets_folder()

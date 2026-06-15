@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 11:32:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:16:10 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -57,7 +57,8 @@ debug:		install
 			$(PDB) pac-man.py
 
 build:
-			uv build
+			rm -rf dist
+			uv build --clear
 
 clean:
 			@echo "$(YELLOW)Cleaning temporary files, and caches... 🗑️$(RESET)"
