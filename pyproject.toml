@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "arcade>=3.3.3",
-    "mazegenerator",
     "pydantic>=2.13.4",
     "rich>=15.0.0",
 ]
@@ -26,7 +25,8 @@ dev = [
 packages = ["src"]
 artifacts = [
     "assets/",
-    "data/"
+    "data/",
+	"mazegenerator/"
 ]
 
 [project.scripts]
@@ -38,6 +38,7 @@ mazegenerator = { path = "mazegenerator/mazegenerator-2.0.2-py3-none-any.whl" }
 [tool.hatch.build.targets.wheel.force-include]
 "assets" = "assets"
 "data" = "data"
+"mazegenerator" = "mazegenerator"
 
 [build-system]
 requires = ["hatchling >= 1.26"]

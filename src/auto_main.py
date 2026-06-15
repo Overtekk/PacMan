@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/15 11:27:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 13:17:33 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 13:39:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 """Used for automatically launch the game using 'run-pacman"""
@@ -44,6 +44,11 @@ def main() -> int:
         args: Namespace = load_arguments()
         game_config: GameConfig = args.config_file
         src.game_config.debug_mode = args.debug
+
+        highscore_path = Path(game_config.highscore_filename)
+        if not highscore_path.is_absolute():
+            highscore_path = root_dir / highscore_path
+        game_config.highscore_filename = str(highscore_path)
 
         # Check if sprites are available and store them
         sprite_loader: SpritesLoader = SpritesLoader()
