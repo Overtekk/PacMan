@@ -288,10 +288,6 @@ We try to follow the expected planning but the project was more complex that wil
 
 ## 📚 Resources
 
-### Documentation
-| Resource | Description |
-| :------: | :---------: |
-
 ### Documentation for Arcade library
 | Resource | Description |
 | :------: | :---------: |
