@@ -5,3 +5,7 @@ __pycache__
 # Python files
 .python-version
 .venv
+
+# Build
+build/
+Pac-Man.spec

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 13:16:10 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 16:26:13 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,7 @@ CONFIG			=	data/config.json
 # =		RULES		=
 # ===================
 
-.PHONY:		all install run run-debug debug build clean fclean lint lint-strict delete-uv
+.PHONY:		all install run run-debug debug build build-game clean fclean lint lint-strict delete-uv
 .SILENT:
 
 all:		install run
@@ -57,8 +57,17 @@ debug:		install
 			$(PDB) pac-man.py
 
 build:
+			@echo "$(BRED)Building the export...$(RESET)"
 			rm -rf dist
 			uv build --clear
+
+build-game:
+			@echo "$(BRED)Building the game...$(RESET)"
+			rm -rf dist
+			rm -rf build # test if folder exist
+			rm Pac-Man.spec
+			chmod 777 build_game.sh
+			./build_game.sh
 
 clean:
 			@echo "$(YELLOW)Cleaning temporary files, and caches... 🗑️$(RESET)"
@@ -69,9 +78,11 @@ clean:
 			rm -rf .pytest_cache
 
 fclean:		clean
-			@echo "$(YELLOW)Cleaning .venv, and dist folder... 🗑️$(RESET)"
+			@echo "$(YELLOW)Cleaning .venv, build and dist folder... 🗑️$(RESET)"
 			rm -rf .venv
 			rm -rf dist
+			rm -rf build
+			rm Pac-Man.spec
 
 lint:
 			@clear

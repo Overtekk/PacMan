@@ -107,6 +107,7 @@ python3 pac-man.py config.json
 | :------: | :---------: |
 | `make run-debug` or `uv run python pac-man.py *config.json* --debug` | launch the game using the **debug** mode (see raycast, logs infos) |
 | `make build` | build the package of the game |
+| `make build-game` | build the game |
 | `make lint` | check for the norm *(flake8 & mypy)* |
 | `make lint-strict` | check for the norm with more rules *(flake8 & mypy)* |
 | `make clean` | clean pythons, mypy caches |
@@ -331,6 +332,11 @@ We try to follow the expected planning but the project was more complex that wil
 | [Datacamp (french)](https://www.datacamp.com/fr/tutorial/a-star-algorithm?dc_referrer=https%3A%2F%2Fwww.google.com%2F) | How to implement the A* algorithm |
 | [geeksforgeeks](https://www.geeksforgeeks.org/python/a-search-algorithm-in-python/) | What is the A* algorithm and how to implement it |
 
+### Building Package
+| Resource | Description |
+| :------: | :---------: |
+| [Pyinstaller official doc](https://pyinstaller.org/en/stable/) | Official doc to use pyinstaller |
+
 ### Other
 | Resource | Description |
 | :------: | :---------: |
@@ -339,8 +345,12 @@ We try to follow the expected planning but the project was more complex that wil
 | [Pacman Fandom](https://pacman.fandom.com/wiki/Maze_Ghost_AI_Behaviors) | Documentary for all ghost AI behaviors |
 
 ### IA was use to:
+- **Architecture manager** ― help to create the main architecture, what to do, the direction to go, what wasn't in the right place.
 - **Refactoring** ― help to write better understand code, type hints some part of the code.
 - **Help with the Arcade library** ― since the documentation is not well done, IA have helped to better understand what we can do and how.
 - **Debugging** ― when bug occurs and we didn't know what cause did, IA help us understanding what goes wrong.
+- **Generating docstrings** ― IA was use to help us writing docstrings.
+- **Help creating the package** ― IA was used to help us created a package that's works and repair the bug that didn´t let the package to be running.
+- **Publishing to a public platform** ― help to use Pyinstaller to publish the game on itch.io and create an executable.
 
 ---

@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/15 11:27:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 14:58:01 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 15:39:22 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 """Used for automatically launch the game using 'run-pacman"""
@@ -36,7 +36,10 @@ from src.leaderboard import leaderboard_loader
 
 def main() -> int:
     try:
-        root_dir = Path(__file__).resolve().parent.parent
+        if hasattr(sys, '_MEIPASS'):
+            root_dir = Path(sys._MEIPASS)
+        else:
+            root_dir = Path(__file__).resolve().parent
 
         if len(sys.argv) == 1:
             default_config = root_dir / "data" / "config.json"
