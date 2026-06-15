@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 08:33:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 08:48:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -440,6 +440,16 @@ class EnemyBrain():
         self.enemy._next_direction = direction
 
     def _go_to_position_better(self, target: tuple[int, int]) -> None:
+        """Call the A* algorithm to calculate the pathfinding of the target.
+
+        Check if the current path have been modified. If so, call the algorithm
+        to calculate a new path. Then, apply the current path to the enemy. If
+        path can't be accessed, take a random position.
+        If debug mode is active, save the path positions to draw it after.
+
+        Args:
+            target (tuple[int, int]): the position of the targetted place.
+        """
         open_walls = self._get_available_moves()
         if not open_walls:
             return
@@ -502,6 +512,9 @@ class EnemyBrain():
         self.enemy._next_direction = self._apply_momentum_choice(open_walls)
 
     def _debug_store_pathfinding(self) -> None:
+        """
+        Store the pathfinding path used only in debug mode.
+        """
         for coords in self._current_path:
             # Normalize the coords
             raw_x, raw_y = coords
