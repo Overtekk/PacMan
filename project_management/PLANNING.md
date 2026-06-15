@@ -84,9 +84,9 @@
 | Task | Member | Statut |
 | :--: | :----: | :----: |
 | Rat enemy move randomly | anacharp | ✖️ |
-| Cat follow the player until too close | anacharp | |
-| Fox follow the players | roandrie | |
-| Dog follow player and movements based on Fox | roandrie | |
+| Cat follow the player until too close | anacharp | ✖️ |
+| Fox follow the players | roandrie | ✖️ |
+| Dog follow player and movements based on Fox | roandrie | ✖️ |
 | Super-pacgum make ghosts edible for short of time | roandrie | ✖️ |
 | Run away from the player when edible | roandrie | ✖️ |
 | Respawn to their corner after a while when eaten | roandrie | ✖️ |
@@ -148,8 +148,8 @@
 | Invincibility | roandrie | ✖️ |
 | Ghost freeze | roandrie | ✖️ |
 | Extra lives | roandrie | ✖️ |
-| Increase speed | roandrie | |
-| Level skip | anacharp | |
+| Increase speed | roandrie | ✖️ |
+| Level skip | anacharp | ✖️ |
 
 ## Leaderboard
 
@@ -165,21 +165,18 @@
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Docstrings in all code | anacharp | |
-| Flake8 & mypy friendly | roandrie | |
-| Game test (everything works) | anacharp, roandrie | |
-| Finish README | anacharp, roandrie | |
+| Docstrings in all code | anacharp | ✖️ |
+| Flake8 & mypy friendly | roandrie | ✖️ |
+| Game test (everything works) | anacharp, roandrie | ✖️ |
+| Finish README | anacharp, roandrie | ✖️ |
 
 ## Deployement
 
 | Task | Member | Statut |
 | :--: | :----: | :----: |
-| Package created | roandrie | |
-| Deployement on itch.io | roandrie | |
-
-
-|  | roandrie | |
+| Package created | roandrie | ✖️ |
+| Deployement on itch.io | roandrie | ✖️ |
 
 ---
 
-**Last update**: *22/05/2026*
+**Last update**: *15/06/2026*

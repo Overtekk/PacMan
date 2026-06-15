@@ -72,7 +72,40 @@ This project must have a Makefile and the following rules:
 --check-untyped-defs`.
 - **lint**: execute the commands `flake8 .` and `mypy . --strict`.
 
-### 📖 Configuration file:
+---
+
+## 💡 Instructions
+
+### 1. Git clone this repository:
+```bash
+git clone https://github.com/Overtekk/Call_me_Maybe.git
+```
+
+### 2. Run the program
+```bash
+make  # install all dependencies and run the script
+```
+> [!NOTE]
+> If you don't have `uv` installed, run `make install`
+
+You can also use those commands:
+```bash
+uv sync  # alternatively you can also use this
+uv run python pac-man.py config.json
+
+# Or create a virtual environement and launch it using:
+python3 -m venv .venv
+source venv/bin/activate
+python3 pac-man.py config.json
+```
+
+---
+
+## ⚙️ How it works?
+
+### Configuration
+
+The configuration file is verified throught a strict schema. If any of the key is missing, invalid or if the value is incorrect *(e.g.: lives: -1)* the default config will be instancied instead.
 
 | Key | Information | Default value |
 | :-: | :---------: | :-----------: |
@@ -106,8 +139,8 @@ This section detail how a level, in the `level` section, works:
         Click to see the default configuration
     </summary>
 
-    <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; margin-top: 10px;">
-<code>{
+```json
+{
     "highscore_filename": "data/leaderboard.json",
     "lives": 3,
     "pacgum_points": 10,
@@ -167,51 +200,89 @@ This section detail how a level, in the `level` section, works:
             "height": 20
         }
     ]
-}</code>
-    </pre>
+}
+```
 </details>
 
----
+### Highscore
 
-## 💡 Instructions
+The highscore system is stored in a json file. If the file doesn't exist or if the permissions are wrong, a new file will be created (or an error).\
+The user can enter his name when the game is finished. It can only write 10 characters, only alphanumeric ones.\
 
-### 1. Git clone this repository:
-```bash
-git clone https://github.com/Overtekk/Call_me_Maybe.git
-```
+When a new user is entered. The file will verified if there are 10 or more entries. If there is more, all score will be sorted (from the highest, to the lowest), and the lowest ones will be removed.\
+It also check if scores are valid, just in case.
 
-### 2. Install dependencies:
-```bash
-make  # install all dependencies and run the script
-
-uv sync  # alternatively you can also use this
-```
-> [!NOTE]
-> If you don't have `uv` installed, run `make install`
-
----
-
-## ⚙️ How it works?
-
-### Configuration
-
-todo
+Json is the more efficient way and provides tools to check everything in the fasted way.
 
 ### Maze Generation package
 
-todo
+The generation of the maze is used thanks to the A-Maze-Ing packages given to us.
 
-### Implementation
+### Implementation & General Software Architecture
 
-todo
+The game use a lot of inheritance and abstract class. Each folder, in the `src` folder have been designed to be clear and precise for it's use.
 
-### General Software Architecture
+`renderer`:
+All things for the rendering system are here. Two mains abstract class are init here:
+- `base_button.py`: abstract class for all buttons
+- `base_menu.py`: abstract class for all menus
 
-todo
+In there, the main rendering window is initialize and all the rendering are made here.
 
-###
+`maze`:
+The creation of the maze throught the A-Maze-ing package is made in this folder.
 
-Project Management
+`game_engine`:
+The core mechanics of the game works here:
+- `game_engine.py`: main engine of the game that created all the other instance and check is everything works. It's the main orchestra.
+- `collision_manager.py`: manage all collisions of the game.
+- `gamestate_manager.py`: manage the states of the game and what happens during each states.
+- `level_manager.py`: init each levels, entities and collectibles.
+
+`audio`:
+The audio in managed in this folder throught custom play sound, play random soud, pause or stop sounds methods.
+
+`entity`:
+All entities logics are implemented here. There are 4 abtracts classes:
+- **Entity**: the main class for all entities that have sprite, positions.
+- **Movable**: inherit from **entity** and allow entities to moves.
+- **Enemy**: inherit from **movable** and have all the logics for an enemy type.
+- **Collectible**: inherit from **entity** and have the logics for a collectible type.
+
+This folder also contains the 'brain logic' for enemies and the different algorithms.
+
+## Algorithms
+
+Each enemies have a different algorithm trought a state machine.\
+
+| State Name | Meaning |
+| :--------: | :-----: |
+| **WAIT** | Wait and do not move |
+| **WANDER** | Wander randomly around the maze |
+| **CHASE** | Follow the player and have a chance to lose it |
+| **RUNAWAY** | Make a 180turn, become slower and wander randomly |
+| **RESPAWN** | Goes to the spawnpoint (automatically teleport after a certain time if stuck) |
+| **SEARCH** | Search for the player with a specific algorithm |
+| **ANGRY** | Specific to the **Fox Enemy**, will chase the player until level is completed or player have lost |
+
+**Cat Enemy**: The cat enemy use the **[A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm)** and always knows the player position. It will always search for it but move a bit slower.
+
+**Dog Enemy**: It knows the player position and try to goes to it using the **[Euclidian Distance](https://en.wikipedia.org/wiki/Euclidean_distance)**, but it have 60% to take the wrong path. When only 30% of collectibles are left on the maze, the percentage is inversed.
+
+**Fox Enemy**: The player have a radius around him *(0.19%)*. When outside, the fox will goes to the player using the **Euclidian Distance**, and when inside it will wander randomly. If there are less than 30% of collectibles left on the maze, it will be angry and always chase the player with less speed than the normal chase.
+
+**Rat Enemy**: Wander randomly around the maze.
+
+**Raycast**:\
+Each enemy have a raycast of **2 cases** in front of it. If the player is found inside, the enemy will switch to the **Chase State** and will chase the player.
+
+**Chase State**:\
+When in chase state. The enemy will move faster and will follow the player using the **Euclidian Distance**. When the player is not seen in the **raycast vision** of the enemy, enemy will have a certain chance of lose it. When the player is outside the **raycast vision** for a certain time, the enemy will switch to the **wander/search state**.
+
+### Project Management
+
+Project Management was made during the project. Each days, each members write what it have done in the **PROJECT_PLAN**.\
+We try to follow the expected planning but the project was more complex that will tought.
 
 ---
 

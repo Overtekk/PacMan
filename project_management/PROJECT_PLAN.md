@@ -2,12 +2,27 @@
 #### *anacharp + roandrie*
 
 ---
+
+### 15/06/2026
+- roandrie
+	- finish all entities logic
+	- implement missing docstrings
+	- finish the norm
+	- write the readme
+
 ### 12/06/2026
 - anacharp
 	- standardization
 	- fix dog algo
 	- project_management : project_plan, architecture and test_plan
 	- docstring
+- roandrie
+	- debugging
+	- finish the cat logic
+
+### 11/06/2026
+- roandrie
+	- refactor the enemies brains code
 
 ### 10/06/2026
 - anacharp
@@ -22,6 +37,9 @@
 	- ARCHITECTURE.md
 	- change the AAA easter egg on main menu
 	- reduce the scale of the ghosts
+- roandrie
+	- finish the fox algorithm
+	- implement the a* algorithm
 
 ### 08/06/2026
 - roandrie
