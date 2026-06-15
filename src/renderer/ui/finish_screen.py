@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:43:32 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 14:44:35 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 14:56:45 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -313,7 +313,7 @@ class FinishScreen(BaseMenu):
                 save_score_to_leaderboard(
                     self.filename, self.player_name,
                     float(self.score),
-                    self.previous_view.code_found
+                    self.previous_view.code_found  # type: ignore[attr-defined]
                 )
 
                 if self.window:

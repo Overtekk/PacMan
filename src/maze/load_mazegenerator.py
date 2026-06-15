@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 13:45:38 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 14:49:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -17,7 +17,7 @@ from typing import Any
 MazeGenerator: Any = None
 
 
-def load_mazegenerator() -> Any | None:
+def load_mazegenerator() -> None:
     """Validates binary artifacts and dynamically loads the MazeGenerator
     runtime.
 
@@ -42,7 +42,9 @@ def load_mazegenerator() -> Any | None:
         else:
             root_dir = Path(__file__).resolve().parent.parent
 
-    whl_path = root_dir / "mazegenerator" / "mazegenerator-2.0.2-py3-none-any.whl"
+    whl_path = (
+        root_dir / "mazegenerator" / "mazegenerator-2.0.2-py3-none-any.whl"
+    )
 
     if not whl_path.exists():
         raise ValueError(
@@ -72,5 +74,5 @@ def load_mazegenerator() -> Any | None:
 
 def get_maze_class() -> Any:
     """Returns the loaded MazeGenerator class."""
-    global MazeGenerator
+    global MazeGenerator  # Noqa F824
     return MazeGenerator

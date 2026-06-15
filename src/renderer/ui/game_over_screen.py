@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 14:44:27 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 14:56:29 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -304,7 +304,7 @@ class GameOverScreen(BaseMenu):
                 save_score_to_leaderboard(
                     self.filename, self.player_name,
                     float(self.score),
-                    self.previous_view.code_found
+                    self.previous_view.code_found  # type: ignore[attr-defined]
                 )
 
                 if self.window:
