@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:09:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:26:47 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 09:26:07 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -253,7 +253,7 @@ class Enemy(Movable):
 
         self.base_speed = speed
 
-        self.sprite.parent = self
+        setattr(self.sprite, "parent", self)
 
         # - Private variables -
         self._died: bool = False
@@ -408,7 +408,7 @@ class Collectible(Entity):
 
         super().__init__(spawn_point, sprite_data, calculator, scale)
 
-        self.sprite.parent = self
+        setattr(self.sprite, "parent", self)
         self._score: int = score
 
     @property

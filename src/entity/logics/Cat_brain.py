@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 08:49:16 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 09:33:11 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -50,11 +50,10 @@ class CatBrain(EnemyBrain):
                         self.enemy._debug_pathfinding.clear()
 
         if self.enemy.mode == EnemyState.WANDER:
-            if self.enemy.mode != EnemyState.SEARCH:
-                self.enemy.mode = EnemyState.SEARCH
+            self.enemy.mode = EnemyState.SEARCH
 
-                if game_config.debug_mode:
-                    print_log(f"Changed state for {self.enemy} to SEARCH")
+            if game_config.debug_mode:
+                print_log(f"Changed state for {self.enemy} to SEARCH")
 
         super().update(delta_time)
 
@@ -62,11 +61,11 @@ class CatBrain(EnemyBrain):
     #  PRIVATE METHODS
     # :---------------:
 
-    def _execute_search_state(self):
+    def _execute_search_state(self) -> None:
         """
         Get the updated coords from the player and call the pathfinding method.
         """
-        update_coords: list[tuple[float, float]] = self._update_coords()
+        update_coords: tuple[int, int] = self._update_coords()
 
         self._go_to_position_better(update_coords)
 
@@ -79,7 +78,7 @@ class CatBrain(EnemyBrain):
             tuple[int, int]: the new player coordinates.
         """
         # Get the player grid coords
-        player_coords_raw: tuple[int, int] = (
+        player_coords_raw: tuple[float, float] = (
             self.enemy.calculator.get_pixel_to_grid_entity(
                 self.enemy.player_ref
             ))
@@ -109,7 +108,7 @@ class CatBrain(EnemyBrain):
     def _check_cell(
         self, player_pos: tuple[int, int], player_curr_dir: tuple[int, int],
         maze_bitmap: dict[tuple[int, int], int], distance: int
-    ) -> tuple[int, int]:
+    ) -> tuple[int, int] | None:
         """Check if a cell is a close or open.
 
         Args:

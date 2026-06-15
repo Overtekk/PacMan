@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/29 14:10:28 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 09:15:55 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 09:24:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -64,11 +64,11 @@ class EnemyBrain():
             self.enemy.calculator.get_pixel_to_grid_entity(self.enemy)
         )
 
-        open_walls: dict[tuple[int, int], tuple[int, int]] = (
+        open_walls: dict[tuple[float, float], tuple[int, int]] = (
             self.enemy.calculator.check_open_wall(
                 int(conv_x), int(conv_y), self.enemy.maze_bitmap))
 
-        valid_coords: list[tuple[int, int]] = []
+        valid_coords: list[tuple[float, float]] = []
         for coords in open_walls:
             valid_coords.append(coords)
 
@@ -484,7 +484,7 @@ class EnemyBrain():
         if needs_recalc:
             self._old_target = target
 
-            self._current_path: list[tuple[int, int]] = a_star_algo(
+            self._current_path = a_star_algo(
                 self.enemy.maze_bitmap, self_coords, target,
                 self.enemy.current_direction
             )
@@ -523,7 +523,8 @@ class EnemyBrain():
 
             x, y = self.enemy.calculator.get_grid_to_pixel(
                 normal_x, normal_y)
-            self.enemy._debug_pathfinding.append((x, y))
+            if hasattr(self.enemy, '_debug_pathfinding'):
+                self.enemy._debug_pathfinding.append((x, y))
 
 # :------------:
 #  A* algorithm
@@ -556,7 +557,7 @@ def a_star_algo(
     open_dict = {start_pos: start}           # For quick node lookup
     closed_set = set()                       # Explored nodes
 
-    forbidden_pos: tuple[int, int] = None
+    forbidden_pos: tuple[int, int] = (-1, -1)
     while open_list:
         # Find the lowest pos value
         _, current_pos = heapq.heappop(open_list)

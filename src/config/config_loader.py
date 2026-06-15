@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 16:57:57 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:07:35 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 09:19:30 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,7 @@ mandatory_keys: list[str] = [
 ]
 
 
-def load_config(filepath: Path) -> GameConfig:
+def load_config(filepath: str | Path) -> GameConfig:
     """Load and validate the game configuration from a JSON file.
 
     Performs a series of file-system and content checks before parsing.
