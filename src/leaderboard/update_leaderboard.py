@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 17:53:46 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:30:28 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 14:40:38 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -60,9 +60,10 @@ def save_score_to_leaderboard(
 
     # Verify that the player doesn´t exist. If so, change only his score
     exist: bool = False
+    lookup_name = cheater_name if cheater_or_not else player_name
     for player in data["scores"]:
-        if player["player_name"] == player_name:
-            player["player_score"] = score
+        if player["player_name"] == lookup_name:
+            player["player_score"] = int(score)
             exist = True
             break
 
@@ -70,8 +71,8 @@ def save_score_to_leaderboard(
         data["scores"].append(player_data)
 
     # Remove the lower score if there are more than 10 entries
-    if len(data["scores"]) >= 10:
-        while len(data["scores"]) != 10:
+    if len(data["scores"]) > 10:
+        while len(data["scores"]) > 10:
             data["scores"].remove(_find_lowest_score(data["scores"]))
 
     # Sort the leaderboard from the highest score to the lowest

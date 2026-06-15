@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:42:18 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:27:09 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 14:44:27 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -300,13 +300,15 @@ class GameOverScreen(BaseMenu):
                 # Press enter to return on main menu, it saves the name and
                 # highscore on the highscores list
                 from src.renderer.ui.main_menu import MainMenu
+
+                save_score_to_leaderboard(
+                    self.filename, self.player_name,
+                    float(self.score),
+                    self.previous_view.code_found
+                )
+
                 if self.window:
                     self.window.show_view(MainMenu())
-
-                if hasattr(self.previous_view, 'parent_view'):
-                    save_score_to_leaderboard(
-                        self.filename, self.player_name, float(self.score),
-                        self.previous_view.parent_view.code_found)
 
     def on_draw(self) -> None:
         """

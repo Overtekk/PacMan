@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:20:06 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:07:06 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 14:43:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -528,7 +528,7 @@ class GameEngine(arcade.View):
             self._change_entities_movement(False)
             self._enemy_died = True
             self.game_state = GameState.PAUSE
-            self._timer_pause = 3.0
+            self._timer_pause = 2.5
 
         # Continue the game
         else:
