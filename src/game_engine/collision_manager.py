@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 20:04:13 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 15:59:34 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 08:49:37 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -244,7 +244,7 @@ class CollisionManager():
             if enemy.mode != EnemyState.RUNAWAY:
                 enemy.mode = EnemyState.RUNAWAY
                 if game_config.debug_mode:
-                        print_log(f"Changed state for {enemy} to RUNAWAY")
+                    print_log(f"Changed state for {enemy} to RUNAWAY")
                 enemy.have_respawned = False
 
             enemy.is_edible = True

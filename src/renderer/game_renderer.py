@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:18:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:22:29 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 08:50:54 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -135,27 +135,27 @@ class GameRenderer():
             for entity in self.entities:
                 if hasattr(entity, 'parent'):
 
-                        # DRAW RAYCAST FOR ALL ENTITIES
-                        if hasattr(entity.parent, '_debug_raycast'):
-                            if (entity.parent.current_direction != (0.0, 0.0)
-                                and entity.parent.mode in [EnemyState.WANDER,
-                                                           EnemyState.SEARCH]):
+                    # DRAW RAYCAST FOR ALL ENTITIES
+                    if hasattr(entity.parent, '_debug_raycast'):
+                        if (entity.parent.current_direction != (0.0, 0.0)
+                            and entity.parent.mode in [EnemyState.WANDER,
+                                                       EnemyState.SEARCH]):
 
-                                arcade.draw_line(
-                                    start_x=entity.center_x,
-                                    start_y=entity.center_y,
-                                    end_x=entity.parent._debug_raycast[0],
-                                    end_y=entity.parent._debug_raycast[1],
-                                    color=arcade.color.RED_DEVIL
-                                )
+                            arcade.draw_line(
+                                start_x=entity.center_x,
+                                start_y=entity.center_y,
+                                end_x=entity.parent._debug_raycast[0],
+                                end_y=entity.parent._debug_raycast[1],
+                                color=arcade.color.RED_DEVIL
+                            )
 
-                        # DRAW PATHFINDING
-                        if hasattr(entity.parent, '_debug_pathfinding'):
-                            if len(entity.parent._debug_pathfinding) > 1:
-                                arcade.draw_line_strip(
-                                    entity.parent._debug_pathfinding,
-                                    arcade.color.GREEN_YELLOW
-                                )
+                    # DRAW PATHFINDING
+                    if hasattr(entity.parent, '_debug_pathfinding'):
+                        if len(entity.parent._debug_pathfinding) > 1:
+                            arcade.draw_line_strip(
+                                entity.parent._debug_pathfinding,
+                                arcade.color.GREEN_YELLOW
+                            )
 
         if self.timer_size > 0 and self.timer_text:
             self.timer_text_obj.draw()

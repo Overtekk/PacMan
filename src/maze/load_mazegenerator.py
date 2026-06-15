@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 18:02:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:13:37 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 09:15:12 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -53,7 +53,7 @@ def load_mazegenerator() -> Any | None:
 
     # Check if installed in python files
     try:
-        from mazegenerator import MazeGenerator
+        from mazegenerator import MazeGenerator  # type: ignore
         return MazeGenerator
     except ImportError:
         raise ValueError(

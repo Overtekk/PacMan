@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/09 11:39:21 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 08:45:24 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/15 08:49:16 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -54,7 +54,7 @@ class CatBrain(EnemyBrain):
                 self.enemy.mode = EnemyState.SEARCH
 
                 if game_config.debug_mode:
-                        print_log(f"Changed state for {self.enemy} to SEARCH")
+                    print_log(f"Changed state for {self.enemy} to SEARCH")
 
         super().update(delta_time)
 

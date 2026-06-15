@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 11:42:00 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 09:11:05 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -15,6 +15,8 @@
 Handles the verification, extension checking, and loading of all textures,
 fonts, and audio files required for the game via Arcade.
 """
+
+from typing import TypedDict
 
 from src.utils import print_error
 try:
@@ -113,7 +115,18 @@ REQUIERED_FONTS: dict[str, str] = {
     "Kaph": "Kaph-Regular.ttf"
 }
 
-REQUIERED_SOUNDS: dict[str, dict[str, str | bool]] = {
+
+class DictDataSound(TypedDict):
+    """Dictionnary data for mypy.
+
+    Args:
+        TypedDict (_type_): typed namespace.
+    """
+    path: str
+    streaming: bool
+
+
+REQUIERED_SOUNDS: dict[str, DictDataSound] = {
     "fah": {
         "path": "fah.mp3",
         "streaming": False
@@ -512,7 +525,7 @@ class AudioLoader():
             )
 
 
-def load_sprite_sheet(textures: dict[str, Path],
+def load_sprite_sheet(textures: str | Path,
                       sprite_width: int,
                       sprite_height: int,
                       sprites_columns: int,
@@ -520,8 +533,7 @@ def load_sprite_sheet(textures: dict[str, Path],
     """Slice and extract individual texture grids from a main sprite sheet.
 
     Args:
-        textures (dict[str, Path]): Dictionary containing path to the sprite
-        sheet.
+        textures str | Path: path to the sprite sheet.
         sprite_width (int): Width of an individual sprite cell in pixels.
         sprite_height (int): Height of an individual sprite cell in pixels.
         sprites_columns (int): Number of sprite columns inside the sheet
