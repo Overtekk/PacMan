@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/27 14:04:22 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 10:29:27 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/15 08:30:17 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -20,7 +20,7 @@ delta_time_cap: float = 0.05
 player_speed: float = 170.0
 
 enemy_speed: float = 115.0
-ennemy_speed_reduction: float = 20.0
+ennemy_speed_reduction: float = 50.0
 enemy_speed_respawn: float = 20.0
 
 # :-----:
