@@ -78,9 +78,18 @@ This project must have a Makefile and the following rules:
 
 <img src="assets/game_pictures/menu.png" alt="Menu" width="600" height="300">
 <img src="assets/game_pictures/game_screen.png" alt="Menu" width="600" height="300">
-<video width='1024' height='768' controls autoplay>
-    <source src="assets/game_pictures/game_records.mkv" type='video/mp4'>
-</video>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body>
+    <video id="video" width="1280" height="720" controls preload="metadata" crossorigin="overtek">
+        <source src="assets/game_pictures/game_records.mkv" type="video/mp4">
+        <track label="English" kind="subtitles" srclang="en" src="http://file.vtt" default>
+        Your browser does not support the video tag.
+    </video>
+  </body>
+</html>
 
 ---
 
