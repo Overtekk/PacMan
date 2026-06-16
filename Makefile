@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/16 11:02:15 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 11:12:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -33,7 +33,7 @@ CONFIG			=	data/config.json
 # =		RULES		=
 # ===================
 
-.PHONY:		all install run run-debug debug build build-game clean fclean lint lint-strict delete-uv
+.PHONY:		all install run run-debug debug build clean fclean lint lint-strict delete-uv
 .SILENT:
 
 all:		install run
@@ -59,18 +59,13 @@ debug:		install
 build:
 			@echo "$(BRED)Building the export...$(RESET)"
 			uv pip install build
-			rm -rf dist
 			uv build --clear
-
-build-game:
-			@echo "$(BRED)Building the game...$(RESET)"
+			@echo "$(BRED)Building the game export...$(RESET)"
 			uv pip install pyinstaller
-			rm -rf dist
-			rm -rf dist/Pac-Man
 			rm -f Pac-Man.spec
 			chmod 777 build_game.sh
 			./build_game.sh
-
+			rm -f dist/.gitignore
 clean:
 			@echo "$(YELLOW)Cleaning temporary files, and caches... 🗑️$(RESET)"
 			find . -type d -name "__pycache__" -exec rm -rf {} +

@@ -107,7 +107,6 @@ python3 pac-man.py config.json
 | :------: | :---------: |
 | `make run-debug` or `uv run python pac-man.py *config.json* --debug` | launch the game using the **debug** mode (see raycast, logs infos) |
 | `make build` | build the package of the game |
-| `make build-game` | build the game |
 | `make lint` | check for the norm *(flake8 & mypy)* |
 | `make lint-strict` | check for the norm with more rules *(flake8 & mypy)* |
 | `make clean` | clean pythons, mypy caches |
