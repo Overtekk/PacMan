@@ -25,7 +25,7 @@ jobs:
           uv pip install pyinstaller
 
       - name: Launch PyInstaller
-        run: uv run pyinstaller --clean --onedir --name "Pac-Man" --noconfirm --add-data "assets;assets" --add-data "data;data" --add-data "mazegenerator;mazegenerator" pac-man.py
+        run: uv run pyinstaller --clean --onedir --windowed --name "Pac-Man" --noconfirm --add-data "assets;assets" --add-data "data;data" --add-data "mazegenerator;mazegenerator" src/auto_main.py
 
       - name: Bug Arcade correction
         run: |
