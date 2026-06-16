@@ -1,0 +1,39 @@
+name: Build Windows Executable
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Python
+        run: uv python install 3.10
+
+      - name: Installe project dependances
+        run: |
+          uv sync
+          uv pip install pyinstaller
+
+      - name: Launch PyInstaller
+        run: uv run pyinstaller --clean --onedir --name "Pac-Man" --noconfirm --windowed --add-data "assets;assets" --add-data "data;data" --add-data "mazegenerator;mazegenerator" pac-man.py
+
+      - name: Bug Arcade correction
+        run: |
+          Remove-Item -Recurse -Force dist\Pac-Man\_internal\arcade\VERSION -ErrorAction SilentlyContinue
+          Set-Content -Path dist\Pac-Man\_internal\arcade\VERSION -Value "3.3.3"
+
+      - name: Create the ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pac-Man-Windows
+          path: dist\Pac-Man\
