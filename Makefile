@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/16 11:12:31 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 11:21:35 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -66,6 +66,8 @@ build:
 			chmod 777 build_game.sh
 			./build_game.sh
 			rm -f dist/.gitignore
+			cd dist/Pac-Man
+			zip -r Pac-Man-Linux.zip Pac-Man/.
 clean:
 			@echo "$(YELLOW)Cleaning temporary files, and caches... 🗑️$(RESET)"
 			find . -type d -name "__pycache__" -exec rm -rf {} +

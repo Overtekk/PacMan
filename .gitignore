@@ -9,3 +9,4 @@ __pycache__
 # Build
 build/
 Pac-Man.spec
+dist/Pac-Man/Pac-Man-Linux.zip
