@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by roandrie*
+*This project has been created as part of the 42 curriculum by roandrie and anacharp*
 
 <p align="center">
   <img src="assets/logo.png" width="260" />
@@ -71,6 +71,16 @@ This project must have a Makefile and the following rules:
 --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs
 --check-untyped-defs`.
 - **lint**: execute the commands `flake8 .` and `mypy . --strict`.
+
+---
+
+# Pictures & Gameplay
+
+<img src="assets/game_pictures/menu.png" alt="Menu" width="600" height="300">
+<img src="assets/game_pictures/game_screen.png" alt="Menu" width="600" height="300">
+<video width='1024' height='768' controls autoplay>
+    <source src="assets/game_pictures/game_records.mkv" type='video/mp4'>
+</video>
 
 ---
 
@@ -299,6 +309,12 @@ When in chase state. The enemy will move faster and will follow the player using
 
 Project Management was made during the project. Each days, each members write what it have done in the **PROJECT_PLAN**.\
 We try to follow the expected planning but the project was more complex that will tought.
+
+---
+
+### Itch.io Project Page
+
+You can find the game page **[HERE](https://overtek.itch.io/pac-man-42?secret=p0tSmds8HrZAtSDoWcwWUMhs1WA)**
 
 ---
 
