@@ -64,8 +64,8 @@ build:
 build-game:
 			@echo "$(BRED)Building the game...$(RESET)"
 			rm -rf dist
-			rm -rf build # test if folder exist
-			rm Pac-Man.spec
+			rm -rf dist/Pac-Man
+			rm -f Pac-Man.spec
 			chmod 777 build_game.sh
 			./build_game.sh
 
@@ -82,7 +82,7 @@ fclean:		clean
 			rm -rf .venv
 			rm -rf dist
 			rm -rf build
-			rm Pac-Man.spec
+			rm -f Pac-Man.spec
 
 lint:
 			@clear
