@@ -25,12 +25,12 @@ jobs:
           uv pip install pyinstaller
 
       - name: Launch PyInstaller
-        run: uv run pyinstaller --clean --onedir --name "Pac-Man" --noconfirm --windowed --add-data "assets;assets" --add-data "data;data" --add-data "mazegenerator;mazegenerator" pac-man.py
+        run: uv run pyinstaller --clean --onedir --name "Pac-Man" --noconfirm --add-data "assets;assets" --add-data "data;data" --add-data "mazegenerator;mazegenerator" pac-man.py
 
       - name: Bug Arcade correction
         run: |
           Remove-Item -Recurse -Force dist\Pac-Man\_internal\arcade\VERSION -ErrorAction SilentlyContinue
-          Set-Content -Path dist\Pac-Man\_internal\arcade\VERSION -Value "3.3.3"
+          [System.IO.File]::WriteAllText("dist\Pac-Man\_internal\arcade\VERSION", "3.3.3")
 
       - name: Create the ZIP
         uses: actions/upload-artifact@v4
