@@ -6,10 +6,12 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/06/15 11:27:45 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 15:39:22 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 10:34:36 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 """Used for automatically launch the game using 'run-pacman"""
+
+import sys
 
 from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 try:
@@ -20,10 +22,9 @@ except ModuleNotFoundError:
         "\nPlease use: source .venv/bin/activate"
         "\nOr use: uv run python pac-man.py data/config.json"
     )
-    exit()
+    sys.exit(1)
 from argparse import Namespace
 
-import sys
 import src.game_config
 
 from pathlib import Path

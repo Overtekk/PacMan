@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/15 10:55:38 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 13:06:08 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 10:35:51 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -18,6 +18,8 @@ fonts, and audio files required for the game via Arcade.
 
 from typing import TypedDict
 
+import sys
+
 from src.utils import print_error
 try:
     import arcade
@@ -25,7 +27,7 @@ except ModuleNotFoundError:
     print_error("Can't start the program out of a venv"
                 "\nPlease use: source .venv/bin/activate"
                 "\nOr use: uv run python pac-man.py data/config.json")
-    exit()
+    sys.exit(1)
 from pathlib import Path
 
 from src.utils.check_path import check_path

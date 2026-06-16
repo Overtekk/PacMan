@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:27:01 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 16:26:13 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 11:02:15 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -58,11 +58,13 @@ debug:		install
 
 build:
 			@echo "$(BRED)Building the export...$(RESET)"
+			uv pip install build
 			rm -rf dist
 			uv build --clear
 
 build-game:
 			@echo "$(BRED)Building the game...$(RESET)"
+			uv pip install pyinstaller
 			rm -rf dist
 			rm -rf dist/Pac-Man
 			rm -f Pac-Man.spec

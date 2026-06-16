@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/14 19:37:31 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/12 12:57:56 by anacharp        ###   ########.fr        #
+#  Updated: 2026/06/16 10:35:31 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -241,7 +241,6 @@ class ExitButton(BaseButton):
         """Termines engine instances and kills system process environments."""
         # Close arcade
         arcade.exit()
-        exit()
 
 
 class InstructionsButton(BaseButton):
@@ -468,7 +467,6 @@ class MainMenu(BaseMenu):
         if symbol == arcade.key.ESCAPE:
             # Close arcade
             arcade.exit()
-            exit()
 
         if symbol == arcade.key.A:
             # With 3 A : activate cheat mode

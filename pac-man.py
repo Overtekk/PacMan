@@ -6,9 +6,11 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/15 14:57:39 by roandrie        ###   ########.fr        #
+#  Updated: 2026/06/16 10:32:42 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
+
+import sys
 
 from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 try:
@@ -17,10 +19,9 @@ except ModuleNotFoundError:
     print_error("Can't start the program out of a venv" \
     "\nPlease use: source .venv/bin/activate" \
     "\nOr use: uv run python pac-man.py data/config.json")
-    exit()
+    sys.exit(1)
 from argparse import Namespace
 
-import sys
 import src.game_config
 
 from src.parser import load_arguments
