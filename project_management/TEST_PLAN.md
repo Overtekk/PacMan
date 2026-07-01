@@ -138,11 +138,4 @@
 | make clean | `make clean` | delete `__pycache__` and `.mypy_cache` | ❌ |
 | make debug | `make debug` | game start on debug mode (pdb) | ❌ |
 
-### 11. Deployment
-
-| Scenario | Expected result | Status |
-| -------- | --------------- | ------ |
-|
-
-
 **Last update**: *08/06/2026*
