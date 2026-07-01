@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/18 12:52:32 by anacharp        #+#    #+#               #
-#  Updated: 2026/06/12 12:28:48 by anacharp        ###   ########.fr        #
+#  Updated: 2026/07/01 09:37:15 by anacharp        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -90,24 +90,37 @@ class HighscoresScreen(BaseMenu):
         self.button_list.append(self.highscores)
 
         # Put the leaderboard content on a text list
-        file_content = extract_leaderboard(
-            self.window.game_config.highscore_filename)
-        split_content = file_content.split("\n")
-        y = 520
-        for string in split_content:
-            if string.startswith("CHEATER"):
-                string = string.strip("CHEATER ")
-                text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2,
-                                   y=y, color=arcade.color.RED, font_size=15,
-                                   font_name="press Start 2P",
-                                   anchor_x="center")
-            else:
-                text = arcade.Text(text=string, x=ScreenSettings.WIDTH // 2,
-                                   y=y, color=arcade.color.WHITE, font_size=15,
-                                   font_name="press Start 2P",
-                                   anchor_x="center")
+        try:
+            file_content = extract_leaderboard(
+                self.window.game_config.highscore_filename)
+        except Exception:
+            text = arcade.Text(text="Play to add a score",
+                               x=ScreenSettings.WIDTH // 2,
+                               y=320, color=arcade.color.WHITE, font_size=40,
+                               font_name="press Start 2P",
+                               anchor_x="center")
             self.text_lst.append(text)
-            y -= 50
+        else:
+            split_content = file_content.split("\n")
+            y = 520
+            for string in split_content:
+                if string.startswith("CHEATER"):
+                    string = string.strip("CHEATER ")
+                    text = arcade.Text(text=string,
+                                       x=ScreenSettings.WIDTH // 2,
+                                       y=y, color=arcade.color.RED,
+                                       font_size=15,
+                                       font_name="press Start 2P",
+                                       anchor_x="center")
+                else:
+                    text = arcade.Text(text=string,
+                                       x=ScreenSettings.WIDTH // 2,
+                                       y=y, color=arcade.color.WHITE,
+                                       font_size=15,
+                                       font_name="press Start 2P",
+                                       anchor_x="center")
+                self.text_lst.append(text)
+                y -= 50
 
     def on_key_press(self, symbol: int, _modifiers: int) -> None:
         """Handles keyboard navigation adjustments and ESC exits."""
