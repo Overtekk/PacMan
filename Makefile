@@ -25,6 +25,7 @@ UV_WARN			=	--link-mode copy
 UV_SKIP_WHEEL	=	UV_SKIP_WHEEL_FILENAME_CHECK=1
 
 LINT_TESTER		=	src \
+					pac-man.py \
 # 					test
 
 CONFIG			=	data/config.json

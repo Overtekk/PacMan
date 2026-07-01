@@ -6,7 +6,7 @@
 #  By: anacharp, roandrie                        +#+  +:+       +#+         #
 #                                              +#+#+#+#+#+   +#+            #
 #  Created: 2026/05/12 16:50:43 by roandrie        #+#    #+#               #
-#  Updated: 2026/06/16 10:32:42 by roandrie        ###   ########.fr        #
+#  Updated: 2026/07/01 09:13:43 by roandrie        ###   ########.fr        #
 #                                                                           #
 # ************************************************************************* #
 
@@ -16,9 +16,11 @@ from src.utils import print_error, SpritesLoader, FontLoader, AudioLoader
 try:
     import arcade
 except ModuleNotFoundError:
-    print_error("Can't start the program out of a venv" \
-    "\nPlease use: source .venv/bin/activate" \
-    "\nOr use: uv run python pac-man.py data/config.json")
+    print_error(
+        "Can't start the program out of a venv"
+        "\nPlease use: source .venv/bin/activate"
+        "\nOr use: uv run python pac-man.py data/config.json"
+    )
     sys.exit(1)
 from argparse import Namespace
 
@@ -66,7 +68,7 @@ def main() -> int:
         return 0
 
     except ValueError as e:
-        print_error(e)
+        print_error(str(e))
         return 1
 
     except Exception as e:
