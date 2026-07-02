@@ -10,8 +10,8 @@
 ---
 
 <div align="center">
-  <img src="https://img.shields.io/badge/SCORE-None-%235CB338?style=for-the-badge&logo=42&logoColor=white"/>
-  <img src="https://img.shields.io/badge/COMPLETED-No-%23007ACC?style=for-the-badge&logo=calendar&logoColor=white"/>
+  <img src="https://img.shields.io/badge/SCORE-100-%235CB338?style=for-the-badge&logo=42&logoColor=white"/>
+  <img src="https://img.shields.io/badge/COMPLETED-01/07/2026-%23007ACC?style=for-the-badge&logo=calendar&logoColor=white"/>
 </div>
 
 ## ⚠️ Disclaimer
